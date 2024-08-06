@@ -1,7 +1,22 @@
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-const FindByPwdWarp = styled.div`
-  width: 100%;
+const LoginPage = styled.div`
+  background-color: #ffffff;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  overflow: hidden;
+`;
+
+const Rectangle = styled.div`
+  background-color: #2ecc71;
+  border-top-left-radius: 38px;
+  border-bottom-left-radius: 38px;
+  box-shadow: 0px 4px 20px 5px #00000040;
+  left: calc(42.6%);
+  position: relative;
+  width: 57.4%;
   height: 100%;
 `;
 
@@ -28,14 +43,14 @@ const Inst = styled.input`
   font-size: 18px;
 `;
 
-const FindPassword = () => {
+const FindByForm = () => {
   return (
-    <FindByPwdWarp>
-      <Forgot>비밀번호 찾기</Forgot>
-      <Inst placeholder="이름을 입력해주세요"></Inst>
-      <Inst placeholder="이메일을 입력해주세요"></Inst>
-    </FindByPwdWarp>
+    <LoginPage>
+      <Rectangle>
+        <Outlet />
+      </Rectangle>
+    </LoginPage>
   );
 };
 
-export default FindPassword;
+export default FindByForm;
