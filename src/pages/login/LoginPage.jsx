@@ -105,7 +105,7 @@ const TextWrapper1 = styled.div`
 `;
 
 // 모든 요소를 포함하는 App 컴포넌트
-const Login = () => {
+const LoginPage = () => {
   return (
     <Screen>
       <OverlapGroupWrapper>
@@ -128,4 +128,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

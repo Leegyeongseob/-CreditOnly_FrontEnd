@@ -48,10 +48,11 @@ const Rectangle = styled.div`
     border: none; /* 테두리 제거 */
     outline: none; /* 포커스 시 외곽선 제거 */
     background: transparent; /* 배경 투명 */
-    width: 100%; /* 전체 너비 */
+    width: 70%; /* 전체 너비 */
     padding: 8px; /* 적절한 여백 추가 */
     box-sizing: border-box; /* 패딩과 보더를 포함한 박스 사이징 설정 */
     border-bottom: 1px solid #d0d0d0; /* 얇은 회색 밑줄 추가 */
+    text-align: center;
     font-size: 18px;
   }
 `;
@@ -113,20 +114,12 @@ const RegistrationInput = styled.input`
   font-size: 18px;
   padding: 8px; /* 적절한 여백 추가 */
   box-sizing: border-box; /* 패딩과 보더를 포함한 박스 사이징 설정 */
+  max-width: 30%; /* 최대 너비 설정 */
 `;
 
-const Input2Container = styled.div`
-  width: 100%;
-  /* background-color: red; */
-  display: flex;
-  align-items: center;
-`;
-const Input2Box = styled.div`
-  width: 30px;
-`;
 const RegistrationInput2 = styled.input`
+  height: 50px;
   margin: 0 5px;
-  /* background-color: red; */
   border: none; /* 테두리 제거 */
   outline: none; /* 포커스 시 외곽선 제거 */
   background: transparent; /* 배경 투명 */
@@ -134,10 +127,10 @@ const RegistrationInput2 = styled.input`
   font-size: 18px;
   padding: 8px; /* 적절한 여백 추가 */
   box-sizing: border-box; /* 패딩과 보더를 포함한 박스 사이징 설정 */
+  max-width: 30%;
 `;
-
 const Text = styled.div`
-  width: 10%;
+  width: auto;
   font-size: 15px;
   color: black;
   font-weight: bold;
@@ -146,17 +139,15 @@ const Text = styled.div`
 const TextWrapperRow = styled.div`
   display: flex; /* 가로 정렬 */
   justify-content: center; /* 가운데 정렬 */
-  align-items: flex-end;
-  width: 180px; /* 전체 너비 */
-  margin-top: 20px; /* 상단 여백 추가 */
+  align-items: center;
+  width: 100%; /* 전체 너비 */
 `;
-
-const handleNumberInput = (e) => {
-  e.target.value = e.target.value.replace(/[^0-9]/g, "");
-};
 
 // 모든 요소를 포함하는 App 컴포넌트
 const SignUp = () => {
+  const handleNumberInput = (e) => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+  };
   return (
     <Screen>
       <OverlapGroupWrapper>
@@ -180,20 +171,11 @@ const SignUp = () => {
                   maxLength="6"
                 />
                 <Text>-</Text>
-                <Input2Container>
-                  <Input2Box>
-                    <RegistrationInput2
-                      onInput={handleNumberInput}
-                      maxLength="1"
-                    />
-                  </Input2Box>
-                  <Text>*</Text>
-                  <Text>*</Text>
-                  <Text>*</Text>
-                  <Text>*</Text>
-                  <Text>*</Text>
-                  <Text>*</Text>
-                </Input2Container>
+                <RegistrationInput2
+                  onInput={handleNumberInput}
+                  placeholder="2"
+                  maxLength="7"
+                />
               </TextWrapperRow>
             </TextWrapper>
             <BtnWrapper>

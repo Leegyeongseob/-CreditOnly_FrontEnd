@@ -14,7 +14,7 @@ import GuestBoardGuestbook from "./pages/board/GuestBoardGuestbook";
 import ErrorPage from "./error/ErrorPage";
 import BoardUpdate from "./pages/board/BoardUpdate";
 import MainForm from "./common/commonForm/MainForm";
-import Login from "./pages/login/Login";
+import LoginPage from "./pages/login/LoginPage";
 import SignUp from "./pages/login/SignUp";
 import FindByForm from "./common/commonForm/FindByForm";
 const App = () => {
@@ -29,13 +29,12 @@ const App = () => {
           <Route element={<MainForm />}>
             <Route path="/" element={<MainPage />} />
           </Route>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route element={<FindByForm />}>
             <Route path="/findbyemail" element={<FindEmail />} />
             <Route path="/findbypwd" element={<FindPassword />} />
           </Route>
-          <Route path="/findbypwd2" element={<FindPassword />} />
           {/* <Route element={<OpenBook />}>
             <Route path="/board-guestbook" element={<GuestBoardGuestbook />} />
             <Route path="/board-details/:id" element={<BoardDetails />} />
