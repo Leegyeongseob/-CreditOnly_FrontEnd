@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 import {
   IoSettingsOutline,
@@ -11,13 +11,14 @@ import {
 } from "react-icons/io5";
 
 const Sidebar = styled.div`
-  width: 14%;
+  width: 15%;
   height: 100%;
   background-color: #f1f2f7;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-right: 1%;
 `;
 
 const Menu = styled.div`
@@ -94,13 +95,19 @@ const SideBar = () => {
         <Title>MENU</Title>
         <ContentsBox to="/" isActive={currentPath === "/"}>
           <IconBox>
-            <IoBarChartOutline size={20} color="#A6ABC8" />
+            <IoBarChartOutline
+              size={20}
+              color={currentPath === "/" ? "#263ed8" : "#8290ee"}
+            />
           </IconBox>
           <TextWrapper>Dashboard</TextWrapper>
         </ContentsBox>
         <ContentsBox to="/notice" isActive={currentPath === "/notice"}>
           <IconBox>
-            <IoTodayOutline size={20} color="#A6ABC8" />
+            <IoTodayOutline
+              size={20}
+              color={currentPath === "/notice" ? "#263ed8" : "#8290ee"}
+            />
           </IconBox>
           <TextWrapper>공지사항</TextWrapper>
         </ContentsBox>
@@ -109,32 +116,47 @@ const SideBar = () => {
           isActive={currentPath === "/information"}
         >
           <IconBox>
-            <IoReaderOutline size={20} color="#A6ABC8" />
+            <IoReaderOutline
+              size={20}
+              color={currentPath === "/information" ? "#263ed8" : "#8290ee"}
+            />
           </IconBox>
           <TextWrapper>신용정보</TextWrapper>
         </ContentsBox>
         <ContentsBox to="/chat" isActive={currentPath === "/chat"}>
           <IconBox>
-            <IoNewspaperOutline size={20} color="#A6ABC8" />
+            <IoNewspaperOutline
+              size={20}
+              color={currentPath === "/chat" ? "#263ed8" : "#8290ee"}
+            />
           </IconBox>
           <TextWrapper>신용평가</TextWrapper>
         </ContentsBox>
         <ContentsBox to="/evaluation" isActive={currentPath === "/evaluation"}>
           <IconBox>
-            <IoChatbubbleEllipsesOutline size={20} color="#A6ABC8" />
+            <IoChatbubbleEllipsesOutline
+              size={20}
+              color={currentPath === "/evaluation" ? "#263ed8" : "#8290ee"}
+            />
           </IconBox>
           <TextWrapper>문의사항</TextWrapper>
         </ContentsBox>
         <Title>OTHERS</Title>
         <ContentsBox to="/setting" isActive={currentPath === "/setting"}>
           <IconBox>
-            <IoSettingsOutline size={20} color="#A6ABC8" />
+            <IoSettingsOutline
+              size={20}
+              color={currentPath === "/setting" ? "#263ed8" : "#8290ee"}
+            />
           </IconBox>
           <TextWrapper>설정</TextWrapper>
         </ContentsBox>
         <ContentsBox to="/help" isActive={currentPath === "/help"}>
           <IconBox>
-            <IoChatboxEllipsesOutline size={20} color="#A6ABC8" />
+            <IoChatboxEllipsesOutline
+              size={20}
+              color={currentPath === "/help" ? "#263ed8" : "#8290ee"}
+            />
           </IconBox>
           <TextWrapper>고객지원</TextWrapper>
         </ContentsBox>

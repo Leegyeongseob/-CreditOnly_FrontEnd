@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Logo from "../../img/background/logo.png"
+import Logo from "../../img/background/logo.png";
 import logosearch from "../../img/loginImg/findglass.png";
 import { Link } from "react-router-dom";
 
@@ -10,11 +10,11 @@ const HeaderContainer = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  border-bottom: 1px solid #C8CBD9;
+  border-bottom: 1px solid #c8cbd9;
 `;
 
 const LeftBox = styled.div`
-  width: 14%;
+  width: 15%;
   height: 100%;
   background-color: #f1f2f7;
   display: flex;
@@ -43,7 +43,7 @@ const LogoBox = styled(Link)`
   background-repeat: no-repeat;
   background-position: center; */
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.04);
   }
 `;
 
@@ -79,8 +79,8 @@ const SearchInput = styled.input.attrs({ type: "text" })`
   width: 85%;
   height: 50%;
   padding: 2%;
-  background-color: #F6F6FB;
-  color: #1F384C;
+  background-color: #f6f6fb;
+  color: #1f384c;
   font-size: 12px;
   border: none;
   border-radius: 5px;
@@ -97,10 +97,9 @@ const Searchlogo = styled.img`
   position: absolute;
   margin-left: 80%;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 `;
-
 
 const ToggleBox = styled.div`
   width: 15%;
@@ -108,7 +107,7 @@ const ToggleBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-` 
+`;
 
 const Toggle = styled.div`
   width: 68px;
@@ -150,34 +149,34 @@ const MerchantName = styled.div`
 
 const Header = () => {
   return (
-        <HeaderContainer>
-            <LeftBox>
-                <LogoBox to="/"></LogoBox>
-                <LogoTitle to="/">신용만</LogoTitle>
-            </LeftBox>
-            <RightBox>
-              <SearchBox>
-                <SearchInput
-                  placeholder="검색어를 입력해주세요."
-                //   value={searchTerm}
-                //   onChange={(e) => setSearchTerm(e.target.value)}
-                //   onKeyPress={handleKeyPress}
-                />
-                <Searchlogo
-                  src={logosearch}
-                //   onClick={() => {
-                //     handleSearch();
-                //   }}
-                />
-              </SearchBox>
-                <ToggleBox>
-                    <Toggle></Toggle>
-                </ToggleBox>
-                <UserBox>
-                    <MerchantName>로그인</MerchantName>
-                </UserBox>
-            </RightBox>
-        </HeaderContainer>
+    <HeaderContainer>
+      <LeftBox>
+        <LogoBox to="/"></LogoBox>
+        <LogoTitle to="/">신용만</LogoTitle>
+      </LeftBox>
+      <RightBox>
+        <SearchBox>
+          <SearchInput
+            placeholder="검색어를 입력해주세요."
+            //   value={searchTerm}
+            //   onChange={(e) => setSearchTerm(e.target.value)}
+            //   onKeyPress={handleKeyPress}
+          />
+          <Searchlogo
+            src={logosearch}
+            //   onClick={() => {
+            //     handleSearch();
+            //   }}
+          />
+        </SearchBox>
+        <ToggleBox>
+          <Toggle></Toggle>
+        </ToggleBox>
+        <UserBox>
+          <MerchantName>로그인</MerchantName>
+        </UserBox>
+      </RightBox>
+    </HeaderContainer>
   );
 };
 export default Header;
