@@ -1,7 +1,18 @@
 import styled from "styled-components";
 import Logo from "../../img/background/CreditOnlyLogo.png";
 import logosearch from "../../img/loginImg/findglass.png";
+import exProfile from "../../img/commonImg/프로필예시.jpeg";
 import { Link } from "react-router-dom";
+import {
+  IoNotificationsOutline,
+  IoChevronDown,
+  IoChevronUp,
+  IoSettingsOutline,
+  IoReaderOutline,
+  IoAtOutline,
+  IoLogOutOutline,
+} from "react-icons/io5";
+import { useState } from "react";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -130,8 +141,89 @@ const UserBox = styled.div`
   width: 30%;
   height: 100%;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const UserProfile = styled.div`
+  width: 10%;
+  min-width: 40px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const UserImg = styled.div`
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+const UserName = styled.div`
+  width: 25%;
+  height: 100%;
+  padding-left: 1%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 13px;
+  font-family: "Roboto-Regular", Helvetica;
+  white-space: nowrap;
+`;
+
+const TopToggle = styled.div`
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 7%;
+  right: 8.5%;
+  width: 220px;
+  background-color: #ffffff;
+  border: 1px solid #c8cbd9;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+`;
+
+const DropdownItem = styled(Link)`
+  padding: 10px;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Roboto-Regular", Helvetica;
+  color: #1f384c;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #f9f9fd;
+  }
+`;
+
+const AlarmSet = styled.div`
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 const MerchantName = styled(Link)`
@@ -155,6 +247,12 @@ const MerchantName = styled(Link)`
 `;
 
 const Header = () => {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const handleToggleClick = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
   return (
     <HeaderContainer>
       <LeftBox>
@@ -182,7 +280,40 @@ const Header = () => {
           <Toggle></Toggle>
         </ToggleBox>
         <UserBox>
-          <MerchantName to="/login">로그인</MerchantName>
+          {/* <MerchantName to="/login">로그인</MerchantName> */}
+          <UserProfile>
+            <UserImg imageurl={exProfile} />
+          </UserProfile>
+          <UserName>강해린</UserName>
+          <TopToggle onClick={handleToggleClick}>
+            {isDropdownVisible ? (
+              <IoChevronUp size={18} color="#717694" />
+            ) : (
+              <IoChevronDown size={18} color="#717694" />
+            )}
+          </TopToggle>
+          {isDropdownVisible && (
+            <DropdownMenu>
+              <DropdownItem>
+                <IoReaderOutline size={20} color="gray" />내 신용정보
+              </DropdownItem>
+              <DropdownItem>
+                <IoAtOutline size={20} color="gray" />
+                00bsj@naver.com
+              </DropdownItem>
+              <DropdownItem to="/setting" onClick={handleToggleClick}>
+                <IoSettingsOutline size={20} color="gray" />
+                설정
+              </DropdownItem>
+              <DropdownItem>
+                <IoLogOutOutline size={20} color="gray" />
+                로그아웃
+              </DropdownItem>
+            </DropdownMenu>
+          )}
+          <AlarmSet>
+            <IoNotificationsOutline size={25} color="#717694" />
+          </AlarmSet>
         </UserBox>
       </RightBox>
     </HeaderContainer>
