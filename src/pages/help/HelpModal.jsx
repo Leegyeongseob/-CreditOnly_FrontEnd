@@ -9,7 +9,7 @@ const ModalOverlay = styled.div`
   bottom: 0;
   left: 0;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.15);
   &.openModal {
     display: flex;
     align-items: center;
@@ -30,28 +30,33 @@ const ModalSection = styled.section`
 const ModalHeader = styled.header`
   position: relative;
   padding: 16px 64px 16px 16px;
-  background-color: #feeee8;
+  background-color: #c9cefa;
   font-weight: 700;
+  color: #42484d;
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 15px;
+  top: 10px;
   right: 15px;
   width: 30px;
   font-size: 21px;
   font-weight: 700;
   text-align: center;
-  color: #999;
+  color: #686e74;
   background-color: transparent;
   border: none;
   cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 const ModalMain = styled.main`
   padding: 30px;
   border-bottom: 1px solid #dee2e6;
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid #c3c9cf;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -64,13 +69,13 @@ const ModalMain = styled.main`
 const ModalFooter = styled.footer`
   padding: 12px 16px;
   text-align: right;
-  background-color: #fff9f2;
+  background-color: #edeef5;
 `;
 
 const ModalButton = styled.button`
   padding: 6px 12px;
   color: #fff;
-  background-color: #919497;
+  background-color: #bfc4e7;
   border-radius: 5px;
   font-size: 13px;
   border: none;
@@ -78,15 +83,15 @@ const ModalButton = styled.button`
   margin-right: 10px;
   &:hover,
   &:focus {
-    color: black;
-    background-color: #828486;
+    background-color: #d4d7ee;
     font-weight: bolder;
   }
 `;
 
 const Img = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 5%;
 `;
 const Modal = (props) => {
   const { open, confirm, close, type, header, children, img } = props;

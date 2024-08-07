@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import modalImg from "../../img/commonImg/전구 아이콘.gif";
 import Modal from "./HelpModal";
 
 const Container = styled.div`
@@ -340,10 +341,10 @@ const HelpPage = () => {
       </BottomSide>
       <Modal
         open={modalOpen}
-        header="안내"
+        header="1:1 문의하기"
         type={true}
         close={closeModal}
-        // img={modalImg}
+        img={modalImg}
         confirm={codeModalOkBtnHandler}
       >
         {modalContent}
