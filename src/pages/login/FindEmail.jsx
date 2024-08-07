@@ -137,6 +137,7 @@ const GoLogin = styled.div`
   width: auto;
   height: auto;
   display: flex;
+  cursor: pointer;
 `;
 const FindEmail = () => {
   //주민등록번호 표현 상태 변수
@@ -291,6 +292,9 @@ const FindEmail = () => {
   const onClickFindPwd = () => {
     navigate("/findbypwd");
   };
+  const onClickLogin = () => {
+    navigate("/login");
+  };
   return (
     <FindByEmailWarp>
       <Forgot>아이디 찾기</Forgot>
@@ -321,7 +325,7 @@ const FindEmail = () => {
       </Inpst>
       <ConBoxWrapper>
         <AnotherContinue>
-          <GoLogin>로그인하러가기</GoLogin>
+          <GoLogin onClick={onClickLogin}>로그인하러가기</GoLogin>
         </AnotherContinue>
         <ContinueBox>계속하기</ContinueBox>
       </ConBoxWrapper>

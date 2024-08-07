@@ -97,20 +97,20 @@ const Rectangle = styled.div`
 `;
 
 const FindByForm = () => {
-  const navigate= useNavigate();
-  const location=useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const onClickLogo = () => {
     navigate("/");
   };
   return (
     <LoginPage>
       <SinLogo onClick={onClickLogo} />
-      {location.pathname === '/findbypwd' ? ( // 경로에 따라 조건부 렌더링
+      {location.pathname === "/findbypwd" ? ( // 경로에 따라 조건부 렌더링
         <PwTextBox>
           <PwText>비밀번호 찾기</PwText>
           <PwDetail>
-            1. 비밀번호는 최소 8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함해야
-            합니다.
+            1. 비밀번호는 최소 8자 이상, 대문자, 소문자, 숫자, 특수문자를
+            포함해야 합니다.
           </PwDetail>
           <PwDetail>
             2. 새 비밀번호를 한 번 더 입력하여 확인해 주세요. '비밀번호 변경'
@@ -121,12 +121,10 @@ const FindByForm = () => {
             사용하지 마세요.
           </PwDetail>
         </PwTextBox>
-      ) : location.pathname === '/findbyemail' ? ( // 다른 경로에 따라 다른 콘텐츠 표시
+      ) : location.pathname === "/findbyemail" ? ( // 다른 경로에 따라 다른 콘텐츠 표시
         <IdTextBox>
           <IdText>아이디 찾기</IdText>
-          <IdDetail>
-            
-          </IdDetail>
+          <IdDetail>보안을 위해 이메일의 일부가 숨겨져 표시됩니다.</IdDetail>
         </IdTextBox>
       ) : null}
       <Rectangle>

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 // 전체 화면을 감싸는 컨테이너
@@ -79,6 +80,7 @@ const BtnWrapper = styled.div`
   width: 60%;
   height: 5%;
   margin-top: 30px; /* 입력창들과 버튼 사이의 간격 조정 */
+  max-width: 400px;
 `;
 // 버튼 텍스트
 const TextBtn = styled.div`
@@ -103,9 +105,29 @@ const TextWrapper1 = styled.div`
   top: 10%;
   width: 100%;
 `;
-
+const Findbox = styled.div`
+  width: 50%;
+  height: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10%;
+  padding: 15px;
+`;
+const Find = styled.div`
+  color: #a0a0a0;
+  font-size: 15px;
+  cursor: pointer;
+`;
 // 모든 요소를 포함하는 App 컴포넌트
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const onClickFindEmail = () => {
+    navigate("/findbyemail");
+  };
+  const onClickFindPwd = () => {
+    navigate("/findbyPwd");
+  };
   return (
     <Screen>
       <OverlapGroupWrapper>
@@ -118,6 +140,10 @@ const LoginPage = () => {
             <TextWrapper>
               <input type="password" placeholder="패스워드" />
             </TextWrapper>
+            <Findbox>
+              <Find onClick={onClickFindEmail}>아이디 찾기</Find>
+              <Find onClick={onClickFindPwd}>비밀번호 찾기</Find>
+            </Findbox>
             <BtnWrapper>
               <TextBtn>LOGIN</TextBtn>
             </BtnWrapper>

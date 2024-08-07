@@ -32,9 +32,10 @@ const Inst = styled.input`
   border-radius: 7px;
   background: white;
   border: 1px solid gray;
-  width: 60%;
+  width: 50%;
   padding: 12px;
   font-size: 20px;
+  height: 90%;
   font-weight: lighter;
 `;
 const Inpst = styled.div`
@@ -45,6 +46,29 @@ const Inpst = styled.div`
   width: 100%;
   height: 30%;
   gap: 5%;
+`;
+const EmailBox = styled.div`
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  display: flex;
+  gap: 3%;
+  align-items: center;
+`;
+const Transmission = styled.div`
+  display: flex;
+  cursor: pointer;
+  background-color: white;
+  color: #2ecc71;
+  border-radius: 7px;
+  border: 1px solid gray;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  height: 90%;
+  width: 10%;
 `;
 const RegiInputBox = styled.div`
   width: 100%;
@@ -59,6 +83,7 @@ const RegistrationInput = styled.input`
   background: white;
   border: 1px solid gray;
   width: 29%;
+  height: 90%;
   padding: 12px;
   font-size: 20px;
   font-weight: lighter;
@@ -68,6 +93,7 @@ const RegistrationInput2 = styled.input`
   background: white;
   border: 1px solid gray;
   width: 29%;
+  height: 90%;
   padding: 12px;
   font-size: 20px;
   font-weight: lighter;
@@ -80,6 +106,7 @@ const Text = styled.div`
   text-align: center;
   margin: 0 5px; /* 좌우 여백 추가 */
 `;
+
 const IconWrapper = styled.div`
   top: 20%;
   color: gray;
@@ -160,7 +187,10 @@ const FindPassword = () => {
     <FindByEmailWarp>
       <Forgot>비밀번호 찾기</Forgot>
       <Inpst>
-        <Inst placeholder="이메일을 입력해주세요"></Inst>
+        <EmailBox>
+          <Inst placeholder="이메일을 입력해주세요"></Inst>
+          <Transmission>전송</Transmission>
+        </EmailBox>
         {/* <IconWrapper>
           <MdOutlineMailOutline />
         </IconWrapper> */}
