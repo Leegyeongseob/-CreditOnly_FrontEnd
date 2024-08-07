@@ -1,7 +1,6 @@
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../img//background/CreditOnlyLogo.png";
-import test from "../../img/commonImg/up4.png";
 
 const LoginPage = styled.div`
   background-color: #ffffff;
@@ -99,28 +98,37 @@ const Rectangle = styled.div`
 
 const FindByForm = () => {
   const navigate= useNavigate();
-
+  const location=useLocation();
   const onClickLogo = () => {
     navigate("/");
   };
   return (
     <LoginPage>
       <SinLogo onClick={onClickLogo} />
-      <PwTextBox>
-        <PwText>비밀번호 찾기</PwText>
-        <PwDetail>
-          1. 비밀번호는 최소 8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함해야
-          합니다.
-        </PwDetail>
-        <PwDetail>
-          2.새 비밀번호를 한 번 더 입력하여 확인해 주세요. '비밀번호 변경'
-          버튼을 클릭하면 재설정이 완료됩니다.{" "}
-        </PwDetail>
-        <PwDetail>
-          주의: 안전한 비밀번호를 사용하시고, 다른 사이트와 동일한 비밀번호를
-          사용하지 마세요.
-        </PwDetail>
-      </PwTextBox>
+      {location.pathname === '/findbypwd' ? ( // 경로에 따라 조건부 렌더링
+        <PwTextBox>
+          <PwText>비밀번호 찾기</PwText>
+          <PwDetail>
+            1. 비밀번호는 최소 8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함해야
+            합니다.
+          </PwDetail>
+          <PwDetail>
+            2. 새 비밀번호를 한 번 더 입력하여 확인해 주세요. '비밀번호 변경'
+            버튼을 클릭하면 재설정이 완료됩니다.
+          </PwDetail>
+          <PwDetail>
+            주의: 안전한 비밀번호를 사용하시고, 다른 사이트와 동일한 비밀번호를
+            사용하지 마세요.
+          </PwDetail>
+        </PwTextBox>
+      ) : location.pathname === '/findbyemail' ? ( // 다른 경로에 따라 다른 콘텐츠 표시
+        <IdTextBox>
+          <IdText>아이디 찾기</IdText>
+          <IdDetail>
+            
+          </IdDetail>
+        </IdTextBox>
+      ) : null}
       <Rectangle>
         <Outlet />
       </Rectangle>

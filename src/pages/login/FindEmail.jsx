@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useState } from "react";
+import { useState, useRef, useLocation } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import Modal from "../../common/utils/ImageModal";
@@ -45,6 +45,40 @@ const Inpst = styled.div`
   width: 100%;
   height: 30%;
   gap: 5%;
+`;
+const RegiInputBox = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+`;
+const RegistrationInput = styled.input`
+  border-radius: 7px;
+  background: white;
+  border: 1px solid gray;
+  width: 29%;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: lighter;
+`;
+const RegistrationInput2 = styled.input`
+  border-radius: 7px;
+  background: white;
+  border: 1px solid gray;
+  width: 29%;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: lighter;
+`;
+const Text = styled.div`
+  width: auto;
+  font-size: 15px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 5px; /* 좌우 여백 추가 */
 `;
 const IconWrapper = styled.div`
   top: 20%;
@@ -97,6 +131,7 @@ const FindPass = styled.div`
   width: auto;
   height: auto;
   display: flex;
+  cursor: pointer; /* 마우스 오버 시 손가락 모양 커서 */
 `;
 const GoLogin = styled.div`
   width: auto;
@@ -244,7 +279,18 @@ const FindEmail = () => {
   //   const name = e.target.value;
   //   setName(name);
   // };
-
+  const firstInputRef = useRef(null);
+  const secondInputRef = useRef(null);
+  const navigate = useNavigate();
+  const handleNumberInput = (e, nextInputRef) => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+    if (e.target.value.length === e.target.maxLength && nextInputRef) {
+      nextInputRef.current?.focus(); // nextInputRef가 존재할 때만 포커스 이동
+    }
+  };
+  const onClickFindPwd = () => {
+    navigate("/findbypwd");
+  };
   return (
     <FindByEmailWarp>
       <Forgot>아이디 찾기</Forgot>
@@ -253,9 +299,24 @@ const FindEmail = () => {
         {/* <IconWrapper>
           <MdOutlineMailOutline />
         </IconWrapper> */}
-        <Inst placeholder="주민번호를 입력해주세요"></Inst>
+        <RegiInputBox>
+          <RegistrationInput
+            placeholder="주민등록번호"
+            onInput={(e) => handleNumberInput(e, secondInputRef)}
+            maxLength="6"
+            ref={firstInputRef}
+          />
+          <Text>-</Text>
+          <RegistrationInput2
+            type="password"
+            onInput={handleNumberInput}
+            placeholder="뒷자리입력"
+            maxLength="7"
+            ref={secondInputRef}
+          />
+        </RegiInputBox>
         <FindPassWrap>
-          <FindPass>비밀번호 찾기</FindPass>
+          <FindPass onClick={onClickFindPwd}>비밀번호 찾기</FindPass>
         </FindPassWrap>
       </Inpst>
       <ConBoxWrapper>

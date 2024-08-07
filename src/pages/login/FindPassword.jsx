@@ -131,24 +131,31 @@ const FindId = styled.div`
   width: auto;
   height: auto;
   display: flex;
+  cursor: pointer; /* 마우스 오버 시 손가락 모양 커서 */
 `;
 const GoLogin = styled.div`
   width: auto;
   height: auto;
   display: flex;
+  cursor: pointer;
 `;
 
 const FindPassword = () => {
   const firstInputRef = useRef(null);
   const secondInputRef = useRef(null);
-
+  const navigate = useNavigate();
   const handleNumberInput = (e, nextInputRef) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, "");
     if (e.target.value.length === e.target.maxLength && nextInputRef) {
       nextInputRef.current?.focus(); // nextInputRef가 존재할 때만 포커스 이동
     }
   };
-
+  const onClickFindId = () => {
+    navigate("/findbyemail");
+  };
+  const onClickLogin = () => {
+    navigate("/login");
+  };
   return (
     <FindByEmailWarp>
       <Forgot>비밀번호 찾기</Forgot>
@@ -174,12 +181,12 @@ const FindPassword = () => {
           />
         </RegiInputBox>
         <FindIdWrap>
-          <FindId>아이디 찾기</FindId>
+          <FindId onClick={onClickFindId}>아이디 찾기</FindId>
         </FindIdWrap>
       </Inpst>
       <ConBoxWrapper>
         <AnotherContinue>
-          <GoLogin>로그인하러가기</GoLogin>
+          <GoLogin onClick={onClickLogin}>로그인하러가기</GoLogin>
         </AnotherContinue>
         <ContinueBox>계속하기</ContinueBox>
       </ConBoxWrapper>
