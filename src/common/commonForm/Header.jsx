@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Logo from "../../img/background/logo.png";
+import Logo from "../../img/background/CreditOnlyLogo.png";
 import logosearch from "../../img/loginImg/findglass.png";
 import { Link } from "react-router-dom";
 
@@ -33,24 +33,29 @@ const RightBox = styled.div`
 `;
 
 const LogoBox = styled(Link)`
-  width: 30px;
-  height: 30px;
+  width: 20%;
+  height: 90%;
   display: flex;
-  border-radius: 50%;
-  background-color: #96a8de;
-  /* background-image: url(${Logo});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center; */
+  justify-content: end;
+  align-items: center;
   &:hover {
     transform: scale(1.04);
   }
 `;
 
+const SymLogo = styled.div`
+  width: 50px;
+  height: 50px;
+  display: flex;
+  background-image: url(${Logo});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
 const LogoTitle = styled(Link)`
   width: 50%;
   height: 90%;
-  padding-left: 4%;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -151,7 +156,9 @@ const Header = () => {
   return (
     <HeaderContainer>
       <LeftBox>
-        <LogoBox to="/"></LogoBox>
+        <LogoBox to="/">
+          <SymLogo />
+        </LogoBox>
         <LogoTitle to="/">신용만</LogoTitle>
       </LeftBox>
       <RightBox>
