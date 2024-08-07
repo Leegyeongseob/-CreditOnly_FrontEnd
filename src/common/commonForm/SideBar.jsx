@@ -12,6 +12,7 @@ import {
 
 const Sidebar = styled.div`
   width: 15%;
+  min-width: 161.69px;
   height: 100%;
   background-color: #f1f2f7;
   display: flex;
@@ -19,6 +20,9 @@ const Sidebar = styled.div`
   justify-content: center;
   align-items: center;
   padding-right: 1%;
+  @media screen and (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 const Menu = styled.div`

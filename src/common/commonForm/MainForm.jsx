@@ -13,8 +13,8 @@ const Screen = styled.div`
 
 const Contents = styled.div`
   display: flex;
-  width: 86%;
-  height: 90%;
+  width: 85%;
+  height: 100%;
 `;
 
 const MainForm = () => {

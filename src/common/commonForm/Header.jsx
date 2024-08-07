@@ -24,7 +24,7 @@ const LeftBox = styled.div`
 `;
 
 const RightBox = styled.div`
-  width: 86%;
+  width: 85%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -134,7 +134,7 @@ const UserBox = styled.div`
   align-items: center;
 `;
 
-const MerchantName = styled.div`
+const MerchantName = styled(Link)`
   width: 85px;
   height: 33px;
   display: flex;
@@ -145,6 +145,8 @@ const MerchantName = styled.div`
   font-size: 13px;
   font-weight: 400;
   background-color: #f5f6fa;
+  text-decoration: none;
+  color: #5a6acf;
   border-radius: 5px;
   cursor: pointer;
   &:hover {
@@ -180,7 +182,7 @@ const Header = () => {
           <Toggle></Toggle>
         </ToggleBox>
         <UserBox>
-          <MerchantName>로그인</MerchantName>
+          <MerchantName to="/login">로그인</MerchantName>
         </UserBox>
       </RightBox>
     </HeaderContainer>

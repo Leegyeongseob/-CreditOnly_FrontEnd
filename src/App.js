@@ -17,6 +17,8 @@ import MainForm from "./common/commonForm/MainForm";
 import LoginPage from "./pages/login/LoginPage";
 import SignUp from "./pages/login/SignUp";
 import FindByForm from "./common/commonForm/FindByForm";
+import Mypage from "./pages/settingpage/Mypage";
+import HelpPage from "./pages/help/HelpPage";
 const App = () => {
   return (
     <>
@@ -28,6 +30,8 @@ const App = () => {
           <Route path="/error" element={<ErrorPage />} />
           <Route element={<MainForm />}>
             <Route path="/" element={<MainPage />} />
+            <Route path="/setting" element={<Mypage />} />
+            <Route path="/help" element={<HelpPage />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUp />} />
