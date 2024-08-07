@@ -1,5 +1,7 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../../img//background/CreditOnlyLogo.png";
+import test from "../../img/commonImg/up4.png";
 
 const LoginPage = styled.div`
   background-color: #ffffff;
@@ -7,45 +9,118 @@ const LoginPage = styled.div`
   width: 100vw;
   display: flex;
   overflow: hidden;
+  flex-direction: column;
 `;
-
+const SinLogo = styled.div`
+  background-image: url(${logo});
+  background-size: contain; /* 또는 cover로 설정 */
+  width: 20%;
+  height: 20%;
+  background-repeat: no-repeat;
+  cursor: pointer; /* 마우스 오버 시 손가락 모양 커서 */
+`;
+const PwTextBox = styled.div`
+  width: 42.6%;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: start;
+`;
+const PwText = styled.div`
+  color: gray;
+  font-size: 30px;
+  width: 80%;
+  height: 30%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+`;
+const PwDetail = styled.div`
+  color: gray;
+  font-size: 25px;
+  width: 80%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  text-align: start;
+  flex-direction: column;
+  font-weight: lighter;
+  line-height: 1.5;
+`;
+const IdTextBox = styled.div`
+  width: 42.6%;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: start;
+`;
+const IdText = styled.div`
+  color: gray;
+  font-size: 30px;
+  width: 80%;
+  height: 30%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+`;
+const IdDetail = styled.div`
+  color: gray;
+  font-size: 25px;
+  width: 80%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  text-align: start;
+  flex-direction: column;
+  font-weight: lighter;
+  line-height: 1.5;
+`;
 const Rectangle = styled.div`
   background-color: #2ecc71;
   border-top-left-radius: 38px;
   border-bottom-left-radius: 38px;
   box-shadow: 0px 4px 20px 5px #00000040;
   left: calc(42.6%);
-  position: relative;
+  position: absolute;
   width: 57.4%;
   height: 100%;
-`;
-
-const Forgot = styled.div`
-  width: 50%;
-  height: 10%;
-  font-size: 40px;
-  position: relative;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  top: 20%;
-  left: 10%;
-`;
-const Inst = styled.input`
-  border: none; /* 테두리 제거 */
-  outline: none; /* 포커스 시 외곽선 제거 */
-  background: transparent; /* 배경 투명 */
-  position: relative;
-  width: 100%; /* 전체 너비 */
-  padding: 8px; /* 적절한 여백 추가 */
-  box-sizing: border-box; /* 패딩과 보더를 포함한 박스 사이징 설정 */
-  border-bottom: 1px solid #d0d0d0; /* 얇은 회색 밑줄 추가 */
-  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 `;
 
 const FindByForm = () => {
+  const navigate= useNavigate();
+
+  const onClickLogo = () => {
+    navigate("/");
+  };
   return (
     <LoginPage>
+      <SinLogo onClick={onClickLogo} />
+      <PwTextBox>
+        <PwText>비밀번호 찾기</PwText>
+        <PwDetail>
+          1. 비밀번호는 최소 8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함해야
+          합니다.
+        </PwDetail>
+        <PwDetail>
+          2.새 비밀번호를 한 번 더 입력하여 확인해 주세요. '비밀번호 변경'
+          버튼을 클릭하면 재설정이 완료됩니다.{" "}
+        </PwDetail>
+        <PwDetail>
+          주의: 안전한 비밀번호를 사용하시고, 다른 사이트와 동일한 비밀번호를
+          사용하지 마세요.
+        </PwDetail>
+      </PwTextBox>
       <Rectangle>
         <Outlet />
       </Rectangle>

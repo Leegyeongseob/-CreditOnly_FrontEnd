@@ -5,34 +5,103 @@ import { useNavigate } from "react-router-dom";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import Modal from "../../common/utils/ImageModal";
 import findIdImg from "../../img/loginImg/아이디찾기.gif";
+import { MdOutlineMailOutline } from "react-icons/md";
 
 const FindByEmailWarp = styled.div`
   width: 100%;
   height: 100%;
+  align-items: start;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Forgot = styled.div`
-  width: 50%;
+  width: 60%;
   height: 10%;
-  font-size: 40px;
-  position: relative;
+  font-size: 50px;
   font-weight: bold;
   text-align: center;
   color: white;
-  top: 20%;
-  left: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
-const Inst = styled.input`
-  outline: none; /* 포커스 시 외곽선 제거 */
-  border-radius: 10px;
-  background: white; /* 배경 투명 */
-  border-color: grey;
-  position: relative;
-  width: 100%; /* 전체 너비 */
-  padding: 8px; /* 적절한 여백 추가 */
-  box-sizing: border-box; /* 패딩과 보더를 포함한 박스 사이징 설정 */
 
-  font-size: 18px;
+const Inst = styled.input`
+  border-radius: 7px;
+  background: white;
+  border: 1px solid gray;
+  width: 60%;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: lighter;
+`;
+const Inpst = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 30%;
+  gap: 5%;
+`;
+const IconWrapper = styled.div`
+  top: 20%;
+  color: gray;
+  font-size: 24px;
+`;
+const FindPassWrap = styled.div`
+  width: 60%;
+  height: auto;
+  justify-content: end;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: lighter;
+`;
+const ConBoxWrapper = styled.div`
+  width: 80%;
+  height: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+`;
+const ContinueBox = styled.div`
+  height: 100%;
+  width: 30%;
+  max-width: px;
+  background-color: white;
+  color: #5a3092;
+  border-radius: 10px;
+  box-shadow: 0px, 4px, 10px, #00000040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 30px;
+`;
+const AnotherContinue = styled.div`
+  color: white;
+  height: 100%;
+  width: auto;
+  display: flex;
+  margin-right: 3%;
+  align-items: end;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 20px;
+  font-weight: bold;
+`;
+const FindPass = styled.div`
+  width: auto;
+  height: auto;
+  display: flex;
+`;
+const GoLogin = styled.div`
+  width: auto;
+  height: auto;
+  display: flex;
 `;
 const FindEmail = () => {
   //주민등록번호 표현 상태 변수
@@ -179,8 +248,22 @@ const FindEmail = () => {
   return (
     <FindByEmailWarp>
       <Forgot>아이디 찾기</Forgot>
-      <Inst placeholder="이름을 입력해주세요"></Inst>
-      <Inst placeholder="주민번호를 입력해주세요"></Inst>
+      <Inpst>
+        <Inst placeholder="이름을 입력해주세요"></Inst>
+        {/* <IconWrapper>
+          <MdOutlineMailOutline />
+        </IconWrapper> */}
+        <Inst placeholder="주민번호를 입력해주세요"></Inst>
+        <FindPassWrap>
+          <FindPass>비밀번호 찾기</FindPass>
+        </FindPassWrap>
+      </Inpst>
+      <ConBoxWrapper>
+        <AnotherContinue>
+          <GoLogin>로그인하러가기</GoLogin>
+        </AnotherContinue>
+        <ContinueBox>계속하기</ContinueBox>
+      </ConBoxWrapper>
     </FindByEmailWarp>
   );
 };

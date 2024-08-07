@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 
 // 전체 화면을 감싸는 컨테이너
 const Screen = styled.div`
@@ -52,11 +53,10 @@ const Rectangle = styled.div`
     padding: 8px; /* 적절한 여백 추가 */
     box-sizing: border-box; /* 패딩과 보더를 포함한 박스 사이징 설정 */
     border-bottom: 1px solid #d0d0d0; /* 얇은 회색 밑줄 추가 */
-    text-align: center;
+    text-align: start;
     font-size: 18px;
   }
 `;
-
 // 텍스트 래퍼
 const TextWrapper = styled.div`
   color: #a0a0a0;
@@ -127,7 +127,7 @@ const RegistrationInput2 = styled.input`
   font-size: 18px;
   padding: 8px; /* 적절한 여백 추가 */
   box-sizing: border-box; /* 패딩과 보더를 포함한 박스 사이징 설정 */
-  max-width: 30%;
+  max-width: 35%;
 `;
 const Text = styled.div`
   width: auto;
@@ -145,6 +145,17 @@ const TextWrapperRow = styled.div`
 
 // 모든 요소를 포함하는 App 컴포넌트
 const SignUp = () => {
+  const [emailPrefix, setEmailPrefix] = useState("");
+  const [domain, setDomain] = useState("google.com");
+  const handlePrefixChange = (e) => {
+    setEmailPrefix(e.target.value);
+  };
+
+  const handleDomainChange = (e) => {
+    setDomain(e.target.value);
+  };
+
+  const completeEmail = `${emailPrefix}@${domain}`;
   const handleNumberInput = (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, "");
   };
@@ -162,6 +173,9 @@ const SignUp = () => {
             </TextWrapper>
             <TextWrapper>
               <input type="password" placeholder="패스워드" />
+            </TextWrapper>
+            <TextWrapper>
+              <input type="password" placeholder="패스워드 재입력" />
             </TextWrapper>
             <TextWrapper>
               <TextWrapperRow>
