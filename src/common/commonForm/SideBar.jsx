@@ -14,8 +14,8 @@ const Sidebar = styled.div`
   width: 15%;
   min-width: 161.69px;
   height: 100%;
+  display: ${({ isVisible }) => (isVisible ? "none" : "flex")};
   background-color: #f1f2f7;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -57,6 +57,7 @@ const Title = styled.div`
 
 const ContentsBox = styled(Link)`
   width: 100%;
+  min-width: 124px;
   height: 42px;
   padding-left: 7%;
   display: flex;
@@ -90,11 +91,11 @@ const TextWrapper = styled.div`
   padding-left: 5px;
 `;
 
-const SideBar = () => {
+const SideBar = ({ isVisible }) => {
   const location = useLocation();
   const currentPath = location.pathname;
   return (
-    <Sidebar>
+    <Sidebar isVisible={isVisible}>
       <Menu>
         <Title>MENU</Title>
         <ContentsBox to="/" isActive={currentPath === "/"}>

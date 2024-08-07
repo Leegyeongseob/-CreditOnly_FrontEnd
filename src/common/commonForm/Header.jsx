@@ -11,8 +11,10 @@ import {
   IoReaderOutline,
   IoAtOutline,
   IoLogOutOutline,
+  IoMenuOutline,
 } from "react-icons/io5";
 import { useState } from "react";
+import SideBar from "./SideBar";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -26,12 +28,28 @@ const HeaderContainer = styled.div`
 
 const LeftBox = styled.div`
   width: 15%;
+  min-width: 117px;
   height: 100%;
   background-color: #f1f2f7;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const SideBarToggle = styled.div`
+  width: 10%;
+  min-width: 50px;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    transform: scale(1.04);
+  }
+  @media screen and (min-width: 1200px) {
+    display: none;
+  }
 `;
 
 const RightBox = styled.div`
@@ -51,6 +69,9 @@ const LogoBox = styled(Link)`
   align-items: center;
   &:hover {
     transform: scale(1.04);
+  }
+  @media screen and (max-width: 1200px) {
+    display: none;
   }
 `;
 
@@ -226,36 +247,23 @@ const AlarmSet = styled.div`
   }
 `;
 
-const MerchantName = styled(Link)`
-  width: 85px;
-  height: 33px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #1f384c;
-  font-family: "Roboto-Regular", Helvetica;
-  font-size: 13px;
-  font-weight: 400;
-  background-color: #f5f6fa;
-  text-decoration: none;
-  color: #5a6acf;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: #ebecef;
-  }
-`;
-
 const Header = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   const handleToggleClick = () => {
     setIsDropdownVisible(!isDropdownVisible);
+  };
+  const handleSideBarClick = () => {
+    setIsSidebarVisible(!isSidebarVisible);
   };
 
   return (
     <HeaderContainer>
       <LeftBox>
+        <SideBarToggle onClick={handleSideBarClick}>
+          <IoMenuOutline size={30} color="#8290ee" />
+        </SideBarToggle>
         <LogoBox to="/">
           <SymLogo />
         </LogoBox>
@@ -280,7 +288,6 @@ const Header = () => {
           <Toggle></Toggle>
         </ToggleBox>
         <UserBox>
-          {/* <MerchantName to="/login">로그인</MerchantName> */}
           <UserProfile>
             <UserImg imageurl={exProfile} />
           </UserProfile>
@@ -316,6 +323,7 @@ const Header = () => {
           </AlarmSet>
         </UserBox>
       </RightBox>
+      <SideBar isVisible={isSidebarVisible} />
     </HeaderContainer>
   );
 };
