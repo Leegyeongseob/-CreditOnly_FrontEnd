@@ -1,5 +1,4 @@
 import "./App.css";
-import PaletteStyle from "./PaletteStyle";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import MainPage from "./pages/main/MainPage";
 import NotLogin from "./pages/main/NotLogin";
@@ -19,12 +18,13 @@ import SignUp from "./pages/login/SignUp";
 import FindByForm from "./common/commonForm/FindByForm";
 import Mypage from "./pages/settingpage/Mypage";
 import HelpPage from "./pages/help/HelpPage";
+import CreditStyle from "./CreditStyle";
 const App = () => {
   return (
     <>
       {/* 전역스타일적용 */}
       <GlobalStyle />
-      <PaletteStyle />
+      <CreditStyle />
       <Router>
         <Routes>
           <Route path="/error" element={<ErrorPage />} />

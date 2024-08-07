@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
-const PaletteStyle = createGlobalStyle`
+const CreditStyle = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
@@ -31,7 +31,7 @@ const PaletteStyle = createGlobalStyle`
 
   /* 웹킷 기반 브라우저의 스크롤바 */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -40,8 +40,8 @@ const PaletteStyle = createGlobalStyle`
 
 ::-webkit-scrollbar-thumb {
   background-color: darkgray;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 `;
 
-export default PaletteStyle;
+export default CreditStyle;
