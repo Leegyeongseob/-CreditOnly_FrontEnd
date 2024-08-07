@@ -18,6 +18,9 @@ import SignUp from "./pages/login/SignUp";
 import FindByForm from "./common/commonForm/FindByForm";
 import Mypage from "./pages/settingpage/Mypage";
 import HelpPage from "./pages/help/HelpPage";
+import CreditNews from "./pages/news/CreditNews";
+import NewsList from "./pages/news/NewsList";
+import NewsDetail from "./pages/news/NewsDetail";
 import CreditStyle from "./CreditStyle";
 const App = () => {
   return (
@@ -32,6 +35,9 @@ const App = () => {
             <Route path="/" element={<MainPage />} />
             <Route path="/setting" element={<Mypage />} />
             <Route path="/help" element={<HelpPage />} />
+            <Route path="/information" element={<CreditNews />} />
+            <Route path="/information-list" element={<NewsList />} />
+            <Route path="/informaition-list/:id" element={<NewsDetail />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUp />} />
