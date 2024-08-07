@@ -3,6 +3,7 @@ import Ad1 from "../../img/error/400error.png";
 import Ad2 from "../../img/error/401error.png";
 import Ad3 from "../../img/error/403error.png";
 import Ad4 from "../../img/error/500error.png";
+import Logo from "../../img//background/CreditOnlyLogo.png";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -88,6 +89,11 @@ const CreditInfo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const BottomSide = styled.div`
@@ -97,6 +103,11 @@ const BottomSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const CreditView = styled.div`
@@ -107,6 +118,11 @@ const CreditView = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const MainPage = () => {
@@ -129,11 +145,11 @@ const MainPage = () => {
             <Slide imageurl={Ad4} />
           </StyledSwiper>
         </Adbanner>
-        <CreditInfo>신용점수</CreditInfo>
+        <CreditInfo imageurl={Logo}>신용점수</CreditInfo>
       </TopSide>
       <BottomSide>
-        <CreditView>신용점수 올리는 팁</CreditView>
-        <CreditView>시각화</CreditView>
+        <CreditView imageurl={Logo}>신용점수 올리는 팁</CreditView>
+        <CreditView imageurl={Logo}>시각화</CreditView>
       </BottomSide>
     </Container>
   );

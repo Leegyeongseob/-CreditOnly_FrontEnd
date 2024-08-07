@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import UserImgs from "../../img/commonImg/프로필예시.jpeg";
 import { Link } from "react-router-dom";
+import Logo from "../../img//background/CreditOnlyLogo.png";
 
 const Container = styled.div`
   width: 100%;
@@ -165,6 +166,11 @@ const CreditView = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const ChatView = styled.div`
@@ -175,6 +181,11 @@ const ChatView = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const LowSide = styled.div`
@@ -196,6 +207,7 @@ const UserDelBox = styled.div`
   align-items: center;
   flex-direction: row;
 `;
+
 const UserDel = styled.div`
   width: 40%;
   font-size: 18px;
@@ -205,6 +217,7 @@ const UserDel = styled.div`
   justify-content: start;
   align-items: center;
 `;
+
 const UserDelBtn = styled(Link)`
   width: 120px;
   height: 40px;
@@ -262,9 +275,9 @@ const Mypage = () => {
         </UserInfo>
       </TopSide>
       <BottomSide>
-        <CreditView>신용점수</CreditView>
-        <ChatView>문의내역</ChatView>
-        <ChatView>챗봇</ChatView>
+        <CreditView imageurl={Logo}>신용점수</CreditView>
+        <ChatView imageurl={Logo}>문의내역</ChatView>
+        <ChatView imageurl={Logo}>챗봇</ChatView>
       </BottomSide>
       <LowSide>
         <UserDelBox>
