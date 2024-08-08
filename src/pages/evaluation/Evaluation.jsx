@@ -50,7 +50,7 @@ const CrediEvaluation = styled.div`
   cursor: pointer;
   &:hover ${EvaluationBtn} {
     transform: translateX(10px); /* 부모 요소에 호버 시 버튼을 오른쪽으로 10px 이동 */
-    color: green; /* 버튼 텍스트 색상 변경 */
+    color: #8290ee; /* 버튼 텍스트 색상 변경 */
   }
 `;
 
