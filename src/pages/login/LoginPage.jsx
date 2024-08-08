@@ -69,6 +69,19 @@ const TextWrapper = styled.div`
   text-align: center;
   margin-top: 20px; /* 상단 여백 추가 */
 `;
+// 텍스트 래퍼
+const TextWrapperSign = styled.div`
+  color: #a0a0a0;
+  font-family: "Poppins-Regular", Helvetica;
+  font-size: 20px;
+  font-weight: 400;
+  height: 50px;
+  width: 50%;
+  padding: 15px;
+  text-align: center;
+  margin-top: 20px; /* 상단 여백 추가 */
+  cursor: pointer;
+`;
 // 버튼 래퍼
 const BtnWrapper = styled.div`
   align-items: center; /* 중앙 정렬 */
@@ -81,6 +94,7 @@ const BtnWrapper = styled.div`
   height: 5%;
   margin-top: 30px; /* 입력창들과 버튼 사이의 간격 조정 */
   max-width: 400px;
+  cursor: pointer;
 `;
 // 버튼 텍스트
 const TextBtn = styled.div`
@@ -90,7 +104,6 @@ const TextBtn = styled.div`
   font-weight: 700;
   text-align: center;
   width: fit-content;
-  cursor: pointer;
 `;
 
 // 큰 텍스트
@@ -129,6 +142,9 @@ const LoginPage = () => {
   const onClickFindPwd = () => {
     navigate("/findbyPwd");
   };
+  const onClickSignUp = () => {
+    navigate("/SignUp");
+  };
   return (
     <Screen>
       <OverlapGroupWrapper>
@@ -145,9 +161,14 @@ const LoginPage = () => {
               <Find onClick={onClickFindEmail}>아이디 찾기</Find>
               <Find onClick={onClickFindPwd}>비밀번호 찾기</Find>
             </Findbox>
-            <BtnWrapper>
-              <TextBtn onClick={()=>{navigate("/mainpage")}}>LOGIN</TextBtn>
+            <BtnWrapper
+              onClick={() => {
+                navigate("/mainpage");
+              }}
+            >
+              <TextBtn>LOGIN</TextBtn>
             </BtnWrapper>
+            <TextWrapperSign onClick={onClickSignUp}>회원가입</TextWrapperSign>
           </Rectangle>
         </OverlapGroup>
       </OverlapGroupWrapper>

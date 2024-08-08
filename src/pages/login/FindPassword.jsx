@@ -70,6 +70,7 @@ const Transmission = styled.div`
   height: 90%;
   width: 10%;
 `;
+
 const RegiInputBox = styled.div`
   width: 100%;
   height: auto;
@@ -190,6 +191,10 @@ const FindPassword = () => {
         <EmailBox>
           <Inst placeholder="이메일을 입력해주세요"></Inst>
           <Transmission>전송</Transmission>
+        </EmailBox>
+        <EmailBox>
+          <Inst placeholder="인증번호입력"></Inst>
+          <Transmission>확인</Transmission>
         </EmailBox>
         {/* <IconWrapper>
           <MdOutlineMailOutline />
