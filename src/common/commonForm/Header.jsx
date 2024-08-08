@@ -38,9 +38,9 @@ const LeftBox = styled.div`
     position: ${({ isHeader }) => (isHeader ? "fixed" : "static")};
     width: ${({ isHeader }) => (isHeader ? "200px" : "15%")};
     height: ${({ isHeader }) => (isHeader ? "6vh" : "100%")};
+    background-color: ${({ isHeader }) => (isHeader ? "#f5f6f8" : "#f1f2f7")};
     top: ${({ isHeader }) => (isHeader ? "0" : "auto")};
     left: ${({ isHeader }) => (isHeader ? "0" : "auto")};
-    background-color: ${({ isHeader }) => (isHeader ? "#ffffff" : "#f1f2f7")};
     border-right: ${({ isHeader }) =>
       isHeader ? "1px solid darkgray" : "none"};
     z-index: ${({ isHeader }) => (isHeader ? "100" : "1")};

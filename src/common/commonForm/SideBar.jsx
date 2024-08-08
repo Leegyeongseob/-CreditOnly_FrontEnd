@@ -25,7 +25,7 @@ const Sidebar = styled.div`
     width: 200px;
     top: 6%;
     left: 0;
-    background-color: #ffffff;
+    background-color: #fdfdfd;
     border-right: 1px solid darkgray;
     z-index: 100;
     display: flex;
