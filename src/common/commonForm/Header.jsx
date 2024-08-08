@@ -47,9 +47,9 @@ const SideBarToggle = styled.div`
   &:hover {
     transform: scale(1.04);
   }
-  @media screen and (min-width: 1200px) {
+  /* @media screen and (min-width: 1200px) {
     display: none;
-  }
+  } */
 `;
 
 const RightBox = styled.div`
