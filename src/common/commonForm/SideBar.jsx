@@ -107,11 +107,14 @@ const SideBar = ({ isVisible }) => {
           </IconBox>
           <TextWrapper>Dashboard</TextWrapper>
         </ContentsBox>
-        <ContentsBox to="/notice" isActive={currentPath === "/notice"}>
+        <ContentsBox
+          to="/announcement"
+          isActive={currentPath === "/announcement"}
+        >
           <IconBox>
             <IoTodayOutline
               size={20}
-              color={currentPath === "/notice" ? "#263ed8" : "#8290ee"}
+              color={currentPath === "/announcement" ? "#263ed8" : "#8290ee"}
             />
           </IconBox>
           <TextWrapper>공지사항</TextWrapper>
