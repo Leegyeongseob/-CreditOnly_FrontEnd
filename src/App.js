@@ -16,6 +16,7 @@ import NewsList from "./pages/news/NewsList";
 import NewsDetail from "./pages/news/NewsDetail";
 import CreditStyle from "./CreditStyle";
 import RendingPage from "./pages/main/RendingPage";
+import Announcement from "./pages/announcement/AnnouncementMain";
 const App = () => {
   return (
     <>
@@ -24,7 +25,7 @@ const App = () => {
       <CreditStyle />
       <Router>
         <Routes>
-          <Route path="/" element={<RendingPage/>}/>
+          <Route path="/" element={<RendingPage />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route element={<MainForm />}>
             <Route path="/mainpage" element={<MainPage />} />
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/information" element={<CreditNews />} />
             <Route path="/information-list" element={<NewsList />} />
             <Route path="/informaition-list/:id" element={<NewsDetail />} />
+            <Route path="/announcement" element={<Announcement />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUp />} />

@@ -152,7 +152,7 @@ const ScreenWrapper = styled.div`
   }
 `;
 
-const Screen = () => {
+const Announcement = () => {
   return (
     <ScreenWrapper>
       <div className="screen">
@@ -441,4 +441,4 @@ const Screen = () => {
   );
 };
 
-export default Screen;
+export default Announcement;
