@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from 'react-router-dom';
 import styled from "styled-components";
 import { items } from "./data";
 
@@ -11,6 +11,26 @@ const Container = styled.div`
 const TopBar = styled.div`
   width: 100%;
   height: 10%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #f1f1f1;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const CategoryButton = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: ${(props) => (props.active ? "#0056b3" : "#007bff")};
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
 
 const ListWrap = styled.div`
@@ -20,11 +40,9 @@ const ListWrap = styled.div`
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 20px;
- 
 `;
 
 const ListGroup = styled.div`
-  
   background-color: #e4e7f5;
   width: 100%;
   height: 20%;
@@ -32,8 +50,8 @@ const ListGroup = styled.div`
   align-items: center;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #b81b1b;
-  border-bottom: ${(props) => (props.isLast ? "none" : "1px solid #b81b1b")};
+  /* border-bottom: 1px solid #b81b1b; */
+  border-bottom: ${(props) => (props.isLast ? "none" : "1px solid #242222b5")};
 `;
 
 const Simg = styled.img`
@@ -133,14 +151,25 @@ const PageButton = styled.button`
   }
 `;
 
+const categories = [
+  "전체",
+  "신용조회 정보모음",
+  "신용조회 어플추천",
+  "신용카드와 신용정보"
+];
+
 const NewsList = () => {
+  const { category } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOption, setSearchOption] = useState("all");
   const [searchResults, setSearchResults] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState(category || "전체");
   const itemsPerPage = 5;
 
-  
+  useEffect(() => {
+    setSelectedCategory(category || "전체");
+  }, [category]);
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -153,22 +182,17 @@ const NewsList = () => {
   const handleSearch = () => {
     const lowerCaseTerm = searchTerm.toLowerCase();
     const filteredItems = items.filter((item) => {
-      if (searchOption === "title") {
-        return item.title.toLowerCase().includes(lowerCaseTerm);
-      }
-      if (searchOption === "content") {
-        return item.content.toLowerCase().includes(lowerCaseTerm);
-      }
-      if (searchOption === "all") {
-        return (
-          item.title.toLowerCase().includes(lowerCaseTerm) ||
-          item.content.toLowerCase().includes(lowerCaseTerm)
-        );
-      }
-      return false;
+      const matchesSearch =
+        (searchOption === "title" && item.title.toLowerCase().includes(lowerCaseTerm)) ||
+        (searchOption === "content" && item.content.toLowerCase().includes(lowerCaseTerm)) ||
+        (searchOption === "all" &&
+          (item.title.toLowerCase().includes(lowerCaseTerm) || item.content.toLowerCase().includes(lowerCaseTerm)));
+      const matchesCategory =
+        selectedCategory === "전체" || item.category === selectedCategory;
+      return matchesSearch && matchesCategory;
     });
     setSearchResults(filteredItems);
-    setCurrentPage(1); // 검색 시 첫 페이지로 이동
+    setCurrentPage(1);
   };
 
   const handleKeyDown = (e) => {
@@ -177,27 +201,52 @@ const NewsList = () => {
     }
   };
 
-  const currentItems = (searchResults === null ? items : searchResults).slice(
+  const currentItems = (searchResults === null ? items : searchResults).filter(item => selectedCategory === "전체" || item.category === selectedCategory).slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   const totalPages = Math.ceil(
-    (searchResults === null ? items : searchResults).length / itemsPerPage
+    (searchResults === null ? items : searchResults).filter(item => selectedCategory === "전체" || item.category === selectedCategory).length / itemsPerPage
   );
+
+  // Generate page numbers to display (5 pages max)
+  const pageNumbers = [];
+  const maxPagesToShow = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+  let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+  // Adjust start page if endPage is too high
+  if (endPage - startPage < maxPagesToShow - 1) {
+    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
 
   return (
     <Container>
-      <TopBar></TopBar>
+      <TopBar>
+        {categories.map((cat) => (
+          <CategoryButton
+            key={cat}
+            active={selectedCategory === cat}
+            onClick={() => setSelectedCategory(cat)}
+          >
+            {cat}
+          </CategoryButton>
+        ))}
+      </TopBar>
       <ListWrap>
         {currentItems.length > 0 ? (
-          currentItems.map((result, index) => (
-            <Link key={result.id} to={`/informaition-list/${result.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-             <ListGroup isLast={index === currentItems.length - 1}>
-                <Simg alt="Image" src="rectangle-10228-2.png" />
+          currentItems.map((item, index) => (
+            <Link key={item.id} to={`/news/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <ListGroup isLast={index === currentItems.length - 1}>
+                <Simg alt={item.title} src={item.imageUrl} />
                 <ListDetailWrap>
-                  <TextWrapper>{result.title}</TextWrapper>
-                  <DetailWrap>{result.content}</DetailWrap>
+                  <TextWrapper>{item.title}</TextWrapper>
+                  <DetailWrap>{item.content}</DetailWrap>
                 </ListDetailWrap>
               </ListGroup>
             </Link>
@@ -234,13 +283,13 @@ const NewsList = () => {
         >
           이전
         </PageButton>
-        {[...Array(totalPages)].map((_, index) => (
+        {pageNumbers.map((num) => (
           <PageButton
-            key={index}
-            active={currentPage === index + 1}
-            onClick={() => setCurrentPage(index + 1)}
+            key={num}
+            active={currentPage === num}
+            onClick={() => setCurrentPage(num)}
           >
-            {index + 1}
+            {num}
           </PageButton>
         ))}
         <PageButton
