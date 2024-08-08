@@ -98,11 +98,11 @@ const SideBar = ({ isVisible }) => {
     <Sidebar isVisible={isVisible}>
       <Menu>
         <Title>MENU</Title>
-        <ContentsBox to="/mainpage" isActive={currentPath === "/"}>
+        <ContentsBox to="/mainpage" isActive={currentPath === "/mainpage"}>
           <IconBox>
             <IoBarChartOutline
               size={20}
-              color={currentPath === "/" ? "#263ed8" : "#8290ee"}
+              color={currentPath === "/mainpage" ? "#263ed8" : "#8290ee"}
             />
           </IconBox>
           <TextWrapper>Dashboard</TextWrapper>
@@ -128,20 +128,20 @@ const SideBar = ({ isVisible }) => {
           </IconBox>
           <TextWrapper>신용정보</TextWrapper>
         </ContentsBox>
-        <ContentsBox to="/chat" isActive={currentPath === "/chat"}>
+        <ContentsBox to="/evaluation" isActive={currentPath === "/evaluation"}>
           <IconBox>
             <IoNewspaperOutline
               size={20}
-              color={currentPath === "/chat" ? "#263ed8" : "#8290ee"}
+              color={currentPath === "/evaluation" ? "#263ed8" : "#8290ee"}
             />
           </IconBox>
           <TextWrapper>신용평가</TextWrapper>
         </ContentsBox>
-        <ContentsBox to="/evaluation" isActive={currentPath === "/evaluation"}>
+        <ContentsBox to="/chat" isActive={currentPath === "/chat"}>
           <IconBox>
             <IoChatbubbleEllipsesOutline
               size={20}
-              color={currentPath === "/evaluation" ? "#263ed8" : "#8290ee"}
+              color={currentPath === "/chat" ? "#263ed8" : "#8290ee"}
             />
           </IconBox>
           <TextWrapper>문의사항</TextWrapper>
