@@ -18,11 +18,16 @@ import { useState } from "react";
 const HeaderContainer = styled.div`
   width: 100%;
   height: 6vh;
+  min-height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
   border-bottom: 1px solid #c8cbd9;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 `;
 
 const LeftBox = styled.div`
@@ -57,7 +62,7 @@ const SideBarToggle = styled.div`
   &:hover {
     transform: scale(1.1);
   }
-  @media screen and (min-width: 1200px) {
+  @media screen and (min-width: 1201px) {
     display: none;
   }
 `;
@@ -81,7 +86,6 @@ const LogoBox = styled(Link)`
     transform: scale(1.04);
   }
   @media screen and (max-width: 1200px) {
-    /* display: none; */
     display: ${({ isHeader }) => (isHeader ? "flex" : "none")};
   }
 `;

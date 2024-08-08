@@ -27,6 +27,9 @@ const TopSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Adbanner = styled.div`
@@ -37,6 +40,11 @@ const Adbanner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    height: 250px;
+  }
 `;
 
 const StyledSwiper = styled(Swiper)`
@@ -94,6 +102,11 @@ const CreditInfo = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    height: 230px;
+    margin-top: 5%;
+  }
 `;
 
 const BottomSide = styled.div`
@@ -108,6 +121,9 @@ const BottomSide = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const CreditView = styled.div`
@@ -123,6 +139,11 @@ const CreditView = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    height: 230px;
+    margin-top: 5%;
+  }
 `;
 
 const MainPage = () => {

@@ -19,6 +19,9 @@ const TopSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  @media screen and (max-width: 768px) {
+    margin-top: 25%;
+  }
 `;
 
 const UserProfile = styled.div`
@@ -30,6 +33,9 @@ const UserProfile = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+    height: 260px;
+  }
 `;
 
 const UserImgBox = styled.div`
@@ -69,6 +75,9 @@ const UserName = styled.div`
   color: #5f5f5f;
   background-color: #f9f9fd;
   border-radius: 10px;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const UserInfo = styled.div`
@@ -79,6 +88,9 @@ const UserInfo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    height: 260px;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -109,6 +121,9 @@ const InfoTitle = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const InfoContents = styled.div`
@@ -118,6 +133,9 @@ const InfoContents = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const BtnDiv = styled.div`
@@ -147,6 +165,10 @@ const PwBtn = styled(Link)`
   &:hover {
     background-color: #ebecef;
   }
+  @media screen and (max-width: 768px) {
+    width: 90px;
+    font-size: 11px;
+  }
 `;
 
 const BottomSide = styled.div`
@@ -156,6 +178,12 @@ const BottomSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
+    height: auto;
+    margin-top: 5%;
+  }
 `;
 
 const CreditView = styled.div`
@@ -171,6 +199,11 @@ const CreditView = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 260px;
+    margin-bottom: 5%;
+  }
 `;
 
 const ChatView = styled.div`
@@ -186,6 +219,10 @@ const ChatView = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  @media screen and (max-width: 768px) {
+    width: 48%;
+    height: 260px;
+  }
 `;
 
 const LowSide = styled.div`
@@ -206,6 +243,12 @@ const UserDelBox = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 60px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
 `;
 
 const UserDel = styled.div`
@@ -216,6 +259,9 @@ const UserDel = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const UserDelBtn = styled(Link)`
@@ -236,6 +282,10 @@ const UserDelBtn = styled(Link)`
   cursor: pointer;
   &:hover {
     background-color: #ebecef;
+  }
+  @media screen and (max-width: 768px) {
+    width: 100px;
+    font-size: 13px;
   }
 `;
 
