@@ -18,6 +18,8 @@ import CreditStyle from "./CreditStyle";
 import RendingPage from "./pages/main/RendingPage";
 import Evaluation from "./pages/evaluation/Evaluation";
 import Announcement from "./pages/announcement/AnnouncementMain";
+import ChatBot from "./pages/help/ChatBot";
+
 const App = () => {
   return (
     <>
@@ -35,11 +37,12 @@ const App = () => {
             <Route path="/information" element={<CreditNews />} />
             <Route path="/information-list" element={<NewsList />} />
             <Route path="/informaition-list/:id" element={<NewsDetail />} />
-            <Route path="/evaluation" element={<Evaluation/>}/>
+            <Route path="/evaluation" element={<Evaluation />} />
             <Route path="/announcement" element={<Announcement />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/chat" element={<ChatBot />} />
           <Route element={<FindByForm />}>
             <Route path="/findbyemail" element={<FindEmail />} />
             <Route path="/findbypwd" element={<FindPassword />} />
