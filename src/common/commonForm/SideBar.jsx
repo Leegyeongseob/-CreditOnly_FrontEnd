@@ -14,24 +14,36 @@ const Sidebar = styled.div`
   width: 15%;
   min-width: 161.69px;
   height: 100%;
-  display: ${({ isVisible }) => (isVisible ? "none" : "flex")};
+  display: flex;
   background-color: #f1f2f7;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-right: 1%;
   @media screen and (max-width: 1200px) {
-    display: none;
+    position: fixed;
+    width: 200px;
+    top: 6%;
+    left: 0;
+    background-color: #ffffff;
+    border-right: 1px solid darkgray;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
   }
 `;
 
 const Menu = styled.div`
-  width: 53%;
+  width: 60%;
   height: 88%;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
+  @media screen and (max-width: 1200px) {
+    width: 70%;
+  }
 `;
 
 const activeTitleStyle = css`
@@ -91,14 +103,25 @@ const TextWrapper = styled.div`
   padding-left: 5px;
 `;
 
-const SideBar = ({ isVisible }) => {
+const SideBar = ({ toggleSideBar }) => {
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const handleMenuClick = () => {
+    if (window.innerWidth <= 1200) {
+      toggleSideBar();
+    }
+  };
+
   return (
-    <Sidebar isVisible={isVisible}>
+    <Sidebar>
       <Menu>
         <Title>MENU</Title>
-        <ContentsBox to="/mainpage" isActive={currentPath === "/mainpage"}>
+        <ContentsBox
+          to="/mainpage"
+          isActive={currentPath === "/mainpage"}
+          onClick={handleMenuClick}
+        >
           <IconBox>
             <IoBarChartOutline
               size={20}
@@ -110,6 +133,7 @@ const SideBar = ({ isVisible }) => {
         <ContentsBox
           to="/announcement"
           isActive={currentPath === "/announcement"}
+          onClick={handleMenuClick}
         >
           <IconBox>
             <IoTodayOutline
@@ -122,6 +146,7 @@ const SideBar = ({ isVisible }) => {
         <ContentsBox
           to="/information"
           isActive={currentPath === "/information"}
+          onClick={handleMenuClick}
         >
           <IconBox>
             <IoReaderOutline
@@ -131,7 +156,11 @@ const SideBar = ({ isVisible }) => {
           </IconBox>
           <TextWrapper>신용정보</TextWrapper>
         </ContentsBox>
-        <ContentsBox to="/evaluation" isActive={currentPath === "/evaluation"}>
+        <ContentsBox
+          to="/evaluation"
+          isActive={currentPath === "/evaluation"}
+          onClick={handleMenuClick}
+        >
           <IconBox>
             <IoNewspaperOutline
               size={20}
@@ -150,7 +179,11 @@ const SideBar = ({ isVisible }) => {
           <TextWrapper>문의사항</TextWrapper>
         </ContentsBox>
         <Title>OTHERS</Title>
-        <ContentsBox to="/setting" isActive={currentPath === "/setting"}>
+        <ContentsBox
+          to="/setting"
+          isActive={currentPath === "/setting"}
+          onClick={handleMenuClick}
+        >
           <IconBox>
             <IoSettingsOutline
               size={20}
@@ -159,7 +192,11 @@ const SideBar = ({ isVisible }) => {
           </IconBox>
           <TextWrapper>설정</TextWrapper>
         </ContentsBox>
-        <ContentsBox to="/help" isActive={currentPath === "/help"}>
+        <ContentsBox
+          to="/help"
+          isActive={currentPath === "/help"}
+          onClick={handleMenuClick}
+        >
           <IconBox>
             <IoChatboxEllipsesOutline
               size={20}

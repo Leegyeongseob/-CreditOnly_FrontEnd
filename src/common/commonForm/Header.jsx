@@ -14,7 +14,6 @@ import {
   IoMenuOutline,
 } from "react-icons/io5";
 import { useState } from "react";
-import SideBar from "./SideBar";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -35,6 +34,17 @@ const LeftBox = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    position: ${({ isHeader }) => (isHeader ? "fixed" : "static")};
+    width: ${({ isHeader }) => (isHeader ? "200px" : "15%")};
+    height: ${({ isHeader }) => (isHeader ? "6vh" : "100%")};
+    top: ${({ isHeader }) => (isHeader ? "0" : "auto")};
+    left: ${({ isHeader }) => (isHeader ? "0" : "auto")};
+    background-color: ${({ isHeader }) => (isHeader ? "#ffffff" : "#f1f2f7")};
+    border-right: ${({ isHeader }) =>
+      isHeader ? "1px solid darkgray" : "none"};
+    z-index: ${({ isHeader }) => (isHeader ? "100" : "1")};
+  }
 `;
 
 const SideBarToggle = styled.div`
@@ -45,11 +55,11 @@ const SideBarToggle = styled.div`
   justify-content: center;
   align-items: center;
   &:hover {
-    transform: scale(1.04);
+    transform: scale(1.1);
   }
-  /* @media screen and (min-width: 1200px) {
+  @media screen and (min-width: 1200px) {
     display: none;
-  } */
+  }
 `;
 
 const RightBox = styled.div`
@@ -71,7 +81,8 @@ const LogoBox = styled(Link)`
     transform: scale(1.04);
   }
   @media screen and (max-width: 1200px) {
-    display: none;
+    /* display: none; */
+    display: ${({ isHeader }) => (isHeader ? "flex" : "none")};
   }
 `;
 
@@ -247,24 +258,20 @@ const AlarmSet = styled.div`
   }
 `;
 
-const Header = () => {
+const Header = ({ toggleSideBar, isHeader }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   const handleToggleClick = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
-  const handleSideBarClick = () => {
-    setIsSidebarVisible(!isSidebarVisible);
-  };
 
   return (
     <HeaderContainer>
-      <LeftBox>
-        <SideBarToggle onClick={handleSideBarClick}>
+      <LeftBox isHeader={isHeader}>
+        <SideBarToggle onClick={toggleSideBar}>
           <IoMenuOutline size={30} color="#8290ee" />
         </SideBarToggle>
-        <LogoBox to="/mainpage">
+        <LogoBox to="/mainpage" isHeader={isHeader}>
           <SymLogo />
         </LogoBox>
         <LogoTitle to="/mainpage">신용만</LogoTitle>
@@ -301,8 +308,9 @@ const Header = () => {
           </TopToggle>
           {isDropdownVisible && (
             <DropdownMenu>
-              <DropdownItem>
-                <IoReaderOutline size={20} color="gray" />내 신용정보
+              <DropdownItem to="/evaluation" onClick={handleToggleClick}>
+                <IoReaderOutline size={20} color="gray" />
+                나의 신용
               </DropdownItem>
               <DropdownItem>
                 <IoAtOutline size={20} color="gray" />
@@ -323,7 +331,6 @@ const Header = () => {
           </AlarmSet>
         </UserBox>
       </RightBox>
-      <SideBar isVisible={isSidebarVisible} />
     </HeaderContainer>
   );
 };
