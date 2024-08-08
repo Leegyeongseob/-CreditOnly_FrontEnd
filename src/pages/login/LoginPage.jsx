@@ -90,6 +90,7 @@ const TextBtn = styled.div`
   font-weight: 700;
   text-align: center;
   width: fit-content;
+  cursor: pointer;
 `;
 
 // 큰 텍스트
@@ -145,7 +146,7 @@ const LoginPage = () => {
               <Find onClick={onClickFindPwd}>비밀번호 찾기</Find>
             </Findbox>
             <BtnWrapper>
-              <TextBtn>LOGIN</TextBtn>
+              <TextBtn onClick={()=>{navigate("/mainpage")}}>LOGIN</TextBtn>
             </BtnWrapper>
           </Rectangle>
         </OverlapGroup>

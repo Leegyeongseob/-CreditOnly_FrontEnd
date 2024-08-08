@@ -98,7 +98,7 @@ const SideBar = ({ isVisible }) => {
     <Sidebar isVisible={isVisible}>
       <Menu>
         <Title>MENU</Title>
-        <ContentsBox to="/" isActive={currentPath === "/"}>
+        <ContentsBox to="/mainpage" isActive={currentPath === "/"}>
           <IconBox>
             <IoBarChartOutline
               size={20}

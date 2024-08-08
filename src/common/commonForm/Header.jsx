@@ -264,10 +264,10 @@ const Header = () => {
         <SideBarToggle onClick={handleSideBarClick}>
           <IoMenuOutline size={30} color="#8290ee" />
         </SideBarToggle>
-        <LogoBox to="/">
+        <LogoBox to="/mainpage">
           <SymLogo />
         </LogoBox>
-        <LogoTitle to="/">신용만</LogoTitle>
+        <LogoTitle to="/mainpage">신용만</LogoTitle>
       </LeftBox>
       <RightBox>
         <SearchBox>
