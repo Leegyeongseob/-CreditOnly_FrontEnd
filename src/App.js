@@ -16,7 +16,11 @@ import NewsList from "./pages/news/NewsList";
 import NewsDetail from "./pages/news/NewsDetail";
 import CreditStyle from "./CreditStyle";
 import RendingPage from "./pages/main/RendingPage";
+<<<<<<< HEAD
 import Evaluation from "./pages/evaluation/Evaluation";
+=======
+import Announcement from "./pages/announcement/AnnouncementMain";
+>>>>>>> 1bf35f4eb1f39b698d096108ef41de40b60c49d6
 const App = () => {
   return (
     <>
@@ -25,7 +29,7 @@ const App = () => {
       <CreditStyle />
       <Router>
         <Routes>
-          <Route path="/" element={<RendingPage/>}/>
+          <Route path="/" element={<RendingPage />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route element={<MainForm />}>
             <Route path="/mainpage" element={<MainPage />} />
@@ -34,7 +38,11 @@ const App = () => {
             <Route path="/information" element={<CreditNews />} />
             <Route path="/information-list" element={<NewsList />} />
             <Route path="/informaition-list/:id" element={<NewsDetail />} />
+<<<<<<< HEAD
             <Route path="/evaluation" element={<Evaluation/>}/>
+=======
+            <Route path="/announcement" element={<Announcement />} />
+>>>>>>> 1bf35f4eb1f39b698d096108ef41de40b60c49d6
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUp />} />
