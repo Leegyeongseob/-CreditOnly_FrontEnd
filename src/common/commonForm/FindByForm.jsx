@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../../img//background/CreditOnlyLogo.png";
+import logo from "../../img/loginImg/findPageLogoImg.png";
 
 const LoginPage = styled.div`
   background-color: #ffffff;
@@ -13,8 +13,8 @@ const LoginPage = styled.div`
 const SinLogo = styled.div`
   background-image: url(${logo});
   background-size: contain; /* 또는 cover로 설정 */
-  width: 20%;
-  height: 20%;
+  width: 80%;
+  height: 80%;
   background-repeat: no-repeat;
   cursor: pointer; /* 마우스 오버 시 손가락 모양 커서 */
 `;
@@ -95,7 +95,14 @@ const Rectangle = styled.div`
   justify-content: center;
   display: flex;
 `;
-
+const LogoDiv = styled.div`
+  width:100%;
+  height: 30%;
+  display: flex;
+  justify-content: first baseline;
+  margin-left: 3%;
+  align-items: center;
+`;
 const FindByForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -104,7 +111,9 @@ const FindByForm = () => {
   };
   return (
     <LoginPage>
+      <LogoDiv>
       <SinLogo onClick={onClickLogo} />
+      </LogoDiv>
       {location.pathname === "/findbypwd" ? ( // 경로에 따라 조건부 렌더링
         <PwTextBox>
           <PwText>비밀번호 찾기</PwText>
