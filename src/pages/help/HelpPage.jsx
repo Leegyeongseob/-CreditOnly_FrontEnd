@@ -20,6 +20,14 @@ const TopSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  @media screen and (max-width: 1200px) {
+    width: 95%;
+    height: 45%;
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 40%;
+  }
 `;
 
 const HelpList = styled.div`
@@ -40,18 +48,30 @@ const ListTitleBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 1200px) {
+    width: 27%;
+  }
+  @media screen and (max-width: 768px) {
+    width: 32%;
+  }
 `;
 
 const ListName = styled.div`
   width: 100%;
   height: 20%;
-  font-size: 22px;
+  font-size: 19px;
   padding-right: 8%;
   color: #5f5f5f;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Poppins-Bold", Helvetica;
+  @media screen and (max-width: 1200px) {
+    font-size: 17px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const TitleBox = styled.div`
@@ -78,6 +98,12 @@ const Title = styled.div`
   &:hover {
     background-color: #edeef5;
   }
+  @media screen and (max-width: 1200px) {
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const ListContents = styled.div`
@@ -89,6 +115,12 @@ const ListContents = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 70%;
+  }
+  @media screen and (max-width: 768px) {
+    width: 65%;
+  }
 `;
 
 const ContentTitle = styled.div`
@@ -101,6 +133,12 @@ const ContentTitle = styled.div`
   justify-content: start;
   align-items: center;
   letter-spacing: 1.5px;
+  @media screen and (max-width: 1200px) {
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const ContentsBox = styled.div`
@@ -121,6 +159,12 @@ const Contents = styled.div`
   font-size: 18px;
   letter-spacing: 1.5px; /* 글자 간격 설정 */
   line-height: 1.3; /* 줄 간격 설정 */
+  @media screen and (max-width: 1200px) {
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const BottomSide = styled.div`
@@ -130,6 +174,14 @@ const BottomSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  @media screen and (max-width: 1200px) {
+    width: 95%;
+    height: 45%;
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 40%;
+  }
 `;
 
 const HelpSend = styled.form`
@@ -167,11 +219,15 @@ const HelpTitle = styled.input`
     outline: none;
     border: 1px solid darkgray;
   }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const SendBtn = styled.button`
   width: 120px;
   height: 40px;
+  margin-left: 1%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -187,6 +243,12 @@ const SendBtn = styled.button`
   cursor: pointer;
   &:hover {
     background-color: #ebecef;
+  }
+  @media screen and (max-width: 768px) {
+    width: 90px;
+    height: 35px;
+    margin-left: 2%;
+    font-size: 12px;
   }
 `;
 
@@ -205,6 +267,9 @@ const HelpContents = styled.textarea`
   &:focus {
     outline: none;
     border: 1px solid darkgray;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 11px;
   }
 `;
 
