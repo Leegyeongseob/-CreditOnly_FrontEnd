@@ -35,11 +35,13 @@ const CreditStyle = createGlobalStyle`
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease-in;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: darkgray;
+  background-color: ${({ theme }) => theme.overflow};
+  transition: background-color 0.5s ease-in;
   border-radius: 2px;
 }
 `;

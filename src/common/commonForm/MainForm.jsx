@@ -5,12 +5,14 @@ import Header from "./Header";
 import { useEffect, useState } from "react";
 
 const Screen = styled.div`
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.color};
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 94vh;
+  transition: background-color 0.5s ease, color 0.5s ease;
 `;
 
 const Contents = styled.div`
@@ -19,7 +21,7 @@ const Contents = styled.div`
   height: 100%;
 `;
 
-const MainForm = () => {
+const MainForm = ({ toggleDarkMode, isDarkMode }) => {
   const [isSideBarVisible, setIsSideBarVisible] = useState(true);
   const [isHeader, setIsHeader] = useState(false);
 
@@ -54,7 +56,12 @@ const MainForm = () => {
 
   return (
     <>
-      <Header toggleSideBar={toggleSideBar} isHeader={isHeader} />
+      <Header
+        toggleSideBar={toggleSideBar}
+        isHeader={isHeader}
+        toggleDarkMode={toggleDarkMode}
+        isDarkMode={isDarkMode}
+      />
       <Screen>
         {isSideBarVisible && <SideBar toggleSideBar={toggleSideBar} />}
         <Contents>

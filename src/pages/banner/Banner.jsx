@@ -9,7 +9,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
-
 const StyledSwiper = styled(Swiper)`
   width: 100%;
   height: 100%;
@@ -45,33 +44,40 @@ const Slide = styled(SwiperSlide)`
   align-items: center;
   font-size: 1.5rem;
   border-radius: 10px;
-  background-color: #f9f9fd;
+  transition: background-color 0.5s ease;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ${({ theme }) => theme.overlay}; /* 다크 모드의 오버레이 색상 */
+    transition: background-color 0.5s ease;
+    pointer-events: none; /* Ensure it does not interfere with mouse events */
+  }
 `;
 
-
 const Banner = () => {
-
   return (
-
-          <StyledSwiper
-            key="swiper"
-            spaceBetween={10}
-            slidesPerView={1}
-            navigation
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 5000 }}
-            modules={[Navigation, Pagination, Autoplay]}
-          >
-            <Slide imageurl={Ad1} />
-            <Slide imageurl={Ad2} />
-            <Slide imageurl={Ad3} />
-            <Slide imageurl={Ad4} />
-          </StyledSwiper>
-
+    <StyledSwiper
+      key="swiper"
+      spaceBetween={10}
+      slidesPerView={1}
+      navigation
+      pagination={{ clickable: true }}
+      autoplay={{ delay: 5000 }}
+      modules={[Navigation, Pagination, Autoplay]}
+    >
+      <Slide imageurl={Ad1} />
+      <Slide imageurl={Ad2} />
+      <Slide imageurl={Ad3} />
+      <Slide imageurl={Ad4} />
+    </StyledSwiper>
   );
 };
 export default Banner;

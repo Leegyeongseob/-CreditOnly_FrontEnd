@@ -4,8 +4,7 @@ import styled from "styled-components";
 import { items } from "./data";
 import Ad4 from "../../img/error/500error.png";
 
-import Comments from "./Comment/ComTest"
-
+import Comments from "./Comment/ComTest";
 
 const Container = styled.div`
   width: 80%;
@@ -127,8 +126,8 @@ const NewsDetail = () => {
 
         <Content>{item.content}</Content>
       </DetailWrap>
-      
-    <Comments />
+
+      <Comments />
     </Container>
   );
 };

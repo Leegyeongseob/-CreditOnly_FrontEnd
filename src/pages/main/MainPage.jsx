@@ -83,11 +83,22 @@ const Slide = styled(SwiperSlide)`
   align-items: center;
   font-size: 1.5rem;
   border-radius: 10px;
-  background-color: #f9f9fd;
+  transition: background-color 0.5s ease;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ${({ theme }) => theme.overlay}; /* 다크 모드의 오버레이 색상 */
+    transition: background-color 0.5s ease;
+    pointer-events: none; /* Ensure it does not interfere with mouse events */
+  }
 `;
 
 const SlideLink = styled(Link)`
@@ -111,7 +122,8 @@ const SlideLink2 = styled.a`
 const CreditInfo = styled.div`
   width: 39%;
   height: 92%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -148,7 +160,8 @@ const BottomSide = styled.div`
 const CreditView = styled.div`
   width: 48.8%;
   height: 92%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;

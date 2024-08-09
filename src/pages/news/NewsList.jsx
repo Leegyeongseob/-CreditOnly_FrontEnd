@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { items } from "./data";
 
@@ -14,7 +14,9 @@ const TopBar = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #f1f1f1;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
@@ -22,7 +24,9 @@ const TopBar = styled.div`
 const CategoryButton = styled.button`
   padding: 10px 20px;
   font-size: 16px;
-  background-color: ${(props) => (props.active ? "#0056b3" : "#007bff")};
+  /* background-color: ${(props) => (props.active ? "#0056b3" : "#007bff")}; */
+  background-color: ${({ active, theme }) =>
+    active ? "#0056b3" : theme.goodBlue};
   color: white;
   border: none;
   border-radius: 4px;
@@ -43,7 +47,9 @@ const ListWrap = styled.div`
 `;
 
 const ListGroup = styled.div`
-  background-color: #e4e7f5;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   width: 100%;
   height: 20%;
   justify-content: space-around;
@@ -96,6 +102,9 @@ const Select = styled.select`
   border: 1px solid #ccc;
   border-radius: 4px 0 0 4px;
   outline: none;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
 `;
 
 const Input = styled.input`
@@ -105,6 +114,9 @@ const Input = styled.input`
   border-radius: 0;
   width: 300px;
   outline: none;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
 
   &:focus {
     border-color: #007bff;
@@ -132,8 +144,11 @@ const Pagination = styled.div`
 `;
 
 const PageButton = styled.button`
-  background-color: ${(props) => (props.active ? "#007bff" : "#fff")};
-  color: ${(props) => (props.active ? "#fff" : "#000")};
+  /* background-color: ${(props) => (props.active ? "#007bff" : "#fff")}; */
+  background-color: ${({ active, theme }) =>
+    active ? theme.goodBlue : theme.commponent};
+  /* color: ${(props) => (props.active ? "#fff" : "#000")}; */
+  color: ${({ active, theme }) => (active ? theme.color : theme.color)};
   border: 1px solid #007bff;
   padding: 5px 10px;
   margin: 0 5px;
@@ -155,7 +170,7 @@ const categories = [
   "전체",
   "신용조회 정보모음",
   "신용조회 어플추천",
-  "신용카드와 신용정보"
+  "신용카드와 신용정보",
 ];
 
 const NewsList = () => {
@@ -183,10 +198,13 @@ const NewsList = () => {
     const lowerCaseTerm = searchTerm.toLowerCase();
     const filteredItems = items.filter((item) => {
       const matchesSearch =
-        (searchOption === "title" && item.title.toLowerCase().includes(lowerCaseTerm)) ||
-        (searchOption === "content" && item.content.toLowerCase().includes(lowerCaseTerm)) ||
+        (searchOption === "title" &&
+          item.title.toLowerCase().includes(lowerCaseTerm)) ||
+        (searchOption === "content" &&
+          item.content.toLowerCase().includes(lowerCaseTerm)) ||
         (searchOption === "all" &&
-          (item.title.toLowerCase().includes(lowerCaseTerm) || item.content.toLowerCase().includes(lowerCaseTerm)));
+          (item.title.toLowerCase().includes(lowerCaseTerm) ||
+            item.content.toLowerCase().includes(lowerCaseTerm)));
       const matchesCategory =
         selectedCategory === "전체" || item.category === selectedCategory;
       return matchesSearch && matchesCategory;
@@ -201,13 +219,18 @@ const NewsList = () => {
     }
   };
 
-  const currentItems = (searchResults === null ? items : searchResults).filter(item => selectedCategory === "전체" || item.category === selectedCategory).slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const currentItems = (searchResults === null ? items : searchResults)
+    .filter(
+      (item) =>
+        selectedCategory === "전체" || item.category === selectedCategory
+    )
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const totalPages = Math.ceil(
-    (searchResults === null ? items : searchResults).filter(item => selectedCategory === "전체" || item.category === selectedCategory).length / itemsPerPage
+    (searchResults === null ? items : searchResults).filter(
+      (item) =>
+        selectedCategory === "전체" || item.category === selectedCategory
+    ).length / itemsPerPage
   );
 
   // Generate page numbers to display (5 pages max)
@@ -241,7 +264,11 @@ const NewsList = () => {
       <ListWrap>
         {currentItems.length > 0 ? (
           currentItems.map((item, index) => (
-            <Link key={item.id} to={`/news/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link
+              key={item.id}
+              to={`/news/${item.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <ListGroup isLast={index === currentItems.length - 1}>
                 <Simg alt={item.title} src={item.imageUrl} />
                 <ListDetailWrap>

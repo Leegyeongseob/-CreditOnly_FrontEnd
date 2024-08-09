@@ -33,7 +33,9 @@ const TopSide = styled.div`
 const HelpList = styled.div`
   width: 97.6%;
   height: 92%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -61,7 +63,8 @@ const ListName = styled.div`
   height: 20%;
   font-size: 19px;
   padding-right: 8%;
-  color: #5f5f5f;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,11 +95,12 @@ const Title = styled.div`
   align-items: center;
   font-size: 16px;
   border-radius: 10px;
-  background-color: ${(props) =>
-    props.isSelected ? "#edeef5" : "transparent"};
+  background-color: ${({ isSelected, theme }) =>
+    isSelected ? theme.sideBar : "transparent"};
+  transition: background-color 0.5s ease;
   cursor: pointer;
   &:hover {
-    background-color: #edeef5;
+    background-color: ${({ theme }) => theme.sideBar};
   }
   @media screen and (max-width: 1200px) {
     font-size: 15px;
@@ -109,7 +113,9 @@ const Title = styled.div`
 const ListContents = styled.div`
   width: 77%;
   height: 90%;
-  background-color: #edeef5;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -126,7 +132,9 @@ const ListContents = styled.div`
 const ContentTitle = styled.div`
   width: 95%;
   height: 15%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   padding-left: 2%;
   display: flex;
@@ -187,7 +195,9 @@ const BottomSide = styled.div`
 const HelpSend = styled.form`
   width: 97.6%;
   height: 92%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -208,7 +218,9 @@ const HelpTitleBox = styled.div`
 const HelpTitle = styled.input`
   width: 88%;
   height: 100%;
-  background-color: #edeef5;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -236,13 +248,14 @@ const SendBtn = styled.button`
   font-size: 15px;
   font-weight: 400;
   color: #5a6acf;
-  background-color: #fbfcfe;
+  background-color: ${({ theme }) => theme.sideBar};
+  transition: background-color 0.5s ease, color 0.5s ease;
   text-decoration: none;
   border-radius: 5px;
   border: none;
   cursor: pointer;
   &:hover {
-    background-color: #ebecef;
+    background-color: ${({ theme }) => theme.background};
   }
   @media screen and (max-width: 768px) {
     width: 90px;
@@ -257,7 +270,9 @@ const HelpContents = styled.textarea`
   height: 65%;
   margin-top: 2%;
   padding: 2%;
-  background-color: #edeef5;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;

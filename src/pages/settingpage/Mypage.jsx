@@ -27,7 +27,9 @@ const TopSide = styled.div`
 const UserProfile = styled.div`
   width: 37%;
   height: 91.5%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -72,8 +74,9 @@ const UserName = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 23px;
-  color: #5f5f5f;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   @media screen and (max-width: 768px) {
     font-size: 20px;
@@ -83,7 +86,9 @@ const UserName = styled.div`
 const UserInfo = styled.div`
   width: 60.6%;
   height: 92%;
-  background-color: #f6f6fb;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -106,7 +111,9 @@ const Info = styled.div`
   width: 100%;
   height: 20%;
   border-radius: 10px;
-  background-color: #edeef5;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -153,17 +160,17 @@ const PwBtn = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #1f384c;
   font-family: "Roboto-Regular", Helvetica;
   font-size: 13px;
   font-weight: 400;
+  background-color: ${({ theme }) => theme.commponent};
   color: #5a6acf;
-  background-color: #fbfcfe;
+  transition: background-color 0.5s ease;
   text-decoration: none;
   border-radius: 5px;
   cursor: pointer;
   &:hover {
-    background-color: #ebecef;
+    background-color: ${({ theme }) => theme.background};
   }
   @media screen and (max-width: 768px) {
     width: 90px;
@@ -189,7 +196,9 @@ const BottomSide = styled.div`
 const CreditView = styled.div`
   width: 37%;
   height: 88%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -209,7 +218,9 @@ const CreditView = styled.div`
 const ChatView = styled.div`
   width: 29.1%;
   height: 88%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -237,7 +248,9 @@ const LowSide = styled.div`
 const UserDelBox = styled.div`
   width: 100%;
   height: 72%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
@@ -271,17 +284,17 @@ const UserDelBtn = styled(Link)`
   justify-content: center;
   align-items: center;
   margin-right: 4%;
-  color: #1f384c;
   font-family: "Roboto-Regular", Helvetica;
   font-size: 15px;
   font-weight: 400;
+  background-color: ${({ theme }) => theme.sideBar};
   color: #5a6acf;
-  background-color: #fbfcfe;
+  transition: background-color 0.5s ease;
   text-decoration: none;
   border-radius: 5px;
   cursor: pointer;
   &:hover {
-    background-color: #ebecef;
+    background-color: ${({ theme }) => theme.background};
   }
   @media screen and (max-width: 768px) {
     width: 100px;

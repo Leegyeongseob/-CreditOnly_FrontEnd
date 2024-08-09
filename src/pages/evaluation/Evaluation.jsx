@@ -63,7 +63,9 @@ const EvaluationBtn = styled.div`
 const CrediEvaluation = styled.div`
   width: 92%;
   height: 90%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   cursor: pointer;
@@ -81,7 +83,9 @@ const CrediEvaluation = styled.div`
 const CreditView = styled.div`
   width: 48.8%;
   height: 93%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;

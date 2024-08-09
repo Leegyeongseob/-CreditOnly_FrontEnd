@@ -30,7 +30,9 @@ const TopSide = styled.div`
 const Adbanner = styled.div`
   width: 58.6%;
   height: 92%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -45,7 +47,8 @@ const Adbanner = styled.div`
 const CreditInfo = styled.div`
   width: 39%;
   height: 92%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -83,7 +86,8 @@ const BottomSide = styled.div`
 const CreditView = styled.div`
   width: 48.8%;
   height: 92%;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -128,7 +132,8 @@ const CardListWrapper = styled.div`
 `;
 
 const CardList = styled(Link)`
-  background-color: #e4e7f5;
+  background-color: ${({ theme }) => theme.sideBar};
+  transition: background-color 0.5s ease;
   height: 45%;
   width: 43%;
   display: flex;
@@ -165,7 +170,8 @@ const ListWrapper = styled.div`
 `;
 
 const ListGroup = styled(Link)`
-  background-color: #e4e7f5;
+  background-color: ${({ theme }) => theme.sideBar};
+  transition: background-color 0.5s ease;
   display: flex;
   width: 90%;
   height: 42%;

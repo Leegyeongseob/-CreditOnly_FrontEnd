@@ -13,6 +13,7 @@ import {
   IoLogOutOutline,
   IoMenuOutline,
 } from "react-icons/io5";
+import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { useState } from "react";
 
 const HeaderContainer = styled.div`
@@ -23,8 +24,11 @@ const HeaderContainer = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  border-bottom: 1px solid #c8cbd9;
-  background-color: white;
+  border-bottom: 1px solid ${({ theme }) => theme.border};
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease,
+    border-bottom 0.5s ease;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -34,7 +38,9 @@ const LeftBox = styled.div`
   width: 15%;
   min-width: 117px;
   height: 100%;
-  background-color: #f1f2f7;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -43,7 +49,8 @@ const LeftBox = styled.div`
     position: ${({ isHeader }) => (isHeader ? "fixed" : "static")};
     width: ${({ isHeader }) => (isHeader ? "200px" : "15%")};
     height: ${({ isHeader }) => (isHeader ? "6vh" : "100%")};
-    background-color: ${({ isHeader }) => (isHeader ? "#f5f6f8" : "#f1f2f7")};
+    background-color: ${({ isHeader, theme }) =>
+      isHeader ? theme.sideBar : theme.sideBar};
     top: ${({ isHeader }) => (isHeader ? "0" : "auto")};
     left: ${({ isHeader }) => (isHeader ? "0" : "auto")};
     border-right: ${({ isHeader }) =>
@@ -131,8 +138,9 @@ const SearchInput = styled.input.attrs({ type: "text" })`
   width: 85%;
   height: 50%;
   padding: 2%;
-  background-color: #f6f6fb;
-  color: #1f384c;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   font-size: 12px;
   border: none;
   border-radius: 5px;
@@ -153,21 +161,44 @@ const Searchlogo = styled.img`
   }
 `;
 
-const ToggleBox = styled.div`
-  width: 15%;
-  height: 100%;
+const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  width: 40px;
+  height: 40px;
+`;
+
+const ToggleIcon = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  transform: ${({ isVisible }) => (isVisible ? "scale(1)" : "scale(0.8)")};
 `;
 
 const Toggle = styled.div`
-  width: 68px;
+  width: 52px;
   height: 32px;
-  background-color: #78c6ff;
+  background-color: ${({ theme }) => theme.toggle};
   border-radius: 104px;
   box-shadow: 0px 2.5px 6.25px #90909040;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.5s ease;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+const ToggleBox = styled.div`
+  width: 15%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -262,7 +293,7 @@ const AlarmSet = styled.div`
   }
 `;
 
-const Header = ({ toggleSideBar, isHeader }) => {
+const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const handleToggleClick = () => {
@@ -296,7 +327,16 @@ const Header = ({ toggleSideBar, isHeader }) => {
           />
         </SearchBox>
         <ToggleBox>
-          <Toggle></Toggle>
+          <Toggle onClick={toggleDarkMode}>
+            <IconWrapper>
+              <ToggleIcon isVisible={isDarkMode}>
+                <BsToggleOn size={40} />
+              </ToggleIcon>
+              <ToggleIcon isVisible={!isDarkMode}>
+                <BsToggleOff size={40} />
+              </ToggleIcon>
+            </IconWrapper>
+          </Toggle>
         </ToggleBox>
         <UserBox>
           <UserProfile>

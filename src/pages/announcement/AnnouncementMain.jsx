@@ -14,7 +14,9 @@ const Aside = styled.div`
   width: 27%;
   height: 90%;
   border-radius: 15px;
-  background-color: #f9f9fd;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   @media screen and (max-width: 1200px) {
     width: 95%;
     height: 430px;
@@ -49,7 +51,9 @@ const ListItemDiv = styled.div`
 const ListItem = styled.div`
   width: 86%;
   height: 80%;
-  background-color: #e4e7f5;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 15px;
   cursor: pointer;
   @media screen and (max-width: 1200px) {

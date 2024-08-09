@@ -15,7 +15,8 @@ const Sidebar = styled.div`
   min-width: 161.69px;
   height: 100%;
   display: flex;
-  background-color: #f1f2f7;
+  background-color: ${({ theme }) => theme.sideBar};
+  transition: background-color 0.5s ease;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -25,7 +26,7 @@ const Sidebar = styled.div`
     width: 200px;
     top: 6%;
     left: 0;
-    background-color: #fdfdfd;
+    background-color: ${({ theme }) => theme.sideBar};
     border-right: 1px solid darkgray;
     z-index: 100;
     display: flex;
@@ -47,7 +48,8 @@ const Menu = styled.div`
 `;
 
 const activeTitleStyle = css`
-  background-color: #d8dcf3;
+  background-color: ${({ theme }) => theme.sideCheck};
+  transition: background-color 0.5s ease;
   opacity: 0.8;
   border-radius: 5px;
 `;
@@ -55,7 +57,8 @@ const activeTitleStyle = css`
 const Title = styled.div`
   width: 100%;
   height: 45px;
-  color: #082431;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
   font-family: "Poppins-Regular", Helvetica;
   font-size: 16px;
   font-weight: 600;
@@ -95,7 +98,8 @@ const IconBox = styled.div`
 
 const TextWrapper = styled.div`
   width: 80%;
-  color: #273240;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
   font-family: "Roboto-Regular", Helvetica;
   font-size: 13px;
   font-weight: 500;
