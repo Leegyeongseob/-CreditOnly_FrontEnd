@@ -259,8 +259,9 @@ const DropdownMenu = styled.div`
   top: 65px;
   right: 8.5%;
   width: 220px;
-  background-color: #ffffff;
-  border: 1px solid #c8cbd9;
+  background-color: ${({ theme }) => theme.background};
+  border: 1px solid ${({ theme }) => theme.border};
+  transition: background-color 0.5s ease border 0.5s;
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -270,14 +271,16 @@ const DropdownMenu = styled.div`
 const DropdownItem = styled(Link)`
   padding: 10px;
   font-size: 15px;
+  border-radius: 5px;
   display: flex;
   justify-content: space-between;
   font-family: "Roboto-Regular", Helvetica;
-  color: #1f384c;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
   text-decoration: none;
   cursor: pointer;
   &:hover {
-    background-color: #f9f9fd;
+    background-color: ${({ theme }) => theme.sideBar};
   }
 `;
 

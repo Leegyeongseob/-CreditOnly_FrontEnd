@@ -15,12 +15,17 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 const Container = styled.div`
+  background-color: ${({ theme }) => theme.background};
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
 `;
 
 const TopSide = styled.div`

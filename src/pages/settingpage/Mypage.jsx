@@ -20,7 +20,7 @@ const TopSide = styled.div`
   align-items: center;
   flex-direction: row;
   @media screen and (max-width: 768px) {
-    margin-top: 25%;
+    margin-top: 5%;
   }
 `;
 

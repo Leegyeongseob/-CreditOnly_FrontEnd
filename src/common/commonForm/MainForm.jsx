@@ -13,6 +13,9 @@ const Screen = styled.div`
   width: 100%;
   height: 94vh;
   transition: background-color 0.5s ease, color 0.5s ease;
+  @media screen and (max-width: 768px) {
+    height: 100%;
+  }
 `;
 
 const Contents = styled.div`
