@@ -4,7 +4,7 @@ import "moment/locale/ko"; // 한글 로컬라이제이션
 moment.locale("ko"); // 한글 설정 적용
 
 const Common = {
-  PALLETE_DOMAIN: "http://localhost:8111",
+  CreditOnly_DOMAIN: "http://localhost:8111",
 
   timeFromNow: (timestamp) => {
     return moment(timestamp).fromNow();
@@ -39,7 +39,7 @@ const Common = {
     const refreshToken = Common.getRefreshToken();
     const config = {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer${accessToken}`,
       },
     };
     try {

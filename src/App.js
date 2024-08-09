@@ -21,6 +21,10 @@ import Announcement from "./pages/announcement/AnnouncementMain";
 import ChatBot from "./pages/help/ChatBot";
 import ResetPassword from "./pages/login/ResetPassword";
 const App = () => {
+  // Kakao SDK 초기화
+  if (!window.Kakao.isInitialized()) {
+    window.Kakao.init("YOUR_APP_KEY");
+  }
   return (
     <>
       {/* 전역스타일적용 */}
@@ -47,7 +51,6 @@ const App = () => {
             <Route path="/findbyemail" element={<FindEmail />} />
             <Route path="/findbypwd" element={<FindPassword />} />
             <Route path="/resetpwd" element={<ResetPassword />} />
-
           </Route>
           {/* <Route element={<OpenBook />}>
             <Route path="/board-guestbook" element={<GuestBoardGuestbook />} />

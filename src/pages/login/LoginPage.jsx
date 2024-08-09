@@ -60,21 +60,20 @@ const FindDiv = styled.div`
   justify-content: space-evenly;
   align-items: center;
   font-style: italic;
- 
 `;
 
 const Signin = styled.div`
   width: 40%;
   height: 100%;
   font-size: 20px;
-  color: #367EE9;
+  color: #367ee9;
   font-weight: 500;
   display: flex;
   justify-content: first baseline;
   align-items: center;
-  padding-left:10px;
+  padding-left: 10px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     font-weight: 600;
     font-size: 21px;
   }
@@ -94,9 +93,9 @@ const ForgotBtn = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  color: #367EE9;
+  color: #367ee9;
   cursor: pointer;
-  &:hover{
+  &:hover {
     font-weight: 600;
   }
 `;
@@ -224,15 +223,15 @@ const LoginTitle = styled.div`
   align-items: baseline;
 `;
 const LoginWrap = styled.div`
-  width:70%;
-  height:100%;
+  width: 70%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 const SimpleLoginBtn = styled.div`
-  width:300px;
+  width: 300px;
   height: 70px;
   border: 1px solid gray;
   border-radius: 10px;
@@ -248,7 +247,7 @@ const SimpleLoginBtn = styled.div`
   }
 `;
 const SimpleLoginBtnText = styled.div`
-  width:65%;
+  width: 65%;
   height: 100%;
   font-size: 20px;
   font-weight: 600;
@@ -257,222 +256,201 @@ const SimpleLoginBtnText = styled.div`
   align-items: center;
 `;
 const TextOr = styled.div`
-  width:100%;
+  width: 100%;
   height: 10%;
-  font-size:30px;
+  font-size: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 600;
   font-style: italic;
-  color:gray;
-`
+  color: gray;
+`;
 const SignUpText = styled.div`
-  width:55%;
+  width: 55%;
   height: 100%;
   font-size: 25px;
-  color:gray;
+  color: gray;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 `;
 const LogoImgDiv = styled.div`
-  width:50%;
-  height:20%;
+  width: 50%;
+  height: 20%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 `;
 const LogoImg = styled.div`
-  width:250px;
-  height:100%;
-  background-image:url(${logoImg});
+  width: 250px;
+  height: 100%;
+  background-image: url(${logoImg});
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
 `;
 // 모든 요소를 포함하는 App 컴포넌트
 const LoginPage = () => {
-   // 키보드 입력
-   const [inputEmail, setInputEmail] = useState("");
-   // 유효성 검사
-   const [isId, setIsId] = useState(false);
-   const [isPwd, setIsPwd] = useState(false);
-   // 패스워드 입력
-   const [inputpwd, setInputPwd] = useState("");
-   // 에러 메세지
-   const [idMessage, setIdMessage] = useState("");
-   // 모달 내용 변경
-   const [modalContent, setModalContent] = useState("");
-   //팝업 처리
-   const [modalOpen, setModalOpen] = useState(false);
-   // 모달 헤더
-   const [modalHeader, setModalheader] = useState("");
-   // 모달 이미지
-   const [modalImg, setModalImg] = useState();
-   // 모달 변경
-   const [isModalImg, setIsModalImg] = useState(false);
- 
-   const closeModal = () => {
-     setModalOpen(false);
-   };
-   const navigate = useNavigate();
-   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
-   const onChangeEmail = (e) => {
-     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-     setInputEmail(e.target.value);
-     if (!emailRegex.test(e.target.value)) {
-       setIdMessage("이메일 형식이 올바르지 않습니다.");
-       setIsId(false);
-     } else {
-       setIdMessage("올바른 형식 입니다.");
-       setIsId(true);
-     }
-   };
-   const onChangePwd = (e) => {
-     setInputPwd(e.target.value);
-     setIsPwd(true);
-   };
-   //이메일로 커플이름 찾는 비동기 함수
-   const coupleNameSearchAxios = async (email) => {
-     try {
-       const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
-       console.log(resCoupleName.data);
-       // `coupleName`을 `sessionStorage`에 저장합니다.
-       sessionStorage.setItem("coupleName", resCoupleName.data);
-     } catch (error) {
-       console.log(error);
-       setModalOpen(true);
-       setModalheader("로그인 에러");
-       setIsModalImg(false);
-       setModalContent("계정이 없습니다.");
-     }
-   };
-   const loginBtnHandler = () => {
-     if (isId && isPwd) {
-       sessionStorage.setItem("email", inputEmail);
-       //커플이름 search후 세션에 저장.
-       coupleNameSearchAxios(inputEmail);
-       // 로그인, main-page를 커플이름으로 구별해서 이동.
-       loginAxios(inputEmail, inputpwd);
-     }
-   };
-   const loginAxios = async (email, pwd) => {
-     try {
-       const response = await LoginAxios.login(email, pwd);
-       if (response.data.grantType === "bearer") {
-         console.log("accessToken : ", response.data.accessToken);
-         console.log("refreshToken : ", response.data.refreshToken);
-         Common.setAccessToken(response.data.accessToken);
-         Common.setRefreshToken(response.data.refreshToken);
-         sessionStorage.setItem("email", email);
- 
-         navigate(`/mainpage`);
-       } else {
-         setModalOpen(true);
-         setIsModalImg(false);
-         setModalheader("로그인 에러");
-         setModalContent("암호화에 실패했습니다.");
-       }
-     } catch (error) {
-       console.log(error);
-       setModalOpen(true);
-       setModalheader("로그인 에러");
-       setIsModalImg(false);
-       setModalContent("계정이 없습니다.");
-     }
-   };
-   const handleKeyDown = (e) => {
-     if (e.key === "Enter" && isId && isPwd) {
-       loginBtnHandler();
-     }
-   };
-   //카카오 간편 로그인 이벤트 함수
-   const kakaoLoginOnClick = (onClick) => {
-     return () => {
-       if (onClick) onClick();
-     };
-   };
-   const codeModalOkBtnHandler = () => {
-     closeModal();
-   };
-   //모달 함수
-   const modalClickHandler = () => {
-     setModalOpen(true);
-     setIsModalImg(true);
-     setModalImg(GoogleAndNaverNotLogin);
-     setModalContent("서비스를 지원하지 않습니다. 카카오 서비스만 지원합니다.");
-   };
-   // 카카오 로그인 관련
-   const kakaoKey = "c9e9cea7eb437083937aae8d490b9853"; // 카카오 개발자 사이트에서 복사한 JavaScript 키
- 
-   useEffect(() => {
-     if (!window.Kakao.isInitialized()) {
-       window.Kakao.init(kakaoKey);
-     }
-   }, [kakaoKey]);
- 
-   const responseKakao = (response) => {
-     console.log(response);
-     KaKaoData(response);
-   };
-   const KaKaoData = async (response) => {
-     try {
-       const propsToPass = {
-         kakaoProp: true,
-         kakaoEmail: response.profile.kakao_account.email,
-         kakaopwd: response.profile.id,
-         kakaoName: response.profile.properties.nickname,
-         kakaoImgUrl: response.profile.properties.profile_image,
-       };
-       console.log("kakaoEmail:" + propsToPass.kakaoEmail);
-       console.log("kakaopwd:" + propsToPass.kakaopwd);
-       console.log("kakaoName:" + propsToPass.kakaoName);
-       console.log("kakaoImgUrl:" + propsToPass.kakaoImgUrl);
-       //이메일 존재하는지 확인하는 부분
-       const emailExist = await LoginAxios.emailIsExist(propsToPass.kakaoEmail);
-       console.log("emailExist:" + emailExist.data);
- 
-       //이메일 존재하면 화면이동
-       if (emailExist.data) {
-         //엑세스 토큰 작업
-         const res = await LoginAxios.login(
-           propsToPass.kakaoEmail,
-           propsToPass.kakaopwd
-         );
-         console.log("accessToken : ", res.data.accessToken);
-         console.log("refreshToken : ", res.data.refreshToken);
-         Common.setAccessToken(res.data.accessToken);
-         Common.setRefreshToken(res.data.refreshToken);
-         sessionStorage.setItem("email", propsToPass.kakaoEmail);
-         sessionStorage.setItem("kakaoImgUrl", propsToPass.kakaoImgUrl);
-         //이메일로 커플이름 찾는 비동기 함수
-         const coupleNameSearchAxios = async (email) => {
-           console.log(email);
-           const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
-           console.log(resCoupleName.data);
-           // `coupleName`을 `sessionStorage`에 저장합니다.
-           sessionStorage.setItem("coupleName", resCoupleName.data);
-           navigate(`/mainpage`);
-         };
-         coupleNameSearchAxios(propsToPass.kakaoEmail);
-       }
-       //아니면 여기로 이동
-       else {
-         console.log("else문까지는 와요!");
-         console.log("Navigating to sign-up page with props:", propsToPass);
-         navigate(`/signup`, { state: propsToPass });
-       }
-     } catch (error) {
-       console.error("Error during Kakao login:", error);
-     }
-   };
-   const onFail = (error) => {
-     console.error(error);
-   };  
+  // 키보드 입력
+  const [inputEmail, setInputEmail] = useState("");
+  // 유효성 검사
+  const [isId, setIsId] = useState(false);
+  const [isPwd, setIsPwd] = useState(false);
+  // 패스워드 입력
+  const [inputpwd, setInputPwd] = useState("");
+  // 에러 메세지
+  const [idMessage, setIdMessage] = useState("");
+  // 모달 내용 변경
+  const [modalContent, setModalContent] = useState("");
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
+  // 모달 헤더
+  const [modalHeader, setModalheader] = useState("");
+  // 모달 이미지
+  const [modalImg, setModalImg] = useState();
+  // 모달 변경
+  const [isModalImg, setIsModalImg] = useState(false);
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const navigate = useNavigate();
+  // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
+  const onChangeEmail = (e) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    setInputEmail(e.target.value);
+    if (!emailRegex.test(e.target.value)) {
+      setIdMessage("이메일 형식이 올바르지 않습니다.");
+      setIsId(false);
+    } else {
+      setIdMessage("올바른 형식 입니다.");
+      setIsId(true);
+    }
+  };
+  const onChangePwd = (e) => {
+    setInputPwd(e.target.value);
+    setIsPwd(true);
+  };
+
+  const loginBtnHandler = () => {
+    if (isId && isPwd) {
+      sessionStorage.setItem("email", inputEmail);
+      loginAxios(inputEmail, inputpwd);
+    }
+  };
+  const loginAxios = async (email, pwd) => {
+    try {
+      const response = await LoginAxios.login(email, pwd);
+      if (response.data.grantType === "bearer") {
+        console.log("accessToken : ", response.data.accessToken);
+        console.log("refreshToken : ", response.data.refreshToken);
+        Common.setAccessToken(response.data.accessToken);
+        Common.setRefreshToken(response.data.refreshToken);
+        sessionStorage.setItem("email", email);
+
+        navigate(`/mainpage`);
+      } else {
+        setModalOpen(true);
+        setIsModalImg(false);
+        setModalheader("로그인 에러");
+        setModalContent("암호화에 실패했습니다.");
+      }
+    } catch (error) {
+      console.log(error);
+      setModalOpen(true);
+      setModalheader("로그인 에러");
+      setIsModalImg(false);
+      setModalContent("로그인에 실패했습니다.");
+    }
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && isId && isPwd) {
+      loginBtnHandler();
+    }
+  };
+  //카카오 간편 로그인 이벤트 함수
+  const kakaoLoginOnClick = (onClick) => {
+    return () => {
+      if (onClick) onClick();
+    };
+  };
+  const codeModalOkBtnHandler = () => {
+    closeModal();
+  };
+  //모달 함수
+  const modalClickHandler = () => {
+    setModalOpen(true);
+    setIsModalImg(true);
+    setModalImg(GoogleAndNaverNotLogin);
+    setModalContent("서비스를 지원하지 않습니다. 카카오 서비스만 지원합니다.");
+  };
+  // 카카오 로그인 관련
+  const kakaoKey = "c9e9cea7eb437083937aae8d490b9853"; // 카카오 개발자 사이트에서 복사한 JavaScript 키
+
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(kakaoKey);
+    }
+  }, [kakaoKey]);
+
+  const responseKakao = (response) => {
+    console.log(response);
+    KaKaoData(response);
+  };
+  const KaKaoData = async (response) => {
+    try {
+      const propsToPass = {
+        kakaoProp: true,
+        kakaoEmail: response.profile.kakao_account.email,
+        kakaopwd: response.profile.id,
+        kakaoName: response.profile.properties.nickname,
+        kakaoImgUrl: response.profile.properties.profile_image,
+      };
+      console.log("kakaoEmail:" + propsToPass.kakaoEmail);
+      console.log("kakaopwd:" + propsToPass.kakaopwd);
+      console.log("kakaoName:" + propsToPass.kakaoName);
+      console.log("kakaoImgUrl:" + propsToPass.kakaoImgUrl);
+      //이메일 존재하는지 확인하는 부분
+      const emailExist = await LoginAxios.emailIsExist(propsToPass.kakaoEmail);
+      console.log("emailExist:" + emailExist.data);
+
+      //이메일 존재하면 화면이동
+      if (emailExist.data) {
+        //엑세스 토큰 작업
+        const res = await LoginAxios.login(
+          propsToPass.kakaoEmail,
+          propsToPass.kakaopwd
+        );
+        console.log("accessToken : ", res.data.accessToken);
+        console.log("refreshToken : ", res.data.refreshToken);
+        Common.setAccessToken(res.data.accessToken);
+        Common.setRefreshToken(res.data.refreshToken);
+        sessionStorage.setItem("email", propsToPass.kakaoEmail);
+        sessionStorage.setItem("kakaoImgUrl", propsToPass.kakaoImgUrl);
+        //이메일로 커플이름 찾는 비동기 함수
+        const coupleNameSearchAxios = async (email) => {
+          console.log(email);
+          navigate(`/mainpage`);
+        };
+        coupleNameSearchAxios(propsToPass.kakaoEmail);
+      }
+      //아니면 여기로 이동
+      else {
+        console.log("else문까지는 와요!");
+        console.log("Navigating to sign-up page with props:", propsToPass);
+        navigate(`/signup`, { state: propsToPass });
+      }
+    } catch (error) {
+      console.error("Error during Kakao login:", error);
+    }
+  };
+  const onFail = (error) => {
+    console.error(error);
+  };
   return (
     <Screen>
-          {isModalImg ? (
+      {isModalImg ? (
         <Modal
           open={modalOpen}
           header={modalHeader}
@@ -496,72 +474,94 @@ const LoginPage = () => {
         <OverlapGroup>
           <Rectangle>
             <LoginWrap>
-            <LoginTitle>Log in</LoginTitle>
-            <SimpleLogin>
-        <div>
-          
-          <SimpleLoginBtn onClick={() => modalClickHandler()} >
-          <CircleSide>
-            <GoogleIcon/>
-          </CircleSide><SimpleLoginBtnText>sign up with Google</SimpleLoginBtnText>
-          </SimpleLoginBtn>
-          <SimpleLoginBtn> <CircleSide>
-            <HiddenKakaoLogin
-              token={kakaoKey}
-              onSuccess={responseKakao}
-              onFail={onFail}
-              throughTalk={false} // 추가된 옵션: 브라우저를 통해 로그인을 시도
-              getProfile={true}
-              render={({ onClick }) => (
-                <KakaoIcon onClick={kakaoLoginOnClick(onClick)} />
-              )}
-            />
-          </CircleSide><SimpleLoginBtnText>sign up with Kakao</SimpleLoginBtnText></SimpleLoginBtn>
-        
-        </div>
-         
-      </SimpleLogin>
-      <TextOr>- OR -</TextOr>
-      <LoginDiv>
-        <>
-          <InputContainer>
-            <InputDiv
-              type="text"
-              placeholder="Email Address"
-              value={inputEmail}
-              onChange={onChangeEmail}
-            />
-          </InputContainer>
-          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-        </>
-        <InputContainer>
-          <InputDiv
-            type="password"
-            placeholder="Password"
-            value={inputpwd}
-            onChange={onChangePwd}
-            onKeyDown={handleKeyDown} //패스워드를 입력하고 엔터를 눌렀을 경우
-          />
-        </InputContainer>
-      </LoginDiv>
-      <FindDiv>
-          <ForgotBtn/>          
-          <ForgotBtn onClick={()=>{navigate("/findbyemail")}}>Forgot ID</ForgotBtn>
-          <ForgotBtn onClick={()=>{navigate("/findbypwd")}}>Password?</ForgotBtn>
-      </FindDiv>
-      <ButtonDiv>
-        <LoginButton isActive={isId && isPwd} onClick={loginBtnHandler}>
-          Log in
-        </LoginButton>
-      </ButtonDiv>
-        <SigninDiv>
-          <SignUpText>Are you first here?</SignUpText>
-          <Signin onClick={()=>{navigate("/signup")}}>Sign Up</Signin>
-        </SigninDiv>
-      </LoginWrap>
+              <LoginTitle>Log in</LoginTitle>
+              <SimpleLogin>
+                <div>
+                  <SimpleLoginBtn onClick={() => modalClickHandler()}>
+                    <CircleSide>
+                      <GoogleIcon />
+                    </CircleSide>
+                    <SimpleLoginBtnText>sign up with Google</SimpleLoginBtnText>
+                  </SimpleLoginBtn>
+                  <SimpleLoginBtn>
+                    {" "}
+                    <CircleSide>
+                      <HiddenKakaoLogin
+                        token={kakaoKey}
+                        onSuccess={responseKakao}
+                        onFail={onFail}
+                        throughTalk={false} // 추가된 옵션: 브라우저를 통해 로그인을 시도
+                        getProfile={true}
+                        render={({ onClick }) => (
+                          <KakaoIcon onClick={kakaoLoginOnClick(onClick)} />
+                        )}
+                      />
+                    </CircleSide>
+                    <SimpleLoginBtnText>sign up with Kakao</SimpleLoginBtnText>
+                  </SimpleLoginBtn>
+                </div>
+              </SimpleLogin>
+              <TextOr>- OR -</TextOr>
+              <LoginDiv>
+                <>
+                  <InputContainer>
+                    <InputDiv
+                      type="text"
+                      placeholder="Email Address"
+                      value={inputEmail}
+                      onChange={onChangeEmail}
+                    />
+                  </InputContainer>
+                  {inputEmail && (
+                    <Message isCorrect={isId}>{idMessage}</Message>
+                  )}
+                </>
+                <InputContainer>
+                  <InputDiv
+                    type="password"
+                    placeholder="Password"
+                    value={inputpwd}
+                    onChange={onChangePwd}
+                    onKeyDown={handleKeyDown} //패스워드를 입력하고 엔터를 눌렀을 경우
+                  />
+                </InputContainer>
+              </LoginDiv>
+              <FindDiv>
+                <ForgotBtn />
+                <ForgotBtn
+                  onClick={() => {
+                    navigate("/findbyemail");
+                  }}
+                >
+                  Forgot ID
+                </ForgotBtn>
+                <ForgotBtn
+                  onClick={() => {
+                    navigate("/findbypwd");
+                  }}
+                >
+                  Password?
+                </ForgotBtn>
+              </FindDiv>
+              <ButtonDiv>
+                <LoginButton isActive={isId && isPwd} onClick={loginBtnHandler}>
+                  Log in
+                </LoginButton>
+              </ButtonDiv>
+              <SigninDiv>
+                <SignUpText>Are you first here?</SignUpText>
+                <Signin
+                  onClick={() => {
+                    navigate("/signup");
+                  }}
+                >
+                  Sign Up
+                </Signin>
+              </SigninDiv>
+            </LoginWrap>
           </Rectangle>
           <LogoImgDiv>
-            <LogoImg/>
+            <LogoImg />
           </LogoImgDiv>
         </OverlapGroup>
       </OverlapGroupWrapper>

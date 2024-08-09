@@ -5,13 +5,14 @@ import Ad3 from "../../img/mainImg/Ad3.png";
 import Ad4 from "../../img/mainImg/Ad4.png";
 import Ad5 from "../../img/mainImg/Ad5.png";
 import Logo from "../../img//background/CreditOnlyLogo.png";
-
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -165,6 +166,27 @@ const CreditView = styled.div`
 `;
 
 const MainPage = () => {
+  //카카오 로그인시 프로필 자동 변경
+  const kakaoProfileUrl = sessionStorage.getItem("kakaoImgUrl");
+  const email = sessionStorage.getItem("email");
+
+  //카카오 프로필 사진저장 비동기 함수
+  const kakaoProfileImgAxios = async (emailvalue, kakaoProfile) => {
+    const res = await MemberAxiosApi.profileUrlSave(emailvalue, kakaoProfile);
+    console.log("kakaoProfile:", res.data);
+  };
+  useEffect(() => {
+    //프로필 이미지 가져오기
+    getProfileImg(email);
+  }, []);
+  // 이메일로 프로필 이미지 가져오기
+  const getProfileImg = async (emailValue) => {
+    const response = await MemberAxiosApi.searchProfileUrl(emailValue);
+    //카카오 로그인인 경우에만 카카오 프로필 이미지 저장
+    if (response.data === "notExist" && kakaoProfileUrl) {
+      kakaoProfileImgAxios(email, kakaoProfileUrl);
+    }
+  };
   return (
     <Container>
       <TopSide>

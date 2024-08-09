@@ -5,7 +5,7 @@ import Common from "../common/Common";
 
 const AxiosInstance = axios.create({
   // axios 인스턴스 생성
-  baseURL: Common.PALLETE_DOMAIN,
+  baseURL: Common.CreditOnly_DOMAIN,
 });
 
 AxiosInstance.interceptors.request.use(

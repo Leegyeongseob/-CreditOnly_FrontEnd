@@ -32,13 +32,12 @@ const FindButtonDiv = styled.div`
 const FindButton = styled.div`
   width: 200px;
   height: 50%;
-  background-color: ${({ isActive }) =>
-    isActive ? "rgba(99, 56, 255, 0.4)" : "#fff"};
+  background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
   font-size: 25px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-style: italic;
-  color: #5A3092;
+  color: ${({ isActive }) => (isActive ? "#fff" : "#5a3092")};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,7 +45,7 @@ const FindButton = styled.div`
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
     background-color: ${({ isActive }) =>
-      isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
+      isActive ? "#105D38" : "rgba(0, 0, 0, 0.1)"};
   }
 `;
 const InputDetailDiv = styled.div`
@@ -69,15 +68,16 @@ const InputDetailDiv = styled.div`
     padding-left: 10px;
     font-weight: 600;
     &::placeholder {
-    text-align: center;
-    font-size: 2.5vh;
-    color: #5A3092;
-    opacity: 0.5;
-    font-weight: normal;
-    font-style: italic;
+      text-align: center;
+      font-size: 2.5vh;
+      color: #5a3092;
+      opacity: 0.5;
+      font-weight: normal;
+      font-style: italic;
     }
-  };
-  & > .InputEmail{
+  }
+  & > .InputEmail,
+  .InputCode {
     width: 76%;
     height: 70%;
     border-radius: 0.521vw;
@@ -89,14 +89,14 @@ const InputDetailDiv = styled.div`
     padding-left: 10px;
     font-weight: 600;
     &::placeholder {
-    text-align: center;
-    font-size: 2.5vh;
-    color: #5A3092;
-    opacity: 0.5;
-    font-weight: normal;
-    font-style: italic;
+      text-align: center;
+      font-size: 2.5vh;
+      color: #5a3092;
+      opacity: 0.5;
+      font-weight: normal;
+      font-style: italic;
+    }
   }
-  };
 `;
 
 const RegisterationInput1 = styled.input`
@@ -113,7 +113,7 @@ const RegisterationInput1 = styled.input`
   &::placeholder {
     text-align: center;
     font-size: 2.5vh;
-    color: #5A3092;
+    color: #5a3092;
     opacity: 0.5;
     font-weight: normal;
     font-style: italic;
@@ -143,7 +143,7 @@ const RegisterationInput2 = styled.input`
   &::placeholder {
     text-align: center;
     font-size: 2.5vh;
-    color: #5A3092;
+    color: #5a3092;
     opacity: 0.5;
     font-weight: normal;
     font-style: italic;
@@ -165,22 +165,23 @@ const FindByPwdWarp = styled.div`
   align-items: center;
 `;
 const FindPwdText = styled.div`
-  width:100%;
+  width: 100%;
   height: 40%;
   font-size: 55px;
-  color:#fff;  
+  color: #fff;
   font-weight: bold;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 `;
 const FindPwdTextDetail = styled.div`
-  width:100%;
+  width: 100%;
   height: 20%;
-  color:#fff;  
-  font-size:22px;
+  color: #fff;
+  font-size: 22px;
   font-weight: 600;
 `;
 const FindPwdWarp = styled.div`
-  width:80%;
+  width: 80%;
   height: 65%;
   display: flex;
   flex-direction: column;
@@ -188,24 +189,24 @@ const FindPwdWarp = styled.div`
   align-items: center;
 `;
 const FindByPwd = styled.div`
-  width:100%;
+  width: 100%;
   height: 20%;
   font-size: 20px;
-  color:#fff;
+  color: #fff;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   cursor: pointer;
-  &:hover{
-    color:#367EE9;
+  &:hover {
+    color: #367ee9;
     font-size: 21px;
   }
 `;
 const GoToLoginPage = styled.div`
-  width:80%;
-  height:100%;
+  width: 80%;
+  height: 100%;
   margin-right: 20px;
-  &>.remember{
+  & > .remember {
     width: 100%;
     height: 40%;
     display: flex;
@@ -213,23 +214,23 @@ const GoToLoginPage = styled.div`
     align-items: end;
     font-size: 20px;
   }
-  &>.backToLogin{
+  & > .backToLogin {
     width: 100%;
     height: 60%;
     display: flex;
     justify-content: end;
     align-items: first baseline;
     font-weight: 600;
-    font-size:35px;
+    font-size: 35px;
     cursor: pointer;
-    &:hover{
-      color:#367EE9;
+    &:hover {
+      color: #367ee9;
       font-size: 36px;
     }
   }
 `;
 const NavigateDiv = styled.div`
-  width:100%;
+  width: 100%;
   height: 80%;
   display: flex;
 `;
@@ -242,8 +243,7 @@ const EmailAthouized = styled.div`
   height: 70%;
   border-radius: 10px;
   border: none;
-  background-color: ${({ isActive }) =>
-    isActive ? "#367EE9" : "#fff"};
+  background-color: ${({ isActive }) => (isActive ? "#367EE9" : "#fff")};
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -254,10 +254,8 @@ const EmailAthouized = styled.div`
   font-weight: 600;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
-    background-color: ${({ isActive }) =>
-      isActive ? "#fff" : "#88ff9c"};
-        color: ${({ isActive }) => (isActive ? "#5b3092a9" : "#fff")};
-
+    background-color: ${({ isActive }) => (isActive ? "#fff" : "#88ff9c")};
+    color: ${({ isActive }) => (isActive ? "#5b3092a9" : "#fff")};
   }
 `;
 const FindPassword = () => {
@@ -273,7 +271,7 @@ const FindPassword = () => {
   const [isRrnValid, setIsRrnValid] = useState(false);
   //주민등록번호 메세지
   const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
-  // 찾은 결과 ID값 저장
+  // 찾은 결과 Pwd값 저장
   const [pwd, setPwd] = useState("");
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   // 모달 해더
@@ -285,13 +283,17 @@ const FindPassword = () => {
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const [saveCertificationCode, setSaveCertificationCode] = useState(null);
-
+  
   const navigate = useNavigate();
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
     closeModal();
-    if (pwd !== "") {
-      navigate("/login-page");
+    if (pwd) {
+    const propsToPass ={
+      email:inputEmail
+    }
+
+      navigate("/resetpwd", { state: propsToPass });
     }
   };
   const closeModal = () => {
@@ -299,19 +301,16 @@ const FindPassword = () => {
   };
 
   const findPwdOnclickHandler = () => {
-    findIdAxios();
+    if (isId && isCode && name && isRrnValid) {
+      findPwdAxios();
+    }
   };
   //주민등록번호 따로 받은 자리 합치는 함수
   const combineRRN = (firstPart, secondPart) => {
-    // 문자열을 숫자로 변환
-    const firstNum = parseInt(firstPart, 10);
-    const secondNum = parseInt(secondPart, 10);
-
-    // 계산 수행
-    return firstNum * 10 + secondNum;
+    return firstPart + secondPart;
   };
-  // 아이디찾기 버튼 이벤트 및 결과 출력
-  const findIdAxios = async () => {
+  // 비밀번호찾기 버튼 이벤트 및 결과 출력
+  const findPwdAxios = async () => {
     const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
     try {
       const showUserPwd = await LoginAxios.findPwdResult(
@@ -324,7 +323,9 @@ const FindPassword = () => {
       if (showUserPwd.data === "") {
         setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
       } else {
-        setModalContent(`임시 비밀번호: ${showUserPwd.data} 입니다.`);
+        setModalContent(
+          "계정이 존재합니다. 비밀번호 재설정 페이지로 이동합니다."
+        );
         setPwd(showUserPwd.data);
       }
       // console.log(showEmail);
@@ -350,31 +351,21 @@ const FindPassword = () => {
 
     if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
       setRrnFirstPart(inputValue);
-    }
-
-    // 유효성 검사 로직 추가
-    if (inputValue.length === 6 && rrnSecondPart.length === 1) {
-      setIsRrnValid(true);
-      setIsRrnValidMessage("유효합니다.");
-    } else {
-      setIsRrnValid(false);
-      setIsRrnValidMessage("값이 유효하지 않습니다.");
-    }
-
-    if (inputValue === "" && rrnSecondPart === "") {
-      setIsRrnValidMessage("");
+      vaildRrn(inputValue, rrnSecondPart);
     }
   };
-  //주민등록번호 뒤 1자리 숫자 유효성검사
+  //주민등록번호 뒤 1자리 숫자 유효성검사 후 6자리 입력
   const handleRrnSecondPartChange = (e) => {
     const inputValue = e.target.value;
 
-    if (/^[1-4]{0,1}$/.test(inputValue) && inputValue.length <= 1) {
+    if (/^[1-4]?[0-9]*$/.test(inputValue) && inputValue.length <= 7) {
       setRrnSecondPart(inputValue);
+      vaildRrn(rrnFirstPart, inputValue);
     }
-
-    // 유효성 검사 로직 추가
-    if (rrnFirstPart.length === 6 && inputValue.length === 1) {
+  };
+  // 유효성 검사 로직 추가
+  const vaildRrn = (rrnFirstPartValue, rrnSecondPartValue) => {
+    if (rrnFirstPartValue.length === 6 && rrnSecondPartValue.length === 7) {
       setIsRrnValid(true);
       setIsRrnValidMessage("유효합니다.");
     } else {
@@ -382,7 +373,7 @@ const FindPassword = () => {
       setIsRrnValidMessage("값이 유효하지 않습니다.");
     }
 
-    if (inputValue === "" && rrnFirstPart === "") {
+    if (rrnSecondPartValue === "" && rrnFirstPartValue === "") {
       setIsRrnValidMessage("");
     }
   };
@@ -408,8 +399,8 @@ const FindPassword = () => {
     };
     try {
       const response = await emailjs.send(
-        "service_7cipsqb", // 서비스 ID
-        "service_7cipsqb", // 템플릿 ID
+        "service_lwk6ny9", // 서비스 ID
+        "service_lwk6ny9", // 템플릿 ID
         templateParams,
         "VKzT47hXDU3sC3R13" // public-key
       );
@@ -445,12 +436,15 @@ const FindPassword = () => {
         {modalContent}
       </Modal>
       <FindPwdWarp>
-      <InputDiv>
-      <FindPwdText>Forgot<br/> Password?</FindPwdText>
-      <FindPwdTextDetail>Don't warry. we can help.</FindPwdTextDetail>
-        <>
-          <InputDetailDiv>
-          <input
+        <InputDiv>
+          <FindPwdText>
+            Forgot
+            <br /> Password?
+          </FindPwdText>
+          <FindPwdTextDetail>Don't warry. we can help.</FindPwdTextDetail>
+          <>
+            <InputDetailDiv>
+              <input
                 className="InputEmail"
                 value={inputEmail}
                 onChange={onChangeEmail}
@@ -463,60 +457,82 @@ const FindPassword = () => {
               >
                 Send
               </EmailAthouized>
-          </InputDetailDiv>
-          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-        </>
-        {isEmailSent && (
+            </InputDetailDiv>
+            {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+          </>
+          {isEmailSent && (
+            <InputDetailDiv>
+              <input
+                className="InputCode"
+                value={saveCertificationCode}
+                placeholder="Email Code"
+                onChange={(e) => {
+                  setSaveCertificationCode(e.target.value);
+                }}
+              />
+              <Empty></Empty>
+              <EmailAthouized
+                isActive={isEmailSent}
+                onClick={emailCertificationCodeOnClick}
+              >
+                확인
+              </EmailAthouized>
+            </InputDetailDiv>
+          )}
           <InputDetailDiv>
             <input
-              className="InputCode"
-              value={saveCertificationCode}
-              placeholder="Email Code"
-              onChange={(e) => {
-                setSaveCertificationCode(e.target.value);
-              }}
-            />
-            <Empty></Empty>
-            <EmailAthouized
-              isActive={isEmailSent}
-              onClick={emailCertificationCodeOnClick}
-            >
-              확인
-            </EmailAthouized>
-          </InputDetailDiv>
-        )}
-        <InputDetailDiv>
-          <input className="InputClass" placeholder="Full Name" onChange={onChangeName} />
-        </InputDetailDiv>
-        <>
-          <InputDetailDiv>
-          <RegisterationInput1
-              placeholder="Social"
-              value={rrnFirstPart}
-              onChange={handleRrnFirstPartChange}
-            />
-            <Text> - </Text>
-            <RegisterationInput2
-              placeholder="Security Number" 
-              value={rrnSecondPart}
-              onChange={handleRrnSecondPartChange}
+              className="InputClass"
+              placeholder="Full Name"
+              onChange={onChangeName}
             />
           </InputDetailDiv>
-          <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
-        </>
-      </InputDiv>
-      <ButtonDiv>
-      <FindByPwd onClick={()=>{navigate("/findbyemail")}}>I can't remember My login ID.</FindByPwd>
-        <NavigateDiv>
-        <GoToLoginPage>
-          <div className="remember">Remembered your password?</div>
-          <div className="backToLogin" onClick={()=>{navigate("/login")}}>Back to Login</div>
-      </GoToLoginPage>
-      <FindButtonDiv>
-        <FindButton onClick={findPwdOnclickHandler}>Continue</FindButton>
-        </FindButtonDiv>
-        </NavigateDiv>
-      </ButtonDiv>
+          <>
+            <InputDetailDiv>
+              <RegisterationInput1
+                placeholder="Social"
+                value={rrnFirstPart}
+                onChange={handleRrnFirstPartChange}
+              />
+              <Text> - </Text>
+              <RegisterationInput2
+                placeholder="Security Number"
+                value={rrnSecondPart}
+                onChange={handleRrnSecondPartChange}
+              />
+            </InputDetailDiv>
+            <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
+          </>
+        </InputDiv>
+        <ButtonDiv>
+          <FindByPwd
+            onClick={() => {
+              navigate("/findbyemail");
+            }}
+          >
+            I can't remember My login ID.
+          </FindByPwd>
+          <NavigateDiv>
+            <GoToLoginPage>
+              <div className="remember">Remembered your password?</div>
+              <div
+                className="backToLogin"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Back to Login
+              </div>
+            </GoToLoginPage>
+            <FindButtonDiv>
+              <FindButton
+                isActive={isId && isCode && name && isRrnValid}
+                onClick={findPwdOnclickHandler}
+              >
+                Continue
+              </FindButton>
+            </FindButtonDiv>
+          </NavigateDiv>
+        </ButtonDiv>
       </FindPwdWarp>
     </FindByPwdWarp>
   );

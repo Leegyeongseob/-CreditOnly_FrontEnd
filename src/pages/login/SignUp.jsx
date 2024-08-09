@@ -1,6 +1,6 @@
-import styled ,{ keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useState } from "react";
-import {useNavigate ,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import emailjs from "emailjs-com";
 import Modal from "../../common/utils/Modal";
@@ -32,8 +32,7 @@ const InputDetailDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  & > .InputClass
-   {
+  & > .InputClass {
     width: 100%;
     height: 70%;
     padding-left: 20px;
@@ -44,15 +43,15 @@ const InputDetailDiv = styled.div`
     font-weight: bolder;
     outline: none;
     &::placeholder {
-    font-size: 2.5vh;
-    color: gray;
-    font-weight: normal;
-    font-style: italic;
-    opacity: 0.5;
+      font-size: 2.5vh;
+      color: gray;
+      font-weight: normal;
+      font-style: italic;
+      opacity: 0.5;
+    }
   }
-  };
   & > .InputEmail,
-  .InputCode{
+  .InputCode {
     width: 100%;
     height: 70%;
     padding-left: 20px;
@@ -63,13 +62,13 @@ const InputDetailDiv = styled.div`
     font-weight: bolder;
     outline: none;
     &::placeholder {
-    font-size: 2.5vh;
-    color: gray;
-    font-weight: normal;
-    font-style: italic;
-    opacity: 0.5;
+      font-size: 2.5vh;
+      color: gray;
+      font-weight: normal;
+      font-style: italic;
+      opacity: 0.5;
+    }
   }
-  };
 `;
 const Empty = styled.div`
   width: 2%;
@@ -80,8 +79,7 @@ const EmailAthouized = styled.div`
   height: 70%;
   border-radius: 10px;
   border: none;
-  background-color: ${({ isActive }) =>
-    isActive ? "#367EE9" : "#fff"};
+  background-color: ${({ isActive }) => (isActive ? "#367EE9" : "#fff")};
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -92,10 +90,8 @@ const EmailAthouized = styled.div`
   font-weight: 600;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
-    background-color: ${({ isActive }) =>
-      isActive ? "#fff" : "#367EE9"};
-        color: ${({ isActive }) => (isActive ? "gray" : "#fff")};
-
+    background-color: ${({ isActive }) => (isActive ? "#fff" : "#367EE9")};
+    color: ${({ isActive }) => (isActive ? "gray" : "#fff")};
   }
 `;
 const RegisterationInput1 = styled.input`
@@ -109,11 +105,11 @@ const RegisterationInput1 = styled.input`
   font-weight: bolder;
   outline: none;
   &::placeholder {
-  font-size: 2.5vh;
-  color: gray;
-  font-weight: normal;
-  font-style: italic;
-  opacity: 0.5;
+    font-size: 2.5vh;
+    color: gray;
+    font-weight: normal;
+    font-style: italic;
+    opacity: 0.5;
   }
 `;
 const Text = styled.div`
@@ -137,21 +133,21 @@ const RegisterationInput2 = styled.input`
   font-weight: bolder;
   outline: none;
   &::placeholder {
-  font-size: 2.5vh;
-  color: gray;
-  font-weight: normal;
-  font-style: italic;
-  opacity: 0.5;
+    font-size: 2.5vh;
+    color: gray;
+    font-weight: normal;
+    font-style: italic;
+    opacity: 0.5;
   }
 `;
 const TermsText = styled.div`
   font-size: 25px;
   font-weight: 600;
-  color: gray;;
+  color: gray;
   display: flex;
   align-items: center;
   font-style: italic;
-  opacity:0.7;
+  opacity: 0.7;
 `;
 const ButtonDiv = styled.div`
   width: 100%;
@@ -338,8 +334,8 @@ const Rectangle = styled.div`
   justify-content: center; /* 세로 방향으로 중앙 정렬 */
 `;
 const LoginWrapping = styled.div`
-  width:60%;
-  height:80%;
+  width: 60%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -448,22 +444,21 @@ const SignUp = () => {
 
     if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
       setRrnFirstPart(inputValue);
+      vaildRrn(inputValue, rrnSecondPart);
     }
-    vaildRrn();
   };
   //주민등록번호 뒤 1자리 숫자 유효성검사 후 6자리 입력
   const handleRrnSecondPartChange = (e) => {
     const inputValue = e.target.value;
 
-    if (/^[1-4][0-9]*$/.test(inputValue) && inputValue.length <= 7) {
+    if (/^[1-4]?[0-9]*$/.test(inputValue) && inputValue.length <= 7) {
       setRrnSecondPart(inputValue);
+      vaildRrn(rrnFirstPart, inputValue);
     }
-    vaildRrn();
   };
   // 유효성 검사 로직 추가
-  const vaildRrn = ()=>{
-    
-    if (rrnFirstPart.length === 6 && rrnSecondPart.length === 7) {
+  const vaildRrn = (rrnFirstPartValue, rrnSecondPartValue) => {
+    if (rrnFirstPartValue.length === 6 && rrnSecondPartValue.length === 7) {
       setIsRrnValid(true);
       setIsRrnValidMessage("유효합니다.");
     } else {
@@ -471,10 +466,10 @@ const SignUp = () => {
       setIsRrnValidMessage("값이 유효하지 않습니다.");
     }
 
-    if (rrnSecondPart === "" && rrnFirstPart === "") {
+    if (rrnSecondPartValue === "" && rrnFirstPartValue === "") {
       setIsRrnValidMessage("");
     }
-  }
+  };
   // 버튼 클릭 상태 업데이트
   const handleTermLookBtnClick = () => {
     setIsTermClickBtn(true);
@@ -507,7 +502,7 @@ const SignUp = () => {
     inputPwd,
     inputName,
     rrnFirstPart,
-    rrnSecondPart,
+    rrnSecondPart
   ) => {
     const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
     try {
@@ -537,6 +532,7 @@ const SignUp = () => {
       ) {
         kakaoLogin(kakaoEmail, kakaopwd);
         sessionStorage.setItem("kakaoImgUrl", kakaoImgUrl);
+        navigate("/mainpage");
       }
     } catch (error) {
       console.log(error);
@@ -544,13 +540,7 @@ const SignUp = () => {
   };
   //카카오로 온 경로
   const kakaoBtnOnClickHandler = () => {
-    signUpAxios(
-      kakaoEmail,
-      kakaopwd,
-      kakaoName,
-      rrnFirstPart,
-      rrnSecondPart,
-    );
+    signUpAxios(kakaoEmail, kakaopwd, kakaoName, rrnFirstPart, rrnSecondPart);
   };
   //카카오 바로 로그인
   const kakaoLogin = async (kakoEmailvalue, kakaoPwdValue) => {
@@ -564,6 +554,7 @@ const SignUp = () => {
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
         sessionStorage.setItem("email", kakoEmailvalue);
+        
       } else {
         setModalOpen(true);
         SetHeaderContents("로그인 에러");
@@ -578,13 +569,7 @@ const SignUp = () => {
   };
   // 회원가입 버튼을 클릭했을 경우 함수
   const signupBtnOnclickHandler = () => {
-    signUpAxios(
-      inputEmail,
-      inputPwd,
-      inputName,
-      rrnFirstPart,
-      rrnSecondPart,
-    );
+    signUpAxios(inputEmail, inputPwd, inputName, rrnFirstPart, rrnSecondPart);
   };
 
   // 이메일 인증 버튼 handler
@@ -642,220 +627,227 @@ const SignUp = () => {
         <OverlapGroup>
           <Rectangle>
             <LoginWrapping>
-          <TitleDiv>{kakaoProp ? "Write More" : "Create Account"}</TitleDiv>
-      <Modal
-        open={modalOpen}
-        header={headerContents}
-        type={true}
-        confirm={codeModalOkBtnHandler}
-      >
-        {modalContent}
-      </Modal>
-      <InputDiv>
-        {!kakaoProp && (
-          <>
-            <InputDetailDiv>
-              <input
-                className="InputEmail"
-                value={inputEmail}
-                onChange={onChangeEmail}
-                 placeholder="Email Address"
-              />
-              <Empty></Empty>
-              <EmailAthouized
-                isActive={isId}
-                onClick={emailCertificationBtnHandler}
+              <TitleDiv>{kakaoProp ? "Write More" : "Create Account"}</TitleDiv>
+              <Modal
+                open={modalOpen}
+                header={headerContents}
+                type={true}
+                confirm={codeModalOkBtnHandler}
               >
-                Send
-              </EmailAthouized>
-            </InputDetailDiv>
-            {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-          </>
-        )}
-        {isEmailSent && (
-          <InputDetailDiv>
-            <input
-              className="InputCode"
-              value={saveCertificationCode}
-              placeholder="Email Code"
-              onChange={(e) => {
-                setSaveCertificationCode(e.target.value);
-              }}
-            />
-            <Empty></Empty>
-            <EmailAthouized
-              isActive={isEmailSent}
-              onClick={emailCertificationCodeOnClick}
-            >
-              확인
-            </EmailAthouized>
-          </InputDetailDiv>
-        )}
-        {!kakaoProp && (
-          <>
-            <InputDetailDiv>
-              <input
-                type="password"
-                placeholder="Password"
-                className="InputClass"
-                value={inputPwd}
-                onChange={onChangePw}
-              />
-            </InputDetailDiv>
-            {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
-          </>
-        )}
-        {!kakaoProp && (
-          <>
-            <InputDetailDiv>
-              <input
-                type="password"
-                placeholder="Password Check"
-                className="InputClass"
-                value={inputPwdCheck}
-                onChange={onCheckPw}
-              />
-            </InputDetailDiv>
-            {inputPwdCheck && (
-              <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
-            )}
-          </>
-        )}
-        {!kakaoProp && (
-          <InputDetailDiv>
-            <input
-              className="InputClass"
-              placeholder="Full Name"
-              value={inputName}
-              onChange={handleInputName}
-            />
-          </InputDetailDiv>
-        )}
-          <InputDetailDiv>
-            <RegisterationInput1
-              pattern="[0~9]+"
-              value={rrnFirstPart}
-              placeholder="Social"
-              onChange={handleRrnFirstPartChange}
-            />
-            <Text> - </Text>
-            <RegisterationInput2
-              pattern="[0~9]+"
-              value={rrnSecondPart}
-              placeholder="Security Number"
-              onChange={handleRrnSecondPartChange}
-            />
-          </InputDetailDiv>
-          <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
-        <InputDetailDiv2>
-          <TermsText>View Terms</TermsText>
-          <Empty />
-          <div className="lookBtn">
-            <EmailAthouized isActive={true} onClick={handleTermLookBtnClick}>
-              Check
-            </EmailAthouized>
-          </div>
-        </InputDetailDiv2>
-        <TermImgDiv isOpen={isTermClickBtn}>
-          <TermsForm>
-            <TermsTitle>계정 사용에 관한 약관</TermsTitle>
-            <TermsScrollableContent>
-              <TermsContent>
-                1. **계정 생성 및 관리** <br />
-                &nbsp;1.1. 회원은 본 약관에 동의하고, 본 서비스에서 제공하는
-                절차에 따라 회원가입을 완료해야 합니다. <br />
-                &nbsp;1.2. 회원은 본인의 이메일 주소를 사용하여 하나의 계정만을
-                생성할 수 있습니다. <br />
-                &nbsp;1.3. 회원은 본인의 계정 정보를 타인과 공유하거나 양도할 수
-                없습니다. <br /> <br />
-                2. **회원 정보의 정확성** <br />
-                &nbsp;2.1. 회원은 회원가입 시 제공한 정보가 정확하고 최신
-                정보임을 보장해야 합니다. <br />
-                &nbsp;2.2. 회원정보가 변경된 경우, 회원은 즉시 본 서비스에 이를
-                업데이트해야 합니다. <br /> <br />
-                3. **계정 보안** <br />
-                &nbsp;3.1. 회원은 본인의 계정 비밀번호를 안전하게 관리해야 하며,
-                비밀번호 유출로 인한 모든 책임은 회원에게 있습니다. <br />
-                &nbsp;3.2. 회원은 계정의 무단 사용을 인지한 경우 즉시 본
-                서비스에 이를 통보해야 합니다. <br /> <br />
-                4. **서비스 이용** <br />
-                &nbsp;4.1. 회원은 본 서비스를 법령 및 본 약관에 따라 이용해야
-                합니다.
-                <br />
-                &nbsp;4.2. 회원은 본 서비스를 이용하여 불법 행위, 타인의 권리를
-                침해하는 행위를 해서는 안 됩니다. <br /> <br />
-                5. **계정 정지 및 해지** <br />
-                &nbsp;5.1. 회원이 본 약관을 위반한 경우, 본 서비스는 사전 통지
-                없이 회원의 계정을 일시 정지하거나 해지할 수 있습니다. <br />
-                &nbsp;5.2. 회원은 언제든지 본 서비스에 요청하여 계정을 해지할 수
-                있습니다. <br /> <br />
-                6. **책임 제한** <br />
-                &nbsp;6.1. 본 서비스는 회원의 귀책사유로 인한 계정 사용 상의
-                문제에 대해 책임을 지지 않습니다. <br />
-                &nbsp;6.2. 본 서비스는 회원 간 또는 회원과 제 3자 간의 분쟁에
-                대해 관여하지 않으며, 이에 대한 책임을 지지 않습니다. <br />{" "}
-                <br />
-                7. **약관의 변경** <br />
-                &nbsp;7.1. 본 서비스는 필요 시 본 약관을 변경할 수 있으며,
-                변경된 약관은 회원에게 공지한 후 효력이 발생합니다. <br />
-                &nbsp;7.2. 회원이 변경된 약관에 동의하지 않을 경우, 회원은 계정
-                해지를 통해 이용 계약을 종료할 수 있습니다.
-              </TermsContent>
-            </TermsScrollableContent>
-            <TermsActions>
-              <div className="termAgree">
-                <TermsCheckbox
-                  type="checkbox"
-                  checked={isTermAccepted}
-                  onChange={handleCheckboxChange}
-                />
-                <TermsLabel>약관에 동의합니다.</TermsLabel>
-              </div>
-              <TermsButton
-                onClick={handleAgreeButtonClick}
-                disabled={!isTermAccepted}
-                isActive={isTermAccepted}
-              >
-                동의
-              </TermsButton>
-            </TermsActions>
-          </TermsForm>
-        </TermImgDiv>
-      </InputDiv>
-      <Empty />
-      {kakaoProp ? (
-        <ButtonDiv>
-          <SignupButton
-            isActive={
-              rrnFirstPart &&
-              rrnSecondPart &&
-              isTermAccepted
-            }
-            onClick={kakaoBtnOnClickHandler}
-          >
-            Credit Account
-          </SignupButton>
-        </ButtonDiv>
-      ) : (
-        <ButtonDiv>
-          <SignupButton
-            isActive={
-              isEmail &&
-              isCode &&
-              isPwd &&
-              isPwdCheack &&
-              rrnFirstPart &&
-              rrnSecondPart &&
-              inputName &&
-              isTermAccepted
-            }
-            onClick={signupBtnOnclickHandler}
-          >
-            Credit Account
-          </SignupButton>
-        </ButtonDiv>
-      )}
-      </LoginWrapping>
+                {modalContent}
+              </Modal>
+              <InputDiv>
+                {!kakaoProp && (
+                  <>
+                    <InputDetailDiv>
+                      <input
+                        className="InputEmail"
+                        value={inputEmail}
+                        onChange={onChangeEmail}
+                        placeholder="Email Address"
+                      />
+                      <Empty></Empty>
+                      <EmailAthouized
+                        isActive={isId}
+                        onClick={emailCertificationBtnHandler}
+                      >
+                        Send
+                      </EmailAthouized>
+                    </InputDetailDiv>
+                    {inputEmail && (
+                      <Message isCorrect={isId}>{idMessage}</Message>
+                    )}
+                  </>
+                )}
+                {isEmailSent && (
+                  <InputDetailDiv>
+                    <input
+                      className="InputCode"
+                      value={saveCertificationCode}
+                      placeholder="Email Code"
+                      onChange={(e) => {
+                        setSaveCertificationCode(e.target.value);
+                      }}
+                    />
+                    <Empty></Empty>
+                    <EmailAthouized
+                      isActive={isEmailSent}
+                      onClick={emailCertificationCodeOnClick}
+                    >
+                      확인
+                    </EmailAthouized>
+                  </InputDetailDiv>
+                )}
+                {!kakaoProp && (
+                  <>
+                    <InputDetailDiv>
+                      <input
+                        type="password"
+                        placeholder="Password"
+                        className="InputClass"
+                        value={inputPwd}
+                        onChange={onChangePw}
+                      />
+                    </InputDetailDiv>
+                    {inputPwd && (
+                      <Message isCorrect={isPwd}>{pwdMessage}</Message>
+                    )}
+                  </>
+                )}
+                {!kakaoProp && (
+                  <>
+                    <InputDetailDiv>
+                      <input
+                        type="password"
+                        placeholder="Password Check"
+                        className="InputClass"
+                        value={inputPwdCheck}
+                        onChange={onCheckPw}
+                      />
+                    </InputDetailDiv>
+                    {inputPwdCheck && (
+                      <Message isCorrect={isPwdCheack}>
+                        {pwdCheckMessage}
+                      </Message>
+                    )}
+                  </>
+                )}
+                {!kakaoProp && (
+                  <InputDetailDiv>
+                    <input
+                      className="InputClass"
+                      placeholder="Full Name"
+                      value={inputName}
+                      onChange={handleInputName}
+                    />
+                  </InputDetailDiv>
+                )}
+                <InputDetailDiv>
+                  <RegisterationInput1
+                    pattern="[0~9]+"
+                    value={rrnFirstPart}
+                    placeholder="Social"
+                    onChange={handleRrnFirstPartChange}
+                  />
+                  <Text> - </Text>
+                  <RegisterationInput2
+                    pattern="[0~9]+"
+                    value={rrnSecondPart}
+                    placeholder="Security Number"
+                    onChange={handleRrnSecondPartChange}
+                  />
+                </InputDetailDiv>
+                <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
+                <InputDetailDiv2>
+                  <TermsText>View Terms</TermsText>
+                  <Empty />
+                  <div className="lookBtn">
+                    <EmailAthouized
+                      isActive={true}
+                      onClick={handleTermLookBtnClick}
+                    >
+                      Check
+                    </EmailAthouized>
+                  </div>
+                </InputDetailDiv2>
+                <TermImgDiv isOpen={isTermClickBtn}>
+                  <TermsForm>
+                    <TermsTitle>계정 사용에 관한 약관</TermsTitle>
+                    <TermsScrollableContent>
+                      <TermsContent>
+                        1. **계정 생성 및 관리** <br />
+                        &nbsp;1.1. 회원은 본 약관에 동의하고, 본 서비스에서
+                        제공하는 절차에 따라 회원가입을 완료해야 합니다. <br />
+                        &nbsp;1.2. 회원은 본인의 이메일 주소를 사용하여 하나의
+                        계정만을 생성할 수 있습니다. <br />
+                        &nbsp;1.3. 회원은 본인의 계정 정보를 타인과 공유하거나
+                        양도할 수 없습니다. <br /> <br />
+                        2. **회원 정보의 정확성** <br />
+                        &nbsp;2.1. 회원은 회원가입 시 제공한 정보가 정확하고
+                        최신 정보임을 보장해야 합니다. <br />
+                        &nbsp;2.2. 회원정보가 변경된 경우, 회원은 즉시 본
+                        서비스에 이를 업데이트해야 합니다. <br /> <br />
+                        3. **계정 보안** <br />
+                        &nbsp;3.1. 회원은 본인의 계정 비밀번호를 안전하게
+                        관리해야 하며, 비밀번호 유출로 인한 모든 책임은 회원에게
+                        있습니다. <br />
+                        &nbsp;3.2. 회원은 계정의 무단 사용을 인지한 경우 즉시 본
+                        서비스에 이를 통보해야 합니다. <br /> <br />
+                        4. **서비스 이용** <br />
+                        &nbsp;4.1. 회원은 본 서비스를 법령 및 본 약관에 따라
+                        이용해야 합니다.
+                        <br />
+                        &nbsp;4.2. 회원은 본 서비스를 이용하여 불법 행위, 타인의
+                        권리를 침해하는 행위를 해서는 안 됩니다. <br /> <br />
+                        5. **계정 정지 및 해지** <br />
+                        &nbsp;5.1. 회원이 본 약관을 위반한 경우, 본 서비스는
+                        사전 통지 없이 회원의 계정을 일시 정지하거나 해지할 수
+                        있습니다. <br />
+                        &nbsp;5.2. 회원은 언제든지 본 서비스에 요청하여 계정을
+                        해지할 수 있습니다. <br /> <br />
+                        6. **책임 제한** <br />
+                        &nbsp;6.1. 본 서비스는 회원의 귀책사유로 인한 계정 사용
+                        상의 문제에 대해 책임을 지지 않습니다. <br />
+                        &nbsp;6.2. 본 서비스는 회원 간 또는 회원과 제 3자 간의
+                        분쟁에 대해 관여하지 않으며, 이에 대한 책임을 지지
+                        않습니다. <br /> <br />
+                        7. **약관의 변경** <br />
+                        &nbsp;7.1. 본 서비스는 필요 시 본 약관을 변경할 수
+                        있으며, 변경된 약관은 회원에게 공지한 후 효력이
+                        발생합니다. <br />
+                        &nbsp;7.2. 회원이 변경된 약관에 동의하지 않을 경우,
+                        회원은 계정 해지를 통해 이용 계약을 종료할 수 있습니다.
+                      </TermsContent>
+                    </TermsScrollableContent>
+                    <TermsActions>
+                      <div className="termAgree">
+                        <TermsCheckbox
+                          type="checkbox"
+                          checked={isTermAccepted}
+                          onChange={handleCheckboxChange}
+                        />
+                        <TermsLabel>약관에 동의합니다.</TermsLabel>
+                      </div>
+                      <TermsButton
+                        onClick={handleAgreeButtonClick}
+                        disabled={!isTermAccepted}
+                        isActive={isTermAccepted}
+                      >
+                        동의
+                      </TermsButton>
+                    </TermsActions>
+                  </TermsForm>
+                </TermImgDiv>
+              </InputDiv>
+              <Empty />
+              {kakaoProp ? (
+                <ButtonDiv>
+                  <SignupButton
+                    isActive={isRrnValid && isTermAccepted}
+                    onClick={kakaoBtnOnClickHandler}
+                  >
+                    Credit Account
+                  </SignupButton>
+                </ButtonDiv>
+              ) : (
+                <ButtonDiv>
+                  <SignupButton
+                    isActive={
+                      isEmail &&
+                      isCode &&
+                      isPwd &&
+                      isPwdCheack &&
+                      isRrnValid &&
+                      inputName &&
+                      isTermAccepted
+                    }
+                    onClick={signupBtnOnclickHandler}
+                  >
+                    Credit Account
+                  </SignupButton>
+                </ButtonDiv>
+              )}
+            </LoginWrapping>
           </Rectangle>
         </OverlapGroup>
       </OverlapGroupWrapper>

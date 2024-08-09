@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import Modal from "../../common/utils/ImageModal";
 import findpwdImg from "../../img/loginImg/패스워드찾기.gif";
-
 const InputDiv = styled.div`
   width: 100%;
   height: 70%;
@@ -31,13 +30,12 @@ const FindButtonDiv = styled.div`
 const FindButton = styled.div`
   width: 200px;
   height: 50%;
-  background-color: ${({ isActive }) =>
-    isActive ? "rgba(99, 56, 255, 0.4)" : "#fff"};
+  background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
   font-size: 25px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-style: italic;
-  color: #5A3092;
+  color: ${({ isActive }) => (isActive ? "#fff" : "#5a3092")};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,7 +43,7 @@ const FindButton = styled.div`
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
     background-color: ${({ isActive }) =>
-      isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
+      isActive ? "#105D38" : "rgba(0, 0, 0, 0.1)"};
   }
 `;
 const InputDetailDiv = styled.div`
@@ -68,67 +66,15 @@ const InputDetailDiv = styled.div`
     padding-left: 10px;
     font-weight: 600;
     &::placeholder {
-    text-align: center;
-    font-size: 2.5vh;
-    color: #5A3092;
-    opacity: 0.5;
-    font-weight: normal;
-    font-style: italic;
+      text-align: center;
+      font-size: 2.5vh;
+      color: #5a3092;
+      opacity: 0.5;
+      font-weight: normal;
+      font-style: italic;
     }
-  };
-`;
-
-const RegisterationInput1 = styled.input`
-  width: 40%;
-  height: 70%;
-  border-radius: 0.521vw;
-  border: 1px solid #000;
-  outline: none;
-  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 5px;
-  font-size: 3vh;
-  padding-left: 10px;
-  font-weight: 600;
-  &::placeholder {
-    text-align: center;
-    font-size: 2.5vh;
-    color: #5A3092;
-    opacity: 0.5;
-    font-weight: normal;
-    font-style: italic;
   }
 `;
-const Text = styled.div`
-  width: 3%;
-  height: 70%;
-  font-weight: bolder;
-  font-size: 15px;
-  color: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const RegisterationInput2 = styled.input`
-  width: 47%;
-  height: 70%;
-  border-radius: 0.521vw;
-  border: 1px solid #000;
-  outline: none;
-  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 5px;
-  font-size: 3vh;
-  padding-left: 10px;
-  font-weight: 600;
-  &::placeholder {
-    text-align: center;
-    font-size: 2.5vh;
-    color: #5A3092;
-    opacity: 0.5;
-    font-weight: normal;
-    font-style: italic;
-  }
-`;
-
 const Message = styled.div`
   width: 100%;
   font-size: 15px;
@@ -144,22 +90,23 @@ const FindByPwdWarp = styled.div`
   align-items: center;
 `;
 const FindPwdText = styled.div`
-  width:100%;
+  width: 100%;
   height: 40%;
   font-size: 55px;
-  color:#fff;  
+  color: #fff;
   font-weight: bold;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 `;
 const FindPwdTextDetail = styled.div`
-  width:100%;
+  width: 100%;
   height: 20%;
-  color:#fff;  
-  font-size:22px;
+  color: #fff;
+  font-size: 22px;
   font-weight: 600;
 `;
 const FindPwdWarp = styled.div`
-  width:80%;
+  width: 80%;
   height: 65%;
   display: flex;
   flex-direction: column;
@@ -167,24 +114,24 @@ const FindPwdWarp = styled.div`
   align-items: center;
 `;
 const FindByPwd = styled.div`
-  width:100%;
+  width: 100%;
   height: 20%;
   font-size: 20px;
-  color:#fff;
+  color: #fff;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   cursor: pointer;
-  &:hover{
-    color:#367EE9;
+  &:hover {
+    color: #367ee9;
     font-size: 21px;
   }
 `;
 const GoToLoginPage = styled.div`
-  width:80%;
-  height:100%;
+  width: 80%;
+  height: 100%;
   margin-right: 20px;
-  &>.remember{
+  & > .remember {
     width: 100%;
     height: 40%;
     display: flex;
@@ -192,41 +139,39 @@ const GoToLoginPage = styled.div`
     align-items: end;
     font-size: 20px;
   }
-  &>.backToLogin{
+  & > .backToLogin {
     width: 100%;
     height: 60%;
     display: flex;
     justify-content: end;
     align-items: first baseline;
     font-weight: 600;
-    font-size:35px;
+    font-size: 35px;
     cursor: pointer;
-    &:hover{
-      color:#367EE9;
+    &:hover {
+      color: #367ee9;
       font-size: 36px;
     }
   }
 `;
 const NavigateDiv = styled.div`
-  width:100%;
+  width: 100%;
   height: 80%;
   display: flex;
 `;
 const ResetPassword = () => {
-  const [inputEmail, setInputEmail] = useState("");
-  const [isId, setIsId] = useState("");
-  const [name, setName] = useState("");
+  // 키보드 입력
+  const [inputPwd, setInputPwd] = useState("");
+  const [inputPwdCheck, setInputPwdCheck] = useState("");
+  // 유효성 확인
+  const [isPwd, setIsPwd] = useState("");
+  const [isPwdCheack, setIsPwdCheck] = useState("");
   // 에러 메세지
-  const [idMessage, setIdMessage] = useState("");
-  //주민등록번호 표현 상태 변수
-  const [rrnFirstPart, setRrnFirstPart] = useState("");
-  const [rrnSecondPart, setRrnSecondPart] = useState("");
-  // 유효한 주민등록번호인지 확인
-  const [isRrnValid, setIsRrnValid] = useState(false);
-  //주민등록번호 메세지
-  const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
-  // 찾은 결과 ID값 저장
-  const [pwd, setPwd] = useState("");
+  const [pwdMessage, setPwMessage] = useState("");
+  //비밀번호 확인 메세지
+  const [pwdCheckMessage, setPwdCheckMessage] = useState("");
+  // 수정 결과 상태 값 저장
+  const [isUpdate, setIsUpdate] = useState(false);
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   // 모달 해더
   const [headerContents, SetHeaderContents] = useState("");
@@ -234,11 +179,13 @@ const ResetPassword = () => {
   const [modalContent, setModalContent] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+  const location = useLocation();
+  const { email } = location.state || {};
   const navigate = useNavigate();
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
     closeModal();
-    if (pwd !== "") {
+    if (isUpdate) {
       navigate("/login");
     }
   };
@@ -246,96 +193,54 @@ const ResetPassword = () => {
     setModalOpen(false);
   };
 
-  const findPwdOnclickHandler = () => {
-    findIdAxios();
+  const updataPwdOnclickHandler = () => {
+    if (isPwd && isPwdCheack) {
+      updataPwdAxios();
+    }
   };
-  //주민등록번호 따로 받은 자리 합치는 함수
-  const combineRRN = (firstPart, secondPart) => {
-    // 문자열을 숫자로 변환
-    const firstNum = parseInt(firstPart, 10);
-    const secondNum = parseInt(secondPart, 10);
-
-    // 계산 수행
-    return firstNum * 10 + secondNum;
-  };
-  // 아이디찾기 버튼 이벤트 및 결과 출력
-  const findIdAxios = async () => {
-    const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
+  // 비밀번호 수정 Axios
+  const updataPwdAxios = async () => {
     try {
-      const showUserPwd = await LoginAxios.findPwdResult(
-        inputEmail,
-        name,
-        combinedRnn
-      );
-      SetHeaderContents("비밀번호 확인");
-      setModalOpen(true);
-      if (showUserPwd.data === "") {
-        setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
+      console.log(email);
+      SetHeaderContents("비밀번호 수정");
+      const res = await LoginAxios.updatePwd(email, inputPwdCheck);
+      if (res.data === "Success") {
+        setModalOpen(true);
+        setModalContent("수정이 완료되었습니다.");
+        setIsUpdate(true);
       } else {
-        setModalContent(`임시 비밀번호: ${showUserPwd.data} 입니다.`);
-        setPwd(showUserPwd.data);
+        setModalOpen(true);
+        setModalContent("수정되지 않았습니다.");
+        setIsUpdate(false);
       }
-      // console.log(showEmail);
     } catch (error) {
       console.log(error);
     }
   };
-
-  const onChangeEmail = (e) => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    setInputEmail(e.target.value);
-    if (!emailRegex.test(e.target.value)) {
-      setIdMessage("이메일 형식이 올바르지 않습니다.");
-      setIsId(false);
+  // 비밀번호 8자리 이상.
+  const onChangePw = (e) => {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+    const passwordCurrent = e.target.value;
+    setInputPwd(passwordCurrent);
+    if (!passwordRegex.test(passwordCurrent)) {
+      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
+      setIsPwd(false);
     } else {
-      setIdMessage("올바른 형식 입니다.");
-      setIsId(true);
+      setPwMessage("안전한 비밀번호입니다.)");
+      setIsPwd(true);
     }
   };
-  //주민등록번호 앞 6자리 숫자 유효성검사
-  const handleRrnFirstPartChange = (e) => {
-    const inputValue = e.target.value;
-
-    if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
-      setRrnFirstPart(inputValue);
-    }
-
-    // 유효성 검사 로직 추가
-    if (inputValue.length === 6 && rrnSecondPart.length === 1) {
-      setIsRrnValid(true);
-      setIsRrnValidMessage("유효합니다.");
+  // 비밀번호 일치 확인
+  const onCheckPw = (e) => {
+    const passwordInput = e.target.value;
+    setInputPwdCheck(passwordInput);
+    if (passwordInput !== inputPwd) {
+      setPwdCheckMessage("일치하지 않습니다.");
+      setIsPwdCheck(false);
     } else {
-      setIsRrnValid(false);
-      setIsRrnValidMessage("값이 유효하지 않습니다.");
+      setPwdCheckMessage("일치합니다.");
+      setIsPwdCheck(true);
     }
-
-    if (inputValue === "" && rrnSecondPart === "") {
-      setIsRrnValidMessage("");
-    }
-  };
-  //주민등록번호 뒤 1자리 숫자 유효성검사
-  const handleRrnSecondPartChange = (e) => {
-    const inputValue = e.target.value;
-
-    if (/^[1-4]{0,1}$/.test(inputValue) && inputValue.length <= 1) {
-      setRrnSecondPart(inputValue);
-    }
-
-    // 유효성 검사 로직 추가
-    if (rrnFirstPart.length === 6 && inputValue.length === 1) {
-      setIsRrnValid(true);
-      setIsRrnValidMessage("유효합니다.");
-    } else {
-      setIsRrnValid(false);
-      setIsRrnValidMessage("값이 유효하지 않습니다.");
-    }
-
-    if (inputValue === "" && rrnFirstPart === "") {
-      setIsRrnValidMessage("");
-    }
-  };
-  const onChangeName = (e) => {
-    setName(e.target.value);
   };
   return (
     <FindByPwdWarp>
@@ -349,53 +254,69 @@ const ResetPassword = () => {
         {modalContent}
       </Modal>
       <FindPwdWarp>
-      <InputDiv>
-      <FindPwdText>Forgot<br/> Password?</FindPwdText>
-      <FindPwdTextDetail>Don't warry. we can help.</FindPwdTextDetail>
-        <>
-          <InputDetailDiv>
-            <input
-              className="InputClass"
-              type="text"
-              placeholder="Email ID"
-              onChange={onChangeEmail}
-            />
-          </InputDetailDiv>
-          
-          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-        </>
-        <InputDetailDiv>
-          <input className="InputClass" placeholder="Full Name" onChange={onChangeName} />
-        </InputDetailDiv>
-        <>
-          <InputDetailDiv>
-          <RegisterationInput1
-              placeholder="Social"
-              value={rrnFirstPart}
-              onChange={handleRrnFirstPartChange}
-            />
-            <Text> - </Text>
-            <RegisterationInput2
-              placeholder="Security Number" 
-              value={rrnSecondPart}
-              onChange={handleRrnSecondPartChange}
-            />
-          </InputDetailDiv>
-          <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
-        </>
-      </InputDiv>
-      <ButtonDiv>
-      <FindByPwd onClick={()=>{navigate("/findbyemail")}}>I can't remember My login ID.</FindByPwd>
-        <NavigateDiv>
-        <GoToLoginPage>
-          <div className="remember">Remembered your password?</div>
-          <div className="backToLogin" onClick={()=>{navigate("/login")}}>Back to Login</div>
-      </GoToLoginPage>
-      <FindButtonDiv>
-        <FindButton onClick={findPwdOnclickHandler}>Complete</FindButton>
-        </FindButtonDiv>
-        </NavigateDiv>
-      </ButtonDiv>
+        <InputDiv>
+          <FindPwdText>
+            Forgot
+            <br /> Password?
+          </FindPwdText>
+          <FindPwdTextDetail>Don't warry. we can help.</FindPwdTextDetail>
+          <>
+            <InputDetailDiv>
+              <input
+                type="password"
+                placeholder="Password"
+                className="InputClass"
+                value={inputPwd}
+                onChange={onChangePw}
+              />
+            </InputDetailDiv>
+            {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
+          </>
+          <>
+            <InputDetailDiv>
+              <input
+                type="password"
+                placeholder="Password Check"
+                className="InputClass"
+                value={inputPwdCheck}
+                onChange={onCheckPw}
+              />
+            </InputDetailDiv>
+            {inputPwdCheck && (
+              <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
+            )}
+          </>
+        </InputDiv>
+        <ButtonDiv>
+          <FindByPwd
+            onClick={() => {
+              navigate("/findbyemail");
+            }}
+          >
+            I can't remember My login ID.
+          </FindByPwd>
+          <NavigateDiv>
+            <GoToLoginPage>
+              <div className="remember">Remembered your password?</div>
+              <div
+                className="backToLogin"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Back to Login
+              </div>
+            </GoToLoginPage>
+            <FindButtonDiv>
+              <FindButton
+                isActive={isPwd && isPwdCheack}
+                onClick={updataPwdOnclickHandler}
+              >
+                Complete
+              </FindButton>
+            </FindButtonDiv>
+          </NavigateDiv>
+        </ButtonDiv>
       </FindPwdWarp>
     </FindByPwdWarp>
   );
