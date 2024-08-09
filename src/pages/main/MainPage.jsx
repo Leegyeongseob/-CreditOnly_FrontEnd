@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import Ad1 from "../../img/error/400error.png";
-import Ad2 from "../../img/error/401error.png";
-import Ad3 from "../../img/error/403error.png";
-import Ad4 from "../../img/error/500error.png";
+import Ad1 from "../../img/mainImg/Ad1.png";
+import Ad2 from "../../img/mainImg/Ad2.png";
+import Ad3 from "../../img/mainImg/Ad3.png";
+import Ad4 from "../../img/mainImg/Ad4.png";
+import Ad5 from "../../img/mainImg/Ad5.png";
 import Logo from "../../img//background/CreditOnlyLogo.png";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,6 +11,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -35,7 +37,6 @@ const TopSide = styled.div`
 const Adbanner = styled.div`
   width: 58.6%;
   height: 92%;
-  background-color: #f9f9fd;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -55,8 +56,8 @@ const StyledSwiper = styled(Swiper)`
   }
   .swiper-pagination-bullet {
     background: #8290ee; // 페이지네이션 점 색상 변경
-    width: 0.5vw;
-    height: 1vh;
+    width: 9px;
+    height: 9px;
     &:hover {
       opacity: 0.7;
     }
@@ -83,9 +84,27 @@ const Slide = styled(SwiperSlide)`
   border-radius: 10px;
   background-color: #f9f9fd;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+`;
+
+const SlideLink = styled(Link)`
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+`;
+
+const SlideLink2 = styled.a`
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 `;
 
 const CreditInfo = styled.div`
@@ -159,10 +178,24 @@ const MainPage = () => {
             autoplay={{ delay: 5000 }}
             modules={[Navigation, Pagination, Autoplay]}
           >
-            <Slide imageurl={Ad1} />
-            <Slide imageurl={Ad2} />
-            <Slide imageurl={Ad3} />
-            <Slide imageurl={Ad4} />
+            <Slide imageurl={Ad1}>
+              <SlideLink to="/mainpage" />
+            </Slide>
+            <Slide imageurl={Ad2}>
+              <SlideLink to="/evaluation" />
+            </Slide>
+            <Slide imageurl={Ad3}>
+              <SlideLink to="/chat" />
+            </Slide>
+            <Slide imageurl={Ad4}>
+              <SlideLink2
+                href="https://www.palette-couple.store"
+                target="_blank"
+              />
+            </Slide>
+            <Slide imageurl={Ad5}>
+              <SlideLink to="/information" />
+            </Slide>
           </StyledSwiper>
         </Adbanner>
         <CreditInfo imageurl={Logo}>신용점수</CreditInfo>
