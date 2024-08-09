@@ -47,7 +47,7 @@ const InputDiv = styled.input`
 `;
 const Message = styled.div`
   width: 100%;
-  font-size: 12px;
+  font-size: 15px;
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
@@ -367,7 +367,7 @@ const LoginPage = () => {
          Common.setRefreshToken(response.data.refreshToken);
          sessionStorage.setItem("email", email);
  
-         navigate(`/main-page`);
+         navigate(`/mainpage`);
        } else {
          setModalOpen(true);
          setIsModalImg(false);
@@ -453,7 +453,7 @@ const LoginPage = () => {
            console.log(resCoupleName.data);
            // `coupleName`을 `sessionStorage`에 저장합니다.
            sessionStorage.setItem("coupleName", resCoupleName.data);
-           navigate(`/main-page`);
+           navigate(`/mainpage`);
          };
          coupleNameSearchAxios(propsToPass.kakaoEmail);
        }
@@ -461,7 +461,7 @@ const LoginPage = () => {
        else {
          console.log("else문까지는 와요!");
          console.log("Navigating to sign-up page with props:", propsToPass);
-         navigate(`/signup-page`, { state: propsToPass });
+         navigate(`/signup`, { state: propsToPass });
        }
      } catch (error) {
        console.error("Error during Kakao login:", error);

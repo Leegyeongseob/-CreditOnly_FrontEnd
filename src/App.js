@@ -19,7 +19,7 @@ import RendingPage from "./pages/main/RendingPage";
 import Evaluation from "./pages/evaluation/Evaluation";
 import Announcement from "./pages/announcement/AnnouncementMain";
 import ChatBot from "./pages/help/ChatBot";
-
+import ResetPassword from "./pages/login/ResetPassword";
 const App = () => {
   return (
     <>
@@ -46,6 +46,8 @@ const App = () => {
           <Route element={<FindByForm />}>
             <Route path="/findbyemail" element={<FindEmail />} />
             <Route path="/findbypwd" element={<FindPassword />} />
+            <Route path="/resetpwd" element={<ResetPassword />} />
+
           </Route>
           {/* <Route element={<OpenBook />}>
             <Route path="/board-guestbook" element={<GuestBoardGuestbook />} />

@@ -6,17 +6,13 @@ const LoginAxios = {
     email,
     pwd,
     name,
-    registrationNumber,
-    nickName,
-    coupleName
+    registrationNumber
   ) => {
     const member = {
       email: email,
       pwd: pwd,
       name: name,
-      registrationNumber: registrationNumber,
-      nickName: nickName,
-      coupleName: coupleName,
+      registrationNumber: registrationNumber
     };
     return await axios.post(Common.PALLETE_DOMAIN + "/auth/signup", member);
   },

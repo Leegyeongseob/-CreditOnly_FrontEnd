@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import emailjs from "emailjs-com";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import Modal from "../../common/utils/ImageModal";
 import findpwdImg from "../../img/loginImg/패스워드찾기.gif";
@@ -76,6 +77,26 @@ const InputDetailDiv = styled.div`
     font-style: italic;
     }
   };
+  & > .InputEmail{
+    width: 76%;
+    height: 70%;
+    border-radius: 0.521vw;
+    border: 1px solid #000;
+    outline: none;
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+    padding-left: 5px;
+    font-size: 3vh;
+    padding-left: 10px;
+    font-weight: 600;
+    &::placeholder {
+    text-align: center;
+    font-size: 2.5vh;
+    color: #5A3092;
+    opacity: 0.5;
+    font-weight: normal;
+    font-style: italic;
+  }
+  };
 `;
 
 const RegisterationInput1 = styled.input`
@@ -131,7 +152,7 @@ const RegisterationInput2 = styled.input`
 
 const Message = styled.div`
   width: 100%;
-  font-size: 12px;
+  font-size: 15px;
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
@@ -212,6 +233,33 @@ const NavigateDiv = styled.div`
   height: 80%;
   display: flex;
 `;
+const Empty = styled.div`
+  width: 2%;
+  height: 2vh;
+`;
+const EmailAthouized = styled.div`
+  width: 12%;
+  height: 70%;
+  border-radius: 10px;
+  border: none;
+  background-color: ${({ isActive }) =>
+    isActive ? "#367EE9" : "#fff"};
+  outline: none;
+  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 17px;
+  color: ${({ isActive }) => (isActive ? "#fff" : "#5b3092a9")};
+  font-weight: 600;
+  cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
+  &:hover {
+    background-color: ${({ isActive }) =>
+      isActive ? "#fff" : "#88ff9c"};
+        color: ${({ isActive }) => (isActive ? "#5b3092a9" : "#fff")};
+
+  }
+`;
 const FindPassword = () => {
   const [inputEmail, setInputEmail] = useState("");
   const [isId, setIsId] = useState("");
@@ -234,6 +282,10 @@ const FindPassword = () => {
   const [modalContent, setModalContent] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  const [isCode, setIsCode] = useState(false);
+  const [saveCertificationCode, setSaveCertificationCode] = useState(null);
+
   const navigate = useNavigate();
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
@@ -277,39 +329,7 @@ const FindPassword = () => {
       }
       // console.log(showEmail);
     } catch (error) {
-      if (error.response) {
-        // 서버가 응답했지만 상태 코드가 2xx 범위를 벗어나는 경우
-        switch (error.response.status) {
-          case 400:
-            setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
-            break;
-          case 401:
-            setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
-            console.log();
-            break;
-          case 403:
-            setModalContent("접근 권한이 없습니다.");
-            break;
-          case 404:
-            setModalContent("서버를 찾을 수 없습니다.");
-            break;
-          case 500:
-            setModalContent(
-              "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-            );
-            break;
-          default:
-            setModalContent(
-              `오류가 발생했습니다: ${error.response.statusText}`
-            );
-        }
-      } else if (error.request) {
-        // 요청이 서버에 도달하지 못한 경우 (네트워크 오류 등)
-        setModalContent("서버가 응답하지 않습니다.");
-      } else {
-        // 요청을 설정하는 중에 오류가 발생한 경우
-        setModalContent(`오류가 발생했습니다: ${error.message}`);
-      }
+      console.log(error);
     }
   };
 
@@ -369,6 +389,50 @@ const FindPassword = () => {
   const onChangeName = (e) => {
     setName(e.target.value);
   };
+  // 이메일 인증 버튼 handler
+  const emailCertificationBtnHandler = () => {
+    if (isId) {
+      sendVerificationEmail(inputEmail);
+    }
+  };
+  // 이메일 전송시 파라미터 넘기는 함수
+  const sendVerificationEmail = async (toEmail) => {
+    const certificationCode = Math.floor(Math.random() * 900000) + 100000; // 100000부터 999999까지의 난수 발생
+    setSaveCertificationCode(certificationCode);
+    // 이메일 보내기
+    // 여기서 정의해야 하는 것은 위에서 만든 메일 템플릿에 지정한 변수({{ }})에 대한 값을 담아줘야 한다.
+    const templateParams = {
+      toEmail: toEmail, // 수신 이메일
+      toName: "고객님",
+      certificationCode: certificationCode,
+    };
+    try {
+      const response = await emailjs.send(
+        "service_7cipsqb", // 서비스 ID
+        "service_7cipsqb", // 템플릿 ID
+        templateParams,
+        "VKzT47hXDU3sC3R13" // public-key
+      );
+      console.log("이메일이 성공적으로 보내졌습니다:", response);
+      setIdMessage("이메일이 성공적으로 보내졌습니다!");
+      setIsId(true);
+      setIsEmailSent(true);
+      // 이메일 전송 성공 처리 로직 추가
+    } catch (error) {
+      console.error("이메일 보내기 실패:", error);
+      setIdMessage("이메일 보내기 실패했습니다!");
+      setIsId(false);
+      setIsEmailSent(false);
+      // 이메일 전송 실패 처리 로직 추가
+    }
+  };
+  // 코드 확인 버튼 이벤트
+  const emailCertificationCodeOnClick = () => {
+    SetHeaderContents("인증코드확인");
+    setModalOpen(true);
+    setModalContent("확인되었습니다.");
+    setIsCode(true);
+  };
   return (
     <FindByPwdWarp>
       <Modal
@@ -386,16 +450,41 @@ const FindPassword = () => {
       <FindPwdTextDetail>Don't warry. we can help.</FindPwdTextDetail>
         <>
           <InputDetailDiv>
-            <input
-              className="InputClass"
-              type="text"
-              placeholder="Email ID"
-              onChange={onChangeEmail}
-            />
+          <input
+                className="InputEmail"
+                value={inputEmail}
+                onChange={onChangeEmail}
+                placeholder="Email Address"
+              />
+              <Empty></Empty>
+              <EmailAthouized
+                isActive={isId}
+                onClick={emailCertificationBtnHandler}
+              >
+                Send
+              </EmailAthouized>
           </InputDetailDiv>
-          
           {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
         </>
+        {isEmailSent && (
+          <InputDetailDiv>
+            <input
+              className="InputCode"
+              value={saveCertificationCode}
+              placeholder="Email Code"
+              onChange={(e) => {
+                setSaveCertificationCode(e.target.value);
+              }}
+            />
+            <Empty></Empty>
+            <EmailAthouized
+              isActive={isEmailSent}
+              onClick={emailCertificationCodeOnClick}
+            >
+              확인
+            </EmailAthouized>
+          </InputDetailDiv>
+        )}
         <InputDetailDiv>
           <input className="InputClass" placeholder="Full Name" onChange={onChangeName} />
         </InputDetailDiv>

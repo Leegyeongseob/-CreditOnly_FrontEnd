@@ -114,7 +114,7 @@ const FindByForm = () => {
       <LogoDiv>
       <SinLogo onClick={onClickLogo} />
       </LogoDiv>
-      {location.pathname === "/findbypwd" ? ( // 경로에 따라 조건부 렌더링
+      {location.pathname === "/findbypwd" || location.pathname === "/resetpwd"  ? ( // 경로에 따라 조건부 렌더링
         <PwTextBox>
           <PwText>비밀번호 찾기</PwText>
           <PwDetail>

@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import Modal from "../../common/utils/ImageModal";
-import findIdImg from "../../img/loginImg/아이디찾기.gif";
+import findpwdImg from "../../img/loginImg/패스워드찾기.gif";
 
 const InputDiv = styled.div`
   width: 100%;
-  height: 60%;
+  height: 70%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -74,8 +74,8 @@ const InputDetailDiv = styled.div`
     opacity: 0.5;
     font-weight: normal;
     font-style: italic;
-  }
-  }
+    }
+  };
 `;
 
 const RegisterationInput1 = styled.input`
@@ -136,14 +136,14 @@ const Message = styled.div`
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
 `;
-const FindByEmailWarp = styled.div`
+const FindByPwdWarp = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-const FindEmailText = styled.div`
+const FindPwdText = styled.div`
   width:100%;
   height: 40%;
   font-size: 55px;
@@ -151,14 +151,14 @@ const FindEmailText = styled.div`
   font-weight: bold;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 `;
-const FindEmailTextDetail = styled.div`
+const FindPwdTextDetail = styled.div`
   width:100%;
   height: 20%;
   color:#fff;  
   font-size:22px;
   font-weight: 600;
 `;
-const FindEmailWarp = styled.div`
+const FindPwdWarp = styled.div`
   width:80%;
   height: 65%;
   display: flex;
@@ -212,138 +212,164 @@ const NavigateDiv = styled.div`
   height: 80%;
   display: flex;
 `;
-const FindEmail = () => {
+const ResetPassword = () => {
+  const [inputEmail, setInputEmail] = useState("");
+  const [isId, setIsId] = useState("");
+  const [name, setName] = useState("");
+  // 에러 메세지
+  const [idMessage, setIdMessage] = useState("");
+  //주민등록번호 표현 상태 변수
+  const [rrnFirstPart, setRrnFirstPart] = useState("");
+  const [rrnSecondPart, setRrnSecondPart] = useState("");
+  // 유효한 주민등록번호인지 확인
+  const [isRrnValid, setIsRrnValid] = useState(false);
+  //주민등록번호 메세지
+  const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
+  // 찾은 결과 ID값 저장
+  const [pwd, setPwd] = useState("");
+  // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
+  // 모달 해더
+  const [headerContents, SetHeaderContents] = useState("");
+  // 모달 내용
+  const [modalContent, setModalContent] = useState("");
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
+  //코드 모달 확인
+  const codeModalOkBtnHandler = () => {
+    closeModal();
+    if (pwd !== "") {
+      navigate("/login");
+    }
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
-    //주민등록번호 표현 상태 변수
-    const [rrnFirstPart, setRrnFirstPart] = useState("");
-    const [rrnSecondPart, setRrnSecondPart] = useState("");
-    // 유효한 주민등록번호인지 확인
-    const [isRrnValid, setIsRrnValid] = useState(false);
-    //주민등록번호 메세지
-    const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
-    // 이름값 저장
-    const [Name, setName] = useState("");
-  
-    // 찾은 결과 ID값 저장
-    const [email, setEmail] = useState("");
-    // 모달 해더
-    const [headerContents, SetHeaderContents] = useState("");
-    // 모달 내용
-    const [modalContent, setModalContent] = useState("");
-    //팝업 처리
-    const [modalOpen, setModalOpen] = useState(false);
-    //코드 모달 확인
-    const codeModalOkBtnHandler = () => {
-      closeModal();
-      if (email !== "") {
-        navigate("/login");
-      }
-    };
-    const closeModal = () => {
-      setModalOpen(false);
-    };
-    const findIdOnclickHandler = () => {
-      findIdAxios();
-    };
-    // 아이디찾기 버튼 이벤트 및 결과 출력
-    const findIdAxios = async () => {
-      const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
-      try {
-        const showUserId = await LoginAxios.findIdResult(Name, combinedRnn);
-        SetHeaderContents("아이디 확인");
-        setModalOpen(true);
-        if (showUserId.data === "") {
-          setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
-        } else {
-          setModalContent(`아이디: ${showUserId.data} 입니다.`);
-          setEmail(showUserId.data);
-        }
-        // console.log(showEmail);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  
-    // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
-    //주민등록번호 앞 6자리 숫자 유효성검사
-    const handleRrnFirstPartChange = (e) => {
-      const inputValue = e.target.value;
-  
-      if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
-        setRrnFirstPart(inputValue);
-      }
-  
-      // 유효성 검사 로직 추가
-      if (inputValue.length === 6 && rrnSecondPart.length === 1) {
-        setIsRrnValid(true);
-        setIsRrnValidMessage("유효합니다.");
-      } else {
-        setIsRrnValid(false);
-        setIsRrnValidMessage("값이 유효하지 않습니다.");
-      }
-  
-      if (inputValue === "" && rrnSecondPart === "") {
-        setIsRrnValidMessage("");
-      }
-    };
-    //주민등록번호 뒤 1자리 숫자 유효성검사
-    const handleRrnSecondPartChange = (e) => {
-      const inputValue = e.target.value;
-  
-      if (/^[1-4]{0,1}$/.test(inputValue) && inputValue.length <= 1) {
-        setRrnSecondPart(inputValue);
-      }
-  
-      // 유효성 검사 로직 추가
-      if (rrnFirstPart.length === 6 && inputValue.length === 1) {
-        setIsRrnValid(true);
-        setIsRrnValidMessage("유효합니다.");
-      } else {
-        setIsRrnValid(false);
-        setIsRrnValidMessage("값이 유효하지 않습니다.");
-      }
-  
-      if (inputValue === "" && rrnFirstPart === "") {
-        setIsRrnValidMessage("");
-      }
-    };
-    //주민등록번호 따로 받은 자리 합치는 함수
-    const combineRRN = (firstPart, secondPart) => {
-      // 문자열을 숫자로 변환
-      const firstNum = parseInt(firstPart, 10);
-      const secondNum = parseInt(secondPart, 10);
-  
-      // 계산 수행
-      return firstNum * 10 + secondNum;
-    };
-    // 이름 입력 함수
-    const nameInputOnChange = (e) => {
-      const name = e.target.value;
-      setName(name);
-    };
+  const findPwdOnclickHandler = () => {
+    findIdAxios();
+  };
+  //주민등록번호 따로 받은 자리 합치는 함수
+  const combineRRN = (firstPart, secondPart) => {
+    // 문자열을 숫자로 변환
+    const firstNum = parseInt(firstPart, 10);
+    const secondNum = parseInt(secondPart, 10);
 
+    // 계산 수행
+    return firstNum * 10 + secondNum;
+  };
+  // 아이디찾기 버튼 이벤트 및 결과 출력
+  const findIdAxios = async () => {
+    const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
+    try {
+      const showUserPwd = await LoginAxios.findPwdResult(
+        inputEmail,
+        name,
+        combinedRnn
+      );
+      SetHeaderContents("비밀번호 확인");
+      setModalOpen(true);
+      if (showUserPwd.data === "") {
+        setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
+      } else {
+        setModalContent(`임시 비밀번호: ${showUserPwd.data} 입니다.`);
+        setPwd(showUserPwd.data);
+      }
+      // console.log(showEmail);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onChangeEmail = (e) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    setInputEmail(e.target.value);
+    if (!emailRegex.test(e.target.value)) {
+      setIdMessage("이메일 형식이 올바르지 않습니다.");
+      setIsId(false);
+    } else {
+      setIdMessage("올바른 형식 입니다.");
+      setIsId(true);
+    }
+  };
+  //주민등록번호 앞 6자리 숫자 유효성검사
+  const handleRrnFirstPartChange = (e) => {
+    const inputValue = e.target.value;
+
+    if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
+      setRrnFirstPart(inputValue);
+    }
+
+    // 유효성 검사 로직 추가
+    if (inputValue.length === 6 && rrnSecondPart.length === 1) {
+      setIsRrnValid(true);
+      setIsRrnValidMessage("유효합니다.");
+    } else {
+      setIsRrnValid(false);
+      setIsRrnValidMessage("값이 유효하지 않습니다.");
+    }
+
+    if (inputValue === "" && rrnSecondPart === "") {
+      setIsRrnValidMessage("");
+    }
+  };
+  //주민등록번호 뒤 1자리 숫자 유효성검사
+  const handleRrnSecondPartChange = (e) => {
+    const inputValue = e.target.value;
+
+    if (/^[1-4]{0,1}$/.test(inputValue) && inputValue.length <= 1) {
+      setRrnSecondPart(inputValue);
+    }
+
+    // 유효성 검사 로직 추가
+    if (rrnFirstPart.length === 6 && inputValue.length === 1) {
+      setIsRrnValid(true);
+      setIsRrnValidMessage("유효합니다.");
+    } else {
+      setIsRrnValid(false);
+      setIsRrnValidMessage("값이 유효하지 않습니다.");
+    }
+
+    if (inputValue === "" && rrnFirstPart === "") {
+      setIsRrnValidMessage("");
+    }
+  };
+  const onChangeName = (e) => {
+    setName(e.target.value);
+  };
   return (
-    <FindByEmailWarp>
-         <Modal
+    <FindByPwdWarp>
+      <Modal
         open={modalOpen}
         header={headerContents}
         type={true}
         confirm={codeModalOkBtnHandler}
-        img={findIdImg}
+        img={findpwdImg}
       >
         {modalContent}
       </Modal>
-      <FindEmailWarp>
+      <FindPwdWarp>
       <InputDiv>
-      <FindEmailText>Forgot<br/> Email?</FindEmailText>
-      <FindEmailTextDetail>Don't warry. we can help.</FindEmailTextDetail>
+      <FindPwdText>Forgot<br/> Password?</FindPwdText>
+      <FindPwdTextDetail>Don't warry. we can help.</FindPwdTextDetail>
+        <>
+          <InputDetailDiv>
+            <input
+              className="InputClass"
+              type="text"
+              placeholder="Email ID"
+              onChange={onChangeEmail}
+            />
+          </InputDetailDiv>
+          
+          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+        </>
         <InputDetailDiv>
-          <input className="InputClass"   placeholder="Full Name" onChange={nameInputOnChange} />
+          <input className="InputClass" placeholder="Full Name" onChange={onChangeName} />
         </InputDetailDiv>
         <>
           <InputDetailDiv>
-            <RegisterationInput1
+          <RegisterationInput1
               placeholder="Social"
               value={rrnFirstPart}
               onChange={handleRrnFirstPartChange}
@@ -359,20 +385,19 @@ const FindEmail = () => {
         </>
       </InputDiv>
       <ButtonDiv>
-        <FindByPwd onClick={()=>{navigate("/findbypwd")}}>I can't remember My Password.</FindByPwd>
+      <FindByPwd onClick={()=>{navigate("/findbyemail")}}>I can't remember My login ID.</FindByPwd>
         <NavigateDiv>
         <GoToLoginPage>
-          <div className="remember">Remembered your login ID?</div>
+          <div className="remember">Remembered your password?</div>
           <div className="backToLogin" onClick={()=>{navigate("/login")}}>Back to Login</div>
-        </GoToLoginPage>
-        <FindButtonDiv>
-        <FindButton onClick={findIdOnclickHandler}>Continue</FindButton>
+      </GoToLoginPage>
+      <FindButtonDiv>
+        <FindButton onClick={findPwdOnclickHandler}>Complete</FindButton>
         </FindButtonDiv>
         </NavigateDiv>
       </ButtonDiv>
-      </FindEmailWarp>
-    </FindByEmailWarp>
+      </FindPwdWarp>
+    </FindByPwdWarp>
   );
 };
-
-export default FindEmail;
+export default ResetPassword;

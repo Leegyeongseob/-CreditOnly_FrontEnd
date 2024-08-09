@@ -6,60 +6,70 @@ import emailjs from "emailjs-com";
 import Modal from "../../common/utils/Modal";
 import Common from "../../common/Common";
 import termNote from "../../img/loginImg/findglass.png";
-import coupleMatching from "../../img/loginImg/findglass.png";
-
 const TitleDiv = styled.div`
   width: 100%;
-  height: 13%;
+  height: 23%;
   display: flex;
-  justify-content: center;
+  justify-content: first baseline;
   align-items: center;
-  font-size: 18px;
+  font-size: 40px;
   font-weight: 900;
-  color: #b44a4a;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #000;
 `;
 const InputDiv = styled.div`
   width: 100%;
-  height: 70%;
+  height: 60%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
 `;
-const JuminDiv = styled.div`
-  width: 100%;
-`;
 const InputDetailDiv = styled.div`
   width: 100%;
-  height: 32px;
+  height: 27%;
+  gap: 2px;
   display: flex;
-
-  & > label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 29%;
-    height: auto;
-    font-size: 14px;
-    color: #b44a4a;
-    text-align: center;
-    font-weight: bolder;
-  }
-  & > .InputClass,
-  & > .InputEmail,
-  & > .InputCoupleName,
-  & > .InputCode {
-    width: 50%;
+  justify-content: center;
+  align-items: center;
+  & > .InputClass
+   {
+    width: 100%;
     height: 70%;
-    border-radius: 0.521vw;
+    padding-left: 20px;
     border: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 0.21vh solid gray;
+    background-color: transparent;
+    font-size: 23px;
+    font-weight: bolder;
     outline: none;
-    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-    padding-left: 5px;
-    font-size: 14px;
-    font-weight: 600;
+    &::placeholder {
+    font-size: 2.5vh;
+    color: gray;
+    font-weight: normal;
+    font-style: italic;
+    opacity: 0.5;
   }
+  };
+  & > .InputEmail,
+  .InputCode{
+    width: 100%;
+    height: 70%;
+    padding-left: 20px;
+    border: none;
+    border-bottom: 0.21vh solid gray;
+    background-color: transparent;
+    font-size: 23px;
+    font-weight: bolder;
+    outline: none;
+    &::placeholder {
+    font-size: 2.5vh;
+    color: gray;
+    font-weight: normal;
+    font-style: italic;
+    opacity: 0.5;
+  }
+  };
 `;
 const Empty = styled.div`
   width: 2%;
@@ -71,115 +81,108 @@ const EmailAthouized = styled.div`
   border-radius: 10px;
   border: none;
   background-color: ${({ isActive }) =>
-    isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
+    isActive ? "#367EE9" : "#fff"};
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
-  color: ${({ isActive }) => (isActive ? "#b44a4a" : "#b44a4a")};
+  font-size: 17px;
+  color: ${({ isActive }) => (isActive ? "#fff" : "gray")};
   font-weight: 600;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
     background-color: ${({ isActive }) =>
-      isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-  }
-`;
-const CoupleEmailAthouized = styled.div`
-  width: 20%;
-  height: 30px;
-  border-radius: 10px;
-  border: none;
-  background-color: ${({ isActive }) =>
-    isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-  outline: none;
-  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
-  font-weight: 600;
-  cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
-  &:hover {
-    background-color: ${({ isActive }) =>
-      isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-  }
-  @media screen and (max-width: 768px) {
-    font-size: 14px;
+      isActive ? "#fff" : "#367EE9"};
+        color: ${({ isActive }) => (isActive ? "gray" : "#fff")};
+
   }
 `;
 const RegisterationInput1 = styled.input`
-  width: 22%;
+  width: 45%;
   height: 70%;
-  border-radius: 0.521vw;
+  padding-left: 20px;
   border: none;
-  background-color: rgba(0, 0, 0, 0.3);
+  border-bottom: 0.21vh solid gray;
+  background-color: transparent;
+  font-size: 23px;
+  font-weight: bolder;
   outline: none;
-  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 5px;
-  font-size: 14px;
-  font-weight: 600;
+  &::placeholder {
+  font-size: 2.5vh;
+  color: gray;
+  font-weight: normal;
+  font-style: italic;
+  opacity: 0.5;
+  }
 `;
 const Text = styled.div`
   width: 3%;
   height: 70%;
   font-weight: bolder;
   font-size: 15px;
-  color: #b44a4a;
+  color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const RegisterationInput2 = styled.input`
-  width: 7%;
+  width: 52%;
   height: 70%;
-  border-radius: 0.521vw;
+  padding-left: 20px;
   border: none;
-  background-color: rgba(0, 0, 0, 0.3);
+  border-bottom: 0.21vh solid gray;
+  background-color: transparent;
+  font-size: 23px;
+  font-weight: bolder;
   outline: none;
-  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 5px;
-  font-size: 14px;
-  font-weight: 600;
+  &::placeholder {
+  font-size: 2.5vh;
+  color: gray;
+  font-weight: normal;
+  font-style: italic;
+  opacity: 0.5;
+  }
 `;
-const CoupleText = styled.div`
-  font-size: 15px;
+const TermsText = styled.div`
+  font-size: 25px;
   font-weight: 600;
-  color: #b44a4a;
+  color: gray;;
   display: flex;
   align-items: center;
+  font-style: italic;
+  opacity:0.7;
 `;
 const ButtonDiv = styled.div`
   width: 100%;
-  height: 10%;
+  height: 17%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const SignupButton = styled.div`
-  width: 30%;
-  height: 32px;
+  width: 70%;
+  height: calc(10px + 5vh);
   background-color: ${({ isActive }) =>
-    isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
-  border-radius: 16px;
-  font-weight: 600;
-  font-size: 15px;
-  color: #b44a4a;
+    isActive ? "rgba(99, 56, 255, 0.4)" : "#367EE9"};
+  border-radius: 12px;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-style: italic;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: border;
+  font-weight: 600;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
     background-color: ${({ isActive }) =>
-      isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
+      isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
   }
 `;
 const InputDetailDiv2 = styled.div`
-  width: 30%;
-  height: 10%;
+  width: 100%;
+  height: 20%;
   display: flex;
   justify-content: center;
 
@@ -197,7 +200,7 @@ const InputDetailDiv2 = styled.div`
 `;
 const Message = styled.div`
   width: 100%;
-  font-size: 10px;
+  font-size: 15px;
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
@@ -289,48 +292,6 @@ const TermsScrollableContent = styled.div`
   max-height: calc(100% - 100px);
   overflow-y: auto;
 `;
-const IsMyCoupleEmailImg = styled.div`
-  width: 350px;
-  height: 350px;
-  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  background-image: url(${coupleMatching});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  animation: ${focusInExpand} 0.5s ease-in-out; /* 애니메이션 적용 */
-`;
-const IsMyCoupleEmailForm = styled.div`
-  width: 260px;
-  height: 300px;
-  padding-right: 20px;
-  border-radius: 10px;
-  position: absolute;
-  display: "block";
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-  & > div {
-  }
-  & > div > p {
-    font-size: 16px;
-    text-align: center;
-    font-weight: 500;
-    line-height: 1.5;
-  }
-  & > .YesOrNo {
-    margin-top: 20px;
-    width: 80%;
-    height: auto;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-`;
 
 // 전체 화면을 감싸는 컨테이너
 const Screen = styled.div`
@@ -376,11 +337,16 @@ const Rectangle = styled.div`
   align-items: center; /* 가로 방향으로 중앙 정렬 */
   justify-content: center; /* 세로 방향으로 중앙 정렬 */
 `;
-
+const LoginWrapping = styled.div`
+  width:60%;
+  height:80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 // 모든 요소를 포함하는 App 컴포넌트
 const SignUp = () => {
-  const [emailPrefix, setEmailPrefix] = useState("");
-  const [domain, setDomain] = useState("google.com");
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
   const [inputPwd, setInputPwd] = useState("");
@@ -410,18 +376,6 @@ const SignUp = () => {
   const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
   // 이름 입력
   const [inputName, setInputName] = useState("");
-  // 닉네임 입력
-  const [inputNickName, setInputNickName] = useState("");
-  // 커플이름 입력
-  const [inputCoupleName, setInputCoupleName] = useState("");
-  // 커플 메세지
-  const [coupleMessage, setCoupleMessage] = useState("");
-  // 커플 중복 상태변수
-  const [coupleNameDuplication, setCoupleNameDuplication] = useState(false);
-  // 내 짝인지 확인하는 폼을 여는 상태 변수
-  const [isMyCoupleEmailForm, setIsMyCoupleEmailForm] = useState(false);
-  // 내 짝인지 확인하는 상태변수
-  const [myCoupleEmail, setMyCoupleEmail] = useState(false);
   // 약관 보기 버튼 클릭 상태 변수
   const [isTermClickBtn, setIsTermClickBtn] = useState(false);
   // 약관 동의 체크 버튼
@@ -495,30 +449,21 @@ const SignUp = () => {
     if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
       setRrnFirstPart(inputValue);
     }
-
-    // 유효성 검사 로직 추가
-    if (inputValue.length === 6 && rrnSecondPart.length === 1) {
-      setIsRrnValid(true);
-      setIsRrnValidMessage("유효합니다.");
-    } else {
-      setIsRrnValid(false);
-      setIsRrnValidMessage("값이 유효하지 않습니다.");
-    }
-
-    if (inputValue === "" && rrnSecondPart === "") {
-      setIsRrnValidMessage("");
-    }
+    vaildRrn();
   };
-  //주민등록번호 뒤 1자리 숫자 유효성검사
+  //주민등록번호 뒤 1자리 숫자 유효성검사 후 6자리 입력
   const handleRrnSecondPartChange = (e) => {
     const inputValue = e.target.value;
 
-    if (/^[1-4]{0,1}$/.test(inputValue) && inputValue.length <= 1) {
+    if (/^[1-4][0-9]*$/.test(inputValue) && inputValue.length <= 7) {
       setRrnSecondPart(inputValue);
     }
-
-    // 유효성 검사 로직 추가
-    if (rrnFirstPart.length === 6 && inputValue.length === 1) {
+    vaildRrn();
+  };
+  // 유효성 검사 로직 추가
+  const vaildRrn = ()=>{
+    
+    if (rrnFirstPart.length === 6 && rrnSecondPart.length === 7) {
       setIsRrnValid(true);
       setIsRrnValidMessage("유효합니다.");
     } else {
@@ -526,10 +471,10 @@ const SignUp = () => {
       setIsRrnValidMessage("값이 유효하지 않습니다.");
     }
 
-    if (inputValue === "" && rrnFirstPart === "") {
+    if (rrnSecondPart === "" && rrnFirstPart === "") {
       setIsRrnValidMessage("");
     }
-  };
+  }
   // 버튼 클릭 상태 업데이트
   const handleTermLookBtnClick = () => {
     setIsTermClickBtn(true);
@@ -550,10 +495,6 @@ const SignUp = () => {
   const handleInputName = (e) => {
     setInputName(e.target.value);
   };
-  // 닉네임 변수에 저장
-  const handleInputNickName = (e) => {
-    setInputNickName(e.target.value);
-  };
 
   //주민등록번호 따로 받은 자리 합치는 함수
   const combineRRN = (firstPart, secondPart) => {
@@ -567,8 +508,6 @@ const SignUp = () => {
     inputName,
     rrnFirstPart,
     rrnSecondPart,
-    inputNickName,
-    inputCoupleName
   ) => {
     const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
     try {
@@ -576,9 +515,7 @@ const SignUp = () => {
         inputEmail,
         inputPwd,
         inputName,
-        combinedRnn,
-        inputNickName,
-        inputCoupleName
+        combinedRnn
       );
       if (
         response.data === "Success" &&
@@ -589,22 +526,17 @@ const SignUp = () => {
         rrnFirstPart &&
         rrnSecondPart &&
         inputName &&
-        inputNickName &&
-        inputCoupleName &&
         isTermAccepted
       ) {
-        navigate("/login-page");
+        navigate("/login");
       } else if (
         response.data === "Success" &&
         rrnFirstPart &&
         rrnSecondPart &&
-        inputNickName &&
-        inputCoupleName &&
         isTermAccepted
       ) {
         kakaoLogin(kakaoEmail, kakaopwd);
         sessionStorage.setItem("kakaoImgUrl", kakaoImgUrl);
-        coupleNameSearch(kakaoEmail);
       }
     } catch (error) {
       console.log(error);
@@ -618,18 +550,7 @@ const SignUp = () => {
       kakaoName,
       rrnFirstPart,
       rrnSecondPart,
-      inputNickName,
-      inputCoupleName
     );
-  };
-  //이메일로 커플이름 찾는 비동기 함수
-  const coupleNameSearch = async (emailData) => {
-    console.log("카카오 이메일:" + emailData);
-    const resCoupleName = await LoginAxios.emailToCoupleNameSearch(emailData);
-    console.log(resCoupleName.data);
-    // `coupleName`을 `sessionStorage`에 저장합니다.
-    sessionStorage.setItem("coupleName", resCoupleName.data);
-    navigate(`/main-page`);
   };
   //카카오 바로 로그인
   const kakaoLogin = async (kakoEmailvalue, kakaoPwdValue) => {
@@ -663,114 +584,9 @@ const SignUp = () => {
       inputName,
       rrnFirstPart,
       rrnSecondPart,
-      inputNickName,
-      inputCoupleName
     );
   };
-  // 카카오 커플이름 등록 버튼 함수
-  const kakaoCoupleNameBtnOnClickHandler = async () => {
-    //// 이미 커플이 완성되어 있지 확인하는 함수
-    const res = await LoginAxios.isExistCouple(inputCoupleName);
-    console.log("이미 커플 완성 여부:", res.data);
-    // 이미 커플이 완성되어 있는 경우
-    if (res.data) {
-      setModalOpen(true);
-      SetHeaderContents("커플존재");
-      setModalContent("이미 커플이 존재합니다.");
-    } else {
-      // 신규 커플 등록
-      if (coupleNameDuplication === true) {
-        coupleNameInsertAxois(kakaoEmail, inputCoupleName);
-        //등록 모달창
-        setModalOpen(true);
-        SetHeaderContents("커플등록");
-        setModalContent("등록되었습니다.");
-      }
-      // 짝이 있는지 확인
-      else {
-        coupleEmailCheck(inputCoupleName);
-        setIsMyCoupleEmailForm(true);
-      }
-    }
-  };
-  //커플이름 onChange 함수 (중복확인)
-  const handleInputCoupleName = (e) => {
-    //커플 이름 저장
-    setInputCoupleName(e.target.value);
-    //커플이름 중복확인 Axios
-    coupleNameSearchAxios(e.target.value);
-  };
-  // 커플이름 중복확인 비동기 함수
-  const coupleNameSearchAxios = async (coupleName) => {
-    const response = await LoginAxios.coupleNameSearch(coupleName);
-    // 중복된 커플이름이 있는 경우
-    if (response.data) {
-      setCoupleMessage("커플 이름이 존재합니다.");
-      setCoupleNameDuplication(false); // 상태 메세지 빨간색
-      // 신규 커플인 경우
-    } else {
-      setCoupleMessage("신규 등록가능합니다.");
-      setCoupleNameDuplication(true); // 상태 메세지 녹색
-    }
-  };
-  // 커플이름 등록 버튼 함수
-  const coupleNameBtnOnClickHandler = async () => {
-    //// 이미 커플이 완성되어 있지 확인하는 함수
-    const res = await LoginAxios.isExistCouple(inputCoupleName);
-    console.log("이미 커플 완성 여부:", res.data);
-    // 이미 커플이 완성되어 있는 경우
-    if (res.data) {
-      //커플 모달창
-      setModalOpen(true);
-      SetHeaderContents("커플존재");
-      setModalContent("이미 커플이 존재합니다.");
-    } else {
-      // 신규 커플 등록
-      if (coupleNameDuplication === true) {
-        coupleNameInsertAxois(inputEmail, inputCoupleName);
-        //등록 모달창
-        setModalOpen(true);
-        SetHeaderContents("커플등록");
-        setModalContent("등록되었습니다.");
-      }
-      // 짝이 있는지 확인
-      else {
-        coupleEmailCheck(inputCoupleName);
-        setIsMyCoupleEmailForm(true);
-      }
-    }
-  };
-  //커플이름 Insert 비동기 함수
-  const coupleNameInsertAxois = async (FirstEmailValue, coupleName) => {
-    const response = await LoginAxios.coupleNameInsert(
-      FirstEmailValue,
-      coupleName
-    );
-    console.log(response.data);
-  };
-  //커플이름 존재시 두번째계정 Insert 비동기 함수
-  const secondCoupleNameInsertAxois = async (email, coupleName) => {
-    const response = await LoginAxios.secondCoupleNameInsert(email, coupleName);
-    console.log(response.data);
-  };
-  // 짝이 맞는 경우
-  const isMyCoupleEmailYesHandler = () => {
-    // 기존 짝이 있는 데이터에 계정 추가
-    secondCoupleNameInsertAxois(inputEmail, inputCoupleName);
-    setIsMyCoupleEmailForm(false);
-    setCoupleNameDuplication(true);
-    setCoupleMessage("연결되었습니다.");
-  };
-  // 짝이 아닌 경우
-  const isMyCoupleEmailNoHandler = () => {
-    setIsMyCoupleEmailForm(false);
-  };
-  // 짝 계정 불러오는 비동기 함수
-  const coupleEmailCheck = async (coupleName) => {
-    const response = await LoginAxios.coupleEmailCheck(coupleName);
-    console.log(response.data);
-    setMyCoupleEmail(response.data);
-  };
+
   // 이메일 인증 버튼 handler
   const emailCertificationBtnHandler = () => {
     if (isId) {
@@ -790,8 +606,8 @@ const SignUp = () => {
     };
     try {
       const response = await emailjs.send(
-        "service_7cipsqb", // 서비스 ID
-        "service_7cipsqb", // 템플릿 ID
+        "service_lwk6ny9", // 서비스 ID
+        "service_lwk6ny9", // 템플릿 ID
         templateParams,
         "VKzT47hXDU3sC3R13" // public-key
       );
@@ -820,27 +636,13 @@ const SignUp = () => {
     closeModal();
     setIsEmail(true);
   };
-  const handlePrefixChange = (e) => {
-    setEmailPrefix(e.target.value);
-  };
-
-  const handleDomainChange = (e) => {
-    setDomain(e.target.value);
-  };
-
-  const completeEmail = `${emailPrefix}@${domain}`;
-  const handleNumberInput = (e, nextInputRef) => {
-    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-    if (e.target.value.length === e.target.maxLength && nextInputRef) {
-      nextInputRef.current?.focus(); // nextInputRef가 존재할 때만 포커스 이동
-    }
-  };
   return (
     <Screen>
       <OverlapGroupWrapper>
         <OverlapGroup>
           <Rectangle>
-          <TitleDiv>{kakaoProp ? "추가작성" : "회원가입"}</TitleDiv>
+            <LoginWrapping>
+          <TitleDiv>{kakaoProp ? "Write More" : "Create Account"}</TitleDiv>
       <Modal
         open={modalOpen}
         header={headerContents}
@@ -853,18 +655,18 @@ const SignUp = () => {
         {!kakaoProp && (
           <>
             <InputDetailDiv>
-              <label>이메일</label>
               <input
                 className="InputEmail"
                 value={inputEmail}
                 onChange={onChangeEmail}
+                 placeholder="Email Address"
               />
               <Empty></Empty>
               <EmailAthouized
                 isActive={isId}
                 onClick={emailCertificationBtnHandler}
               >
-                인증
+                Send
               </EmailAthouized>
             </InputDetailDiv>
             {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
@@ -872,10 +674,10 @@ const SignUp = () => {
         )}
         {isEmailSent && (
           <InputDetailDiv>
-            <label>인증코드</label>
             <input
               className="InputCode"
               value={saveCertificationCode}
+              placeholder="Email Code"
               onChange={(e) => {
                 setSaveCertificationCode(e.target.value);
               }}
@@ -892,9 +694,9 @@ const SignUp = () => {
         {!kakaoProp && (
           <>
             <InputDetailDiv>
-              <label>비밀번호</label>
               <input
                 type="password"
+                placeholder="Password"
                 className="InputClass"
                 value={inputPwd}
                 onChange={onChangePw}
@@ -906,9 +708,9 @@ const SignUp = () => {
         {!kakaoProp && (
           <>
             <InputDetailDiv>
-              <label>비밀번호 확인</label>
               <input
                 type="password"
+                placeholder="Password Check"
                 className="InputClass"
                 value={inputPwdCheck}
                 onChange={onCheckPw}
@@ -921,117 +723,36 @@ const SignUp = () => {
         )}
         {!kakaoProp && (
           <InputDetailDiv>
-            <label>이름</label>
             <input
               className="InputClass"
+              placeholder="Full Name"
               value={inputName}
               onChange={handleInputName}
             />
           </InputDetailDiv>
         )}
-        <JuminDiv>
           <InputDetailDiv>
-            <label>주민등록번호</label>
             <RegisterationInput1
               pattern="[0~9]+"
               value={rrnFirstPart}
+              placeholder="Social"
               onChange={handleRrnFirstPartChange}
             />
             <Text> - </Text>
             <RegisterationInput2
               pattern="[0~9]+"
               value={rrnSecondPart}
+              placeholder="Security Number"
               onChange={handleRrnSecondPartChange}
             />
-            <Text>*</Text>
-            <Text>*</Text>
-            <Text>*</Text>
-            <Text>*</Text>
-            <Text>*</Text>
-            <Text>*</Text>
           </InputDetailDiv>
           <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
-        </JuminDiv>
-        <InputDetailDiv>
-          <label>닉네임</label>
-          <input
-            className="InputClass"
-            value={inputNickName}
-            onChange={handleInputNickName}
-          />
-        </InputDetailDiv>
-
-        <InputDetailDiv>
-          <label>커플이름</label>
-          <input
-            className="InputCoupleName"
-            value={inputCoupleName}
-            onChange={handleInputCoupleName}
-          />
-          <Empty />
-          {!kakaoProp ? (
-            coupleNameDuplication ? (
-              <EmailAthouized
-                isActive={true}
-                onClick={coupleNameBtnOnClickHandler}
-              >
-                등록
-              </EmailAthouized>
-            ) : (
-              <EmailAthouized
-                isActive={true}
-                onClick={coupleNameBtnOnClickHandler}
-              >
-                연결
-              </EmailAthouized>
-            )
-          ) : coupleNameDuplication ? (
-            <EmailAthouized
-              isActive={true}
-              onClick={kakaoCoupleNameBtnOnClickHandler}
-            >
-              등록
-            </EmailAthouized>
-          ) : (
-            <EmailAthouized
-              isActive={true}
-              onClick={kakaoCoupleNameBtnOnClickHandler}
-            >
-              연결
-            </EmailAthouized>
-          )}
-        </InputDetailDiv>
-        <IsMyCoupleEmailImg isOpen={isMyCoupleEmailForm}>
-          <IsMyCoupleEmailForm>
-            <div>
-              <p>
-                "{myCoupleEmail}"님이 <br /> 내 짝의 계정이 맞나요?
-              </p>
-            </div>
-            <div className="YesOrNo">
-              <CoupleEmailAthouized
-                isActive={true}
-                onClick={isMyCoupleEmailYesHandler}
-              >
-                Yes
-              </CoupleEmailAthouized>
-              <CoupleEmailAthouized
-                isActive={true}
-                onClick={isMyCoupleEmailNoHandler}
-              >
-                No
-              </CoupleEmailAthouized>
-            </div>
-          </IsMyCoupleEmailForm>
-        </IsMyCoupleEmailImg>
-        <Message isCorrect={coupleNameDuplication}>{coupleMessage}</Message>
-
         <InputDetailDiv2>
-          <CoupleText>약관 보기</CoupleText>
+          <TermsText>View Terms</TermsText>
           <Empty />
           <div className="lookBtn">
             <EmailAthouized isActive={true} onClick={handleTermLookBtnClick}>
-              보기
+              Check
             </EmailAthouized>
           </div>
         </InputDetailDiv2>
@@ -1108,13 +829,11 @@ const SignUp = () => {
             isActive={
               rrnFirstPart &&
               rrnSecondPart &&
-              inputNickName &&
-              inputCoupleName &&
               isTermAccepted
             }
             onClick={kakaoBtnOnClickHandler}
           >
-            가입하기
+            Credit Account
           </SignupButton>
         </ButtonDiv>
       ) : (
@@ -1128,16 +847,15 @@ const SignUp = () => {
               rrnFirstPart &&
               rrnSecondPart &&
               inputName &&
-              inputNickName &&
-              inputCoupleName &&
               isTermAccepted
             }
             onClick={signupBtnOnclickHandler}
           >
-            가입하기
+            Credit Account
           </SignupButton>
         </ButtonDiv>
       )}
+      </LoginWrapping>
           </Rectangle>
         </OverlapGroup>
       </OverlapGroupWrapper>
