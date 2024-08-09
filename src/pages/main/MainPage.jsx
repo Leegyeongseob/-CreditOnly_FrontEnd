@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.background};
   width: 100%;
   height: 100%;
   display: flex;
