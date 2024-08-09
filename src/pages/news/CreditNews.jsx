@@ -1,117 +1,104 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa6";
-import { items } from './data'; // data.js에서 items를 import
+import { items } from "./data"; // data.js에서 items를 import
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import Ad1 from "../../img/error/400error.png";
-import Ad2 from "../../img/error/401error.png";
-import Ad3 from "../../img/error/403error.png";
-import Ad4 from "../../img/error/500error.png";
+import Banner from "../banner/Banner";
 
 const Container = styled.div`
-  width: 99%;
-  height: 100%;
-`;
-
-const Group = styled.div`
-  display: flex;
   width: 100%;
   height: 100%;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-`;
-
-const StyledSwiper = styled(Swiper)`
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  .swiper-pagination {
-    padding: 1px;
-  }
-  .swiper-pagination-bullet {
-    background: #8290ee; // 페이지네이션 점 색상 변경
-    width: 0.5vw;
-    height: 1vh;
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-  .swiper-button-next,
-  .swiper-button-prev {
-    color: #8290ee; // 네비게이션 버튼 색상 변경
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-
-  .swiper-button-next:after,
-  .swiper-button-prev:after {
-    font-size: 1.5rem;
-  }
-`;
-
-const Slide = styled(SwiperSlide)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
-  border-radius: 10px;
+  flex-direction: column;
+`;
+
+const TopSide = styled.div`
+  width: 92%;
+  height: 48%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const Adbanner = styled.div`
+  width: 58.6%;
+  height: 92%;
   background-color: #f9f9fd;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    height: 250px;
+  }
+`;
+
+const CreditInfo = styled.div`
+  width: 39%;
+  height: 92%;
+  background-color: #f9f9fd;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   background-image: ${({ imageurl }) => `url(${imageurl})`};
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    height: 230px;
+    margin-top: 5%;
+  }
 `;
 
-const Banner = styled.div`
-  background-color: #f9f9fd;
-  border-radius: 10px;
-  width: 46%;
+const BottomSide = styled.div`
+  width: 92%;
   height: 48%;
-  margin-left: 5vw;
-  background-image: url(${props => props.imageUrl});
-  background-size: cover;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
-const Information = styled.div`
+const CreditView = styled.div`
+  width: 48.8%;
+  height: 92%;
   background-color: #f9f9fd;
   border-radius: 10px;
   display: flex;
-  height: 48%;
-  width: 41%;
   flex-direction: column;
   justify-content: center;
-  margin-left: 5vw;
-`;
+  align-items: center;
 
-const App = styled.div`
-  background-color: #f9f9fd;
-  border-radius: 10px;
-  display: flex;
-  height: 48%;
-  width: 45%;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 2vw;
-`;
-
-const Card = styled.div`
-  background-color: #f9f9fd;
-  border-radius: 10px;
-  display: flex;
-  height: 48%;
-  width: 45%;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 5vw;
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    height: 230px;
+    margin-top: 5%;
+  }
 `;
 
 const TitleWrap = styled.div`
@@ -225,15 +212,14 @@ const StyledLink = styled(Link)`
   color: inherit; /* Inherit color from parent */
   display: inline; /* Ensures link behaves as a block-level element */
   &:hover {
-   color: blue;
+    color: blue;
   }
 `;
 
 const CreditNews = () => {
   // 필터링된 데이터
-  const getFilteredItems = (category, limit) => items
-    .filter(item => item.category === category)
-    .slice(0, limit);
+  const getFilteredItems = (category, limit) =>
+    items.filter((item) => item.category === category).slice(0, limit);
 
   const informationItems = getFilteredItems("신용조회 정보모음", 4);
   const appItems = getFilteredItems("신용조회 어플추천", 2);
@@ -241,24 +227,11 @@ const CreditNews = () => {
 
   return (
     <Container>
-      <Group>
-        <Banner>
-        <StyledSwiper
-            key="swiper"
-            spaceBetween={10}
-            slidesPerView={1}
-            navigation
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 5000 }}
-            modules={[Navigation, Pagination, Autoplay]}
-          >
-            <Slide imageurl={Ad1} />
-            <Slide imageurl={Ad2} />
-            <Slide imageurl={Ad3} />
-            <Slide imageurl={Ad4} />
-          </StyledSwiper>
-          </Banner>
-        <Information>
+      <TopSide>
+        <Adbanner>
+          <Banner />
+        </Adbanner>
+        <CreditInfo>
           <TitleWrap>
             <TitlePage>신용조회 정보모음</TitlePage>
             <StyledLink to="/information-list/신용조회 정보모음">
@@ -266,17 +239,17 @@ const CreditNews = () => {
             </StyledLink>
           </TitleWrap>
           <CardListWrapper>
-            {informationItems.map(item => (
+            {informationItems.map((item) => (
               <CardList key={item.id} to={`/news/${item.id}`}>
-                
-                  <Limg alt={item.title} src={item.imageUrl} />
-                  <InformationText>{item.title}</InformationText>
-                
+                <Limg alt={item.title} src={item.imageUrl} />
+                <InformationText>{item.title}</InformationText>
               </CardList>
             ))}
           </CardListWrapper>
-        </Information>
-        <App>
+        </CreditInfo>
+      </TopSide>
+      <BottomSide>
+        <CreditView>
           <TitleWrap>
             <TitlePage>신용조회 어플추천</TitlePage>
             <StyledLink to="/information-list/신용조회 어플추천">
@@ -284,20 +257,18 @@ const CreditNews = () => {
             </StyledLink>
           </TitleWrap>
           <ListWrapper>
-            {appItems.map(item => (
+            {appItems.map((item) => (
               <ListGroup key={item.id} to={`/news/${item.id}`}>
-                
-                  <Simg alt={item.title} src={item.imageUrl} />
-                  <ListDetailWrap>
-                    <TextWrapper>{item.title}</TextWrapper>
-                    <DetailWrap>{item.content}</DetailWrap>
-                  </ListDetailWrap>
-                
+                <Simg alt={item.title} src={item.imageUrl} />
+                <ListDetailWrap>
+                  <TextWrapper>{item.title}</TextWrapper>
+                  <DetailWrap>{item.content}</DetailWrap>
+                </ListDetailWrap>
               </ListGroup>
             ))}
           </ListWrapper>
-        </App>
-        <Card>
+        </CreditView>
+        <CreditView>
           <TitleWrap>
             <TitlePage>신용카드와 신용정보</TitlePage>
             <StyledLink to="/information-list/신용카드와 신용정보">
@@ -305,20 +276,18 @@ const CreditNews = () => {
             </StyledLink>
           </TitleWrap>
           <ListWrapper>
-            {cardItems.map(item => (
+            {cardItems.map((item) => (
               <ListGroup key={item.id} to={`/news/${item.id}`}>
-               
-                  <Simg alt={item.title} src={item.imageUrl} />
-                  <ListDetailWrap>
-                    <TextWrapper>{item.title}</TextWrapper>
-                    <DetailWrap>{item.content}</DetailWrap>
-                  </ListDetailWrap>
-               
+                <Simg alt={item.title} src={item.imageUrl} />
+                <ListDetailWrap>
+                  <TextWrapper>{item.title}</TextWrapper>
+                  <DetailWrap>{item.content}</DetailWrap>
+                </ListDetailWrap>
               </ListGroup>
             ))}
           </ListWrapper>
-        </Card>
-      </Group>
+        </CreditView>
+      </BottomSide>
     </Container>
   );
 };
