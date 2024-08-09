@@ -225,7 +225,7 @@ const TopToggle = styled.div`
 
 const DropdownMenu = styled.div`
   position: absolute;
-  top: 7%;
+  top: 65px;
   right: 8.5%;
   width: 220px;
   background-color: #ffffff;
