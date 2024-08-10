@@ -44,7 +44,7 @@ const Slide = styled(SwiperSlide)`
   align-items: center;
   font-size: 1.5rem;
   border-radius: 10px;
-  transition: background-color 0.5s ease;
+  /* transition: background-color 0.5s ease; */
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
   background-repeat: no-repeat;

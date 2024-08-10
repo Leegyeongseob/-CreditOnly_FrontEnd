@@ -3,6 +3,9 @@ import Logo from "../../img/background/CreditOnlyLogo.png";
 import logosearch from "../../img/loginImg/findglass.png";
 import exProfile from "../../img/commonImg/프로필예시.jpeg";
 import { Link } from "react-router-dom";
+import { RxMoon, RxSun } from "react-icons/rx";
+import { BsMoonStars, BsSun, BsSunFill } from "react-icons/bs";
+import { TbSunset2 } from "react-icons/tb";
 import {
   IoNotificationsOutline,
   IoChevronDown,
@@ -172,19 +175,21 @@ const IconWrapper = styled.div`
 
 const ToggleIcon = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
+  align-items: center;
+  justify-content: center;
+  display: flex;
   transition: opacity 0.5s ease, transform 0.5s ease;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   transform: ${({ isVisible }) => (isVisible ? "scale(1)" : "scale(0.8)")};
 `;
 
 const Toggle = styled.div`
-  width: 52px;
+  width: 60px;
   height: 32px;
   background-color: ${({ theme }) => theme.toggle};
   border-radius: 104px;
-  box-shadow: 0px 2.5px 6.25px #90909040;
+  box-shadow: 2px 2px 6px #90909040;
+  /* border: 1px solid #c0c0c0; */
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -261,7 +266,7 @@ const DropdownMenu = styled.div`
   width: 220px;
   background-color: ${({ theme }) => theme.background};
   border: 1px solid ${({ theme }) => theme.border};
-  transition: background-color 0.5s ease border 0.5s;
+  transition: background-color 0.5s ease, border 0.5s ease;
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -333,10 +338,10 @@ const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
           <Toggle onClick={toggleDarkMode}>
             <IconWrapper>
               <ToggleIcon isVisible={isDarkMode}>
-                <BsToggleOn size={40} />
+                <BsMoonStars size={19} color="#c0c0c0" />
               </ToggleIcon>
               <ToggleIcon isVisible={!isDarkMode}>
-                <BsToggleOff size={40} />
+                <BsSunFill size={23} color="#ffd400" />
               </ToggleIcon>
             </IconWrapper>
           </Toggle>

@@ -85,8 +85,9 @@ const Slide = styled(SwiperSlide)`
     left: 0;
     width: 100%;
     height: 100%;
-    background: ${({ theme }) => theme.overlay}; /* 다크 모드의 오버레이 색상 */
-    transition: all 0.5s ease;
+    z-index: 100;
+    background: ${({ theme }) => theme.overlay};
+    transition: background-color 0.5s ease;
     pointer-events: none;
   }
 `;
@@ -240,13 +241,45 @@ const CreditViewWrap2 = React.memo(({ isEditing }) => (
 const EdiBtnDiv = styled.div`
   width: 100%;
   height: 60px;
+  padding-left: 5%;
   padding-right: 4%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: ${({ isEditing }) =>
+    isEditing ? "space-between" : "flex-end"};
   flex-direction: row;
   @media screen and (max-width: 768px) {
     height: 50px;
+  }
+`;
+
+const EditHelp = styled.div`
+  width: 220px;
+  height: 35px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
+  color: ${({ theme }) => theme.goodBlue};
+  transform: color 0.5s ease;
+  @media screen and (max-width: 768px) {
+    width: 210px;
+    height: 30px;
+    font-size: 11px;
+  }
+  @media screen and (max-width: 430px) {
+    width: 190px;
+    font-size: 9px;
+  }
+`;
+
+const BtnBox = styled.div`
+  width: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 768px) {
+    width: 150px;
   }
 `;
 
@@ -258,6 +291,7 @@ const EditBtn = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+  color: royalblue;
   background-color: ${({ theme }) => theme.sideBar};
   transition: background-color 0.5s ease;
   font-size: 13px;
@@ -266,9 +300,13 @@ const EditBtn = styled.div`
     opacity: 0.7;
   }
   @media screen and (max-width: 768px) {
-    width: 80px;
+    width: 70px;
     height: 30px;
     font-size: 12px;
+  }
+  @media screen and (max-width: 430px) {
+    width: 50px;
+    height: 25px;
   }
 `;
 
@@ -461,12 +499,19 @@ const MainPage = () => {
 
   return (
     <Container>
-      <EdiBtnDiv>
-        {!isEditing && <EditBtn onClick={toggleEditMode}>편집</EditBtn>}
+      <EdiBtnDiv isEditing={isEditing}>
+        {!isEditing && (
+          <>
+            <EditBtn onClick={toggleEditMode}>편집</EditBtn>
+          </>
+        )}
         {isEditing && (
           <>
-            <EditBtn onClick={handleSave}>저장</EditBtn>
-            <EditBtn onClick={handleCancel}>취소</EditBtn>
+            <EditHelp>드래그하여 보드의 위치를 변경할 수 있습니다.</EditHelp>
+            <BtnBox>
+              <EditBtn onClick={handleSave}>저장</EditBtn>
+              <EditBtn onClick={handleCancel}>취소</EditBtn>
+            </BtnBox>
           </>
         )}
       </EdiBtnDiv>
