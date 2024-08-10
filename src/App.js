@@ -35,6 +35,8 @@ const lightTheme = {
   overflow: "darkgray",
   goodBlue: "#007bff",
   toggle: "#93c7ff",
+  drag: "#687bf7",
+  shadow: "#90909040",
 };
 
 const darkTheme = {
@@ -48,6 +50,8 @@ const darkTheme = {
   overflow: "#909090",
   goodBlue: "#0056b3",
   toggle: "#121212",
+  drag: "#5a67ba",
+  shadow: "#000",
 };
 
 const App = () => {
