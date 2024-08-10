@@ -24,7 +24,7 @@ const HeaderContainer = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.border};
+  border-bottom: 1px solid ${({ theme }) => theme.borderBottom};
   background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.color};
   transition: background-color 0.5s ease, color 0.5s ease,
@@ -40,7 +40,8 @@ const LeftBox = styled.div`
   height: 100%;
   background-color: ${({ theme }) => theme.sideBar};
   color: ${({ theme }) => theme.color};
-  transition: background-color 0.5s ease, color 0.5s ease;
+  transition: background-color 0.5s ease, color 0.5s ease,
+    border-right 0.5s ease;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -53,8 +54,9 @@ const LeftBox = styled.div`
       isHeader ? theme.sideBar : theme.sideBar};
     top: ${({ isHeader }) => (isHeader ? "0" : "auto")};
     left: ${({ isHeader }) => (isHeader ? "0" : "auto")};
-    border-right: ${({ isHeader }) =>
-      isHeader ? "1px solid #444444" : "none"};
+    /* : 1px solid ${({ theme }) => theme.border}; */
+    border-right: ${({ isHeader, theme }) =>
+      isHeader ? theme.borderR : "none"};
     z-index: ${({ isHeader }) => (isHeader ? "100" : "1")};
   }
 `;
