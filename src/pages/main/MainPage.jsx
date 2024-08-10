@@ -176,13 +176,10 @@ const CreditInfo = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 10px;
+  padding: 2%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: ${({ imageurl }) => `url(${imageurl})`};
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 230px;
@@ -212,13 +209,10 @@ const CreditView = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 10px;
+  padding: 2%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: ${({ imageurl }) => `url(${imageurl})`};
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 230px;
@@ -287,10 +281,10 @@ const EditBtn = styled.div`
   width: 90px;
   height: 35px;
   display: flex;
-  margin-left: 1%;
+  margin-left: 3%;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
+  border-radius: 8px;
   color: royalblue;
   background-color: ${({ theme }) => theme.sideBar};
   transition: background-color 0.5s ease;
@@ -327,7 +321,7 @@ const DragContainer = React.memo(styled.div`
   &.dropArea::before {
     content: "Drop It!";
     color: #687bf7;
-    font-size: 0.8em;
+    font-size: 16px;
     width: 100%;
     height: 100%;
     border: 2px dashed ${({ theme }) => theme.drag};

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Logo from "../../img/background/CreditOnlyLogo.png";
 import logosearch from "../../img/loginImg/findglass.png";
 import exProfile from "../../img/commonImg/프로필예시.jpeg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
 import {
   IoNotificationsOutline,
@@ -54,7 +54,7 @@ const LeftBox = styled.div`
     top: ${({ isHeader }) => (isHeader ? "0" : "auto")};
     left: ${({ isHeader }) => (isHeader ? "0" : "auto")};
     border-right: ${({ isHeader }) =>
-      isHeader ? "1px solid darkgray" : "none"};
+      isHeader ? "1px solid #444444" : "none"};
     z-index: ${({ isHeader }) => (isHeader ? "100" : "1")};
   }
 `;
@@ -300,14 +300,28 @@ const AlarmSet = styled.div`
 
 const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const location = useLocation(); // 현재 경로를 가져옴
 
   const handleToggleClick = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
+  // LeftBox 배경색을 결정하는 함수
+  const getLeftBoxBackgroundColor = () => {
+    if (location.pathname === "/chat") {
+      return isDarkMode ? "#242424" : "#fff";
+    } else {
+      return "theme.sideBar";
+    }
+  };
 
   return (
     <HeaderContainer>
-      <LeftBox isHeader={isHeader}>
+      <LeftBox
+        isHeader={isHeader}
+        style={{
+          backgroundColor: getLeftBoxBackgroundColor(), // 배경색 적용
+        }}
+      >
         <SideBarToggle onClick={toggleSideBar}>
           <IoMenuOutline size={30} color="#8290ee" />
         </SideBarToggle>

@@ -14,7 +14,7 @@ const Sidebar = styled.div`
   height: 100%;
   display: flex;
   background-color: ${({ theme }) => theme.background};
-  transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease, border-right 0.5s ease;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -25,7 +25,7 @@ const Sidebar = styled.div`
     top: 6%;
     left: 0;
     background-color: ${({ theme }) => theme.background};
-    border-right: 1px solid darkgray;
+    border-right: 1px solid ${({ theme }) => theme.border};
     z-index: 100;
     display: flex;
     flex-direction: column;
@@ -69,12 +69,13 @@ const NewChatBtn = styled.div`
   width: 90%;
   height: 5%;
   cursor: pointer;
-  background-color: ${({ theme }) => theme.sideBar};
-  color: ${({ theme }) => theme.color};
+  background-color: #121212;
+  color: #fafafa;
   transition: background-color 0.5s ease, color 0.5s ease;
   font-size: 16px;
+  padding: 0 5% 0 5%;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   display: flex;
   user-select: none;
   border-radius: 10px;
@@ -84,7 +85,7 @@ const SettingBox = styled.div`
   width: 100%;
   height: 30%;
   user-select: none;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   display: flex;
@@ -93,9 +94,10 @@ const SetDetailTop = styled.div`
   width: 80%;
   height: 20%;
   cursor: pointer;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   display: flex;
+  padding-top: 8%;
   padding-left: 10%;
   gap: 3%;
   border-top: 1px solid lightgray;
@@ -108,8 +110,9 @@ const SetDetailTop = styled.div`
 const SetDetail = styled.div`
   width: 80%;
   height: 20%;
+  padding-top: 8%;
   cursor: pointer;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   display: flex;
   padding-left: 10%;
@@ -133,12 +136,13 @@ const ChatBotSideBar = () => {
   return (
     <Sidebar>
       <Menu>
+        <Back>
+          <FaArrowLeft onClick={goBack} size={20} />
+        </Back>
         <NewChatBox>
-          <Back>
-            <FaArrowLeft onClick={goBack} size={20} />
-          </Back>
           <NewChatBtn>
-            <FaPlus /> 새로운 채팅
+            새 채팅
+            <FaPlus size={14} />
           </NewChatBtn>
         </NewChatBox>
         <SettingBox>

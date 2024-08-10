@@ -16,7 +16,7 @@ const Sidebar = styled.div`
   height: 100%;
   display: flex;
   background-color: ${({ theme }) => theme.sideBar};
-  transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease, border-right 0.5s ease;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@ const Sidebar = styled.div`
     top: 6%;
     left: 0;
     background-color: ${({ theme }) => theme.sideBar};
-    border-right: 1px solid darkgray;
+    border-right: 1px solid ${({ theme }) => theme.border};
     z-index: 100;
     display: flex;
     flex-direction: column;

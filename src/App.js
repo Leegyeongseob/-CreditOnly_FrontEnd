@@ -31,12 +31,13 @@ const lightTheme = {
   // overlay: "rgba(255, 255, 255, 0.5)",
   sideBar: "#f1f2f7",
   sideCheck: "#d8dcf3",
-  border: "#c8cbd9",
+  border: "#none",
   overflow: "darkgray",
   goodBlue: "#007bff",
   toggle: "#93c7ff",
   drag: "#687bf7",
   shadow: "#90909040",
+  chatHead: "#ffffff",
 };
 
 const darkTheme = {
@@ -52,6 +53,7 @@ const darkTheme = {
   toggle: "#121212",
   drag: "#5a67ba",
   shadow: "#000",
+  chatHead: "#121212",
 };
 
 const App = () => {
