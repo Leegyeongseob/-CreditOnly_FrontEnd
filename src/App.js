@@ -102,7 +102,15 @@ const App = () => {
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/chat" element={<ChatBot />} />
+            <Route
+              path="/chat"
+              element={
+                <ChatBot
+                  toggleDarkMode={toggleDarkMode}
+                  isDarkMode={isDarkMode}
+                />
+              }
+            />
             <Route element={<FindByForm />}>
               <Route path="/findbyemail" element={<FindEmail />} />
               <Route path="/findbypwd" element={<FindPassword />} />

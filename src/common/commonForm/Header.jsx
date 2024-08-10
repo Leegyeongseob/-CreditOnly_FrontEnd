@@ -3,9 +3,7 @@ import Logo from "../../img/background/CreditOnlyLogo.png";
 import logosearch from "../../img/loginImg/findglass.png";
 import exProfile from "../../img/commonImg/프로필예시.jpeg";
 import { Link } from "react-router-dom";
-import { RxMoon, RxSun } from "react-icons/rx";
-import { BsMoonStars, BsSun, BsSunFill } from "react-icons/bs";
-import { TbSunset2 } from "react-icons/tb";
+import { BsMoonStars, BsSunFill } from "react-icons/bs";
 import {
   IoNotificationsOutline,
   IoChevronDown,
@@ -16,7 +14,6 @@ import {
   IoLogOutOutline,
   IoMenuOutline,
 } from "react-icons/io5";
-import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { useState } from "react";
 
 const HeaderContainer = styled.div`
