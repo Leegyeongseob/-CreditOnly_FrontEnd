@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import styled from "styled-components";
+import { Outlet, useLocation } from "react-router-dom";
+import styled, { css } from "styled-components";
 import SideBar from "./SideBar";
 import Header from "./Header";
 import { useEffect, useState } from "react";
@@ -16,6 +16,13 @@ const Screen = styled.div`
   @media screen and (max-width: 768px) {
     height: 100%;
   }
+  ${({ isAnnouncement }) =>
+    isAnnouncement &&
+    css`
+      @media screen and (max-width: 1200px) {
+        height: 100%;
+      }
+    `}
 `;
 
 const Contents = styled.div`
@@ -27,6 +34,10 @@ const Contents = styled.div`
 const MainForm = ({ toggleDarkMode, isDarkMode }) => {
   const [isSideBarVisible, setIsSideBarVisible] = useState(true);
   const [isHeader, setIsHeader] = useState(false);
+  const location = useLocation(); // 현재 경로를 가져옴
+
+  // 현재 경로가 "/announcement"인지 확인
+  const isAnnouncement = location.pathname === "/announcement";
 
   // sidebar의 가시성을 토글하는 함수
   const toggleSideBar = () => {
@@ -65,7 +76,7 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
         toggleDarkMode={toggleDarkMode}
         isDarkMode={isDarkMode}
       />
-      <Screen>
+      <Screen isAnnouncement={isAnnouncement}>
         {isSideBarVisible && <SideBar toggleSideBar={toggleSideBar} />}
         <Contents>
           <Outlet />

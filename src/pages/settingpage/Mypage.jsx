@@ -19,6 +19,7 @@ const TopSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  z-index: 11;
   @media screen and (max-width: 768px) {
     margin-top: 5%;
   }
@@ -65,6 +66,9 @@ const UserNameBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    margin-top: 5%;
+  }
 `;
 
 const UserName = styled.div`

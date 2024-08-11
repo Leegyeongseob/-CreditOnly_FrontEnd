@@ -4,16 +4,8 @@ import logosearch from "../../img/loginImg/findglass.png";
 import exProfile from "../../img/commonImg/프로필예시.jpeg";
 import { Link, useLocation } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
-import {
-  IoNotificationsOutline,
-  IoChevronDown,
-  IoChevronUp,
-  IoSettingsOutline,
-  IoReaderOutline,
-  IoAtOutline,
-  IoLogOutOutline,
-  IoMenuOutline,
-} from "react-icons/io5";
+import { IoNotificationsOutline, IoMenuOutline } from "react-icons/io5";
+import UserToggle from "./UserToggle";
 import { useState } from "react";
 
 const HeaderContainer = styled.div`
@@ -31,7 +23,7 @@ const HeaderContainer = styled.div`
     border-bottom 0.5s ease;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 999;
 `;
 
 const LeftBox = styled.div`
@@ -81,7 +73,7 @@ const RightBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `;
 
@@ -133,6 +125,10 @@ const SearchBox = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  z-index: 1;
+  @media screen and (max-width: 1200px) {
+    width: 45%;
+  }
 `;
 
 const SearchInput = styled.input.attrs({ type: "text" })`
@@ -201,11 +197,16 @@ const Toggle = styled.div`
 `;
 
 const ToggleBox = styled.div`
+  min-width: 52px;
   width: 15%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  z-index: 1;
+  @media screen and (max-width: 1200px) {
+    width: 8%;
+  }
 `;
 
 const UserBox = styled.div`
@@ -217,6 +218,15 @@ const UserBox = styled.div`
   align-items: center;
 `;
 
+const UserDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 30%;
+  height: 100%;
+`;
+
 const UserProfile = styled.div`
   width: 10%;
   min-width: 40px;
@@ -225,6 +235,7 @@ const UserProfile = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const UserImg = styled.div`
   width: 35px;
   height: 35px;
@@ -234,9 +245,11 @@ const UserImg = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 `;
+
 const UserName = styled.div`
-  width: 25%;
+  width: 30%;
   height: 100%;
+  margin-left: 5%;
   padding-left: 1%;
   display: flex;
   justify-content: flex-start;
@@ -244,55 +257,23 @@ const UserName = styled.div`
   font-size: 13px;
   font-family: "Roboto-Regular", Helvetica;
   white-space: nowrap;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
-
-const TopToggle = styled.div`
-  width: 10%;
+const Dont = styled.div`
+  width: 25%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.6;
+  @media screen and (max-width: 1200px) {
+    width: 40%;
   }
 `;
-
-const DropdownMenu = styled.div`
-  position: absolute;
-  top: 65px;
-  right: 8.5%;
-  width: 220px;
-  background-color: ${({ theme }) => theme.background};
-  border: 1px solid ${({ theme }) => theme.border};
-  transition: background-color 0.5s ease, border 0.5s ease;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-`;
-
-const DropdownItem = styled(Link)`
-  padding: 10px;
-  font-size: 15px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  font-family: "Roboto-Regular", Helvetica;
-  color: ${({ theme }) => theme.color};
-  transition: color 0.5s ease;
-  text-decoration: none;
-  cursor: pointer;
-  &:hover {
-    background-color: ${({ theme }) => theme.sideBar};
-  }
-`;
-
 const AlarmSet = styled.div`
-  width: 10%;
+  width: 25px;
   height: 100%;
+  z-index: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   cursor: pointer;
   &:hover {
@@ -301,12 +282,9 @@ const AlarmSet = styled.div`
 `;
 
 const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const location = useLocation(); // 현재 경로를 가져옴
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggleClick = () => {
-    setIsDropdownVisible(!isDropdownVisible);
-  };
   // LeftBox 배경색을 결정하는 함수
   const getLeftBoxBackgroundColor = () => {
     if (location.pathname === "/chat") {
@@ -317,7 +295,7 @@ const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
   };
 
   return (
-    <HeaderContainer>
+    <HeaderContainer isOpen={isOpen}>
       <LeftBox
         isHeader={isHeader}
         style={{
@@ -360,37 +338,14 @@ const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
           </Toggle>
         </ToggleBox>
         <UserBox>
-          <UserProfile>
-            <UserImg imageurl={exProfile} />
-          </UserProfile>
-          <UserName>강해린</UserName>
-          <TopToggle onClick={handleToggleClick}>
-            {isDropdownVisible ? (
-              <IoChevronUp size={18} color="#717694" />
-            ) : (
-              <IoChevronDown size={18} color="#717694" />
-            )}
-          </TopToggle>
-          {isDropdownVisible && (
-            <DropdownMenu>
-              <DropdownItem to="/evaluation" onClick={handleToggleClick}>
-                <IoReaderOutline size={20} color="gray" />
-                나의 신용
-              </DropdownItem>
-              <DropdownItem>
-                <IoAtOutline size={20} color="gray" />
-                00bsj@naver.com
-              </DropdownItem>
-              <DropdownItem to="/setting" onClick={handleToggleClick}>
-                <IoSettingsOutline size={20} color="gray" />
-                설정
-              </DropdownItem>
-              <DropdownItem>
-                <IoLogOutOutline size={20} color="gray" />
-                로그아웃
-              </DropdownItem>
-            </DropdownMenu>
-          )}
+          <UserDiv>
+            <UserProfile>
+              <UserImg imageurl={exProfile} />
+            </UserProfile>
+            <UserName>강해린</UserName>
+          </UserDiv>
+          <UserToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+          <Dont />
           <AlarmSet>
             <IoNotificationsOutline size={25} color="#717694" />
           </AlarmSet>

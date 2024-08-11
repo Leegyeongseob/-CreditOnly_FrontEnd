@@ -33,6 +33,7 @@ const TopSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  z-index: 11;
   @media screen and (max-width: 768px) {
     flex-direction: column;
     width: 180%;
@@ -289,6 +290,7 @@ const EditBtn = styled.div`
   background-color: ${({ theme }) => theme.sideBar};
   transition: background-color 0.5s ease;
   font-size: 13px;
+  z-index: 11;
   cursor: pointer;
   &:hover {
     opacity: 0.7;

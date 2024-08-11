@@ -11,6 +11,7 @@ const Screen = styled.div`
   width: 100vw;
   height: 94vh;
   display: flex;
+  z-index: 11;
 `;
 
 const MessageBox = styled.div`
@@ -35,14 +36,18 @@ const MessageSendBox = styled.div`
 const MessageSendWrap = styled.div`
   width: 80%;
   height: 23%;
-  background-color: #f0f0f0;
+  background-color: ${({ theme }) => theme.sideBar};
+  border: 1px solid ${({ theme }) => theme.border};
+  transition: background-color 0.5s ease, border 0.5s ease;
   border-radius: 8px;
   display: flex;
   align-items: center;
   max-width: 650px;
 `;
 const MessageSend = styled.input`
-  background-color: #f0f0f0;
+  background-color: ${({ theme }) => theme.sideBar};
+  border: 1px solid ${({ theme }) => theme.border};
+  transition: background-color 0.5s ease, border 0.5s ease;
   font-size: 14px;
   font-weight: lighter;
   width: 95%;

@@ -63,6 +63,7 @@ const EvaluationBtn = styled.div`
 const CrediEvaluation = styled.div`
   width: 92%;
   height: 90%;
+  z-index: 11;
   background-color: ${({ theme }) => theme.sideBar};
   color: ${({ theme }) => theme.color};
   transition: background-color 0.5s ease, color 0.5s ease;

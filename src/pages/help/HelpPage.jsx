@@ -11,6 +11,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+    justify-content: flex-start;
+    height: 94vh;
+    overflow-y: hidden;
+  }
 `;
 
 const TopSide = styled.div`
@@ -20,13 +25,15 @@ const TopSide = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  z-index: 11;
   @media screen and (max-width: 1200px) {
     width: 95%;
     height: 45%;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 40%;
+    height: 360px;
+    margin-top: 10%;
   }
 `;
 
@@ -188,7 +195,7 @@ const BottomSide = styled.div`
   }
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 40%;
+    height: 369px;
   }
 `;
 
