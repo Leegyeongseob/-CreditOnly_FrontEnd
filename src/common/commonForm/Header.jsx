@@ -9,7 +9,6 @@ import UserToggle from "./UserToggle";
 import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
-import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 
 const HeaderContainer = styled.div`
   width: 100%;

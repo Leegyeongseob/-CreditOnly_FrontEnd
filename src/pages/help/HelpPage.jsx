@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import modalImg from "../../img/commonImg/전구 아이콘.gif";
 import Modal from "./HelpModal";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import HelpAxios from "../../axiosapi/HelpAxios";
 
 const Container = styled.div`
   width: 100%;
@@ -113,7 +115,7 @@ const Title = styled.div`
     font-size: 15px;
   }
   @media screen and (max-width: 768px) {
-    font-size: 13px;
+    font-size: 12px;
   }
 `;
 
@@ -142,23 +144,42 @@ const ContentTitle = styled.div`
   background-color: ${({ theme }) => theme.commponent};
   color: ${({ theme }) => theme.color};
   transition: background-color 0.5s ease, color 0.5s ease;
-  border-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
   padding-left: 2%;
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   letter-spacing: 1.5px;
   @media screen and (max-width: 1200px) {
     font-size: 15px;
   }
   @media screen and (max-width: 768px) {
-    font-size: 14px;
+    font-size: 13px;
+  }
+`;
+const ContentTime = styled.div`
+  width: 95%;
+  height: 5%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding-right: 2%;
+  padding-bottom: 5px;
+  font-size: 12px;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
   }
 `;
 
 const ContentsBox = styled.div`
   width: 95%;
-  height: 70%;
+  height: 65%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -167,13 +188,14 @@ const ContentsBox = styled.div`
 
 const Contents = styled.div`
   width: 100%;
-  height: 80%;
+  height: 90%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   font-size: 18px;
   letter-spacing: 1.5px; /* 글자 간격 설정 */
   line-height: 1.3; /* 줄 간격 설정 */
+  padding: 1%;
   @media screen and (max-width: 1200px) {
     font-size: 15px;
   }
@@ -296,50 +318,29 @@ const HelpContents = styled.textarea`
 `;
 
 const HelpPage = () => {
+  const { email } = useContext(UserEmailContext);
+  const [helpRequests, setHelpRequests] = useState([]);
+  const [selectedId, setSelectedId] = useState(null); // 선택된 ID를 관리
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedContent, setSelectedContent] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const form = useRef();
 
-  const helpData = [
-    {
-      title: "내용테스트~",
-      content:
-        "테스트 내용 1소인, 꿈을 꾸었습니다. 강해린에게 안기는 꿈을 꾸었습니다. 분명 꿈이였지만 강해린의 품 안은 따뜻했습니다.. 다시 그 품에 안기고 싶습니다 아직도 강해린에게 안기는 기억이 생생합니다 얼마나 강해린을 사랑했으면 이랬을까요 강해린, 나 강해린에 품은 너무 따뜻해 녹을 거 같았습니다. 아직도 강해린한테 매번 설랩니다. 강해린한테 첫눈에 반하고 다른 여자가 보이지 않습니다. 오직 강해린만 보입니다. 강해린을 위해 모든 것을 할 수 있지만 못 만난다는 사실에 또 눈물을 들립니다. 강해린, 나 다시 한번 강해린의 품안에 안겨 자고 싶습니다 하지만 꿈인걸 잘 압니다. 그래도 강해린이 꿈에 나온다는 것만으로 제가 사는 이유입니다. 강해린, 나 이루어지 못하지만 제가 세상에서 가장 강해린을 사랑한다는 것을 부정할 사람은 없습니다. 강해린을 위해 이런 주접 댓글을 쓰고 강애린을 위해 팬계정을 만들고 강해린을 제가 가장 좋아한다는 사실을 부정하는 사람은 없습니다. 강해린, 나 강해린, 낭만 이 사람을 낭만이라 부르기로 하였습니다.",
-    },
-    { title: "강해린", content: "강해린 C급이다 문화재 도입 시급" },
-    {
-      title: "너무 이쁘지요",
-      content:
-        "오늘부로 나는 강해린에 대한 지지를 철회한다. 지금부터 지지관계에서 벗어나 강해린과 나는 한몸으로 일체가 된다. 강해린 3대 부정은 상대성 이론, 피타고라스 정의와 함께 바쁘다 바빠 현대사회에 이르기까지 가장 사랑받는 법칙이자 이론이다. 다음은 강해린의 3대 부정에 대한 간략한 설명이다.",
-    },
-    {
-      title: "문의합니다~",
-      content:
-        "첫째, 저는 고양이가 아닙니다. 많은 이들을 충격과 공포에 빠뜨린 이 고백은 2K 이후 가장 충격적인 고백으로 평가된다. 이후, 4,728명의 학자들은 3년이라는 시간을 들여 '저는 고양이가 아닙니다'를 해석하려 노력하였고, 마침내 2023년 12월 19일 18:00시에 최초로 공개된다고 한다. '저는 고양이가 아닙니다'는 '저는 goat 양입니다', 즉 '저는 신입니다'라는 뜻일 거라는 것이 학계의 정설이다.",
-    },
-    {
-      title: "집에 보내주세요~",
-      content:
-        "둘째, 개구리를 좋아하지 않습니다. 많은 개구리들을 충격과 공포에 빠뜨렸으며, 이때부터 개구리들은 굴개굴개 울었다고 한다. 귀여운 개구리는 좋아한다는 한마디에 많은 개구리들이 지금도 귀여워지기 위해 노력하고 있다는 소문이 있다. 쓰끼에에에에에에에에.",
-    },
-    {
-      title: "강해린은 고양이",
-      content:
-        "셋째, 강해린 안 이상하다. 전 세계를 충격과 공포에 빠뜨렸으며, 이때부터 사람들은 멍때리기를 시작했다고 학계는 설명한다. 이때를 놓치지 않고 강해린은 빠르게 사람들과 고양이 그리고 개구리의 영혼을 흡수하여 대해린으로 진화에 성공했다. 2024년 대해린의 시대는 과연 얼마나 '안 이상할지' 이상하게도 기대가 되는 건 설마 이미 강해린에 빠져들었기 때문일까?",
-    },
-    {
-      title: "우리집 고양이 욤이",
-      content:
-        "강해린 뒤에서 걷지 마라. 강해린은 그대를 이끌지 않을 수도 있다. 강해린 앞에서 걷지 마라. 강해린은 그대를 따르지 않을 수도 있다. 다만 강해린 옆에서 걸으라. 강해린의 벗이 될 수 있도록.",
-    },
-    {
-      title: "너무 귀여워요",
-      content:
-        "강해린을 모르고는 살아갈 수 없다. 강해린을 모르는 내 인생이 어찌 인생이라고 할 수 있겠는가. 강해린이 없는 세상에 내 미래는 없다. 강해린이 없는데 어찌 미래를 갈구할 수 있겠는가. 강해린이 없는 세상에 빛이란 없다. 강해린이 없는데 세상이 어찌 밝아질 수 있겠는가. 강해린이 없는 세상에 행복이란 없다. 강해린이 존재하지 않는데 어찌 행복을 느낄 수 있겠는가. 강해린이 없는 세상에 사랑이란 없다. 강해린 말고 또 어떤 누구를 사랑할 수 있겠는가. 강해린을 안다면 인생의 의미를 깨닫게 될 것이고, 강해린이 있다면 더 나은 미래를 꿈꿀 것이고, 강해린이 있다면 세상에 빛이 있으리라. 강해린이 있다면 세상에 구원이 있으리라. 또한 강해린이 있다면 행복의 기준이 달라질 것이며, 나의 사랑은 오직 강해린뿐이고 강해린만이 오직 나의 사랑이다. 암흑 속에 강해린이 나타나 이 세상에 빛이 있으라 한다면, 절망적인 이 세상에 강해린이 나타나 구원이 있으라 한다면, 그 날 이후로 교회에서는 강해린을 믿을 것이며 절에서는 강해린을 보며 절할 것이고 무슬림들은 메카 대신 강해린을 보며 기도할 것이다. 나의 전부인 강해린... 그녀의 미소에 나도 웃을 수밖에 없겠어... 참으려고 해도 어쩔 수 없다. 그녀가 웃는데 내가 어찌 웃지 않을 수 있겠나. 그녀가 운다면 울 것이고, 그녀가 화낸다면 나 또한 같이 화를 낼 것이다. 이것이 강해린, 나의 여자를 사랑하는 나의 방식이다.",
-    },
-  ];
+  // useEffect 훅을 사용하여 컴포넌트가 마운트될 때 데이터를 가져옴
+  useEffect(() => {
+    const fetchHelpRequests = async () => {
+      try {
+        const response = await HelpAxios.getHelpRequests(email);
+        setHelpRequests(response.data); // API에서 가져온 데이터 저장
+      } catch (error) {
+        console.error("문의 내역을 불러오는데 실패했습니다.", error);
+      }
+    };
+
+    fetchHelpRequests();
+  }, [email]);
 
   const codeModalOkBtnHandler = () => {
     closeNextModal();
@@ -353,13 +354,19 @@ const HelpPage = () => {
     window.location.reload();
   };
 
-  const handleTitleClick = (title, content) => {
+  const handleTitleClick = (id, title, contents, createdDate) => {
+    setSelectedId(id); // ID 업데이트
     setSelectedTitle(title);
-    setSelectedContent(content);
+    setSelectedContent(contents);
+    setSelectedTime(createdDate);
   };
 
-  const sendEmail = (e) => {
+  const isSelected = (id) => id === selectedId;
+
+  const sendEmail = async (e) => {
     e.preventDefault();
+
+    // 이메일 발송
     emailjs
       .sendForm(
         "service_waq6b03",
@@ -369,16 +376,36 @@ const HelpPage = () => {
       )
       .then(
         (result) => {
+          // 이메일 발송 성공 시 모달을 열고 내용 설정
           setModalOpen(true);
           setModalContent("1:1 문의 등록이 완료되었습니다.");
           form.current.reset();
         },
         (error) => {
+          // 이메일 발송 실패 시 모달을 열고 내용 설정
           console.log(error.text);
           setModalOpen(true);
           setModalContent("1:1 문의 등록에 실패하였습니다..");
         }
       );
+
+    // 문의 내용을 데이터베이스에 저장
+    const formData = {
+      email,
+      title: form.current.help_title.value,
+      contents: form.current.message.value,
+    };
+
+    try {
+      await HelpAxios.postHelpSend(formData);
+      // 문의 등록 후 데이터 다시 불러오기
+      const response = await HelpAxios.getHelpRequests(email);
+      setHelpRequests(response.data);
+    } catch (error) {
+      console.log(error);
+      setModalOpen(true);
+      setModalContent("1:1 문의 등록에 실패하였습니다..");
+    }
   };
 
   return (
@@ -388,19 +415,29 @@ const HelpPage = () => {
           <ListTitleBox>
             <ListName>1:1 문의내역</ListName>
             <TitleBox>
-              {helpData.map((help, index) => (
+              {helpRequests.map((help, id) => (
                 <Title
-                  key={index}
-                  onClick={() => handleTitleClick(help.title, help.content)}
-                  isSelected={selectedTitle === help.title}
+                  key={help.id}
+                  onClick={() =>
+                    handleTitleClick(
+                      help.id,
+                      help.title,
+                      help.contents,
+                      help.createdDate
+                    )
+                  }
+                  className={isSelected(help.id) ? "selected" : ""}
                 >
-                  {help.title}
+                  {help.title.length > 7
+                    ? `${help.title.substring(0, 7)}...`
+                    : help.title}
                 </Title>
               ))}
             </TitleBox>
           </ListTitleBox>
           <ListContents>
             <ContentTitle>문의제목 : {selectedTitle}</ContentTitle>
+            <ContentTime>작성일 : {selectedTime}</ContentTime>
             <ContentsBox>
               <Contents>{selectedContent}</Contents>
             </ContentsBox>
@@ -417,7 +454,9 @@ const HelpPage = () => {
               maxLength={20}
               required
             />
-            <SendBtn type="submit">문의하기</SendBtn>
+            <SendBtn type="submit" onSumbit={sendEmail}>
+              문의하기
+            </SendBtn>
           </HelpTitleBox>
           <HelpContents
             name="message"

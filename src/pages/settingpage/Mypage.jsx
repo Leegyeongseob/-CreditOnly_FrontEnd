@@ -5,7 +5,6 @@ import Logo from "../../img//background/CreditOnlyLogo.png";
 import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
-import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 
 const Container = styled.div`
   width: 100%;
@@ -311,7 +310,7 @@ const UserDelBtn = styled(Link)`
 `;
 
 const Mypage = () => {
-  const { email, setEmail } = useContext(UserEmailContext);
+  const { email } = useContext(UserEmailContext);
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [joinDate, setJoinDate] = useState("");
