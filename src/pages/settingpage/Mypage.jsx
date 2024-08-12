@@ -5,6 +5,7 @@ import Logo from "../../img//background/CreditOnlyLogo.png";
 import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import ImportHelp from "./ImportHelp";
 
 const Container = styled.div`
   width: 100%;
@@ -232,11 +233,7 @@ const ChatView = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-image: ${({ imageurl }) => `url(${imageurl})`};
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  flex-direction: column;
   @media screen and (max-width: 768px) {
     width: 48%;
     height: 260px;
@@ -309,6 +306,47 @@ const UserDelBtn = styled(Link)`
   }
 `;
 
+const ViewTitle = styled.div`
+  width: 95%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 17px;
+  font-weight: bolder;
+  padding: 0 3% 0 3%;
+`;
+
+const ViewLink = styled(Link)`
+  width: 60px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: #5a6acf;
+  transition: background-color 0.5s ease;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => theme.background};
+  }
+  @media screen and (max-width: 768px) {
+    width: 50px;
+    font-size: 12px;
+  }
+`;
+const ViewContents = styled.div`
+  width: 95%;
+  height: 76%;
+  margin-top: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Mypage = () => {
   const { email } = useContext(UserEmailContext);
   const [name, setName] = useState("");
@@ -368,7 +406,15 @@ const Mypage = () => {
       </TopSide>
       <BottomSide>
         <CreditView imageurl={Logo}>신용점수</CreditView>
-        <ChatView imageurl={Logo}>문의내역</ChatView>
+        <ChatView>
+          <ViewTitle>
+            문의내역
+            <ViewLink to="/help">이동</ViewLink>
+          </ViewTitle>
+          <ViewContents>
+            <ImportHelp />
+          </ViewContents>
+        </ChatView>
         <ChatView imageurl={Logo}>챗봇</ChatView>
       </BottomSide>
       <LowSide>

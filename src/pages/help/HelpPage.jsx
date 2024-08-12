@@ -415,24 +415,27 @@ const HelpPage = () => {
           <ListTitleBox>
             <ListName>1:1 문의내역</ListName>
             <TitleBox>
-              {helpRequests.map((help, id) => (
-                <Title
-                  key={help.id}
-                  onClick={() =>
-                    handleTitleClick(
-                      help.id,
-                      help.title,
-                      help.contents,
-                      help.createdDate
-                    )
-                  }
-                  className={isSelected(help.id) ? "selected" : ""}
-                >
-                  {help.title.length > 7
-                    ? `${help.title.substring(0, 7)}...`
-                    : help.title}
-                </Title>
-              ))}
+              {helpRequests
+                .slice()
+                .reverse()
+                .map((help) => (
+                  <Title
+                    key={help.id}
+                    onClick={() =>
+                      handleTitleClick(
+                        help.id,
+                        help.title,
+                        help.contents,
+                        help.createdDate
+                      )
+                    }
+                    className={isSelected(help.id) ? "selected" : ""}
+                  >
+                    {help.title.length > 7
+                      ? `${help.title.substring(0, 7)}...`
+                      : help.title}
+                  </Title>
+                ))}
             </TitleBox>
           </ListTitleBox>
           <ListContents>
