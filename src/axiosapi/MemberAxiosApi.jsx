@@ -1,6 +1,11 @@
 import AxiosInstance from "./AxiosInstance";
 
 const MemberAxiosApi = {
+  //토큰으로 이메일 불러오기
+  getEmail: async () => {
+    return await AxiosInstance.get("/member/getEmail");
+  },
+
   //회원수정을 위한 계정을 불러오기 위한 axois
   memberAxios: async (email) => {
     const member = { email: email };

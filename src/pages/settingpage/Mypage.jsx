@@ -2,8 +2,10 @@ import styled from "styled-components";
 import UserImgs from "../../img/commonImg/프로필예시.jpeg";
 import { Link } from "react-router-dom";
 import Logo from "../../img//background/CreditOnlyLogo.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 
 const Container = styled.div`
   width: 100%;
@@ -309,20 +311,18 @@ const UserDelBtn = styled(Link)`
 `;
 
 const Mypage = () => {
-  const userEmail = sessionStorage.getItem("email");
-  const [name, setName] = useState(""); // 5. 일기 작성 데이터
-  const [email, setEmail] = useState(""); // 5. 일기 작성 데이터
-  const [birthDate, setBirthDate] = useState(""); // 5. 일기 작성 데이터
-  const [joinDate, setJoinDate] = useState(""); // 5. 일기 작성 데이터
+  const { email, setEmail } = useContext(UserEmailContext);
+  const [name, setName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [joinDate, setJoinDate] = useState("");
 
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
       try {
-        const response = await SettingAxios.getUserInfo(userEmail);
-        const { name, email, birthDate, joinDate } = response.data;
+        const response = await SettingAxios.getUserInfo(email);
+        const { name, birthDate, joinDate } = response.data;
         setName(name);
-        setEmail(email);
         setBirthDate(birthDate);
         setJoinDate(joinDate);
       } catch (error) {
@@ -331,7 +331,7 @@ const Mypage = () => {
     };
 
     fetchUserInfo();
-  }, [userEmail]);
+  }, [email]);
 
   return (
     <Container>

@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import MemberAxiosApi from "../axiosapi/MemberAxiosApi";
 
 // Context 생성
 export const UserEmailContext = createContext();
@@ -7,6 +8,20 @@ export const UserEmailContext = createContext();
 const UserEmailProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [kakaoImgUrl, setKakaoImgUrl] = useState("");
+  useEffect(() => {
+    // 사용자 정보를 가져오는 함수
+    const fetchUserInfo = async () => {
+      try {
+        const response = await MemberAxiosApi.getEmail();
+        console.log("받아오나?", response.data);
+        setEmail(response.data);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   return (
     <UserEmailContext.Provider

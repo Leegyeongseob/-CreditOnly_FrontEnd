@@ -6,8 +6,10 @@ import { Link, useLocation } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
 import { IoNotificationsOutline, IoMenuOutline } from "react-icons/io5";
 import UserToggle from "./UserToggle";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -286,14 +288,14 @@ const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
 
-  const userEmail = sessionStorage.getItem("email");
+  const { email } = useContext(UserEmailContext);
   const [user, setUser] = useState({ name: "", email: "" });
 
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
       try {
-        const response = await SettingAxios.getUserInfo(userEmail);
+        const response = await SettingAxios.getUserInfo(email);
         setUser(response.data);
       } catch (error) {
         console.error("Error fetching user info:", error);
@@ -301,7 +303,7 @@ const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
     };
 
     fetchUserInfo();
-  }, [userEmail]);
+  }, [email]);
 
   // LeftBox 배경색을 결정하는 함수
   const getLeftBoxBackgroundColor = () => {
