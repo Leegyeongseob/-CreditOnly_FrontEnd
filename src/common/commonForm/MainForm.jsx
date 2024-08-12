@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import SideBar from "./SideBar";
 import Header from "./Header";
 import { useEffect, useState } from "react";
+import AlarmBar from "./AlarmBar";
 
 const Screen = styled.div`
   background-color: ${({ theme }) => theme.background};
@@ -33,6 +34,7 @@ const Contents = styled.div`
 
 const MainForm = ({ toggleDarkMode, isDarkMode }) => {
   const [isSideBarVisible, setIsSideBarVisible] = useState(true);
+  const [isAlarmVisible, setIsAlarmVisible] = useState(false);
   const [isHeader, setIsHeader] = useState(false);
   const location = useLocation(); // 현재 경로를 가져옴
 
@@ -43,6 +45,11 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
   const toggleSideBar = () => {
     setIsSideBarVisible(!isSideBarVisible);
     setIsHeader(!isHeader);
+  };
+
+  // sidebar의 가시성을 토글하는 함수
+  const toggleAlarmBar = () => {
+    setIsAlarmVisible(!isAlarmVisible);
   };
 
   // 화면 크기 변화에 따라 사이드바를 숨기거나 보이게 설정하는 함수
@@ -72,6 +79,7 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
     <>
       <Header
         toggleSideBar={toggleSideBar}
+        toggleAlarmBar={toggleAlarmBar}
         isHeader={isHeader}
         toggleDarkMode={toggleDarkMode}
         isDarkMode={isDarkMode}
@@ -81,6 +89,7 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
         <Contents>
           <Outlet />
         </Contents>
+        {isAlarmVisible && <AlarmBar toggleAlarmBar={toggleAlarmBar} />}
       </Screen>
     </>
   );

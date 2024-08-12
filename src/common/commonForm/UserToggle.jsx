@@ -33,6 +33,7 @@ const MenuButton = styled(motion.button)`
   border-radius: 5px;
   width: 40px;
   height: 50px;
+  margin-top: 1.5%;
   background-color: transparent;
 `;
 
@@ -42,7 +43,7 @@ const ArrowIcon = styled.div`
 
 const MenuList = styled.ul`
   pointer-events: ${({ isOpen }) => (isOpen ? "auto" : "none")};
-  margin-top: 13%;
+  margin-top: 11.5%;
   border-radius: 5px;
   padding: 10px;
   background-color: ${({ theme }) => theme.background};

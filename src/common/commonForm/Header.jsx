@@ -283,7 +283,13 @@ const AlarmSet = styled.div`
   }
 `;
 
-const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
+const Header = ({
+  toggleSideBar,
+  isHeader,
+  toggleDarkMode,
+  isDarkMode,
+  toggleAlarmBar,
+}) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
 
@@ -369,7 +375,7 @@ const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
             email={user.email}
           />
           <Dont />
-          <AlarmSet>
+          <AlarmSet onClick={toggleAlarmBar}>
             <IoNotificationsOutline size={25} color="#717694" />
           </AlarmSet>
         </UserBox>
