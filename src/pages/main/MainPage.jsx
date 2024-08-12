@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useContext,
+} from "react";
 import styled from "styled-components";
 import Ad1 from "../../img/mainImg/Ad1.png";
 import Ad2 from "../../img/mainImg/Ad2.png";
@@ -12,6 +18,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 
 const Container = styled.div`
   width: 100%;
@@ -419,6 +427,27 @@ const MainPage = () => {
   // 초기 순서를 저장하는 상태
   const [initialOrder, setInitialOrder] = useState(componentOrder);
 
+  //카카오 로그인시 프로필 자동 변경
+  // contextApi에서 저장중인 email 불러오기
+  const { email, kakaoImgUrl } = useContext(UserEmailContext);
+  console.log("email:", email);
+  //카카오 프로필 사진저장 비동기 함수
+  const kakaoProfileImgAxios = async (emailvalue, kakaoProfile) => {
+    const res = await MemberAxiosApi.profileUrlSave(emailvalue, kakaoProfile);
+    console.log("kakaoProfile:", res.data);
+  };
+  useEffect(() => {
+    //프로필 이미지 가져오기
+    getProfileImg(email);
+  }, []);
+  // 이메일로 프로필 이미지 가져오기
+  const getProfileImg = async (emailValue) => {
+    const response = await MemberAxiosApi.searchProfileUrl(emailValue);
+    //카카오 로그인인 경우에만 카카오 프로필 이미지 저장
+    if (response.data === "notExist" && kakaoImgUrl) {
+      kakaoProfileImgAxios(email, kakaoImgUrl);
+    }
+  };
   // 컴포넌트 순서가 변경될 때마다 로컬 스토리지에 저장
   useEffect(() => {
     if (!isEditing) {

@@ -22,7 +22,7 @@ import ChatBot from "./pages/help/ChatBot";
 import ResetPassword from "./pages/login/ResetPassword";
 import { useState } from "react";
 import { ThemeProvider } from "styled-components";
-
+import UserEmailProvider from "./contextapi/UserEmailProvider";
 // 라이트 및 다크 테마 설정
 const lightTheme = {
   background: "#ffffff",
@@ -82,54 +82,56 @@ const App = () => {
         {/* 전역스타일적용 */}
         <GlobalStyle />
         <CreditStyle />
-        <Router>
-          <Routes>
-            <Route path="/" element={<RendingPage />} />
-            <Route path="/error" element={<ErrorPage />} />
-            <Route
-              element={
-                <MainForm
-                  toggleDarkMode={toggleDarkMode}
-                  isDarkMode={isDarkMode}
-                />
-              }
-            >
-              <Route path="/mainpage" element={<MainPage />} />
-              <Route path="/setting" element={<Mypage />} />
-              <Route path="/help" element={<HelpPage />} />
-              <Route path="/information" element={<CreditNews />} />
+        <UserEmailProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<RendingPage />} />
+              <Route path="/error" element={<ErrorPage />} />
               <Route
-                path="/information-list/:category"
-                element={<NewsList />}
-              />
-              <Route path="/news/:id" element={<NewsDetail />} />
-              <Route path="/evaluation" element={<Evaluation />} />
-              <Route path="/announcement" element={<Announcement />} />
-            </Route>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route
-              path="/chat"
-              element={
-                <ChatBot
-                  toggleDarkMode={toggleDarkMode}
-                  isDarkMode={isDarkMode}
+                element={
+                  <MainForm
+                    toggleDarkMode={toggleDarkMode}
+                    isDarkMode={isDarkMode}
+                  />
+                }
+              >
+                <Route path="/mainpage" element={<MainPage />} />
+                <Route path="/setting" element={<Mypage />} />
+                <Route path="/help" element={<HelpPage />} />
+                <Route path="/information" element={<CreditNews />} />
+                <Route
+                  path="/information-list/:category"
+                  element={<NewsList />}
                 />
-              }
-            />
-            <Route element={<FindByForm />}>
-              <Route path="/findbyemail" element={<FindEmail />} />
-              <Route path="/findbypwd" element={<FindPassword />} />
-              <Route path="/resetpwd" element={<ResetPassword />} />
-            </Route>
-            {/* <Route element={<OpenBook />}>
+                <Route path="/news/:id" element={<NewsDetail />} />
+                <Route path="/evaluation" element={<Evaluation />} />
+                <Route path="/announcement" element={<Announcement />} />
+              </Route>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route
+                path="/chat"
+                element={
+                  <ChatBot
+                    toggleDarkMode={toggleDarkMode}
+                    isDarkMode={isDarkMode}
+                  />
+                }
+              />
+              <Route element={<FindByForm />}>
+                <Route path="/findbyemail" element={<FindEmail />} />
+                <Route path="/findbypwd" element={<FindPassword />} />
+                <Route path="/resetpwd" element={<ResetPassword />} />
+              </Route>
+              {/* <Route element={<OpenBook />}>
             <Route path="/board-guestbook" element={<GuestBoardGuestbook />} />
             <Route path="/board-details/:id" element={<BoardDetails />} />
             <Route path="/board-write" element={<BoardWrite />} />
             <Route path="/board-update" element={<BoardUpdate />} />
           </Route> */}
-          </Routes>
-        </Router>
+            </Routes>
+          </Router>
+        </UserEmailProvider>
       </ThemeProvider>
     </>
   );

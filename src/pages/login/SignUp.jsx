@@ -1,11 +1,12 @@
 import styled, { keyframes } from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import emailjs from "emailjs-com";
 import Modal from "../../common/utils/Modal";
 import Common from "../../common/Common";
 import termNote from "../../img/loginImg/findglass.png";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 const TitleDiv = styled.div`
   width: 100%;
   height: 23%;
@@ -382,6 +383,9 @@ const SignUp = () => {
   const [headerContents, SetHeaderContents] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+  //ContextApi로 email관리하기
+  const { setEmail, setKakaoImgUrl } = useContext(UserEmailContext);
+
   const navigate = useNavigate();
   //카카오 로그인 props
   const location = useLocation();
@@ -531,7 +535,8 @@ const SignUp = () => {
         isTermAccepted
       ) {
         kakaoLogin(kakaoEmail, kakaopwd);
-        sessionStorage.setItem("kakaoImgUrl", kakaoImgUrl);
+        setKakaoImgUrl(kakaoImgUrl);
+        // sessionStorage.setItem("kakaoImgUrl", kakaoImgUrl);
         navigate("/mainpage");
       }
     } catch (error) {
@@ -553,8 +558,7 @@ const SignUp = () => {
         console.log("refreshToken : ", response.data.refreshToken);
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
-        sessionStorage.setItem("email", kakoEmailvalue);
-        
+        setEmail(kakoEmailvalue);
       } else {
         setModalOpen(true);
         SetHeaderContents("로그인 에러");

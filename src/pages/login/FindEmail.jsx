@@ -255,15 +255,28 @@ const FindEmail = () => {
       console.log(Name);
       console.log(combinedRnn);
       const showUserId = await LoginAxios.findIdResult(Name, combinedRnn);
+
+      // showUserId.data가 List<String>으로 가정
+      const userIdList = showUserId.data; // List<String>
+
+      // List<String>을 Map으로 변환
+      const userIdMap = userIdList.reduce((map, userId, index) => {
+        map[index] = userId; // 인덱스를 키로 사용하고, 문자열을 값으로 사용
+        return map;
+      }, {});
+
+      console.log(userIdMap); // 결과를 콘솔에 출력
+
       SetHeaderContents("아이디 확인");
       setModalOpen(true);
-      if (showUserId.data === "") {
+      if (userIdList.length === 0) {
         setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
       } else {
-        setModalContent(`아이디: ${showUserId.data} 입니다.`);
-        setEmail(showUserId.data);
+        setModalContent(
+          `아이디: ${Object.values(userIdMap).join(", ")} 입니다.`
+        );
+        setEmail(Object.values(userIdMap).join(", "));
       }
-      // console.log(showEmail);
     } catch (error) {
       console.log(error);
     }

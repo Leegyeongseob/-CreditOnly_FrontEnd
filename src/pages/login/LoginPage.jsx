@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import kakao from "../../img/loginImg/kakako.png";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import Common from "../../common/Common";
 import Modal from "../../common/utils/ImageModal";
@@ -10,7 +10,7 @@ import GoogleAndNaverNotLogin from "../../img/loginImg/구글,네이버 간편 �
 import LoginModal from "../../common/utils/Modal";
 import KakaoLogin from "react-kakao-login";
 import logoImg from "../../img/background/CreditOnlyLogo.png";
-
+import {UserEmailContext} from "../../contextapi/UserEmailProvider";
 const LoginDiv = styled.div`
   width: 100%;
   height: 20%;
@@ -311,7 +311,8 @@ const LoginPage = () => {
   const [modalImg, setModalImg] = useState();
   // 모달 변경
   const [isModalImg, setIsModalImg] = useState(false);
-
+  // useContext로 email관리하기
+  const { setEmail,setKakaoImgUrl } = useContext(UserEmailContext);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -335,7 +336,7 @@ const LoginPage = () => {
 
   const loginBtnHandler = () => {
     if (isId && isPwd) {
-      sessionStorage.setItem("email", inputEmail);
+      setEmail(inputEmail);
       loginAxios(inputEmail, inputpwd);
     }
   };
@@ -347,7 +348,7 @@ const LoginPage = () => {
         console.log("refreshToken : ", response.data.refreshToken);
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
-        sessionStorage.setItem("email", email);
+        setEmail(email);
 
         navigate(`/mainpage`);
       } else {
@@ -426,8 +427,9 @@ const LoginPage = () => {
         console.log("refreshToken : ", res.data.refreshToken);
         Common.setAccessToken(res.data.accessToken);
         Common.setRefreshToken(res.data.refreshToken);
-        sessionStorage.setItem("email", propsToPass.kakaoEmail);
-        sessionStorage.setItem("kakaoImgUrl", propsToPass.kakaoImgUrl);
+        setEmail(propsToPass.kakaoEmail);
+        setKakaoImgUrl(propsToPass.kakaoImgUrl);
+        // sessionStorage.setItem("kakaoImgUrl", );
         //이메일로 커플이름 찾는 비동기 함수
         const coupleNameSearchAxios = async (email) => {
           console.log(email);
