@@ -283,15 +283,15 @@ const FindPassword = () => {
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const [saveCertificationCode, setSaveCertificationCode] = useState(null);
-  
+
   const navigate = useNavigate();
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
     closeModal();
     if (pwd) {
-    const propsToPass ={
-      email:inputEmail
-    }
+      const propsToPass = {
+        email: inputEmail,
+      };
 
       navigate("/resetpwd", { state: propsToPass });
     }
@@ -475,7 +475,7 @@ const FindPassword = () => {
                 isActive={isEmailSent}
                 onClick={emailCertificationCodeOnClick}
               >
-                확인
+                check
               </EmailAthouized>
             </InputDetailDiv>
           )}

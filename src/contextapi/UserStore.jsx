@@ -15,7 +15,7 @@ const UserStore = (props) => {
   }, [navigate]);
 
   return (
-    <UserContext.Provider value={{ error }}>
+    <UserContext.Provider value={{ error, setError }}>
       {props.children}
     </UserContext.Provider>
   );

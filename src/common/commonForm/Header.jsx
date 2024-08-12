@@ -2,13 +2,14 @@ import styled from "styled-components";
 import Logo from "../../img/background/CreditOnlyLogo.png";
 import logosearch from "../../img/loginImg/findglass.png";
 import exProfile from "../../img/commonImg/프로필예시.jpeg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
 import { IoNotificationsOutline, IoMenuOutline } from "react-icons/io5";
 import UserToggle from "./UserToggle";
 import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import MainAxios from "../../axiosapi/MainAxios";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -124,6 +125,7 @@ const SearchBox = styled.div`
   width: 55%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -132,7 +134,13 @@ const SearchBox = styled.div`
     width: 45%;
   }
 `;
-
+const SearchInputDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const SearchInput = styled.input.attrs({ type: "text" })`
   display: flex;
   width: 85%;
@@ -149,7 +157,54 @@ const SearchInput = styled.input.attrs({ type: "text" })`
     border: 1px solid darkgray;
   }
 `;
+const SearchOutputDiv = styled.div`
+  width: 40vw;
+  max-height: 30vh; // 최대 높이 설정
+  position: absolute; // 입력창을 가리지 않도록
+  top: 100%; // 입력창의 바로 아래에 위치시킴
+  display: ${({ searchComplete }) => (searchComplete ? "flex" : "none")};
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto; // 내용이 넘칠 경우 스크롤
+  background-color: transparent; // 배경색 설정
+  border-radius: 5px;
+  z-index: 100; // 입력창 위에 표시되도록
+`;
+const SearchOutput = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 2%;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 1;
+  background-color: ${({ theme }) => theme.overlay};
+  color: ${({ theme }) => theme.color};
+  cursor: ${({ result }) => (result ? "pointer" : "default")};
+  transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 
+  & > .title {
+    font-weight: 600;
+  }
+  & > .contents {
+    font-size: 14px;
+  }
+
+  &:hover {
+    ${({ result }) =>
+      result &&
+      `
+      transform: scale(0.95);
+      box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+      color:  #5549f7;
+    `}
+  }
+`;
 const Searchlogo = styled.img`
   width: 15px;
   height: 15px;
@@ -293,9 +348,13 @@ const Header = ({
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
 
-  const { email } = useContext(UserEmailContext);
-  const [user, setUser] = useState({ name: "", email: "" });
-
+  const { email, imgUrl } = useContext(UserEmailContext);
+  const [user, setUser] = useState([{ name: "", email: "" }]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchData, setSearchData] = useState([]);
+  // 검색 상태 변수
+  const [searchComplete, setSearchComplete] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
@@ -318,7 +377,30 @@ const Header = ({
       return "theme.sideBar";
     }
   };
+  // 엔터로 검색
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+  // 검색버튼 이벤트 핸들러
+  const handleSearch = () => {
+    setSearchComplete(true);
+    fetchData();
+    setSearchTerm("");
+  };
 
+  // 데이터 가져오는 비동기 함수
+  const fetchData = async () => {
+    try {
+      const searchList = await MainAxios.dataSearch(email, searchTerm);
+      console.log(searchList.data);
+      setSearchData(searchList.data);
+    } catch (error) {
+      console.error("Error fetching search data:", error);
+      // 사용자에게 오류를 알려주는 방법을 추가할 수 있음
+    }
+  };
   return (
     <HeaderContainer isOpen={isOpen}>
       <LeftBox
@@ -337,18 +419,41 @@ const Header = ({
       </LeftBox>
       <RightBox>
         <SearchBox>
-          <SearchInput
-            placeholder="검색어를 입력해주세요."
-            //   value={searchTerm}
-            //   onChange={(e) => setSearchTerm(e.target.value)}
-            //   onKeyPress={handleKeyPress}
-          />
-          <Searchlogo
-            src={logosearch}
-            //   onClick={() => {
-            //     handleSearch();
-            //   }}
-          />
+          <SearchInputDiv>
+            <SearchInput
+              placeholder="검색어를 입력해주세요."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <Searchlogo
+              src={logosearch}
+              onClick={() => {
+                handleSearch();
+              }}
+            />
+          </SearchInputDiv>
+          <SearchOutputDiv searchComplete={searchComplete}>
+            {searchData.length > 0 ? (
+              searchData.map((item) => (
+                <SearchOutput
+                  result={true}
+                  key={item.id}
+                  onClick={() => {
+                    navigate(`/${item.page}`);
+                    setSearchComplete(false);
+                  }}
+                >
+                  <div className="title">{item.title}</div>
+                  <div className="contents">{item.contents}</div>
+                </SearchOutput>
+              ))
+            ) : (
+              <SearchOutput result={false}>
+                <div className="noResult">검색 결과가 없습니다.</div>
+              </SearchOutput>
+            )}
+          </SearchOutputDiv>
         </SearchBox>
         <ToggleBox>
           <Toggle onClick={toggleDarkMode}>
@@ -365,7 +470,9 @@ const Header = ({
         <UserBox>
           <UserDiv>
             <UserProfile>
-              <UserImg imageurl={exProfile} />
+              <UserImg
+                imageurl={imgUrl && imgUrl !== "notExist" ? imgUrl : exProfile}
+              />
             </UserProfile>
             <UserName>{user.name}</UserName>
           </UserDiv>

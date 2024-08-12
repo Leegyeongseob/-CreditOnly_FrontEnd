@@ -384,7 +384,7 @@ const SignUp = () => {
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
   //ContextApi로 email관리하기
-  const { setEmail, setKakaoImgUrl } = useContext(UserEmailContext);
+  const { setEmail, setImgUrl } = useContext(UserEmailContext);
 
   const navigate = useNavigate();
   //카카오 로그인 props
@@ -535,8 +535,7 @@ const SignUp = () => {
         isTermAccepted
       ) {
         kakaoLogin(kakaoEmail, kakaopwd);
-        setKakaoImgUrl(kakaoImgUrl);
-        // sessionStorage.setItem("kakaoImgUrl", kakaoImgUrl);
+        setImgUrl(kakaoImgUrl);
         navigate("/mainpage");
       }
     } catch (error) {
@@ -678,7 +677,7 @@ const SignUp = () => {
                       isActive={isEmailSent}
                       onClick={emailCertificationCodeOnClick}
                     >
-                      확인
+                      check
                     </EmailAthouized>
                   </InputDetailDiv>
                 )}

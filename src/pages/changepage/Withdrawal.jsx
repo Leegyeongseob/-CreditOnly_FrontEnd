@@ -1,162 +1,216 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import LoginAxios from "../../axiosapi/LoginAxios";
 import emailjs from "emailjs-com";
+import ImageModal from "../../common/utils/ImageModal";
 import Modal from "../../common/utils/Modal";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+import cry from "../../img/loginImg/울음.gif";
 const Contain = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 60%;
+  height: 80%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-`;
-const TitleDiv = styled.div`
-  width: 100%;
-  height: 20%;
-  display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
-  font-weight: 900;
-  color: #b44a4a;
-  @media screen and (max-width: 654px) {
-    font-size: 3vw;
-  }
 `;
+
 const InputDiv = styled.div`
   width: 100%;
-  height: 80%;
+  height: 70%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  
 `;
 const InputDetailDiv = styled.div`
   width: 100%;
-  height: 32px;
+  height: 27%;
   display: flex;
   gap: 2px;
-  @media screen and (max-width: 654px) {
-    height: 5vw;
-  }
-  & > label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 29%;
-    height: auto;
-    font-size: 14px;
-    color: #b44a4a;
-    text-align: center;
-    font-weight: bolder;
-    @media screen and (max-width: 654px) {
-      font-size: 2vw;
-    }
-  }
-  & > .InputCode,
-  & > .InputEmail {
-    width: 53%;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > .InputClass {
+    width: 90%;
+    height: 70%;
     border-radius: 0.521vw;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid #000;
     outline: none;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-    padding-left: 0.521vw;
-    font-size: 14px;
+    padding-left: 5px;
+    font-size: 3vh;
+    padding-left: 10px;
     font-weight: 600;
-    @media screen and (max-width: 654px) {
-      font-size: 2vw;
+    &::placeholder {
+      text-align: center;
+      font-size: 2.5vh;
+      color: #5a3092;
+      opacity: 0.5;
+      font-weight: normal;
+      font-style: italic;
+    }
+  }
+  & > .InputEmail,
+  .InputCode {
+    width: 76%;
+    height: 70%;
+    border-radius: 0.521vw;
+    border: 1px solid #000;
+    outline: none;
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+    padding-left: 5px;
+    font-size: 3vh;
+    padding-left: 10px;
+    font-weight: 600;
+    &::placeholder {
+      text-align: center;
+      font-size: 2.5vh;
+      color: #5a3092;
+      opacity: 0.5;
+      font-weight: normal;
+      font-style: italic;
     }
   }
 `;
 const Empty = styled.div`
   width: 2%;
+  height: 2vh;
 `;
 const EmailAthouized = styled.div`
   width: 12%;
-  border-radius: 10px;;
+  height: 70%;
+  border-radius: 10px;
   border: none;
-  background-color: ${({ isActive }) =>
-    isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
+  background-color: ${({ isActive }) => (isActive ? "#367EE9" : "#fff")};
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 0.208vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.729vw;
-  color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
-  font-weight: 700;
+  font-size: 17px;
+  color: ${({ isActive }) => (isActive ? "#fff" : "#5b3092a9")};
+  font-weight: 600;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
-    background-color: ${({ isActive }) =>
-      isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-  }
-  @media screen and (max-width: 654px) {
-    font-size: 2vw;
+    background-color: ${({ isActive }) => (isActive ? "#fff" : "#88ff9c")};
+    color: ${({ isActive }) => (isActive ? "#5b3092a9" : "#fff")};
   }
 `;
 
 const ButtonDiv = styled.div`
   width: 100%;
-  height: 14%;
+  height: 30%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: first baseline;
   align-items: center;
-  & > a {
-    width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  }
 `;
-const SignupButton = styled.div`
-    width: 30%;
-    height: 80%;
-  background-color: ${({ isActive }) =>
-    isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
-  border-radius: 1.042vw;
-  font-weight: 600;
-  font-size: 1.094vw;
-  color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
+const WithdrawalButton = styled.div`
+  width: 200px;
+  height: 50%;
+  background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
+  border-radius: 12px;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-style: italic;
+  color: ${({ isActive }) => (isActive ? "#fff" : "#5a3092")};
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: border;
+  font-weight: 600;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
     background-color: ${({ isActive }) =>
-      isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
-  }
-  @media screen and (max-width: 654px) {
-    font-size: 2vw;
+      isActive ? "#105D38" : "rgba(0, 0, 0, 0.1)"};
   }
 `;
+const WithdrawalButtonDiv = styled.div`
+  width: 23%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
+const FindPwdText = styled.div`
+  width: 100%;
+  height: 40%;
+  font-size: 55px;
+  color: #fff;
+  font-weight: bold;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+`;
+const FindByPwd = styled.div`
+  width: 100%;
+  height: 20%;
+  font-size: 20px;
+  color: #fff;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    color: #367ee9;
+    font-size: 21px;
+  }
+`;
+const GoToLoginPage = styled.div`
+  width: 80%;
+  height: 100%;
+  margin-right: 20px;
+  & > .remember {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    font-size: 20px;
+  }
+  & > .backToSetting {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: end;
+    align-items: first baseline;
+    font-weight: 600;
+    font-size: 35px;
+    cursor: pointer;
+    &:hover {
+      color: #367ee9;
+      font-size: 36px;
+    }
+  }
+`;
+const NavigateDiv = styled.div`
+  width: 100%;
+  height: 80%;
+  display: flex;
+`;
 const Message = styled.div`
   width: 100%;
-  font-size: 12px;
+  font-size: 15px;
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
-  @media screen and (max-width: 654px) {
-    font-size: 2vw;
-  }
 `;
 const Contexts = styled.div`
   width: 100%;
-  height: 100%;
+  height: 40%;
   font-size: 2.5vw;
   font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+`;
+const FindPwdTextDetail = styled.div`
+  width: 100%;
+  height: 20%;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
 `;
 const Withdrawal = () => {
   const navigate = useNavigate();
@@ -180,7 +234,10 @@ const Withdrawal = () => {
   const [headerContents, SetHeaderContents] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
-  const emailplaceholder = sessionStorage.getItem("email");
+  // 이미지 모달을 위한 상태변수
+  const [isModalImg, setIsModalImg] = useState(false);
+  //탈퇴 성공 변수
+  const [isWithdrawal, setIsWithdrawal] = useState(false);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -210,8 +267,8 @@ const Withdrawal = () => {
     };
     try {
       const response = await emailjs.send(
-        "service_7cipsqb", // 서비스 ID
-        "service_7cipsqb", // 템플릿 ID
+        "service_lwk6ny9", // 서비스 ID
+        "service_lwk6ny9", // 템플릿 ID
         templateParams,
         "VKzT47hXDU3sC3R13" // public-key
       );
@@ -238,6 +295,7 @@ const Withdrawal = () => {
   const emailCertificationCodeOnClick = () => {
     SetHeaderContents("인증코드확인");
     setModalOpen(true);
+    setIsModalImg(false);
     setModalContent("확인되었습니다.");
     setIsCode(true);
   };
@@ -246,55 +304,95 @@ const Withdrawal = () => {
     closeModal();
     setIsEmail(true);
   };
-  //회원 탈퇴하는 로직 함수
-  const signuOutBtnOnclickHandler = () => {
-    const memberDeleteAxios = async () => {
-      const rsp = await MemberAxiosApi.memberDelete(inputEmail);
-      console.log(rsp.data);
-    };
-    memberDeleteAxios();
-    if (isEmail && isCode) {
-      sessionStorage.setItem("email", "");
+  const codeImgModalOkBtnHandler = () => {
+    closeModal();
+    if (isWithdrawal) {
       navigate("/");
     }
   };
+  //회원 탈퇴하는 로직 함수
+  const signuOutBtnOnclickHandler = () => {
+    //DB에서 계정 삭제
+    const memberDeleteAxios = async () => {
+      const rsp = await MemberAxiosApi.memberDelete(inputEmail);
+      console.log(rsp.data);
+      setModalOpen(true);
+      setIsModalImg(true);
+      SetHeaderContents("회원탈퇴");
+      if (rsp.data === "회원 정보가 삭제되었습니다.") {
+        // 모달 처리
+        setModalContent("탈퇴되었습니다.");
+        setIsWithdrawal(true);
+        //삭제 후 이동
+        localStorage.setItem("accessToken", "");
+        localStorage.setItem("isDarkMode", false);
+        localStorage.setItem("refreshToken", "");
+      } else {
+        setModalContent("탈퇴 중 오류가 발생했습니다.");
+        setIsWithdrawal(false);
+      }
+    };
+    memberDeleteAxios();
+  };
+  //로그아웃
+  const LogoutBtnClickHandler = () => {
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("isDarkMode", false);
+    localStorage.setItem("refreshToken", "");
+    navigate("/");
+  };
   return (
     <Contain>
-      <TitleDiv>회원탈퇴</TitleDiv>
-      <Modal
-        open={modalOpen}
-        header={headerContents}
-        type={true}
-        confirm={codeModalOkBtnHandler}
-      >
-        {modalContent}
-      </Modal>
+      {isModalImg ? (
+        <ImageModal
+          open={modalOpen}
+          header={headerContents}
+          type={true}
+          confirm={codeImgModalOkBtnHandler}
+          img={cry}
+        >
+          {modalContent}
+        </ImageModal>
+      ) : (
+        <Modal
+          open={modalOpen}
+          header={headerContents}
+          type={true}
+          confirm={codeModalOkBtnHandler}
+        >
+          {modalContent}
+        </Modal>
+      )}
       <InputDiv>
-        <div>
+        <FindPwdText>
+          Withdraw of
+          <br /> membership?
+        </FindPwdText>
+        <FindPwdTextDetail>Do you really want to withdraw?</FindPwdTextDetail>
+        <>
           <InputDetailDiv>
-            <label>이메일</label>
             <input
               className="InputEmail"
               value={inputEmail}
               onChange={onChangeEmail}
-              placeholder={emailplaceholder}
+              placeholder="Email Address"
             />
             <Empty></Empty>
             <EmailAthouized
               isActive={isId}
               onClick={emailCertificationBtnHandler}
             >
-              인증
+              Send
             </EmailAthouized>
           </InputDetailDiv>
           {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-        </div>
+        </>
         {isEmailSent && (
           <InputDetailDiv>
-            <label>인증코드</label>
             <input
               className="InputCode"
               value={saveCertificationCode}
+              placeholder="Email Code"
               onChange={(e) => {
                 setSaveCertificationCode(e.target.value);
               }}
@@ -304,19 +402,41 @@ const Withdrawal = () => {
               isActive={isEmailSent}
               onClick={emailCertificationCodeOnClick}
             >
-              확인
+              check
             </EmailAthouized>
           </InputDetailDiv>
         )}
-        <Contexts>정말 탈퇴하실 건가요?<br/> ㅠ.ㅠ</Contexts>
+        <Contexts>
+          정말 탈퇴하실 건가요?
+          <br /> ㅠ.ㅠ
+        </Contexts>
       </InputDiv>
       <ButtonDiv>
-        <SignupButton
-          isActive={isEmail && isCode}
-          onClick={signuOutBtnOnclickHandler}
-        >
-          탈퇴하기
-        </SignupButton>
+        <FindByPwd onClick={LogoutBtnClickHandler}>
+          I want to log out rather than
+          <br /> cancel my membership.
+        </FindByPwd>
+        <NavigateDiv>
+          <GoToLoginPage>
+            <div className="remember">You don’t want to withdraw?</div>
+            <div
+              className="backToSetting"
+              onClick={() => {
+                navigate("/setting");
+              }}
+            >
+              Back to Setting
+            </div>
+          </GoToLoginPage>
+          <WithdrawalButtonDiv>
+            <WithdrawalButton
+              isActive={isEmail && isCode}
+              onClick={signuOutBtnOnclickHandler}
+            >
+              Complete
+            </WithdrawalButton>
+          </WithdrawalButtonDiv>
+        </NavigateDiv>
       </ButtonDiv>
     </Contain>
   );

@@ -6,7 +6,14 @@ import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import ImportHelp from "./ImportHelp";
-
+import { profileStorage } from "../../firebase/ProfileImgUpload";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -63,7 +70,38 @@ const UserImg = styled.div`
   background-position: center;
   border-radius: 10px;
 `;
+const ProfileCover = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+`;
+const Label = styled.label`
+  cursor: pointer;
+  width: 8vw;
+  height: 40px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
 
+  ${ProfileCover}:hover & {
+    display: flex;
+  }
+`;
+const Input = styled.input`
+  display: none;
+`;
 const UserNameBox = styled.div`
   width: 100%;
   height: 10%;
@@ -348,11 +386,10 @@ const ViewContents = styled.div`
 `;
 
 const Mypage = () => {
-  const { email } = useContext(UserEmailContext);
+  const { email, imgUrl, setImgUrl } = useContext(UserEmailContext);
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [joinDate, setJoinDate] = useState("");
-
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
@@ -366,16 +403,71 @@ const Mypage = () => {
         console.error("Error fetching user info:", error);
       }
     };
-
     fetchUserInfo();
+    // 사용자 프로필 정보를 가져오는함수
+    userProfileAxios(email);
   }, [email]);
+  //파일 업로드 이벤트 함수
+  const AddImgBtnOnChangeHandler = (e) => {
+    const selectedFile = e.target.files[0];
+    // 선택된 파일을 즉시 업로드 후 DB에 다시 저장
+    handleFileUpload(email, selectedFile);
+  };
+  const handleFileUpload = async (userEmail, saveFileData) => {
+    const storageRef = ref(profileStorage, saveFileData.name);
+    try {
+      // 이미지 업로드
+      await uploadBytesResumable(storageRef, saveFileData);
+      console.log("File uploaded successfully!");
 
+      // 이전 이미지가 있는 경우 삭제
+      if (imgUrl && imgUrl !== "") {
+        try {
+          const oldFileRef = ref(profileStorage, imgUrl);
+          await deleteObject(oldFileRef);
+          console.log("Previous file deleted successfully!");
+        } catch (error) {
+          console.error("Error deleting previous file:", error);
+          // 이전 파일이 이미 삭제된 경우라도 진행합니다.
+        }
+      }
+
+      // 이미지 다운로드 및 저장
+      const url = await getDownloadURL(storageRef);
+      if (url) {
+        setImgUrl(url);
+        const res = await MemberAxiosApi.profileUrlSave(userEmail, url);
+        if (res.data === true) console.log("DB에 저장되었습니다.");
+        else console.log("DB 저장에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("File upload failed:", error);
+    }
+  };
+  // 사용자의 이미지 DB에서 불러오기
+  const userProfileAxios = async (emailData) => {
+    const res = await MemberAxiosApi.searchProfileUrl(emailData);
+    if (res.data) {
+      setImgUrl(res.data);
+    }
+  };
   return (
     <Container>
       <TopSide>
         <UserProfile>
           <UserImgBox>
-            <UserImg imageurl={UserImgs} />
+            <UserImg
+              imageurl={imgUrl && imgUrl !== "notExist" ? imgUrl : UserImgs}
+            >
+              <ProfileCover>
+                <Label htmlFor="fileInput">Choose File</Label>
+                <Input
+                  id="fileInput"
+                  type="file"
+                  onChange={AddImgBtnOnChangeHandler}
+                />
+              </ProfileCover>
+            </UserImg>
           </UserImgBox>
           <UserNameBox>
             <UserName>{name}</UserName>
@@ -420,7 +512,7 @@ const Mypage = () => {
       <LowSide>
         <UserDelBox>
           <UserDel>회원탈퇴</UserDel>
-          <UserDelBtn>회원탈퇴</UserDelBtn>
+          <UserDelBtn to={"/withdrawal"}>회원탈퇴</UserDelBtn>
         </UserDelBox>
       </LowSide>
     </Container>

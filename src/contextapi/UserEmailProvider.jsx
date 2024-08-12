@@ -7,13 +7,12 @@ export const UserEmailContext = createContext();
 // Context Provider 컴포넌트
 const UserEmailProvider = ({ children }) => {
   const [email, setEmail] = useState("");
-  const [kakaoImgUrl, setKakaoImgUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
       try {
         const response = await MemberAxiosApi.getEmail();
-        console.log("받아오나?", response.data);
         setEmail(response.data);
       } catch (error) {
         console.error("Error fetching user info:", error);
@@ -24,9 +23,7 @@ const UserEmailProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserEmailContext.Provider
-      value={{ email, setEmail, kakaoImgUrl, setKakaoImgUrl }}
-    >
+    <UserEmailContext.Provider value={{ email, setEmail, imgUrl, setImgUrl }}>
       {children}
     </UserEmailContext.Provider>
   );

@@ -430,7 +430,6 @@ const MainPage = () => {
   //카카오 로그인시 프로필 자동 변경
   // contextApi에서 저장중인 email 불러오기
   const { email, kakaoImgUrl } = useContext(UserEmailContext);
-  console.log("email:", email);
   //카카오 프로필 사진저장 비동기 함수
   const kakaoProfileImgAxios = async (emailvalue, kakaoProfile) => {
     const res = await MemberAxiosApi.profileUrlSave(emailvalue, kakaoProfile);

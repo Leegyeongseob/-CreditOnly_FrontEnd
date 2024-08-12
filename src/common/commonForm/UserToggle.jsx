@@ -56,6 +56,9 @@ const MenuList = styled.ul`
   justify-content: center;
   flex-direction: column;
   pointer-events: ${({ isOpen }) => (isOpen ? "auto" : "none")};
+  & > .btnItem {
+    cursor: pointer;
+  }
 `;
 
 const MenuItem = styled.li`
@@ -138,7 +141,13 @@ const UserToggle = ({ isOpen, setIsOpen, email }) => {
       navigate(path);
     }
   };
-
+  // 로그아웃 버튼 핸들러
+  const logoutBtnHandler = () => {
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("refreshToken", "");
+    localStorage.setItem("isDarkMode", false);
+    navigate("/");
+  };
   return (
     <MenuContainer ref={scope}>
       <MenuButton whileTap={{ scale: 1.3 }} onClick={() => setIsOpen(!isOpen)}>
@@ -149,6 +158,7 @@ const UserToggle = ({ isOpen, setIsOpen, email }) => {
       <MenuList ref={listRef} isOpen={isOpen}>
         <MenuItem
           onClick={() => handleToggleClick("/evaluation")}
+          className="btnItem"
           ref={itemsRefs[0]}
           isOpen={isOpen}
         >
@@ -161,13 +171,19 @@ const UserToggle = ({ isOpen, setIsOpen, email }) => {
         </MenuItem>
         <MenuItem
           onClick={() => handleToggleClick("/setting")}
+          className="btnItem"
           ref={itemsRefs[2]}
           isOpen={isOpen}
         >
           <IoSettingsOutline size={20} color="gray" />
           설정
         </MenuItem>
-        <MenuItem ref={itemsRefs[3]} isOpen={isOpen}>
+        <MenuItem
+          ref={itemsRefs[3]}
+          isOpen={isOpen}
+          className="btnItem"
+          onClick={logoutBtnHandler}
+        >
           <IoLogOutOutline size={20} color="gray" />
           로그아웃
         </MenuItem>

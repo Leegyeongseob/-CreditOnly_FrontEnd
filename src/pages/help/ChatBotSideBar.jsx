@@ -132,7 +132,12 @@ const ChatBotSideBar = () => {
   const goBack = () => {
     navigate(-1);
   };
-
+  const logOutBtnHandler = () => {
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("isDarkMode", false);
+    localStorage.setItem("refreshToken", "");
+    navigate("/");
+  };
   return (
     <Sidebar>
       <Menu>
@@ -158,7 +163,7 @@ const ChatBotSideBar = () => {
             <FaExternalLinkAlt />
             FAQ
           </SetDetail>
-          <SetDetail>
+          <SetDetail onClick={logOutBtnHandler}>
             <MdLogout />
             로그아웃
           </SetDetail>

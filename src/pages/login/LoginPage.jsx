@@ -10,7 +10,7 @@ import GoogleAndNaverNotLogin from "../../img/loginImg/구글,네이버 간편 �
 import LoginModal from "../../common/utils/Modal";
 import KakaoLogin from "react-kakao-login";
 import logoImg from "../../img/background/CreditOnlyLogo.png";
-import {UserEmailContext} from "../../contextapi/UserEmailProvider";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 const LoginDiv = styled.div`
   width: 100%;
   height: 20%;
@@ -312,7 +312,7 @@ const LoginPage = () => {
   // 모달 변경
   const [isModalImg, setIsModalImg] = useState(false);
   // useContext로 email관리하기
-  const { setEmail,setKakaoImgUrl } = useContext(UserEmailContext);
+  const { setEmail, setImgUrl } = useContext(UserEmailContext);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -428,8 +428,7 @@ const LoginPage = () => {
         Common.setAccessToken(res.data.accessToken);
         Common.setRefreshToken(res.data.refreshToken);
         setEmail(propsToPass.kakaoEmail);
-        setKakaoImgUrl(propsToPass.kakaoImgUrl);
-        // sessionStorage.setItem("kakaoImgUrl", );
+        setImgUrl(propsToPass.kakaoImgUrl);
         //이메일로 커플이름 찾는 비동기 함수
         const coupleNameSearchAxios = async (email) => {
           console.log(email);
@@ -486,7 +485,6 @@ const LoginPage = () => {
                     <SimpleLoginBtnText>sign up with Google</SimpleLoginBtnText>
                   </SimpleLoginBtn>
                   <SimpleLoginBtn>
-                    {" "}
                     <CircleSide>
                       <HiddenKakaoLogin
                         token={kakaoKey}

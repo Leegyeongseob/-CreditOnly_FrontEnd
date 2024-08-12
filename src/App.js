@@ -25,6 +25,7 @@ import { ThemeProvider } from "styled-components";
 import UserEmailProvider from "./contextapi/UserEmailProvider";
 import AboutUs from "./pages/aboutUs/AboutUs";
 import AdInquiry from "./pages/ad/AdInquiry";
+import Withdrawal from "./pages/changepage/Withdrawal";
 // 라이트 및 다크 테마 설정
 const lightTheme = {
   background: "#ffffff",
@@ -120,10 +121,13 @@ const App = () => {
                   />
                 }
               />
-              <Route element={<FindByForm />}>
+              <Route element={<FindByForm withdrawal={false} />}>
                 <Route path="/findbyemail" element={<FindEmail />} />
                 <Route path="/findbypwd" element={<FindPassword />} />
                 <Route path="/resetpwd" element={<ResetPassword />} />
+              </Route>
+              <Route element={<FindByForm withdrawal={true} />}>
+                <Route path="/withdrawal" element={<Withdrawal />} />
               </Route>
               {/* <Route element={<OpenBook />}>
             <Route path="/board-guestbook" element={<GuestBoardGuestbook />} />

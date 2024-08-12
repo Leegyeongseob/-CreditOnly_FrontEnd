@@ -35,7 +35,7 @@ const MessageSendBox = styled.div`
 `;
 const MessageSendWrap = styled.div`
   width: 80%;
-  height: 23%;
+  height: 30%;
   background-color: ${({ theme }) => theme.sideBar};
   border: 1px solid ${({ theme }) => theme.border};
   transition: background-color 0.5s ease, border 0.5s ease;
@@ -48,7 +48,7 @@ const MessageSend = styled.input`
   background-color: ${({ theme }) => theme.sideBar};
   border: 1px solid ${({ theme }) => theme.border};
   transition: background-color 0.5s ease, border 0.5s ease;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: lighter;
   width: 95%;
   height: 100%;
