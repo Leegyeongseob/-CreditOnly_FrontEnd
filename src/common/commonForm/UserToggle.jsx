@@ -116,7 +116,7 @@ const useMenuAnimation = (isOpen, refs) => {
   return scope;
 };
 
-const UserToggle = ({ isOpen, setIsOpen }) => {
+const UserToggle = ({ isOpen, setIsOpen, email }) => {
   const navigate = useNavigate(); // useNavigate 훅 사용
 
   const arrowRef = useRef(null);
@@ -156,7 +156,7 @@ const UserToggle = ({ isOpen, setIsOpen }) => {
         </MenuItem>
         <MenuItem ref={itemsRefs[1]} isOpen={isOpen}>
           <IoAtOutline size={20} color="gray" />
-          00bsj@naver.com
+          {email}
         </MenuItem>
         <MenuItem
           onClick={() => handleToggleClick("/setting")}

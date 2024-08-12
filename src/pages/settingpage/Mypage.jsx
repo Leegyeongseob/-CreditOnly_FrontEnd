@@ -2,6 +2,8 @@ import styled from "styled-components";
 import UserImgs from "../../img/commonImg/프로필예시.jpeg";
 import { Link } from "react-router-dom";
 import Logo from "../../img//background/CreditOnlyLogo.png";
+import { useEffect, useState } from "react";
+import SettingAxios from "../../axiosapi/SettingAxios";
 
 const Container = styled.div`
   width: 100%;
@@ -307,6 +309,30 @@ const UserDelBtn = styled(Link)`
 `;
 
 const Mypage = () => {
+  const userEmail = sessionStorage.getItem("email");
+  const [name, setName] = useState(""); // 5. 일기 작성 데이터
+  const [email, setEmail] = useState(""); // 5. 일기 작성 데이터
+  const [birthDate, setBirthDate] = useState(""); // 5. 일기 작성 데이터
+  const [joinDate, setJoinDate] = useState(""); // 5. 일기 작성 데이터
+
+  useEffect(() => {
+    // 사용자 정보를 가져오는 함수
+    const fetchUserInfo = async () => {
+      try {
+        const response = await SettingAxios.getUserInfo(userEmail);
+        const { name, email, birthDate, joinDate } = response.data;
+        setName(name);
+        setEmail(email);
+        setBirthDate(birthDate);
+        setJoinDate(joinDate);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [userEmail]);
+
   return (
     <Container>
       <TopSide>
@@ -315,18 +341,18 @@ const Mypage = () => {
             <UserImg imageurl={UserImgs} />
           </UserImgBox>
           <UserNameBox>
-            <UserName>강해린</UserName>
+            <UserName>{name}</UserName>
           </UserNameBox>
         </UserProfile>
         <UserInfo>
           <InfoBox>
             <Info>
               <InfoTitle>이메일</InfoTitle>
-              <InfoContents>00bsj@naver.com</InfoContents>
+              <InfoContents>{email}</InfoContents>
             </Info>
             <Info>
               <InfoTitle>생년월일</InfoTitle>
-              <InfoContents>2000.11.03</InfoContents>
+              <InfoContents>{birthDate}</InfoContents>
             </Info>
             <Info>
               <InfoTitle>비밀번호</InfoTitle>
@@ -336,7 +362,7 @@ const Mypage = () => {
             </Info>
             <Info>
               <InfoTitle>가입일</InfoTitle>
-              <InfoContents>2024.08.07</InfoContents>
+              <InfoContents>{joinDate}</InfoContents>
             </Info>
           </InfoBox>
         </UserInfo>

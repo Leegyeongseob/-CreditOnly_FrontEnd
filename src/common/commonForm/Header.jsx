@@ -6,7 +6,8 @@ import { Link, useLocation } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
 import { IoNotificationsOutline, IoMenuOutline } from "react-icons/io5";
 import UserToggle from "./UserToggle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SettingAxios from "../../axiosapi/SettingAxios";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -285,6 +286,23 @@ const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
 
+  const userEmail = sessionStorage.getItem("email");
+  const [user, setUser] = useState({ name: "", email: "" });
+
+  useEffect(() => {
+    // 사용자 정보를 가져오는 함수
+    const fetchUserInfo = async () => {
+      try {
+        const response = await SettingAxios.getUserInfo(userEmail);
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [userEmail]);
+
   // LeftBox 배경색을 결정하는 함수
   const getLeftBoxBackgroundColor = () => {
     if (location.pathname === "/chat") {
@@ -342,9 +360,13 @@ const Header = ({ toggleSideBar, isHeader, toggleDarkMode, isDarkMode }) => {
             <UserProfile>
               <UserImg imageurl={exProfile} />
             </UserProfile>
-            <UserName>강해린</UserName>
+            <UserName>{user.name}</UserName>
           </UserDiv>
-          <UserToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+          <UserToggle
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            email={user.email}
+          />
           <Dont />
           <AlarmSet>
             <IoNotificationsOutline size={25} color="#717694" />
