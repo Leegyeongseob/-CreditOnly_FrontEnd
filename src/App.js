@@ -23,6 +23,8 @@ import ResetPassword from "./pages/login/ResetPassword";
 import { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import UserEmailProvider from "./contextapi/UserEmailProvider";
+import AboutUs from "./pages/aboutUs/AboutUs";
+import AdInquiry from "./pages/ad/AdInquiry";
 // 라이트 및 다크 테마 설정
 const lightTheme = {
   background: "#ffffff",
@@ -129,6 +131,8 @@ const App = () => {
             <Route path="/board-write" element={<BoardWrite />} />
             <Route path="/board-update" element={<BoardUpdate />} />
           </Route> */}
+              <Route path="/aboutus" element={<AboutUs></AboutUs>} />
+              <Route path="/adinquiry" element={<AdInquiry></AdInquiry>} />
             </Routes>
           </Router>
         </UserEmailProvider>
