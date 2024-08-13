@@ -1,7 +1,9 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa6";
+import InformationAxios from "../../axiosapi/InformationAxios";
 import { items } from "./data"; // data.js에서 items를 import
 
 import Banner from "../banner/Banner";
@@ -227,13 +229,34 @@ const StyledLink = styled(Link)`
 `;
 
 const CreditNews = () => {
-  // 필터링된 데이터
-  const getFilteredItems = (category, limit) =>
-    items.filter((item) => item.category === category).slice(0, limit);
+  const [informationItems, setInformationItems] = useState([]);
+  const [appItems, setAppItems] = useState([]);
+  const [cardItems, setCardItems] = useState([]);
 
-  const informationItems = getFilteredItems("신용조회 정보모음", 4);
-  const appItems = getFilteredItems("신용조회 어플추천", 2);
-  const cardItems = getFilteredItems("신용카드와 신용정보", 2);
+  useEffect(() => {
+    // Fetch data from API
+    const fetchData = async () => {
+      try {
+        // Fetch all information items
+        const response = await InformationAxios.getAllInformation();
+        const items = response.content || []; // Assuming response is a paginated object
+        console.log(items)
+
+        // Filter data based on category
+        const filterItemsByCategory = (category, limit) =>
+          items.filter((item) => item.category === category).slice(0, limit);
+
+        setInformationItems(filterItemsByCategory("신용조회 정보모음", 4));
+        setAppItems(filterItemsByCategory("신용조회 어플추천", 2));
+        setCardItems(filterItemsByCategory("신용카드와 신용정보", 2));
+        console.log(cardItems)
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Container>
