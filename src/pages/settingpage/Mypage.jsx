@@ -14,6 +14,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+
 const Container = styled.div`
   width: 100%;
   height: 100%;

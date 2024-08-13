@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
+
 const Contain = styled.div`
   width: 100%;
   height: 100%;
@@ -66,7 +70,7 @@ const ItemDate = styled.div`
   width: 100%;
   height: 15%;
   font-size: 14px;
-  padding-left: 10%;
+  padding-left: 5%;
   padding-top: 1.8%;
   align-items: center;
   display: flex;
@@ -85,8 +89,9 @@ const ItemTitle = styled.div`
   font-size: max(13px, 1.3vw);
   font-weight: 600;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  padding-left: 5%;
   @media screen and (max-width: 1200px) {
     padding-left: 5%;
     font-size: 14px;
@@ -100,14 +105,14 @@ const ItemContent = styled.div`
   height: 60%;
   font-size: max(13px, 1vw);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: start;
   letter-spacing: 1.4px;
   line-height: 1.1;
-  padding: 8px;
+  padding-left: 5%;
   @media screen and (max-width: 1200px) {
     height: 55%;
-    padding-left: 5%;
+    padding-top: 1%;
     font-size: 14px;
     justify-content: flex-start;
     letter-spacing: 1.5px;
@@ -187,55 +192,66 @@ const MoreBtnEmptyDiv = styled.div`
 const AnnouncementMain = () => {
   // 너무 길 경우 ...으로 생략하는 함수
   const truncateContents = (text) => {
-    return text.length > 20 ? text.slice(0, 20) + "..." : text;
+    return text.length > 50 ? text.slice(0, 50) + "..." : text;
   };
+
+  const [newsNotices, setNewsNotices] = useState([]);
+  const [eventNotices, setEventNotices] = useState([]);
+  const [pressNotices, setPressNotices] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchNotices = async () => {
+    try {
+      // Fetch notices for each classTitle
+      const newsResponse = await AnnouncementAxios.getNoticesByClassTitle(
+        "news"
+      );
+      const eventResponse = await AnnouncementAxios.getNoticesByClassTitle(
+        "event"
+      );
+      const pressResponse = await AnnouncementAxios.getNoticesByClassTitle(
+        "press"
+      );
+
+      // Sort by createdDate if necessary and slice the latest 4
+      const sortAndSlice = (data) => {
+        return data
+          .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
+          .slice(0, 4);
+      };
+
+      setNewsNotices(sortAndSlice(newsResponse.data));
+      setEventNotices(sortAndSlice(eventResponse.data));
+      setPressNotices(sortAndSlice(pressResponse.data));
+    } catch (error) {
+      console.error("Failed to fetch notices", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotices();
+  }, []);
+
+  const handleRowClick = (classTitle) => {
+    navigate(`/announcement/${classTitle}`);
+  };
+
   return (
     <Contain>
       <Aside>
         <Title>새 소식</Title>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>삼성패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              삼성패스 종료 후에도 삼성패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>하이패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              하이패스 종료 후에도 하이패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>매직패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              매직패스 종료 후에도 매직패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>사이코패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              사이코패스 종료 후에도 사이코패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
+        {newsNotices.map((notice) => (
+          <ListItemDiv key={notice.id}>
+            <ListItem>
+              <ItemDate>{notice.createdDate}</ItemDate>
+              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemContent>{truncateContents(notice.contents)}</ItemContent>
+            </ListItem>
+          </ListItemDiv>
+        ))}
         <MoreBtnDiv>
           <MoreBtnEmptyDiv />
-          <MoreBtnAndArrowDiv>
+          <MoreBtnAndArrowDiv onClick={() => handleRowClick("news")}>
             <MoreBtn>더보기</MoreBtn>
             <MoreBtnArrow>&gt;&gt;</MoreBtnArrow>
           </MoreBtnAndArrowDiv>
@@ -243,49 +259,18 @@ const AnnouncementMain = () => {
       </Aside>
       <Aside>
         <Title>이벤트</Title>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>스루패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              스루패스 종료 후에도 스루패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>노룩패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              노룩패스 종료 후에도 노룩패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>소시오패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              소시오패스 종료 후에도 소시오패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>삼성패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              삼성패스 종료 후에도 삼성패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
+        {eventNotices.map((notice) => (
+          <ListItemDiv key={notice.id}>
+            <ListItem>
+              <ItemDate>{notice.createdDate}</ItemDate>
+              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemContent>{truncateContents(notice.contents)}</ItemContent>
+            </ListItem>
+          </ListItemDiv>
+        ))}
         <MoreBtnDiv>
           <MoreBtnEmptyDiv />
-          <MoreBtnAndArrowDiv>
+          <MoreBtnAndArrowDiv onClick={() => handleRowClick("event")}>
             <MoreBtn>더보기</MoreBtn>
             <MoreBtnArrow>&gt;&gt;</MoreBtnArrow>
           </MoreBtnAndArrowDiv>
@@ -293,49 +278,18 @@ const AnnouncementMain = () => {
       </Aside>
       <Aside>
         <Title>보도 자료</Title>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>삼성패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              삼성패스 종료 후에도 삼성패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>삼성패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              삼성패스 종료 후에도 삼성패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>삼성패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              삼성패스 종료 후에도 삼성패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
-        <ListItemDiv>
-          <ListItem>
-            <ItemDate>2024.07.25</ItemDate>
-            <ItemTitle>삼성패스 로그인 종료일 변경 안내</ItemTitle>
-            <ItemContent>
-              삼성패스 종료 후에도 삼성패스 지문을 이용하시던 고객님께서는
-              신규로 지문을 등록하시고
-            </ItemContent>
-          </ListItem>
-        </ListItemDiv>
+        {pressNotices.map((notice) => (
+          <ListItemDiv key={notice.id}>
+            <ListItem>
+              <ItemDate>{notice.createdDate}</ItemDate>
+              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemContent>{truncateContents(notice.contents)}</ItemContent>
+            </ListItem>
+          </ListItemDiv>
+        ))}
         <MoreBtnDiv>
           <MoreBtnEmptyDiv />
-          <MoreBtnAndArrowDiv>
+          <MoreBtnAndArrowDiv onClick={() => handleRowClick("press")}>
             <MoreBtn>더보기</MoreBtn>
             <MoreBtnArrow>&gt;&gt;</MoreBtnArrow>
           </MoreBtnAndArrowDiv>

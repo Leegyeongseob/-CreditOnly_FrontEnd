@@ -20,7 +20,7 @@
 //   30% {
 //     transform: perspective(1600px) rotateY(-25deg);
 //     transform-origin: left;
-//   } 
+//   }
 //   100% {
 //     transform: perspective(1000px) rotateY(-180deg);
 //     transform-origin: left;
@@ -227,7 +227,7 @@
 
 // const WriteSide = styled.div`
 //   width: 100%;
-//   height: 100%;  
+//   height: 100%;
 //   ${({ animate }) =>
 //     animate &&
 //     css`
@@ -399,7 +399,6 @@
 //       }
 //     }
 //   }, [url, pageMove, clearUrl]);
-  
 
 //   // useEffect(() => {
 //   //   fetchBoardData();

@@ -26,6 +26,9 @@ import UserEmailProvider from "./contextapi/UserEmailProvider";
 import AboutUs from "./pages/aboutUs/AboutUs";
 import AdInquiry from "./pages/ad/AdInquiry";
 import Withdrawal from "./pages/changepage/Withdrawal";
+import AnBoard from "./pages/announcement/AnBoard";
+import AnBoardDetails from "./pages/announcement/AnBoardDetails";
+import AnBoardWrite from "./pages/announcement/AnBoardWrite";
 // 라이트 및 다크 테마 설정
 const lightTheme = {
   background: "#ffffff",
@@ -109,6 +112,15 @@ const App = () => {
                 <Route path="/news/:id" element={<NewsDetail />} />
                 <Route path="/evaluation" element={<Evaluation />} />
                 <Route path="/announcement" element={<Announcement />} />
+                <Route
+                  path="/announcement/:classTitle/write"
+                  element={<AnBoardWrite />}
+                />
+                <Route path="/announcement/:classTitle" element={<AnBoard />} />
+                <Route
+                  path="/announcement/:classTitle/:classNo"
+                  element={<AnBoardDetails />}
+                />
               </Route>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUp />} />
