@@ -1,14 +1,17 @@
 import styled from "styled-components";
 import back1 from "../../img/ad/image.png";
 import { symbol } from "prop-types";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 const Basic = styled.div`
   width: 100vw;
-  height: 500vh;
+  height: 100vh;
+  background-color: mediumorchid;
 `;
 const First = styled.div`
   width: 100%;
-  height: 100%;
+  height: 70%;
   max-height: 100vh;
   background-color: #d7f5dc;
 `;
@@ -27,7 +30,6 @@ const HeadBtn = styled.div`
   width: 15%;
   max-width: 200px;
   height: 50%;
-
   color: black;
   font-weight: bold;
   /* background-color: aqua; */
@@ -45,24 +47,26 @@ const HeadBtnText = styled.div`
 `;
 const IntroBox = styled.div`
   width: 100%;
-  height: 80%;
+  height: 100%;
   display: flex;
-  background-color: aquamarine;
+  /* background-color: #48ff66; */
 `;
 const IntroDetail = styled.div`
   width: 50%;
-  height: 50%;
+  height: 90%;
   max-width: 100vh;
   /* background-color: lightgray; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* padding-left: 10%; */
+  /* padding-top: 20%; */
 `;
 const IntroBigD = styled.div`
   color: black;
   width: 80%;
-  height: 40%;
+  height: 28%;
   font-size: min(4vw, 40px);
   font-weight: bold;
   word-wrap: break-word; /* 단어가 길 경우 줄바꿈 */
@@ -73,10 +77,12 @@ const IntroBigD = styled.div`
   /* background-color: aliceblue; */
 `;
 const DoorCloth = styled.div`
+  font-size: min(2vw, 20px);
   width: 50%;
   max-width: 300px;
+  min-width: 100px;
   height: 10%;
-  max-height: 100px;
+  max-height: 50px;
   border-radius: 10px;
   background-color: #00af09;
   color: white;
@@ -86,25 +92,139 @@ const DoorCloth = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2px;
+  padding: 8px;
+  cursor: pointer;
 `;
 const AdBackImage = styled.div`
   background-image: url(${back1});
-  width: 50%;
+  width: 70%;
+  max-width: 800px;
   background-repeat: no-repeat;
-  height: 50%;
+  height: 90%;
+  max-height: 800px;
   /* max-height: 400px; */
-  /* background-color: aliceblue; */
+  /* background-color: #3ea4fd; */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 `;
 const Google = styled.div`
   width: 100%;
+  height: 30%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+`;
+
+const SubscribeBox = styled.div`
+  width: 50%;
+  min-width: 350px;
+  max-width: 700px;
+  height: 80%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  /* background-color: black; */
+`;
+const SubTitle = styled.div`
+  /* background-color: aquamarine; */
+  width: 40%;
+  height: 20%;
+  color: #00af09;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 15px;
+`;
+const SubIntro = styled.div`
+  /* background-color: darkorange; */
+  color: black;
+  font-size: clamp(14px, 1.8vw, 20px);
+  width: 100%;
+  height: 25%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
+const SubDetail = styled.div`
+  /* background-color: #a8a8a8; */
+  width: 90%;
+  height: 20%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: lightgray;
+  font-size: clamp(12px, 1.5vw, 20px);
+`;
+const SubInput = styled.div`
+  width: 90%;
+  height: 35%;
+
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
+const SubInputDetail = styled.div`
+  width: 80%;
+  border-radius: 10px;
+  height: 90%;
+  border: 1px solid black;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+`;
+const SubTextArea = styled.textarea`
+  width: 65%;
   height: 50%;
-  background-color: white;
+  color: black;
+  font-size: 20px;
+  border: none;
+  resize: none;
+  outline: none;
+  overflow: hidden;
+  &::placeholder {
+    font-size: 15px;
+  }
+`;
+const SubBtn = styled.div`
+  width: 30%;
+  height: 50%;
+  border-radius: 10px;
+  background-color: #ff7728;
+  color: white;
+  font-size: 18px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 const AdInquiry = () => {
+  const [emailText, setEmailText] = useState("");
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit(); // 엔터 키와 버튼 클릭 모두 같은 함수 호출
+    }
+  };
+  const handleSubmit = () => {
+    console.log(emailText); // 입력된 값을 처리합니다.
+    setEmailText(""); // 입력창을 초기화합니다.
+  };
+  const handleChange = (e) => {
+    setEmailText(e.target.value);
+  };
+  const handleCopyClipBoard = (text) => {
+    try {
+      navigator.clipboard.writeText(text);
+      alert("클립보드에 복사되었습니다");
+    } catch (error) {
+      alert("클립보드 복사에 실패했습니다");
+    }
+  };
+
   return (
     <Basic>
       <First>
@@ -125,12 +245,38 @@ const AdInquiry = () => {
               신뢰와 정확성으로 고객의 금융 미래를 밝히는 광고, 우리와 함께
               시작하세요
             </IntroBigD>
-            <DoorCloth>문의: CreditOnly@gmail.com</DoorCloth>
+            <DoorCloth
+              onClick={() => handleCopyClipBoard("CreaditOnly@gmail.com")}
+            >
+              문의: CreditOnly@gmail.com
+            </DoorCloth>
           </IntroDetail>
           <AdBackImage></AdBackImage>
         </IntroBox>
-        <Google></Google>
       </First>
+      <Google>
+        <SubscribeBox>
+          <SubTitle>SUBSCRIBE</SubTitle>
+          <SubIntro>
+            메일을 남겨주시면 저희에 대한 최신 소식을 받으실 수 있습니다
+          </SubIntro>
+          {/* <SubDetail>
+            아래에 이메일을 남기시면, 저희의 최신 소식을 매일 받아보실 수
+            있습니다.
+          </SubDetail> */}
+          {/* <SubInput>
+            <SubInputDetail>
+              <SubTextArea
+                value={emailText}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                placeholder="이메일을 입력해주세요"
+              ></SubTextArea>
+              <SubBtn onClick={handleSubmit}>구독</SubBtn>
+            </SubInputDetail>
+          </SubInput> */}
+        </SubscribeBox>
+      </Google>
     </Basic>
   );
 };
