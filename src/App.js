@@ -29,6 +29,7 @@ import Withdrawal from "./pages/changepage/Withdrawal";
 import AnBoard from "./pages/announcement/AnBoard";
 import AnBoardDetails from "./pages/announcement/AnBoardDetails";
 import AnBoardWrite from "./pages/announcement/AnBoardWrite";
+import DataVisualization from "./pages/evaluation/DataVisualization";
 // 라이트 및 다크 테마 설정
 const lightTheme = {
   background: "#ffffff",
@@ -111,6 +112,11 @@ const App = () => {
                 />
                 <Route path="/news/:id" element={<NewsDetail />} />
                 <Route path="/evaluation" element={<Evaluation />} />
+                <Route
+                  path="/data-visualization"
+                  element={<DataVisualization />}
+                />
+
                 <Route path="/announcement" element={<Announcement />} />
                 <Route
                   path="/announcement/:classTitle/write"

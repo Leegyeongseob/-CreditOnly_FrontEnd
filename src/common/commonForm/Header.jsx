@@ -440,8 +440,15 @@ const Header = ({
                   result={true}
                   key={item.id}
                   onClick={() => {
-                    navigate(`/${item.page}`);
-                    setSearchComplete(false);
+                    if (item.classTitle) {
+                      navigate(
+                        `/${item.page}/${item.classTitle}/${item.contents}`
+                      );
+                      setSearchComplete(false);
+                    } else {
+                      navigate(`/${item.page}`);
+                      setSearchComplete(false);
+                    }
                   }}
                 >
                   <div className="title">{item.title}</div>

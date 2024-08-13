@@ -47,13 +47,14 @@ const ViewDiv = styled.div`
 `;
 
 const EvaluationBtn = styled.div`
-  width: ${({ visualization }) => (visualization ? "30px" : "20xp")};
+  width: ${({ visualization }) => (visualization ? "40px" : "20xp")};
   font-size: ${({ visualization }) => (visualization ? "15px" : "20px")};
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 600;
+  margin-right: 30px;
   transition: transform 0.3s ease; /* 애니메이션 효과를 부드럽게 하기 위한 전환 효과 */
   @media screen and (max-width: 768px) {
     font-size: 14px;
@@ -69,6 +70,7 @@ const CrediEvaluation = styled.div`
   transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
+  justify-content: flex-end;
   cursor: pointer;
   &:hover ${EvaluationBtn} {
     transform: translateX(
@@ -102,39 +104,31 @@ const CreditView = styled.div`
     margin-top: 4%;
   }
 `;
-const TextEvaluation = styled.div`
-  width: ${({ positionfirst }) => (positionfirst ? "250px" : "110px")};
-  font-size: 15px;
-  height: 100%;
-  display: flex;
-  justify-content: ${({ positionfirst }) =>
-    positionfirst ? "flex-end" : "flex-start"};
-  align-items: center;
-  padding: 10px;
-  @media screen and (max-width: 768px) {
-    font-size: 14px;
-  }
-`;
-const MyEvaluation = styled.div`
-  width: 200px;
+const BackBtn = styled.div`
+  width: 150px;
   font-size: 20px;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  margin-right: 50px;
   padding: 10px;
   @media screen and (max-width: 768px) {
     font-size: 16px;
   }
 `;
 
-const Evaluation = () => {
+const DataVisualization = () => {
   const navigate = useNavigate();
   return (
     <Container>
       <BtnDiv>
-        <CrediEvaluation>
-          <MyEvaluation>나의 신용 평가하기</MyEvaluation>
+        <CrediEvaluation
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <BackBtn>뒤로</BackBtn>
           <EvaluationBtn> &gt;&gt;</EvaluationBtn>
         </CrediEvaluation>
       </BtnDiv>
@@ -142,19 +136,6 @@ const Evaluation = () => {
         <CreditView imageurl={Logo}>나의 신용등급</CreditView>
         <CreditView imageurl={Logo}>나와 비슷한 연령대의 시각화</CreditView>
       </ViewDiv>
-      <BtnDiv>
-        <CrediEvaluation
-          onClick={() => {
-            navigate("/data-visualization");
-          }}
-        >
-          <TextEvaluation positionfirst={true}>
-            다양한 시각화를 추가하고 싶으시면
-          </TextEvaluation>
-          <EvaluationBtn visualization={true}> 여기</EvaluationBtn>
-          <TextEvaluation positionfirst={false}>를 눌러주세요.</TextEvaluation>
-        </CrediEvaluation>
-      </BtnDiv>
       <ViewDiv>
         <CreditView imageurl={Logo}>
           나와 같은 직업의 신용 점수시각화
@@ -164,4 +145,4 @@ const Evaluation = () => {
     </Container>
   );
 };
-export default Evaluation;
+export default DataVisualization;
