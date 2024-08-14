@@ -168,6 +168,7 @@ const PageStyle = styled.div`
     display: flex;
     list-style: none;
     padding: 0;
+    padding-top: 2%;
   }
 
   .pagination li {
