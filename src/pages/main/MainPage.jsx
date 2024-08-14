@@ -20,7 +20,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
-
+import PieChartComponent from "../../chart/DoughnutChartComponent";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -179,26 +179,6 @@ const Adbanner = React.memo(({ isEditing }) => (
       </Slide>
     </StyledSwiper>
   </AdbannerWrapper>
-));
-
-const CreditInfo = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  padding: 2%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    height: 230px;
-  }
-`;
-
-const CreditInfoWrap = React.memo(({ isEditing }) => (
-  <CreditInfo imageurl={Logo}>
-    {isEditing && <Overlay imageurl={Logo} />}신용 등급
-  </CreditInfo>
 ));
 
 const BottomSide = styled.div`
@@ -375,7 +355,7 @@ const createComponents = (id, isEditing) => {
         id,
         component: (
           <CenteredContainer>
-            <CreditInfoWrap imageurl={Logo} isEditing={isEditing} />
+            <PieChartComponent />
           </CenteredContainer>
         ),
         width: "48.8%",

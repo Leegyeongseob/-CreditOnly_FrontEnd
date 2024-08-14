@@ -492,7 +492,7 @@ const Header = ({
           <Dont />
           <AlarmSet onClick={toggleAlarmBar}>
             {hasUnreadNotifications ? (
-              <VscBellDot size={25} color="#717694" />
+              <VscBellDot size={25} color="#ffd400" />
             ) : (
               <VscBell size={25} color="#717694" />
             )}

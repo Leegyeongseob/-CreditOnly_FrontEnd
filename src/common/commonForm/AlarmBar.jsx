@@ -67,7 +67,11 @@ const ContentsBox = styled(Link)`
   }
 `;
 
-const AlarmBar = ({ setHasUnreadNotifications, toggleAlarmBar }) => {
+const AlarmBar = ({
+  setHasUnreadNotifications,
+  toggleAlarmBar,
+  hasUnreadNotifications,
+}) => {
   const { email } = useContext(UserEmailContext);
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
@@ -109,7 +113,7 @@ const AlarmBar = ({ setHasUnreadNotifications, toggleAlarmBar }) => {
   return (
     <Alarm>
       <Menu>
-        <Title>알림</Title>
+        <Title>{hasUnreadNotifications ? "알림" : "알림없음"}</Title>
         {notifications.map((notification) => (
           <ContentsBox
             key={notification.id}

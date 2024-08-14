@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
+import CreditScoreChart from "../../chart/CreditScoreChart";
+import CreditScoreBarChart from "../../chart/CreditScoreBarChart ";
+import { useEffect, useState } from "react";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -89,9 +91,9 @@ const CreditView = styled.div`
   transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: contain;
   background-repeat: no-repeat;
@@ -127,9 +129,24 @@ const MyEvaluation = styled.div`
     font-size: 16px;
   }
 `;
-
+const CreditText = styled.div`
+  width: 100%;
+  height: 1vw;
+  font-size: 1vw;
+  font-weight: 600;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ChartDiv = styled.div`
+  width: 80%;
+  height: 80%;
+`;
 const Evaluation = () => {
   const navigate = useNavigate();
+  const darkMode = localStorage.getItem("isDarkMode");
+  useEffect(() => {}, [darkMode]);
   return (
     <Container>
       <BtnDiv>
@@ -139,8 +156,17 @@ const Evaluation = () => {
         </CrediEvaluation>
       </BtnDiv>
       <ViewDiv>
-        <CreditView imageurl={Logo}>나의 신용등급</CreditView>
-        <CreditView imageurl={Logo}>나와 비슷한 연령대의 시각화</CreditView>
+        <CreditView>
+          <ChartDiv>
+            <CreditScoreChart />
+          </ChartDiv>
+          <CreditText>이 결과는 사실과 다를 수 있습니다.</CreditText>
+        </CreditView>
+        <CreditView>
+          <ChartDiv>
+            <CreditScoreBarChart />
+          </ChartDiv>
+        </CreditView>
       </ViewDiv>
       <BtnDiv>
         <CrediEvaluation
