@@ -148,58 +148,6 @@ const SubIntro = styled.div`
   align-items: center;
   display: flex;
 `;
-const SubDetail = styled.div`
-  /* background-color: #a8a8a8; */
-  width: 90%;
-  height: 20%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  color: lightgray;
-  font-size: clamp(12px, 1.5vw, 20px);
-`;
-const SubInput = styled.div`
-  width: 90%;
-  height: 35%;
-
-  justify-content: center;
-  align-items: center;
-  display: flex;
-`;
-const SubInputDetail = styled.div`
-  width: 80%;
-  border-radius: 10px;
-  height: 90%;
-  border: 1px solid black;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-`;
-const SubTextArea = styled.textarea`
-  width: 65%;
-  height: 50%;
-  color: black;
-  font-size: 20px;
-  border: none;
-  resize: none;
-  outline: none;
-  overflow: hidden;
-  &::placeholder {
-    font-size: 15px;
-  }
-`;
-const SubBtn = styled.div`
-  width: 30%;
-  height: 50%;
-  border-radius: 10px;
-  background-color: #ff7728;
-  color: white;
-  font-size: 18px;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`;
 const AdInquiry = () => {
   const [emailText, setEmailText] = useState("");
 
@@ -258,23 +206,8 @@ const AdInquiry = () => {
         <SubscribeBox>
           <SubTitle>SUBSCRIBE</SubTitle>
           <SubIntro>
-            메일을 남겨주시면 저희에 대한 최신 소식을 받으실 수 있습니다
+            메일을 남겨주시면 저희에 대한 최신 소식을 받으실 수 있습니다.
           </SubIntro>
-          {/* <SubDetail>
-            아래에 이메일을 남기시면, 저희의 최신 소식을 매일 받아보실 수
-            있습니다.
-          </SubDetail> */}
-          {/* <SubInput>
-            <SubInputDetail>
-              <SubTextArea
-                value={emailText}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-                placeholder="이메일을 입력해주세요"
-              ></SubTextArea>
-              <SubBtn onClick={handleSubmit}>구독</SubBtn>
-            </SubInputDetail>
-          </SubInput> */}
         </SubscribeBox>
       </Google>
     </Basic>
