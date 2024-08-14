@@ -267,7 +267,10 @@ const AnnouncementMain = () => {
       <Aside>
         <Title>이벤트</Title>
         {eventNotices.map((notice) => (
-          <ListItemDiv key={notice.id}>
+          <ListItemDiv
+            key={notice.id}
+            onClick={() => handleDetailsClick("event", notice)}
+          >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
               <ItemTitle>{notice.title}</ItemTitle>
@@ -286,7 +289,10 @@ const AnnouncementMain = () => {
       <Aside>
         <Title>보도 자료</Title>
         {pressNotices.map((notice) => (
-          <ListItemDiv key={notice.id}>
+          <ListItemDiv
+            key={notice.id}
+            onClick={() => handleDetailsClick("press", notice)}
+          >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
               <ItemTitle>{notice.title}</ItemTitle>

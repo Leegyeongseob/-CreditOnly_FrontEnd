@@ -285,9 +285,9 @@ const AnBoard = () => {
             <table>
               <tbody>
                 {notices &&
-                  notices
-                    .reverse() // 데이터를 역순으로 정렬
-                    .slice((page - 1) * itemsPerPage, page * itemsPerPage) // 페이지에 맞게 잘라서 표시
+                  [...notices] // 원본 배열을 변경하지 않도록 배열을 복사
+                    .reverse() // 복사된 배열을 역순으로 정렬
+                    .slice((page - 1) * itemsPerPage, page * itemsPerPage)
                     .map((notice) => (
                       <tr
                         key={notice.id}

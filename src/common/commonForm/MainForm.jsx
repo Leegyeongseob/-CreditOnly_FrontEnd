@@ -116,6 +116,7 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
             toggleAlarmBar={toggleAlarmBar}
             setHasUnreadNotifications={setHasUnreadNotifications}
             hasUnreadNotifications={hasUnreadNotifications}
+            isVisible={isAlarmVisible}
           />
         )}
       </Screen>

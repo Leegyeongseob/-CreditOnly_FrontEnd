@@ -11,6 +11,8 @@ import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import MainAxios from "../../axiosapi/MainAxios";
+import Alarm from "../../img/commonImg/알림.png";
+import AlarmDot from "../../img/commonImg/알림Dot.png";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -339,6 +341,15 @@ const AlarmSet = styled.div`
   }
 `;
 
+const IconAlarm = styled.div`
+  width: 25px;
+  height: 25px;
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
 const Header = ({
   toggleSideBar,
   isHeader,
@@ -492,9 +503,13 @@ const Header = ({
           <Dont />
           <AlarmSet onClick={toggleAlarmBar}>
             {hasUnreadNotifications ? (
-              <VscBellDot size={25} color="#ffd400" />
+              // <VscBellDot size={25} color="#ffd400" />
+
+              <IconAlarm imageurl={AlarmDot} />
             ) : (
-              <VscBell size={25} color="#717694" />
+              // <VscBell size={25} color="#717694" />
+
+              <IconAlarm imageurl={Alarm} />
             )}
           </AlarmSet>
         </UserBox>

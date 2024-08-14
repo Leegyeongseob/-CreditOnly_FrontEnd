@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import styled from "styled-components";
-import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
-import { UserEmailContext } from "../../contextapi/UserEmailProvider";
-import Modal from "../help/HelpModal";
 import modalImg from "../../img/commonImg/전구 아이콘.gif";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
+import Modal from "../help/HelpModal";
 
 const Board = styled.div`
   width: 100%;
@@ -39,15 +39,6 @@ const BtnDiv = styled.div`
   @media screen and (max-width: 768px) {
     padding: 0 5% 0 3%;
   }
-`;
-
-const EditBtn = styled.div`
-  width: 15%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const Btn = styled.div`
@@ -92,6 +83,11 @@ const Title = styled.h1`
   }
 `;
 
+const TitleFont = styled.div`
+  font-size: 22px;
+  padding: 1% 0% 0 1%;
+`;
+
 const Contents = styled.div`
   width: 100%;
   height: 80%;
@@ -132,33 +128,44 @@ const TitleLeft = styled.div`
   }
 `;
 
-const TitleRight = styled.div`
+const WriteTitleInput = styled.input`
   width: 100%;
-  height: 30%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 20px;
-  @media screen and (max-width: 1100px) {
-    font-size: 17px;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 28px;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
   }
 `;
 
-const AnBoardDetails = () => {
-  const { email, adminEmails = [] } = useContext(UserEmailContext);
-  const { classTitle, noticeId } = useParams(); // noticeId 추가
-  const location = useLocation();
-  const navigate = useNavigate();
+const WriteContentsInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 20px;
+  resize: none;
+  overflow-y: auto;
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
+`;
 
-  // location.state로 전달된 notice를 우선 가져오고, 없으면 null로 초기화
-  const [notice, setNotice] = useState(location.state?.notice || null);
+const AnBoardEdit = () => {
+  const { email } = useContext(UserEmailContext);
   const [clickTitle, setClickTitle] = useState("");
+  const { classTitle } = useParams();
+  const [title, setTitle] = useState("");
+  const [contents, setContents] = useState("");
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const isAdmin = adminEmails.includes(email);
+  const navigate = useNavigate();
+  const { setHasUnreadNotifications } = useOutletContext();
 
   useEffect(() => {
-    // classTitle에 따라 타이틀 설정
     switch (classTitle) {
       case "news":
         setClickTitle("새 소식");
@@ -174,96 +181,80 @@ const AnBoardDetails = () => {
     }
   }, [classTitle]);
 
-  useEffect(() => {
-    // notice 데이터가 없으면 서버에서 다시 불러옴
-    const fetchNotice = async () => {
-      if (!notice || notice.id !== noticeId) {
-        try {
-          const response = await AnnouncementAxios.getAnnouncement(noticeId);
-          setNotice(response.data);
-        } catch (error) {
-          console.error("Failed to fetch notice", error);
-        }
-      }
-    };
-
-    fetchNotice();
-  }, [notice, noticeId]);
-
-  const handleBackClick = () => {
-    navigate(`/announcement/${classTitle}`);
-  };
-
-  const handleEditClick = async () => {
-    try {
-      const updatedNotice = {
-        ...notice,
-        title: "수정된 제목", // 예시로 수정된 제목
-        contents: "수정된 내용", // 예시로 수정된 내용
-      };
-      await AnnouncementAxios.updateAnnouncement(notice.id, updatedNotice);
-      setNotice(updatedNotice); // notice 상태 업데이트
-    } catch (error) {
-      console.error("Error updating announcement:", error);
-    }
-  };
-
-  const handleDelClick = async () => {
-    try {
-      await AnnouncementAxios.deleteAnnouncement(notice.id);
-      setModalOpen(true);
-      setModalContent("게시글 삭제가 완료되었습니다.");
-    } catch (error) {
-      console.error("Error deleting announcement:", error);
-    }
-  };
-
   const codeModalOkBtnHandler = () => {
     closeNextModal();
   };
-
   const closeNextModal = () => {
     setModalOpen(false);
-    navigate(`/announcement/${classTitle}`);
+    navigate(-1);
   };
-
   const closeModal = () => {
     setModalOpen(false);
-    navigate(`/announcement/${classTitle}`);
+    navigate(-1);
+  };
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
+  const addBoard = async (e) => {
+    const formData = {
+      email,
+      classTitle,
+      title,
+      contents,
+    };
+
+    try {
+      await AnnouncementAxios.postBoard(formData);
+      setModalOpen(true);
+      setModalContent("게시글 등록 성공 !");
+      setHasUnreadNotifications(true);
+    } catch (error) {
+      console.log(error);
+      setModalOpen(true);
+      setModalContent("게시글 등록 실패..");
+    }
   };
 
   return (
     <Board>
       <BtnDiv>
-        <Btn onClick={handleBackClick}>뒤로</Btn>
-        {isAdmin && (
-          <EditBtn>
-            <Btn onClick={handleEditClick}>수정</Btn>
-            <Btn onClick={handleDelClick}>삭제</Btn>
-          </EditBtn>
-        )}
+        <Btn onClick={() => handleBackClick()}>뒤로</Btn>
       </BtnDiv>
-      <Title>{clickTitle}</Title>
+      <Title>
+        {clickTitle}
+        <TitleFont>- 게시글 작성</TitleFont>
+      </Title>
       <Contents>
         <TitleBox>
-          <TitleLeft>제목 : {notice?.title || "제목 없음"}</TitleLeft>
-          <TitleRight>작성일: {notice?.createdDate || "날짜 없음"}</TitleRight>
+          <TitleLeft>
+            <WriteTitleInput
+              type="text"
+              placeholder="제목"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </TitleLeft>
         </TitleBox>
         <HelpBoard>
           <HelpBoardText>
-            {notice ? (
-              <div>
-                <p>{notice.contents}</p>
-              </div>
-            ) : (
-              <p>공지사항을 찾을 수 없습니다.</p>
-            )}
+            <WriteContentsInput
+              type="text"
+              placeholder="내용을 입력해주세요.."
+              value={contents}
+              onChange={(e) => setContents(e.target.value)}
+            />
           </HelpBoardText>
         </HelpBoard>
+        <BtnDiv>
+          <Btn onClick={addBoard}>수정</Btn>
+        </BtnDiv>
       </Contents>
+
       <Modal
         open={modalOpen}
-        header="1:1 문의하기"
+        header={clickTitle + " - 게시글 작성"}
         type={true}
         close={closeModal}
         img={modalImg}
@@ -275,4 +266,4 @@ const AnBoardDetails = () => {
   );
 };
 
-export default AnBoardDetails;
+export default AnBoardEdit;
