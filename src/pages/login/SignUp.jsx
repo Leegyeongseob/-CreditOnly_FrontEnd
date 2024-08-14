@@ -40,12 +40,12 @@ const InputDetailDiv = styled.div`
     border: none;
     border-bottom: 0.21vh solid gray;
     background-color: transparent;
-    font-size: 23px;
+    /* font-size: 23px; */
     font-weight: bolder;
     outline: none;
     &::placeholder {
-      font-size: 2.5vh;
-      color: gray;
+      font-size: clamp(20px, 2.5vw, 30px);
+      color: #808080;
       font-weight: normal;
       font-style: italic;
       opacity: 0.5;
@@ -59,11 +59,11 @@ const InputDetailDiv = styled.div`
     border: none;
     border-bottom: 0.21vh solid gray;
     background-color: transparent;
-    font-size: 23px;
+    /* font-size: 23px; */
     font-weight: bolder;
     outline: none;
     &::placeholder {
-      font-size: 2.5vh;
+      font-size: clamp(15px, 2.5vw, 30px);
       color: gray;
       font-weight: normal;
       font-style: italic;
@@ -77,7 +77,9 @@ const Empty = styled.div`
 `;
 const EmailAthouized = styled.div`
   width: 12%;
-  height: 70%;
+  min-width: 50px;
+  max-width: 100px;
+  height: 55%;
   border-radius: 10px;
   border: none;
   background-color: ${({ isActive }) => (isActive ? "#367EE9" : "#fff")};
@@ -106,7 +108,7 @@ const RegisterationInput1 = styled.input`
   font-weight: bolder;
   outline: none;
   &::placeholder {
-    font-size: 2.5vh;
+    font-size: clamp(20px, 2.5vw, 30px);
     color: gray;
     font-weight: normal;
     font-style: italic;
@@ -134,7 +136,7 @@ const RegisterationInput2 = styled.input`
   font-weight: bolder;
   outline: none;
   &::placeholder {
-    font-size: 2.5vh;
+    font-size: clamp(10px, 2.5vw, 30px);
     color: gray;
     font-weight: normal;
     font-style: italic;
@@ -142,7 +144,7 @@ const RegisterationInput2 = styled.input`
   }
 `;
 const TermsText = styled.div`
-  font-size: 25px;
+  font-size: clamp(13px, 2.5vw, 30px);
   font-weight: 600;
   color: gray;
   display: flex;
@@ -163,13 +165,14 @@ const SignupButton = styled.div`
   background-color: ${({ isActive }) =>
     isActive ? "rgba(99, 56, 255, 0.4)" : "#367EE9"};
   border-radius: 12px;
-  font-size: 25px;
+  font-size: clamp(22px, 2.5vw, 30px);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-style: italic;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   font-weight: 600;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {

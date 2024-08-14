@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import back1 from "../../img/ad/image.png";
-import { symbol } from "prop-types";
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { useNavigate } from "react-router-dom";
 
 const Basic = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: mediumorchid;
+  overflow-x: hidden;
 `;
 const First = styled.div`
   width: 100%;

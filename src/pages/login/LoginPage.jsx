@@ -39,7 +39,7 @@ const InputDiv = styled.input`
   outline: none;
   &::placeholder {
     text-align: center;
-    font-size: 2.5vh;
+    font-size: clamp(15px, 2.5vw, 30px);
     color: gray;
     font-weight: normal;
     font-style: italic;

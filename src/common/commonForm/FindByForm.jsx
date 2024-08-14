@@ -5,9 +5,9 @@ import logo from "../../img/loginImg/findPageLogoImg.png";
 const LoginPage = styled.div`
   background-color: #ffffff;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
-  overflow: hidden;
+  overflow-x: hidden;
   flex-direction: column;
 `;
 const SinLogo = styled.div`

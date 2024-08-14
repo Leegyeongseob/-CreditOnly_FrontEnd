@@ -51,7 +51,7 @@ const lightTheme = {
 
 const darkTheme = {
   background: "#242424",
-  color: "#9D9D9D",
+  color: "#fff",
   commponent: "#1D1D1D",
   overlay: "rgba(0, 0, 0, 0.5)",
   sideBar: "#121212",

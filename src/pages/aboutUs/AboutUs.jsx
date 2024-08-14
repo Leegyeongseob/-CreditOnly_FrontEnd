@@ -9,8 +9,9 @@ import Face1 from "../../img/aboutUs/KakaoTalk_20240812_100533407_04.jpg";
 import Face6 from "../../img/aboutUs/KakaoTalk_20240812_100533407_05.jpg";
 
 const Basic = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 500vh;
+  overflow-x: hidden;
   /* background-color: aliceblue; */
   justify-content: center;
   display: flex;
@@ -78,6 +79,7 @@ const ImageTextDetail = styled.div`
 const IntroBox = styled.div`
   width: 100%;
   max-width: 1300px;
+  overflow-x: hidden;
   height: 100%;
   flex-direction: column;
   display: flex;
@@ -98,6 +100,7 @@ const IntroFDWrap = styled.div`
   display: flex;
   justify-content: center;
   display: flex;
+  overflow-x: hidden;
   align-items: center;
   /* border: 0.1px solid black; */
 `;
