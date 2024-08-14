@@ -4,7 +4,8 @@ import logosearch from "../../img/loginImg/findglass.png";
 import exProfile from "../../img/commonImg/프로필예시.jpeg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
-import { IoNotificationsOutline, IoMenuOutline } from "react-icons/io5";
+import { IoMenuOutline } from "react-icons/io5";
+import { VscBell, VscBellDot } from "react-icons/vsc";
 import UserToggle from "./UserToggle";
 import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
@@ -344,10 +345,10 @@ const Header = ({
   toggleDarkMode,
   isDarkMode,
   toggleAlarmBar,
+  hasUnreadNotifications,
 }) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
-
   const { email, imgUrl } = useContext(UserEmailContext);
   const [user, setUser] = useState([{ name: "", email: "" }]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -490,7 +491,11 @@ const Header = ({
           />
           <Dont />
           <AlarmSet onClick={toggleAlarmBar}>
-            <IoNotificationsOutline size={25} color="#717694" />
+            {hasUnreadNotifications ? (
+              <VscBellDot size={25} color="#717694" />
+            ) : (
+              <VscBell size={25} color="#717694" />
+            )}
           </AlarmSet>
         </UserBox>
       </RightBox>

@@ -2,8 +2,10 @@ import { Outlet, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 import SideBar from "./SideBar";
 import Header from "./Header";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AlarmBar from "./AlarmBar";
+import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 
 const Screen = styled.div`
   background-color: ${({ theme }) => theme.background};
@@ -33,13 +35,28 @@ const Contents = styled.div`
 `;
 
 const MainForm = ({ toggleDarkMode, isDarkMode }) => {
+  const { email } = useContext(UserEmailContext);
   const [isSideBarVisible, setIsSideBarVisible] = useState(true);
   const [isAlarmVisible, setIsAlarmVisible] = useState(false);
   const [isHeader, setIsHeader] = useState(false);
   const location = useLocation(); // 현재 경로를 가져옴
-
-  // 현재 경로가 "/announcement"인지 확인
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false); // 알림 상태 관리
   const isAnnouncement = location.pathname === "/announcement";
+
+  // Function to fetch notifications and update the state
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await AnnouncementAxios.getNotificationsByEmail(email);
+        const hasUnread = response.data.length > 0;
+        setHasUnreadNotifications(hasUnread);
+      } catch (error) {
+        console.error("Failed to fetch notifications", error);
+      }
+    };
+
+    fetchNotifications();
+  }, [email]); // 이메일이 변경될 때마다 알림을 다시 가져옵니다.
 
   // sidebar의 가시성을 토글하는 함수
   const toggleSideBar = () => {
@@ -83,13 +100,23 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
         isHeader={isHeader}
         toggleDarkMode={toggleDarkMode}
         isDarkMode={isDarkMode}
+        hasUnreadNotifications={hasUnreadNotifications} // 알림 상태 전달
       />
       <Screen isAnnouncement={isAnnouncement}>
         {isSideBarVisible && <SideBar toggleSideBar={toggleSideBar} />}
         <Contents>
-          <Outlet />
+          <Outlet
+            context={{
+              setHasUnreadNotifications, // 전달
+            }}
+          />
         </Contents>
-        {isAlarmVisible && <AlarmBar toggleAlarmBar={toggleAlarmBar} />}
+        {isAlarmVisible && (
+          <AlarmBar
+            toggleAlarmBar={toggleAlarmBar}
+            setHasUnreadNotifications={setHasUnreadNotifications}
+          />
+        )}
       </Screen>
     </>
   );

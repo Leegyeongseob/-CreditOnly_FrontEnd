@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
 
 const Alarm = styled.div`
   position: fixed;
@@ -65,18 +67,43 @@ const ContentsBox = styled(Link)`
   }
 `;
 
-const AlarmBar = () => {
-  const [notifications, setNotifications] = useState([
-    { id: 1, text: "알림바 테스트" },
-    { id: 2, text: "연습임~" },
-    // Add initial notifications here
-  ]);
+const AlarmBar = ({ setHasUnreadNotifications, toggleAlarmBar }) => {
+  const { email } = useContext(UserEmailContext);
+  const [notifications, setNotifications] = useState([]);
+  const navigate = useNavigate();
 
-  // Function to handle notification click
-  const handleNotificationClick = (id) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notification) => notification.id !== id)
-    );
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await AnnouncementAxios.getNotificationsByEmail(email);
+        setNotifications(response.data);
+        setHasUnreadNotifications(response.data.length > 0);
+      } catch (error) {
+        console.error("Failed to fetch notifications", error);
+      }
+    };
+
+    fetchNotifications();
+  }, [email, setHasUnreadNotifications]);
+
+  const handleNotificationClick = async (classTitle, notice, id) => {
+    try {
+      await AnnouncementAxios.markAsRead(id, email);
+      const updatedNotifications = notifications.filter(
+        (notification) => notification.id !== id
+      );
+      setNotifications(updatedNotifications);
+      setHasUnreadNotifications(updatedNotifications.length > 0); // 클릭 후 알림 상태 업데이트
+
+      navigate(`/announcement/${classTitle}/${notice.id}`, {
+        state: { notice },
+      });
+
+      // 알림 클릭 시 알림 바 닫기 (필요 시)
+      toggleAlarmBar();
+    } catch (error) {
+      console.error("Failed to mark notification as read", error);
+    }
   };
 
   return (
@@ -86,13 +113,20 @@ const AlarmBar = () => {
         {notifications.map((notification) => (
           <ContentsBox
             key={notification.id}
-            onClick={() => handleNotificationClick(notification.id)}
+            onClick={() =>
+              handleNotificationClick(
+                notification.classTitle,
+                notification,
+                notification.id
+              )
+            }
           >
-            {notification.text}
+            {notification.title}
           </ContentsBox>
         ))}
       </Menu>
     </Alarm>
   );
 };
+
 export default AlarmBar;

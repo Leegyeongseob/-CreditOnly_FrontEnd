@@ -239,6 +239,7 @@ const AnnouncementMain = () => {
   const handleDetailsClick = (classTitle, notice) => {
     navigate(`/announcement/${classTitle}/${notice.id}`, { state: { notice } });
   };
+
   return (
     <Contain>
       <Aside>

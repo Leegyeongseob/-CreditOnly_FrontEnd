@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import styled from "styled-components";
 import modalImg from "../../img/commonImg/전구 아이콘.gif";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
@@ -163,6 +163,7 @@ const AnBoardWrite = () => {
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { setHasUnreadNotifications } = useOutletContext();
 
   useEffect(() => {
     switch (classTitle) {
@@ -208,6 +209,7 @@ const AnBoardWrite = () => {
       await AnnouncementAxios.postBoard(formData);
       setModalOpen(true);
       setModalContent("게시글 등록 성공 !");
+      setHasUnreadNotifications(true);
     } catch (error) {
       console.log(error);
       setModalOpen(true);

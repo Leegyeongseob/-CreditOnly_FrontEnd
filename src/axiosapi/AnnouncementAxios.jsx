@@ -17,5 +17,19 @@ const AnnouncementAxios = {
       params: { classTitle },
     });
   },
+
+  // 특정 이메일에 대한 알림 목록 가져오기
+  getNotificationsByEmail: async (email) => {
+    return await AxiosInstance.get("/announcement/notifications", {
+      params: { email },
+    });
+  },
+
+  // 알림을 읽음 처리
+  markAsRead: async (id, email) => {
+    return await AxiosInstance.post(`/announcement/markAsRead`, null, {
+      params: { id, email },
+    });
+  },
 };
 export default AnnouncementAxios;
