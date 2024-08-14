@@ -31,5 +31,10 @@ const AnnouncementAxios = {
       params: { id, email },
     });
   },
+
+  // 공지사항 삭제
+  deleteAnnouncement: async (id) => {
+    return await AxiosInstance.delete(`/announcement/delete/${id}`);
+  },
 };
 export default AnnouncementAxios;

@@ -18,11 +18,11 @@ const UserEmailProvider = ({ children }) => {
         const response = await MemberAxiosApi.getEmail();
         setEmail(response.data);
 
-        // 권한 정보 가져오기
+        // 데이터에서 배열을 올바르게 추출하여 상태를 업데이트
         const userInfoResponse = await MemberAxiosApi.getAdminEmails();
-        // 데이터를 배열로 변환
-        setAdminEmails(Array.isArray(userInfoResponse) ? userInfoResponse : []);
-        console.log("관리자 이메일:", userInfoResponse);
+        const adminEmailsArray = userInfoResponse.data; // data 속성에서 배열 추출
+        setAdminEmails(Array.isArray(adminEmailsArray) ? adminEmailsArray : []);
+        console.log("관리자 이메일:", adminEmailsArray); // 디버깅용
       } catch (error) {
         console.error("Error fetching user info:", error);
       }

@@ -208,6 +208,9 @@ const AnBoard = () => {
   const navigate = useNavigate();
   // 현재 사용자의 이메일이 관리자 이메일 목록에 있는지 확인
   const isAdmin = adminEmails.includes(email);
+  console.log("현재 이메일:", email);
+  console.log("관리자 이메일 목록:", adminEmails);
+  console.log("Is Admin:", isAdmin);
 
   useEffect(() => {
     switch (classTitle) {
@@ -264,7 +267,7 @@ const AnBoard = () => {
   };
 
   const handleBackClick = () => {
-    navigate(-1);
+    navigate(`/announcement`);
   };
 
   return (

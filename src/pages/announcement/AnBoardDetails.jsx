@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { exText } from "./AnBoard"; // 예시 데이터 사용
 import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import Modal from "../help/HelpModal";
+import modalImg from "../../img/commonImg/전구 아이콘.gif";
 
 const Board = styled.div`
   width: 100%;
@@ -151,6 +152,8 @@ const AnBoardDetails = () => {
   const [clickTitle, setClickTitle] = useState("");
   const navigate = useNavigate();
   const isAdmin = adminEmails.includes(email);
+  const [modalContent, setModalContent] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     switch (classTitle) {
@@ -168,11 +171,45 @@ const AnBoardDetails = () => {
     }
   }, [classTitle]);
 
-  const handleBackClick = () => {
-    navigate(-1);
+  const codeModalOkBtnHandler = () => {
+    closeNextModal();
   };
-  const handleEditClick = () => {};
-  const handleDelClick = () => {};
+  const closeNextModal = () => {
+    setModalOpen(false);
+    navigate(`/announcement/${classTitle}`);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+    navigate(`/announcement/${classTitle}`);
+  };
+
+  const handleBackClick = () => {
+    navigate(`/announcement/${classTitle}`);
+  };
+
+  const handleEditClick = async () => {
+    try {
+      const updatedNotice = {
+        ...notice,
+        title: "수정된 제목", // 예시로 수정된 제목
+        contents: "수정된 내용", // 예시로 수정된 내용
+      };
+      await AnnouncementAxios.updateAnnouncement(notice.id, updatedNotice);
+      navigate(`/announcement/${classTitle}/${notice.id}`);
+    } catch (error) {
+      console.error("Error updating announcement:", error);
+    }
+  };
+
+  const handleDelClick = async () => {
+    try {
+      await AnnouncementAxios.deleteAnnouncement(notice.id);
+      setModalOpen(true);
+      setModalContent("게시글 삭제가 완료되었습니다.");
+    } catch (error) {
+      console.error("Error deleting announcement:", error);
+    }
+  };
 
   return (
     <Board>
@@ -205,6 +242,16 @@ const AnBoardDetails = () => {
           </HelpBoardText>
         </HelpBoard>
       </Contents>
+      <Modal
+        open={modalOpen}
+        header="1:1 문의하기"
+        type={true}
+        close={closeModal}
+        img={modalImg}
+        confirm={codeModalOkBtnHandler}
+      >
+        {modalContent}
+      </Modal>
     </Board>
   );
 };
