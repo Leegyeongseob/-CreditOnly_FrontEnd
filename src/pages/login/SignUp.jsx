@@ -384,8 +384,8 @@ const SignUp = () => {
   // 약관 보기 버튼 클릭 상태 변수
   const [isTermClickBtn, setIsTermClickBtn] = useState(false);
   // 약관 동의 체크 버튼
-  const [isTermAccepted, setIsTermAccepted] = useState(false);
-  const [isAllcheck, setIsAllChdcked] = useState({
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const [isTermAccepted, setIsTermAccepted] = useState({
     term1: false,
     term2: false,
     term3: false,
@@ -495,7 +495,7 @@ const SignUp = () => {
 
   const handleAllCheckboxChange = (e) => {
     const isChecked = e.target.checked;
-    setIsAllChdcked(isChecked);
+    setIsAllChecked(isChecked);
     setIsTermAccepted({
       term1: isChecked,
       term2: isChecked,
@@ -507,12 +507,16 @@ const SignUp = () => {
   // 체크박스 상태 업데이트
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
-    setIsTermAccepted((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
+    setIsTermAccepted((prev) => {
+      const updatedTerms = {
+        ...prev,
+        [name]: checked,
+      };
+      const allTermsChecked = Object.values(updatedTerms).every(Boolean);
+      setIsAllChecked(allTermsChecked);
+      return updatedTerms;
+    });
   };
-  const isAllTermsChecked = Object.values(isTermAccepted).every(Boolean);
 
   // 동의 버튼 클릭 핸들러
   const handleAgreeButtonClick = () => {
@@ -1058,15 +1062,16 @@ const SignUp = () => {
                       <div className="termAgree">
                         <TermsCheckbox
                           type="checkbox"
-                          checked={isAllcheck}
+                          name="AllCheck"
+                          checked={isAllChecked}
                           onChange={handleAllCheckboxChange}
                         />
                         <TermsLabel>전체약관에 동의합니다.</TermsLabel>
                       </div>
                       <TermsButton
                         onClick={handleAgreeButtonClick}
-                        disabled={!isAllTermsChecked}
-                        isActive={isAllTermsChecked}
+                        disabled={!isAllChecked}
+                        isActive={isAllChecked}
                       >
                         동의
                       </TermsButton>
