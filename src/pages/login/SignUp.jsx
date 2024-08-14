@@ -223,10 +223,10 @@ const focusInExpand = keyframes`
 }
 `;
 const TermImgDiv = styled.div`
-  width: 100%;
+  width: 60%;
   height: 100%;
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
-
+  min-width: 400px;
   justify-content: center;
   align-items: center;
   position: absolute;
