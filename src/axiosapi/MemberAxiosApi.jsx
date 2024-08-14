@@ -40,6 +40,11 @@ const MemberAxiosApi = {
   searchProfileUrl: async (email) => {
     return await AxiosInstance.get(`/member/searchProfileUrl?email=${email}`);
   },
+
+  // 관리자 이메일 가져오기
+  getAdminEmails: async () => {
+    return await AxiosInstance.get("/member/adminEmails");
+  },
 };
 
 export default MemberAxiosApi;

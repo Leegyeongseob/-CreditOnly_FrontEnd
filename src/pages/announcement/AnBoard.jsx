@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Pagination from "react-js-pagination";
 import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 
 const Board = styled.div`
   width: 100%;
@@ -196,6 +197,7 @@ const PageStyle = styled.div`
 `;
 
 const AnBoard = () => {
+  const { email, adminEmails = [] } = useContext(UserEmailContext);
   const { classTitle } = useParams();
   const [clickTitle, setClickTitle] = useState("");
   const [page, setPage] = useState(1);
@@ -204,6 +206,8 @@ const AnBoard = () => {
   const [loading, setLoading] = useState(true);
   const itemsPerPage = 8;
   const navigate = useNavigate();
+  // 현재 사용자의 이메일이 관리자 이메일 목록에 있는지 확인
+  const isAdmin = adminEmails.includes(email);
 
   useEffect(() => {
     switch (classTitle) {
@@ -267,7 +271,7 @@ const AnBoard = () => {
     <Board>
       <BtnDiv>
         <Btn onClick={() => handleBackClick()}>뒤로</Btn>
-        <Btn onClick={() => handleWriteClick()}>글 쓰기</Btn>
+        {isAdmin && <Btn onClick={() => handleWriteClick()}>글 쓰기</Btn>}
       </BtnDiv>
       <Title>{clickTitle}</Title>
       {loading ? (

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { exText } from "./AnBoard"; // 예시 데이터 사용
 import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 
 const Board = styled.div`
   width: 100%;
@@ -143,12 +144,13 @@ const TitleRight = styled.div`
 `;
 
 const AnBoardDetails = () => {
+  const { email, adminEmails = [] } = useContext(UserEmailContext);
   const { classTitle } = useParams();
   const location = useLocation();
   const { notice } = location.state || {}; // 전달된 notice 객체를 가져옴
-
   const [clickTitle, setClickTitle] = useState("");
   const navigate = useNavigate();
+  const isAdmin = adminEmails.includes(email);
 
   useEffect(() => {
     switch (classTitle) {
@@ -169,14 +171,20 @@ const AnBoardDetails = () => {
   const handleBackClick = () => {
     navigate(-1);
   };
+  const handleEditClick = () => {};
+  const handleDelClick = () => {};
 
   return (
     <Board>
       <BtnDiv>
         <Btn onClick={handleBackClick}>뒤로</Btn>
         <EditBtn>
-          <Btn>수정</Btn>
-          <Btn>삭제</Btn>
+          {isAdmin && (
+            <>
+              <Btn onClick={() => handleEditClick()}>수정</Btn>
+              <Btn onClick={() => handleDelClick()}>삭제</Btn>
+            </>
+          )}
         </EditBtn>
       </BtnDiv>
       <Title>{clickTitle}</Title>
