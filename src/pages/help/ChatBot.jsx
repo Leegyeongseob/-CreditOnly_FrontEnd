@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import { VscSend } from "react-icons/vsc";
 import Header from "../../common/commonForm/Header";
 import ChatBotSideBar from "./ChatBotSideBar";
+import ChatCard from "./ChatCard";
+import EcosAxios from "../../axiosapi/EcosAxios"; // ECOS API 호출을 위한 Axios 인스턴스
+import DartAxios from "../../axiosapi/DartAxios"; // DART API 호출을 위한 Axios 인스턴스
+import FinancialDataAxios from "../../axiosapi/FinancialDataAxios"; // 금융 데이터 API 호출을 위한 Axios 인스턴스
 
 const Screen = styled.div`
   background-color: ${({ theme }) => theme.background};
@@ -20,11 +24,15 @@ const MessageBox = styled.div`
   justify-content: start;
   align-items: center;
   display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
   flex-direction: column;
 `;
+
 const MessagePlace = styled.div`
   width: 45%;
   height: 85%;
+  overflow-y: auto;
 `;
 const MessageSendBox = styled.div`
   width: 80%;
@@ -72,21 +80,57 @@ const ChatBot = ({ toggleDarkMode, isDarkMode }) => {
   const [message, setMessage] = useState("");
   const [isSideBarVisible, setIsSideBarVisible] = useState(true);
   const [isHeader, setIsHeader] = useState(false);
+  const [activeTopic, setActiveTopic] = useState(null);
+  const [chatHistory, setChatHistory] = useState([]);
 
   const handleChange = (e) => {
     setMessage(e.target.value);
-    console.log(message);
   };
 
-  const send = () => {};
+  const send = () => {
+    // 메시지를 전송하고 대화 기록에 추가하는 로직
+    if (message.trim()) {
+      setChatHistory([...chatHistory, { sender: "user", text: message }]);
+      setMessage(""); // 입력 필드를 비웁니다.
+    }
+  };
 
-  // sidebar의 가시성을 토글하는 함수
+  const handleCardClick = async (topic) => {
+    setActiveTopic(topic); // 주제 설정
+
+    // 선택된 주제에 따라 API 호출
+    try {
+      let response;
+      switch (topic) {
+        case "소비자 동향 지수":
+          response = await EcosAxios.getEcosData();
+          break;
+        case "기업 개황":
+          response = await DartAxios.getDartData();
+          break;
+        case "금융 회사 조회":
+          response = await FinancialDataAxios.indexFinancialData();
+          break;
+        default:
+          console.error("Unknown topic:", topic);
+          return;
+      }
+
+      // API 호출 후 데이터를 대화 기록에 추가
+      setChatHistory([
+        ...chatHistory,
+        { sender: "bot", text: JSON.stringify(response, null, 2) },
+      ]);
+    } catch (error) {
+      console.error("API 호출 중 오류가 발생했습니다:", error);
+    }
+  };
+
   const toggleSideBar = () => {
     setIsSideBarVisible(!isSideBarVisible);
     setIsHeader(!isHeader);
   };
 
-  // 화면 크기 변화에 따라 사이드바를 숨기거나 보이게 설정하는 함수
   const handleResize = () => {
     if (window.innerWidth < 1201) {
       setIsSideBarVisible(false);
@@ -97,13 +141,8 @@ const ChatBot = ({ toggleDarkMode, isDarkMode }) => {
   };
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 리사이즈 이벤트 리스너 추가
     window.addEventListener("resize", handleResize);
-
-    // 컴포넌트가 마운트될 때 한 번 체크
     handleResize();
-
-    // 컴포넌트가 언마운트될 때 리사이즈 이벤트 리스너 제거
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -120,22 +159,50 @@ const ChatBot = ({ toggleDarkMode, isDarkMode }) => {
       <Screen>
         {isSideBarVisible && <ChatBotSideBar toggleSideBar={toggleSideBar} />}
         <MessageBox>
-          <MessagePlace>
-            {/* <Teeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeest></Teeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeest> */}
-          </MessagePlace>
-          <MessageSendBox>
-            <MessageSendWrap>
-              <MessageSend
-                type="text"
-                value={message}
-                onChange={handleChange}
-                placeholder="메세지를 입력해주세요"
+          {!activeTopic ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <ChatCard
+                text="소비자 동향 지수"
+                onClick={() => handleCardClick("소비자 동향 지수")}
               />
-              <SendWrap>
-                <VscSend onClick={send} />
-              </SendWrap>
-            </MessageSendWrap>
-          </MessageSendBox>
+              <ChatCard
+                text="기업 개황"
+                onClick={() => handleCardClick("기업 개황")}
+              />
+              <ChatCard
+                text="금융 회사 조회"
+                onClick={() => handleCardClick("금융 회사 조회")}
+              />
+            </div>
+          ) : (
+            <>
+              <MessagePlace>
+                {chatHistory.map((msg, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      textAlign: msg.sender === "user" ? "right" : "left",
+                    }}
+                  >
+                    <p>{msg.text}</p>
+                  </div>
+                ))}
+              </MessagePlace>
+              <MessageSendBox>
+                <MessageSendWrap>
+                  <MessageSend
+                    type="text"
+                    value={message}
+                    onChange={handleChange}
+                    placeholder="메세지를 입력해주세요"
+                  />
+                  <SendWrap>
+                    <VscSend onClick={send} />
+                  </SendWrap>
+                </MessageSendWrap>
+              </MessageSendBox>
+            </>
+          )}
         </MessageBox>
       </Screen>
     </>
