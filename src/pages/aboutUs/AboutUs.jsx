@@ -164,7 +164,7 @@ const Face246 = styled.div`
 const AboutUs = () => {
   const navigate = useNavigate();
   const GoHome = () => {
-    navigate("/mainpage");
+    navigate("/");
   };
   const GoAboutUs = () => {
     navigate("/aboutus");

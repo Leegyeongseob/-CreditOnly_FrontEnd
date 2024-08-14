@@ -3,6 +3,7 @@ import back1 from "../../img/ad/image.png";
 import { symbol } from "prop-types";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import { useNavigate } from "react-router-dom";
 
 const Basic = styled.div`
   width: 100vw;
@@ -94,6 +95,9 @@ const DoorCloth = styled.div`
   align-items: center;
   padding: 8px;
   cursor: pointer;
+  &:hover {
+    background-color: #00d40b;
+  }
 `;
 const AdBackImage = styled.div`
   background-image: url(${back1});
@@ -150,7 +154,7 @@ const SubIntro = styled.div`
 `;
 const AdInquiry = () => {
   const [emailText, setEmailText] = useState("");
-
+  const navigate = useNavigate();
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -172,19 +176,27 @@ const AdInquiry = () => {
       alert("클립보드 복사에 실패했습니다");
     }
   };
-
+  const GoAboutUs = () => {
+    navigate("/aboutus");
+  };
+  const GoHome = () => {
+    navigate("/");
+  };
+  const GoLogin = () => {
+    navigate("/login");
+  };
   return (
     <Basic>
       <First>
         <Head>
           <HeadBtn>
-            <HeadBtnText>Home</HeadBtnText>
+            <HeadBtnText onClick={GoHome}>Home</HeadBtnText>
           </HeadBtn>
           <HeadBtn>
-            <HeadBtnText>About US</HeadBtnText>
+            <HeadBtnText onClick={GoAboutUs}>About US</HeadBtnText>
           </HeadBtn>
           <HeadBtn>
-            <HeadBtnText>Login</HeadBtnText>
+            <HeadBtnText onClick={GoLogin}>Login</HeadBtnText>
           </HeadBtn>
         </Head>
         <IntroBox>
