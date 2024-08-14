@@ -236,12 +236,18 @@ const AnnouncementMain = () => {
     navigate(`/announcement/${classTitle}`);
   };
 
+  const handleDetailsClick = (classTitle, notice) => {
+    navigate(`/announcement/${classTitle}/${notice.id}`, { state: { notice } });
+  };
   return (
     <Contain>
       <Aside>
         <Title>새 소식</Title>
         {newsNotices.map((notice) => (
-          <ListItemDiv key={notice.id}>
+          <ListItemDiv
+            key={notice.id}
+            onClick={() => handleDetailsClick("news", notice)}
+          >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
               <ItemTitle>{notice.title}</ItemTitle>

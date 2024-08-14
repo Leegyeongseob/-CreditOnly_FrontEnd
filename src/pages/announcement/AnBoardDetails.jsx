@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { exText } from "./AnBoard"; // 예시 데이터 사용
 import AnnouncementAxios from "../../axiosapi/AnnouncementAxios";
@@ -143,10 +143,11 @@ const TitleRight = styled.div`
 `;
 
 const AnBoardDetails = () => {
-  const { classNo, classTitle } = useParams();
+  const { classTitle } = useParams();
+  const location = useLocation();
+  const { notice } = location.state || {}; // 전달된 notice 객체를 가져옴
+
   const [clickTitle, setClickTitle] = useState("");
-  const [notice, setNotice] = useState(null);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -165,22 +166,6 @@ const AnBoardDetails = () => {
     }
   }, [classTitle]);
 
-  useEffect(() => {
-    const fetchNoticeDetails = async () => {
-      setLoading(true);
-      try {
-        const response = await AnnouncementAxios.getNoticeDetails(classNo);
-        setNotice(response.data);
-      } catch (error) {
-        console.error("Failed to fetch notice details", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNoticeDetails();
-  }, [classNo]);
-
   const handleBackClick = () => {
     navigate(-1);
   };
@@ -188,7 +173,7 @@ const AnBoardDetails = () => {
   return (
     <Board>
       <BtnDiv>
-        <Btn onClick={() => handleBackClick()}>뒤로</Btn>
+        <Btn onClick={handleBackClick}>뒤로</Btn>
         <EditBtn>
           <Btn>수정</Btn>
           <Btn>삭제</Btn>
@@ -197,14 +182,12 @@ const AnBoardDetails = () => {
       <Title>{clickTitle}</Title>
       <Contents>
         <TitleBox>
-          <TitleLeft>제목 : {notice?.title}</TitleLeft>
-          <TitleRight>작성일: {notice?.join}</TitleRight>
+          <TitleLeft>제목 : {notice?.title || "제목 없음"}</TitleLeft>
+          <TitleRight>작성일: {notice?.createdDate || "날짜 없음"}</TitleRight>
         </TitleBox>
         <HelpBoard>
           <HelpBoardText>
-            {loading ? (
-              <p>Loading...</p>
-            ) : notice ? (
+            {notice ? (
               <div>
                 <p>{notice.contents}</p>
               </div>

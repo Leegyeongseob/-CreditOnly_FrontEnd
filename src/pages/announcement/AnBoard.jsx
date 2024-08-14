@@ -14,6 +14,7 @@ const Board = styled.div`
   padding: 20px;
   @media screen and (max-width: 768px) {
     height: 94vh;
+    min-height: 750px;
   }
 `;
 
@@ -93,7 +94,8 @@ const Tdfont = styled.div`
   }
 
   tbody tr:hover {
-    background-color: #dadada;
+    background-color: ${({ theme }) => theme.commponent};
+    color: ${({ theme }) => theme.color};
     cursor: pointer;
   }
 
@@ -200,7 +202,7 @@ const AnBoard = () => {
   const [notices, setNotices] = useState([]);
   const [totalItemsCount, setTotalItemsCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const itemsPerPage = 7;
+  const itemsPerPage = 8;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -249,8 +251,8 @@ const AnBoard = () => {
     setPage(pageNumber);
   };
 
-  const handleRowClick = (classNo) => {
-    navigate(`/announcement/${classTitle}/${classNo}`);
+  const handleRowClick = (notice) => {
+    navigate(`/announcement/${classTitle}/${notice.id}`, { state: { notice } });
   };
 
   const handleWriteClick = () => {
@@ -277,12 +279,12 @@ const AnBoard = () => {
               <tbody>
                 {notices &&
                   notices
-                    .slice()
-                    .reverse()
+                    .reverse() // 데이터를 역순으로 정렬
+                    .slice((page - 1) * itemsPerPage, page * itemsPerPage) // 페이지에 맞게 잘라서 표시
                     .map((notice) => (
                       <tr
                         key={notice.id}
-                        onClick={() => handleRowClick(notice.title)}
+                        onClick={() => handleRowClick(notice)}
                       >
                         <td>{notice.title}</td>
                         <td className="date">{notice.createdDate}</td>
