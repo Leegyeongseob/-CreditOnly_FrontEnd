@@ -30,6 +30,7 @@ import AnBoard from "./pages/announcement/AnBoard";
 import AnBoardDetails from "./pages/announcement/AnBoardDetails";
 import AnBoardWrite from "./pages/announcement/AnBoardWrite";
 import DataVisualization from "./pages/evaluation/DataVisualization";
+import CreditDataInputForm from "./pages/evaluation/CreditDataInputForm";
 // 라이트 및 다크 테마 설정
 const lightTheme = {
   background: "#ffffff",
@@ -112,6 +113,8 @@ const App = () => {
                 />
                 <Route path="/news/:id" element={<NewsDetail />} />
                 <Route path="/evaluation" element={<Evaluation />} />
+                <Route path="/credit-data-input" element={<CreditDataInputForm />} />
+
                 <Route
                   path="/data-visualization"
                   element={<DataVisualization />}

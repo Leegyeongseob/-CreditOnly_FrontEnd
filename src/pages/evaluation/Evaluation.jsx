@@ -150,7 +150,11 @@ const Evaluation = () => {
   return (
     <Container>
       <BtnDiv>
-        <CrediEvaluation>
+        <CrediEvaluation
+          onClick={() => {
+            navigate("/credit-data-input");
+          }}
+        >
           <MyEvaluation>나의 신용 평가하기</MyEvaluation>
           <EvaluationBtn> &gt;&gt;</EvaluationBtn>
         </CrediEvaluation>
