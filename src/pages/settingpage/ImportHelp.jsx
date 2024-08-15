@@ -146,23 +146,29 @@ const ImportHelp = () => {
       autoplay={{ delay: 5000 }}
       modules={[Navigation, Autoplay]}
     >
-      {recentHelpRequests.map((help) => (
-        <Slide key={help.id}>
-          <ListContents>
-            <ContentTitle>
-              {help.title.length > 10
-                ? `${help.title.substring(0, 10)}...`
-                : help.title}
-            </ContentTitle>
-            <ContentTime>{help.createdDate}</ContentTime>
-            <Contents>
-              {help.contents.length > 50
-                ? `${help.contents.substring(0, 50)}...`
-                : help.contents}
-            </Contents>
-          </ListContents>
+      {recentHelpRequests.length > 0 ? (
+        recentHelpRequests.map((help) => (
+          <Slide key={help.id}>
+            <ListContents>
+              <ContentTitle>
+                {help.title.length > 10
+                  ? `${help.title.substring(0, 10)}...`
+                  : help.title}
+              </ContentTitle>
+              <ContentTime>{help.createdDate}</ContentTime>
+              <Contents>
+                {help.contents.length > 50
+                  ? `${help.contents.substring(0, 50)}...`
+                  : help.contents}
+              </Contents>
+            </ListContents>
+          </Slide>
+        ))
+      ) : (
+        <Slide>
+          <Contents>문의 내역이 없습니다.</Contents>
         </Slide>
-      ))}
+      )}
     </StyledSwiper>
   );
 };
