@@ -20,9 +20,9 @@ const Board = styled.div`
 `;
 
 const BtnDiv = styled.div`
-  width: 97%;
+  width: 92%;
   height: 5%;
-  padding: 0 10% 0 3%;
+  padding: 0 2% 0 2%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -59,35 +59,66 @@ const Btn = styled.div`
     font-size: 12px;
   }
 `;
-const Title = styled.h1`
-  width: 100%;
+
+const TitleDiv = styled.div`
+  width: 92%;
   height: 10%;
-  padding-left: 5%;
+  margin-top: 1%;
+  padding-top: 1%;
+  padding-left: 2.5%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 32px;
-  font-weight: bolder;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+
   @media screen and (max-width: 768px) {
-    margin-top: 5%;
+    margin-top: 10%;
+  }
+`;
+const Title = styled.h1`
+  width: 285px;
+  height: 90%;
+  padding-left: 2%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30px;
+  font-weight: bolder;
+  border-radius: 10px;
+  @media screen and (max-width: 1200px) {
+    background-color: ${({ theme }) => theme.commponent};
+  }
+  @media screen and (max-width: 768px) {
+    margin-top: 10%;
+    padding-left: 8%;
+    font-size: 25px;
   }
 `;
 
 const Contents = styled.div`
-  width: 100%;
+  width: 92%;
   height: 75%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 `;
 
 const Tdfont = styled.div`
   display: flex;
-  width: 90%;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
+  width: 95%;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
 
   table {
     border-collapse: collapse;
@@ -95,8 +126,9 @@ const Tdfont = styled.div`
   }
 
   tbody tr:hover {
-    background-color: ${({ theme }) => theme.commponent};
+    background-color: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.color};
+    border-radius: 10px;
     cursor: pointer;
   }
 
@@ -105,7 +137,7 @@ const Tdfont = styled.div`
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
     @media screen and (max-width: 768px) {
       width: 100%;
     }
@@ -113,7 +145,7 @@ const Tdfont = styled.div`
 
   td {
     width: 100%;
-    padding: 10px;
+    padding: 10px 10px 10px 25px;
     font-size: 22px;
     font-family: "Roboto-Regular", Helvetica;
     display: flex;
@@ -138,8 +170,8 @@ const Tdfont = styled.div`
   td.date {
     width: 100%;
     font-size: 14px;
-    padding: 8px;
-    border-bottom: 1px solid darkgray;
+    padding: 8px 8px 8px 25px;
+    border-bottom: 1px solid #dadada;
     text-align: center;
     display: flex;
     justify-content: flex-start;
@@ -160,6 +192,7 @@ const PageStyle = styled.div`
   padding-left: 5%;
   width: 100%;
   height: 10%;
+  margin-top: 1%;
   @media screen and (max-width: 768px) {
     margin-top: 5%;
     justify-content: center;
@@ -215,13 +248,13 @@ const AnBoard = () => {
   useEffect(() => {
     switch (classTitle) {
       case "news":
-        setClickTitle("새 소식");
+        setClickTitle("새 소식 게시판");
         break;
       case "event":
-        setClickTitle("이벤트");
+        setClickTitle("이벤트 게시판");
         break;
       case "press":
-        setClickTitle("보도 자료");
+        setClickTitle("보도 자료 게시판");
         break;
       default:
         setClickTitle("알 수 없음");
@@ -276,7 +309,9 @@ const AnBoard = () => {
         <Btn onClick={() => handleBackClick()}>뒤로</Btn>
         {isAdmin && <Btn onClick={() => handleWriteClick()}>글 쓰기</Btn>}
       </BtnDiv>
-      <Title>{clickTitle}</Title>
+      <TitleDiv>
+        <Title>{clickTitle}</Title>
+      </TitleDiv>
       {loading ? (
         <p>Loading...</p>
       ) : (

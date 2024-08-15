@@ -19,19 +19,10 @@ const Board = styled.div`
   }
 `;
 
-const HelpBoard = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
 const BtnDiv = styled.div`
-  width: 97%;
+  width: 92%;
   height: 5%;
-  padding: 0 10% 0 3%;
+  padding: 0 2% 0 2%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -42,7 +33,7 @@ const BtnDiv = styled.div`
 `;
 
 const EditBtn = styled.div`
-  width: 15%;
+  width: 200px;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -78,27 +69,95 @@ const Btn = styled.div`
   }
 `;
 
-const Title = styled.h1`
-  width: 100%;
+const TitleDiv = styled.div`
+  width: 92%;
   height: 10%;
-  padding-left: 5%;
+  margin-top: 1%;
+  padding-top: 1%;
+  padding-left: 3%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 32px;
-  font-weight: bolder;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+
   @media screen and (max-width: 768px) {
-    margin-top: 5%;
+    margin-top: 10%;
+  }
+`;
+const Title = styled.h1`
+  width: 285px;
+  height: 90%;
+  padding-left: 1%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30px;
+  font-weight: bolder;
+  border-radius: 10px;
+  @media screen and (max-width: 768px) {
+    padding-left: 8%;
+    font-size: 25px;
   }
 `;
 
 const Contents = styled.div`
-  width: 100%;
-  height: 80%;
+  width: 92%;
+  height: 74%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+`;
+
+const TitleBox = styled.div`
+  width: 95%;
+  height: 15%;
+  margin-top: 1%;
+  padding-left: 2%;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 88%;
+    padding-left: 5%;
+  }
+`;
+
+const TitleUp = styled.div`
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 24px;
+  @media screen and (max-width: 1200px) {
+    font-size: 19px;
+  }
+`;
+
+const TitleDown = styled.div`
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 20px;
+  @media screen and (max-width: 1200px) {
+    font-size: 17px;
+  }
 `;
 
 const HelpBoardText = styled.div`
@@ -108,39 +167,26 @@ const HelpBoardText = styled.div`
   padding: 3%;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-`;
-
-const TitleBox = styled.div`
-  width: 90%;
-  height: 10%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const TitleLeft = styled.div`
-  width: 100%;
-  height: 70%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 24px;
-  @media screen and (max-width: 1100px) {
-    font-size: 19px;
+  align-items: flex-start;
+  @media screen and (max-width: 768px) {
+    padding: 8%;
   }
 `;
-
-const TitleRight = styled.div`
-  width: 100%;
-  height: 30%;
+const HelpBoard = styled.div`
+  width: 95%;
+  height: 80%;
+  margin-bottom: 2%;
+  margin-top: 2%;
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  font-size: 20px;
-  @media screen and (max-width: 1100px) {
-    font-size: 17px;
+  align-items: flex-start;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-radius: 10px;
+  @media screen and (max-width: 768px) {
+    width: 88%;
   }
 `;
 
@@ -243,11 +289,13 @@ const AnBoardDetails = () => {
           </EditBtn>
         )}
       </BtnDiv>
-      <Title>{clickTitle}</Title>
+      <TitleDiv>
+        <Title>{clickTitle}</Title>
+      </TitleDiv>
       <Contents>
         <TitleBox>
-          <TitleLeft>제목 : {notice?.title || "제목 없음"}</TitleLeft>
-          <TitleRight>작성일: {notice?.createdDate || "날짜 없음"}</TitleRight>
+          <TitleUp>제목 : {notice?.title || "제목 없음"}</TitleUp>
+          <TitleDown>작성일 : {notice?.createdDate || "날짜 없음"}</TitleDown>
         </TitleBox>
         <HelpBoard>
           <HelpBoardText>

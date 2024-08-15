@@ -35,6 +35,10 @@ const Title = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
   @media screen and (max-width: 1200px) {
     padding-left: 5%;
     margin-top: 2%;
@@ -60,6 +64,9 @@ const ListItem = styled.div`
   transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 15px;
   cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
   @media screen and (max-width: 1200px) {
     width: 95%;
     height: 85%;
@@ -243,7 +250,7 @@ const AnnouncementMain = () => {
   return (
     <Contain>
       <Aside>
-        <Title>새 소식</Title>
+        <Title onClick={() => handleRowClick("news")}>새 소식</Title>
         {newsNotices.map((notice) => (
           <ListItemDiv
             key={notice.id}
@@ -265,7 +272,7 @@ const AnnouncementMain = () => {
         </MoreBtnDiv>
       </Aside>
       <Aside>
-        <Title>이벤트</Title>
+        <Title onClick={() => handleRowClick("event")}>이벤트</Title>
         {eventNotices.map((notice) => (
           <ListItemDiv
             key={notice.id}
@@ -287,7 +294,7 @@ const AnnouncementMain = () => {
         </MoreBtnDiv>
       </Aside>
       <Aside>
-        <Title>보도 자료</Title>
+        <Title onClick={() => handleRowClick("press")}>보도 자료</Title>
         {pressNotices.map((notice) => (
           <ListItemDiv
             key={notice.id}

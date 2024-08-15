@@ -43,7 +43,7 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false); // 알림 상태 관리
   const isAnnouncement = location.pathname === "/announcement";
 
-  // Function to fetch notifications and update the state
+  // 알림을 가져오고 상태를 업데이트하는 함수
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -58,13 +58,13 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
     fetchNotifications();
   }, [email]); // 이메일이 변경될 때마다 알림을 다시 가져옵니다.
 
-  // sidebar의 가시성을 토글하는 함수
+  // 사이드바의 가시성을 토글하는 함수
   const toggleSideBar = () => {
     setIsSideBarVisible(!isSideBarVisible);
     setIsHeader(!isHeader);
   };
 
-  // sidebar의 가시성을 토글하는 함수
+  // 알림바의 가시성을 토글하는 함수
   const toggleAlarmBar = () => {
     setIsAlarmVisible(!isAlarmVisible);
   };
@@ -91,6 +91,11 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  // location이 변경될 때 알림바를 닫음
+  useEffect(() => {
+    setIsAlarmVisible(false);
+  }, [location]);
 
   return (
     <>
