@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { items } from "./data";
-import Ad4 from "../../img/error/500error.png";
+import InformationAxios from "../../axiosapi/InformationAxios"; // API 호출을 위한 모듈
 
-import Comments from "./Comment/ComTest";
+import Comments from "./Comment/Comment";
 
 const Container = styled.div`
   width: 80%;
@@ -67,16 +66,21 @@ const Author = styled.p`
 `;
 
 const NewsImg = styled.img`
-  border: 1px solid red;
   width: 100%;
   height: 40%;
 `;
+
 const Content = styled.div`
-  border: 1px solid red;
   font-size: 16px;
   color: #333;
   line-height: 1.6;
 `;
+
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString(undefined, options);
+};
 
 const NewsDetail = () => {
   const { id } = useParams();
@@ -86,29 +90,24 @@ const NewsDetail = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulating fetching item from backend
-    const fetchItem = () => {
+    const fetchItem = async () => {
       setLoading(true);
       try {
-        const newsItem = items.find((item) => item.id === parseInt(id, 10));
-        if (newsItem) {
-          setItem(newsItem);
-        } else {
-          setError("News item not found");
-        }
+        const response = await InformationAxios.getInformationById(id);
+        setItem(response);
       } catch (err) {
-        setError(err.message);
+        setError("뉴스 항목을 찾을 수 없습니다.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchItem();
-  }, [id, items]);
+  }, [id]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!item) return <p>News item not found.</p>;
+  if (error) return <p>{error}</p>;
+  if (!item) return <p>뉴스 항목을 찾을 수 없습니다.</p>;
 
   return (
     <Container>
@@ -118,16 +117,15 @@ const NewsDetail = () => {
       <DetailWrap>
         <Header>
           <Title>{item.title}</Title>
-          <Author>작성자: {item.author}</Author>
+          <Author>{formatDate(item.publishedDate)}</Author>
         </Header>
 
-        {/*NewsImg <img alt={item.title} src={item.imageUrl}} /> */}
-        <NewsImg src={Ad4} />
+        <NewsImg alt={item.title} src={item.imageUrl} />
 
         <Content>{item.content}</Content>
       </DetailWrap>
 
-      <Comments />
+      <Comments informationId={id} />
     </Container>
   );
 };

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa6";
 import InformationAxios from "../../axiosapi/InformationAxios";
-import { items } from "./data"; // data.js에서 items를 import
+
 
 import Banner from "../banner/Banner";
 
@@ -228,35 +228,43 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const CreditNews = () => {
+const CreditInformation = () => {
   const [informationItems, setInformationItems] = useState([]);
   const [appItems, setAppItems] = useState([]);
   const [cardItems, setCardItems] = useState([]);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
-    // Fetch data from API
     const fetchData = async () => {
       try {
-        // Fetch all information items
-        const response = await InformationAxios.getAllInformation();
-        const items = response.content || []; // Assuming response is a paginated object
-        console.log(items)
-
-        // Filter data based on category
-        const filterItemsByCategory = (category, limit) =>
-          items.filter((item) => item.category === category).slice(0, limit);
-
-        setInformationItems(filterItemsByCategory("신용조회 정보모음", 4));
-        setAppItems(filterItemsByCategory("신용조회 어플추천", 2));
-        setCardItems(filterItemsByCategory("신용카드와 신용정보", 2));
-        console.log(cardItems)
+        const infoData = await InformationAxios.getInformationByCategory(
+          "신용조회 정보모음"
+        );
+        const appData = await InformationAxios.getInformationByCategory(
+          "신용조회 어플추천"
+        );
+        const cardData = await InformationAxios.getInformationByCategory(
+          "신용카드와 신용정보"
+        );
+        console.log(infoData,appData,cardData);
+        setInformationItems(infoData.slice(0, 4));
+        setAppItems(appData.slice(0, 2));
+        setCardItems(cardData.slice(0, 2));
       } catch (error) {
         console.error("데이터 가져오기 실패:", error);
+      } finally {
+        setLoading(false); // 데이터 가져오기 후 로딩 상태 종료
       }
     };
 
     fetchData();
   }, []);
+  
+
+  if (loading) {
+    return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
+  }
+
 
   return (
     <Container>
@@ -325,4 +333,4 @@ const CreditNews = () => {
   );
 };
 
-export default CreditNews;
+export default CreditInformation;

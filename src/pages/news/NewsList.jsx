@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { items } from "./data";
+import InformationAxios from "../../axiosapi/InformationAxios";
 
 const Container = styled.div`
   width: 99%;
@@ -83,6 +83,7 @@ const TextWrapper = styled.h3`
 
 const DetailWrap = styled.p`
   width: 100%;
+  height: 54%;
   letter-spacing: 0.5px;
   line-height: 23px;
   text-overflow: ellipsis;
@@ -177,10 +178,29 @@ const NewsList = () => {
   const { category } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOption, setSearchOption] = useState("all");
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(category || "전체");
+  const [items, setItems] = useState([]);
   const itemsPerPage = 5;
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        if (selectedCategory === "전체") {
+          const fetchedItems = await InformationAxios.getAllInformation();
+          setItems(fetchedItems);
+        } else {
+          const fetchedItems = await InformationAxios.getInformationByCategory(selectedCategory);
+          setItems(fetchedItems);
+        }
+      } catch (error) {
+        console.error("Failed to fetch items:", error);
+      }
+    };
+
+    fetchItems();
+  }, [selectedCategory]);
 
   useEffect(() => {
     setSelectedCategory(category || "전체");
@@ -219,7 +239,7 @@ const NewsList = () => {
     }
   };
 
-  const currentItems = (searchResults === null ? items : searchResults)
+  const currentItems = (searchResults.length ? searchResults : items)
     .filter(
       (item) =>
         selectedCategory === "전체" || item.category === selectedCategory
@@ -227,19 +247,17 @@ const NewsList = () => {
     .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const totalPages = Math.ceil(
-    (searchResults === null ? items : searchResults).filter(
+    (searchResults.length ? searchResults : items).filter(
       (item) =>
         selectedCategory === "전체" || item.category === selectedCategory
     ).length / itemsPerPage
   );
 
-  // Generate page numbers to display (5 pages max)
   const pageNumbers = [];
   const maxPagesToShow = 5;
   let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
   let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
-  // Adjust start page if endPage is too high
   if (endPage - startPage < maxPagesToShow - 1) {
     startPage = Math.max(1, endPage - maxPagesToShow + 1);
   }

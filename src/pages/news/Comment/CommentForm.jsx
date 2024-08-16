@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import CommentAxios from "../../../axiosapi/CommentAxios";
 
 const Form = styled.form`
   display: flex;
@@ -30,36 +31,36 @@ const SubmitButton = styled.button`
   }
 `;
 
-const CommentForm = ({ informationId, parentId }) => {
+const CommentForm = ({ informationId, parentId, onCommentAdded }) => {
   const [text, setText] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // 제출 상태 관리
+  console.log("인포아이디",informationId)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (text.trim()) {
+      setIsSubmitting(true); // 제출 시작
+
       try {
-        const response = await fetch("/api/comments", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            informationId: informationId,
-            parentId: parentId,
-            content: text,
-          }),
-        });
+        const commentReqDto = {
+          informationId: informationId,
+          parentId: parentId,
+          content: text,
+        };
+        console.log("req데이터", commentReqDto);
+        const response = await CommentAxios.createComment(commentReqDto);
 
-        if (!response.ok) {
-          throw new Error("댓글 제출 실패");
-        }
-
-        // 댓글 제출 후 입력 필드를 비우고 성공 메시지를 보여줍니다.
         setText("");
         alert("댓글이 제출되었습니다.");
-        // 추가로 성공 후 동작을 추가할 수 있습니다 (예: 댓글 목록 새로고침)
+        console.log("댓글 생성 응답:", response);
+
+        // 부모 컴포넌트에 댓글 추가를 알림
+        if (onCommentAdded) onCommentAdded(response);
       } catch (error) {
         console.error("댓글 제출 중 오류 발생:", error);
         alert("댓글 제출 중 오류가 발생했습니다.");
+      } finally {
+        setIsSubmitting(false); // 제출 완료
       }
     }
   };
@@ -71,9 +72,12 @@ const CommentForm = ({ informationId, parentId }) => {
         onChange={(e) => setText(e.target.value)}
         placeholder="댓글을 입력하세요..."
       />
-      <SubmitButton type="submit">댓글 달기</SubmitButton>
+      <SubmitButton type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "제출 중..." : "댓글 달기"}
+      </SubmitButton>
     </Form>
   );
 };
+
 
 export default CommentForm;

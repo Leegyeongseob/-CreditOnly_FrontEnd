@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Ad1 from "../../img/error/400error.png";
-import Ad2 from "../../img/error/401error.png";
-import Ad3 from "../../img/error/403error.png";
-import Ad4 from "../../img/error/500error.png";
+import Ad1 from "../../img/mainImg/Ad1.png";
+import Ad2 from "../../img/mainImg/Ad2.png";
+import Ad3 from "../../img/mainImg/Ad3.png";
+import Ad4 from "../../img/mainImg/Ad4.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
