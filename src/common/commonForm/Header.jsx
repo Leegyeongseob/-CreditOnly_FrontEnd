@@ -5,7 +5,6 @@ import exProfile from "../../img/commonImg/프로필예시.jpeg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
 import { IoMenuOutline } from "react-icons/io5";
-import { VscBell, VscBellDot } from "react-icons/vsc";
 import UserToggle from "./UserToggle";
 import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
@@ -13,6 +12,7 @@ import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import MainAxios from "../../axiosapi/MainAxios";
 import Alarm from "../../img/commonImg/알림.png";
 import AlarmDot from "../../img/commonImg/알림Dot.png";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -362,13 +362,33 @@ const Header = ({
 }) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
-  const { email, imgUrl } = useContext(UserEmailContext);
+  const { email, imgUrl, setImgUrl } = useContext(UserEmailContext);
   const [user, setUser] = useState([{ name: "", email: "" }]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState([]);
   // 검색 상태 변수
   const [searchComplete, setSearchComplete] = useState(false);
   const navigate = useNavigate();
+
+  // 프로필 사진저장 비동기 함수
+  const ProfileImgAxios = async (emailValue, imgUrlData) => {
+    const res = await MemberAxiosApi.profileUrlSave(emailValue, imgUrlData);
+    console.log("kakaoProfile:", res.data);
+  };
+  useEffect(() => {
+    //프로필 이미지 가져오기
+    getProfileImg(email);
+  }, []);
+  // 이메일로 프로필 이미지 가져오기
+  const getProfileImg = async (emailValue) => {
+    const response = await MemberAxiosApi.searchProfileUrl(emailValue);
+    //프로필 이미지 저장
+    if (imgUrl !== null) {
+      ProfileImgAxios(email, imgUrl);
+    } else if (response.data) {
+      setImgUrl(response.data);
+    }
+  };
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {

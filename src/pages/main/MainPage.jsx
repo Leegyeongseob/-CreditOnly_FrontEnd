@@ -20,7 +20,9 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
-import PieChartComponent from "../../chart/DoughnutChartComponent";
+import DoughnutChartComponent from "../../chart/DoughnutChartComponent";
+import IsNotCreditEvaluationForm from "../evaluation/IsNotCreditEvaluationForm";
+import CreditGradeBarChart from "../../chart/CreditGradeBarChart";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -219,24 +221,29 @@ const CreditInfoWrap = styled.div`
   border-radius: 10px;
   padding: 2%;
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 230px;
   }
 `;
 
-const CreditInfo = React.memo(({ isEditing }) => (
+const CreditInfo = React.memo(({ isEditing, isCreditEvaluation }) => (
   <CreditInfoWrap>
     {isEditing ? (
       <Overlay imageurl={Logo}>신용 등급</Overlay>
     ) : (
-      <PieChartComponent />
+      <>
+        {isCreditEvaluation ? (
+          <DoughnutChartComponent />
+        ) : (
+          <IsNotCreditEvaluationForm />
+        )}
+      </>
     )}
   </CreditInfoWrap>
 ));
-
 const CreditView = React.memo(({ isEditing }) => (
   <CreditViewWrap>
     {isEditing ? <Overlay imageurl={Logo}>신용 정보</Overlay> : <>신용정보</>}
@@ -245,7 +252,13 @@ const CreditView = React.memo(({ isEditing }) => (
 
 const CreditView2 = React.memo(({ isEditing }) => (
   <CreditViewWrap>
-    {isEditing ? <Overlay imageurl={Logo}>시각화</Overlay> : <>시각화</>}
+    {isEditing ? (
+      <Overlay imageurl={Logo}>시각화</Overlay>
+    ) : (
+      <>
+        <CreditGradeBarChart />
+      </>
+    )}
   </CreditViewWrap>
 ));
 
@@ -356,7 +369,7 @@ const DragContainer = React.memo(styled.div`
 `);
 
 // 개별 컴포넌트 생성 함수
-const createComponents = (id, isEditing) => {
+const createComponents = (id, isEditing, isCreditEvaluation) => {
   const CenteredContainer = styled.div`
     display: flex;
     justify-content: center; /* 가로 중앙 정렬 */
@@ -383,7 +396,10 @@ const createComponents = (id, isEditing) => {
         id,
         component: (
           <CenteredContainer>
-            <CreditInfo isEditing={isEditing} />
+            <CreditInfo
+              isEditing={isEditing}
+              isCreditEvaluation={isCreditEvaluation}
+            />
           </CenteredContainer>
         ),
         width: "48.8%",
@@ -437,7 +453,8 @@ const MainPage = () => {
 
   //카카오 로그인시 프로필 자동 변경
   // contextApi에서 저장중인 email 불러오기
-  const { email, kakaoImgUrl } = useContext(UserEmailContext);
+  const { email, imgUrl, isCreditEvaluation } = useContext(UserEmailContext);
+  console.log("isCreditEvaluation : ", isCreditEvaluation);
   //카카오 프로필 사진저장 비동기 함수
   const kakaoProfileImgAxios = async (emailvalue, kakaoProfile) => {
     const res = await MemberAxiosApi.profileUrlSave(emailvalue, kakaoProfile);
@@ -451,8 +468,8 @@ const MainPage = () => {
   const getProfileImg = async (emailValue) => {
     const response = await MemberAxiosApi.searchProfileUrl(emailValue);
     //카카오 로그인인 경우에만 카카오 프로필 이미지 저장
-    if (response.data === "notExist" && kakaoImgUrl) {
-      kakaoProfileImgAxios(email, kakaoImgUrl);
+    if (response.data === "notExist" && imgUrl) {
+      kakaoProfileImgAxios(email, imgUrl);
     }
   };
   // 컴포넌트 순서가 변경될 때마다 로컬 스토리지에 저장
@@ -549,7 +566,7 @@ const MainPage = () => {
       </EdiBtnDiv>
       <TopSide>
         {componentOrder.slice(0, 2).map((id, index) => {
-          const item = createComponents(id, isEditing);
+          const item = createComponents(id, isEditing, isCreditEvaluation);
           return (
             <DragContainer
               key={item.id}
@@ -570,7 +587,7 @@ const MainPage = () => {
       </TopSide>
       <BottomSide>
         {componentOrder.slice(2).map((id, index) => {
-          const item = createComponents(id, isEditing);
+          const item = createComponents(id, isEditing, isCreditEvaluation);
           return (
             <DragContainer
               key={item.id}

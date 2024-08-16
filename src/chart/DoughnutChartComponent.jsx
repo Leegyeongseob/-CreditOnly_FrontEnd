@@ -1,8 +1,8 @@
+import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
-// 필요한 요소 등록
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Container = styled.div`
@@ -21,81 +21,75 @@ const ChartDiv = styled.div`
   align-items: center;
 `;
 
-const DoughnutChartComponent = ({ data }) => {
+const DoughnutChartComponent = ({ creditGrade = 3 }) => {
   const darkMode = localStorage.getItem("isDarkMode") === "true";
 
-  // 실제 값과 최대 값을 설정합니다.
-  const actualValue = 7; // 현재 값
-  const maxValue = 10; // 최대 값
+  // 1등급이 가장 높고 10등급이 가장 낮은 체계
+  const maxValue = 10;
+  const actualValue = maxValue - creditGrade + 1; // 역전된 값 계산
 
-  // 차트 데이터 설정
   const chartData = {
-    labels: ["Filled", "Remaining"], // 게이지 차트의 두 영역
+    labels: ["Filled", "Remaining"],
     datasets: [
       {
-        label: "신용점수", // 데이터셋 라벨
-        data: [actualValue, maxValue - actualValue], // 실제 값과 남은 값
-        borderColor: "transparent", // 테두리 없앰
-        backgroundColor: ["#253bc9", "transparent"], // 채워진 부분과 투명한 부분
-        borderWidth: 1, // 테두리 두께 조정
-        borderRadius: 20, // 둥근 모서리 설정
+        label: "신용등급",
+        data: [actualValue, maxValue - actualValue],
+        borderColor: "transparent",
+        backgroundColor: ["#253bc9", "transparent"],
+        borderWidth: 1,
+        borderRadius: 20,
       },
     ],
   };
 
-  // 차트 옵션 설정
   const options = {
     plugins: {
       legend: {
-        display: false, // 레전드 표시 여부
+        display: false,
       },
       tooltip: {
         callbacks: {
           label: function (tooltipItem) {
             return tooltipItem.label === "Filled"
-              ? `신용점수: ${actualValue}/${maxValue}`
+              ? `신용등급: ${creditGrade}등급`
               : null;
           },
         },
       },
     },
-    cutout: "95%", // 도넛 차트의 가운데 구멍 크기 조정
-    rotation: 0, // 시작 위치를 위로 설정
-    circumference: 360, // 전체 원형
+    cutout: "95%",
+    rotation: 0, // 시작 위치를 왼쪽으로 설정
+    circumference: 360,
     animation: {
-      animateScale: true, // 크기 애니메이션 활성화
-      animateRotate: true, // 회전 애니메이션 활성화
-      duration: 1000, // 애니메이션 지속 시간 (밀리초)
+      animateScale: true,
+      animateRotate: true,
+      duration: 1000,
     },
     elements: {
       arc: {
-        borderWidth: 0, // 요소 테두리 두께 설정
+        borderWidth: 0,
       },
     },
   };
 
-  // 플러그인을 사용하여 중심 텍스트 추가
   const centerTextPlugin = {
     id: "centerText",
     beforeDraw: (chart) => {
       const { ctx, width, height } = chart;
       ctx.restore();
-      const fontSize = (height / 200).toFixed(2); // 폰트 크기 조정
+      const fontSize = (height / 200).toFixed(2);
       ctx.font = `${fontSize}em sans-serif`;
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
 
-      // 텍스트 설정
       const titleText = "신용등급";
-      const scoreText = `${actualValue}등급`;
+      const scoreText = `${creditGrade}등급`;
 
-      // 텍스트 위치 조정
       const titleTextX = width / 2;
-      const titleTextY = height / 2 - fontSize * 10; // 타이틀 위치
+      const titleTextY = height / 2 - fontSize * 10;
       const scoreTextX = width / 2;
-      const scoreTextY = height / 2 + fontSize * 10; // 점수 위치
+      const scoreTextY = height / 2 + fontSize * 10;
 
-      // 색상 설정
       ctx.fillStyle = darkMode ? "white" : "black";
       ctx.fillText(titleText, titleTextX, titleTextY);
       ctx.fillText(scoreText, scoreTextX, scoreTextY);

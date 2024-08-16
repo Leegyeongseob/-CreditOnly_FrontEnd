@@ -12,7 +12,6 @@ const Basic = styled.div`
   width: 100%;
   height: 500vh;
   overflow-x: hidden;
-  /* background-color: aliceblue; */
   justify-content: center;
   display: flex;
   flex-direction: column;

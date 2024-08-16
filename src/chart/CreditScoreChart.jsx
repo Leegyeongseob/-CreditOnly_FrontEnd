@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const rainbowColors = [
-  "#FF0000", // Red
+  "#FF0000", // Red (1등급)
   "#FF7F00", // Orange
   "#FFFF00", // Yellow
   "#7FFF00", // Chartreuse
@@ -22,15 +22,15 @@ const rainbowColors = [
   "#00FF7F", // Spring Green
   "#00FFFF", // Cyan
   "#007FFF", // Azure
-  "#0000FF", // Blue
-  "#7F00FF", // Violet
+  "#0000FF", // Blue (9등급)
+  "rgba(0,0,0,0)", // Transparent (10등급)
 ];
 
-const CreditScoreChart = ({ score = 7 }) => {
-  const darkMode = localStorage.getItem("isDarkMode") === "true";
+const CreditScoreChart = ({ score = 3 }) => {
+  const isDarkMode = localStorage.getItem("isDarkMode") === "true";
 
   const maxValue = 10;
-  const actualValue = Math.min(Math.max(score, 0), maxValue);
+  const actualValue = 11 - Math.min(Math.max(score, 1), maxValue);
 
   const generateCumulativeData = (value) => {
     const data = [];
@@ -44,16 +44,16 @@ const CreditScoreChart = ({ score = 7 }) => {
         data.push(value % 1);
         colors.push(rainbowColors[i]);
         data.push(1 - (value % 1));
-        colors.push("rgba(0,0,0,0)"); // Fully transparent color for the fractional part
+        colors.push("rgba(0,0,0,0)");
       } else {
         data.push(0);
-        colors.push("rgba(0,0,0,0)"); // Fully transparent color
+        colors.push("rgba(0,0,0,0)");
       }
     }
 
     if (value < maxValue) {
       data.push(maxValue - Math.floor(value) - (value % 1 > 0 ? 1 : 0));
-      colors.push("rgba(0,0,0,0)"); // Fully transparent remaining part
+      colors.push("rgba(0,0,0,0)");
     }
 
     return { data, colors };
@@ -63,7 +63,7 @@ const CreditScoreChart = ({ score = 7 }) => {
 
   const chartData = {
     labels: [
-      ...rainbowColors.map((_, index) => `구간 ${index + 1}`),
+      ...rainbowColors.map((_, index) => `구간 ${10 - index}`),
       "남은 부분",
     ],
     datasets: [
@@ -86,9 +86,11 @@ const CreditScoreChart = ({ score = 7 }) => {
         callbacks: {
           label: function (tooltipItem) {
             if (tooltipItem.label === "남은 부분") {
-              return `남은 점수: ${(maxValue - actualValue).toFixed(1)}`;
+              return `남은 점수: ${(
+                actualValue - Math.floor(actualValue)
+              ).toFixed(1)}`;
             }
-            return `신용점수: ${actualValue.toFixed(1)}/${maxValue}`;
+            return `신용점수: ${score.toFixed(1)}/${maxValue}`;
           },
         },
       },
@@ -119,14 +121,14 @@ const CreditScoreChart = ({ score = 7 }) => {
       ctx.textAlign = "center";
 
       const titleText = "신용등급";
-      const scoreText = `${actualValue}등급`;
+      const scoreText = `${score}등급`;
 
       const titleTextX = width / 2;
       const titleTextY = height / 2 + fontSize * 10;
       const scoreTextX = width / 2;
       const scoreTextY = height / 2 + fontSize * 30;
 
-      ctx.fillStyle = darkMode ? "white" : "black";
+      ctx.fillStyle = isDarkMode ? "#fff" : "#000";
       ctx.fillText(titleText, titleTextX, titleTextY);
       ctx.fillText(scoreText, scoreTextX, scoreTextY);
 

@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
+import CreditScoreChart from "../../chart/CreditScoreChart";
+import CreditGradeBarChart from "../../chart/CreditGradeBarChart";
+import CreditGradeRadarChart from "../../chart/CreditGradeRadarChart";
+import ResidentPieChart from "../../chart/ResidentStackedBarChart";
+import CreditScoreScatterChart from "../../chart/CreditScoreScatterChart ";
+import JobDefaultLoanPieChart from "../../chart/JobDefaultLoanPieChart";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -12,6 +17,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  overflow-y: auto;
   @media screen and (max-width: 768px) {
     justify-content: flex-start;
     height: 1400px;
@@ -85,7 +91,7 @@ const CrediEvaluation = styled.div`
 
 const CreditView = styled.div`
   width: 48.8%;
-  height: 93%;
+  height: 85%;
   background-color: ${({ theme }) => theme.commponent};
   color: ${({ theme }) => theme.color};
   transition: background-color 0.5s ease, color 0.5s ease;
@@ -93,11 +99,22 @@ const CreditView = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-image: ${({ imageurl }) => `url(${imageurl})`};
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  @media screen and (max-width: 768px) {
+    width: 99.6%;
+    height: 280px;
+    margin-top: 4%;
+  }
+`;
+const CreditBtmView = styled.div`
+  width: 48.8%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @media screen and (max-width: 768px) {
     width: 99.6%;
     height: 280px;
@@ -133,14 +150,20 @@ const DataVisualization = () => {
         </CrediEvaluation>
       </BtnDiv>
       <ViewDiv>
-        <CreditView imageurl={Logo}>나의 신용등급</CreditView>
-        <CreditView imageurl={Logo}>나와 비슷한 연령대의 시각화</CreditView>
+        <CreditView>
+          <CreditScoreScatterChart />
+        </CreditView>
+        <CreditView>
+          <JobDefaultLoanPieChart />
+        </CreditView>
       </ViewDiv>
       <ViewDiv>
-        <CreditView imageurl={Logo}>
-          나와 같은 직업의 신용 점수시각화
-        </CreditView>
-        <CreditView imageurl={Logo}>대출금별 신용 점수시각화</CreditView>
+        <CreditBtmView>
+          <CreditGradeRadarChart />
+        </CreditBtmView>
+        <CreditBtmView>
+          <ResidentPieChart />
+        </CreditBtmView>
       </ViewDiv>
     </Container>
   );

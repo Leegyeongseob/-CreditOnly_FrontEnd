@@ -15,6 +15,7 @@ import {
 } from "firebase/storage";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import DoughnutChartComponent from "../../chart/DoughnutChartComponent";
+import IsNotCreditEvaluationForm from "../evaluation/IsNotCreditEvaluationForm";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -227,7 +228,7 @@ const PwBtn = styled(Link)`
 
 const BottomSide = styled.div`
   width: 92%;
-  height: 38%;
+  height: 40%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -285,7 +286,7 @@ const LowSide = styled.div`
 
 const UserDelBox = styled.div`
   width: 100%;
-  height: 72%;
+  height: 65%;
   background-color: ${({ theme }) => theme.commponent};
   color: ${({ theme }) => theme.color};
   transition: background-color 0.5s ease, color 0.5s ease;
@@ -382,7 +383,8 @@ const ViewContents = styled.div`
 `;
 
 const Mypage = () => {
-  const { email, imgUrl, setImgUrl } = useContext(UserEmailContext);
+  const { email, imgUrl, setImgUrl, isCreditEvaluation } =
+    useContext(UserEmailContext);
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [joinDate, setJoinDate] = useState("");
@@ -494,7 +496,8 @@ const Mypage = () => {
       </TopSide>
       <BottomSide>
         <CreditView>
-          <DoughnutChartComponent />
+          {isCreditEvaluation && <DoughnutChartComponent />}
+          {!isCreditEvaluation && <IsNotCreditEvaluationForm />}
         </CreditView>
         <ChatView>
           <ViewTitle>

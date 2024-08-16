@@ -40,7 +40,7 @@ const InputDetailDiv = styled.div`
     border: none;
     border-bottom: 0.21vh solid gray;
     background-color: transparent;
-    /* font-size: 23px; */
+    font-size: 23px;
     font-weight: bolder;
     outline: none;
     &::placeholder {
@@ -59,7 +59,7 @@ const InputDetailDiv = styled.div`
     border: none;
     border-bottom: 0.21vh solid gray;
     background-color: transparent;
-    /* font-size: 23px; */
+    font-size: 23px;
     font-weight: bolder;
     outline: none;
     &::placeholder {
@@ -562,17 +562,18 @@ const SignUp = () => {
         rrnFirstPart &&
         rrnSecondPart &&
         inputName &&
-        isTermAccepted
+        isAllChecked
       ) {
         navigate("/login");
       } else if (
         response.data === "Success" &&
         rrnFirstPart &&
         rrnSecondPart &&
-        isTermAccepted
+        isAllChecked
       ) {
         kakaoLogin(kakaoEmail, kakaopwd);
         setImgUrl(kakaoImgUrl);
+        console.log("signUp kakaoImgUrl :", kakaoImgUrl);
         navigate("/mainpage");
       }
     } catch (error) {
@@ -581,7 +582,9 @@ const SignUp = () => {
   };
   //카카오로 온 경로
   const kakaoBtnOnClickHandler = () => {
-    signUpAxios(kakaoEmail, kakaopwd, kakaoName, rrnFirstPart, rrnSecondPart);
+    if (isRrnValid && isAllChecked) {
+      signUpAxios(kakaoEmail, kakaopwd, kakaoName, rrnFirstPart, rrnSecondPart);
+    }
   };
   //카카오 바로 로그인
   const kakaoLogin = async (kakoEmailvalue, kakaoPwdValue) => {
@@ -609,7 +612,17 @@ const SignUp = () => {
   };
   // 회원가입 버튼을 클릭했을 경우 함수
   const signupBtnOnclickHandler = () => {
-    signUpAxios(inputEmail, inputPwd, inputName, rrnFirstPart, rrnSecondPart);
+    if (
+      isEmail &&
+      isCode &&
+      isPwd &&
+      isPwdCheack &&
+      isRrnValid &&
+      inputName &&
+      isAllChecked
+    ) {
+      signUpAxios(inputEmail, inputPwd, inputName, rrnFirstPart, rrnSecondPart);
+    }
   };
 
   // 이메일 인증 버튼 handler
@@ -772,6 +785,7 @@ const SignUp = () => {
                   <Text> - </Text>
                   <RegisterationInput2
                     pattern="[0~9]+"
+                    type="password"
                     value={rrnSecondPart}
                     placeholder="Security Number"
                     onChange={handleRrnSecondPartChange}
@@ -1086,7 +1100,7 @@ const SignUp = () => {
               {kakaoProp ? (
                 <ButtonDiv>
                   <SignupButton
-                    isActive={isRrnValid && isTermAccepted}
+                    isActive={isRrnValid && isAllChecked}
                     onClick={kakaoBtnOnClickHandler}
                   >
                     Credit Account
@@ -1102,7 +1116,7 @@ const SignUp = () => {
                       isPwdCheack &&
                       isRrnValid &&
                       inputName &&
-                      isTermAccepted
+                      isAllChecked
                     }
                     onClick={signupBtnOnclickHandler}
                   >

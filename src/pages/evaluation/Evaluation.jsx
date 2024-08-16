@@ -4,9 +4,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import CreditScoreChart from "../../chart/CreditScoreChart";
-import CreditScoreBarChart from "../../chart/CreditScoreBarChart ";
-import { useEffect } from "react";
+import CreditGradeBarChart from "../../chart/CreditGradeBarChart";
+import { useEffect, useContext } from "react";
 import CreditScore from "../../img/evaluation/CreditScore.jpg";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import IsNotCreditEvaluationForm from "./IsNotCreditEvaluationForm";
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -105,7 +108,7 @@ const CreditView = styled.div`
   }
 `;
 const TextEvaluation = styled.div`
-  width: ${({ positionfirst }) => (positionfirst ? "250px" : "110px")};
+  width: ${({ positionfirst }) => (positionfirst ? "280px" : "110px")};
   font-size: 15px;
   height: 100%;
   display: flex;
@@ -165,6 +168,7 @@ const CreditLongView = styled.div`
   }
 `;
 const Evaluation = () => {
+  const { isCreditEvaluation } = useContext(UserEmailContext);
   const navigate = useNavigate();
   const darkMode = localStorage.getItem("isDarkMode");
   useEffect(() => {}, [darkMode]);
@@ -181,15 +185,22 @@ const Evaluation = () => {
         </CrediEvaluation>
       </BtnDiv>
       <ViewDiv>
+        {isCreditEvaluation && (
+          <CreditView>
+            <ChartDiv>
+              <CreditScoreChart />
+            </ChartDiv>
+            <CreditText>이 결과는 사실과 다를 수 있습니다.</CreditText>
+          </CreditView>
+        )}
+        {!isCreditEvaluation && (
+          <CreditView>
+            <IsNotCreditEvaluationForm />
+          </CreditView>
+        )}
         <CreditView>
           <ChartDiv>
-            <CreditScoreChart />
-          </ChartDiv>
-          <CreditText>이 결과는 사실과 다를 수 있습니다.</CreditText>
-        </CreditView>
-        <CreditView>
-          <ChartDiv>
-            <CreditScoreBarChart />
+            <CreditGradeBarChart />
           </ChartDiv>
         </CreditView>
       </ViewDiv>
@@ -200,7 +211,7 @@ const Evaluation = () => {
           }}
         >
           <TextEvaluation positionfirst={true}>
-            다양한 시각화를 추가하고 싶으시면
+            다양한 시각화를 추가로 확인하고 싶으시면
           </TextEvaluation>
           <EvaluationBtn visualization={true}> 여기</EvaluationBtn>
           <TextEvaluation positionfirst={false}>를 눌러주세요.</TextEvaluation>

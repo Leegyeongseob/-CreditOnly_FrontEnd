@@ -406,12 +406,12 @@ const LoginPage = () => {
         kakaoEmail: response.profile.kakao_account.email,
         kakaopwd: response.profile.id,
         kakaoName: response.profile.properties.nickname,
-        kakaoImgUrl: response.profile.properties.profile_image,
+        kakaoUrl: response.profile.properties.profile_image,
       };
       console.log("kakaoEmail:" + propsToPass.kakaoEmail);
       console.log("kakaopwd:" + propsToPass.kakaopwd);
       console.log("kakaoName:" + propsToPass.kakaoName);
-      console.log("kakaoImgUrl:" + propsToPass.kakaoImgUrl);
+      console.log("kakaoImgUrl:" + propsToPass.kakaoUrl);
       //이메일 존재하는지 확인하는 부분
       const emailExist = await LoginAxios.emailIsExist(propsToPass.kakaoEmail);
       console.log("emailExist:" + emailExist.data);

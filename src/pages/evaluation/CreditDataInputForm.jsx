@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
-
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import { useNavigate } from "react-router-dom";
 const FormContainer = styled.div`
   width: 100%;
   margin: 0 auto;
@@ -20,12 +21,20 @@ const HorizontalFormGroup = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 0.6rem;
 `;
-
+const SelectDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 const FormGroupItem = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
+const FormGroupItemSelect = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+`;
 const FormContent = styled.div`
   padding: 1.5rem;
 `;
@@ -151,6 +160,9 @@ const DetailItemTitle = styled.h4`
   font-weight: bold;
 `;
 const CreditDataInputForm = () => {
+  const navigate = useNavigate();
+  const { setIsCreditEvaluation } = useContext(UserEmailContext);
+
   const [formData, setFormData] = useState({
     jobType: "",
     recentCreditAccounts: "",
@@ -180,7 +192,10 @@ const CreditDataInputForm = () => {
   });
   const [showDetails, setShowDetails] = useState(false);
   // 신용 평가하기 이벤트 핸들러
-  const CreditEventOnClickHandler = () => {};
+  const CreditEventOnClickHandler = () => {
+    setIsCreditEvaluation(true);
+    navigate("/evaluation");
+  };
   const handleInputChange = (category, field, value) => {
     setFormData((prevData) => {
       if (category === "creditCardInstitutions") {
@@ -213,6 +228,12 @@ const CreditDataInputForm = () => {
         }
         newUnpaidLoans[field] = value;
         return { ...prevData, unpaidLoans: newUnpaidLoans };
+      } else if (category === "loanExperience") {
+        const newLoanExperience = { ...prevData.loanExperience };
+        newLoanExperience[field] = value;
+        return { ...prevData, loanExperience: newLoanExperience };
+      } else if (category === "residence") {
+        return { ...prevData, [category]: value };
       }
 
       return {
@@ -263,24 +284,55 @@ const CreditDataInputForm = () => {
       <FormContent>
         <Form onSubmit={handleSubmit}>
           <HorizontalFormGroup>
-            <FormGroupItem>
-              <Label>직업 구분</Label>
-              <Select
-                onChange={(e) =>
-                  handleInputChange("jobType", null, e.target.value)
-                }
-              >
-                <option value="">직업을 선택하세요</option>
-                <option value="1">급여소득자</option>
-                <option value="2">개인사업자</option>
-                <option value="3">연금소득자</option>
-                <option value="4">주부</option>
-                <option value="5">전문직</option>
-                <option value="7">프리랜서</option>
-                <option value="8">무직</option>
-                <option value="9">기타</option>
-              </Select>
-            </FormGroupItem>
+            <FormGroupItemSelect select={true}>
+              <SelectDiv>
+                <Label>직업 구분</Label>
+                <Select
+                  onChange={(e) =>
+                    handleInputChange("jobType", null, e.target.value)
+                  }
+                >
+                  <option value="">직업을 선택하세요</option>
+                  <option value="1">급여소득자</option>
+                  <option value="2">개인사업자</option>
+                  <option value="3">연금소득자</option>
+                  <option value="4">주부</option>
+                  <option value="5">전문직</option>
+                  <option value="7">프리랜서</option>
+                  <option value="8">무직</option>
+                  <option value="9">기타</option>
+                </Select>
+              </SelectDiv>
+              <SelectDiv>
+                <Label>거주지</Label>
+                <Select
+                  onChange={(e) =>
+                    handleInputChange("residence", null, e.target.value)
+                  }
+                >
+                  <option value="">거주지를 선택하세요</option>
+                  <option value="경기">경기</option>
+                  <option value="인천">인천</option>
+                  <option value="충남">충남</option>
+                  <option value="충북">충북</option>
+                  <option value="울산">울산</option>
+                  <option value="서울">서울</option>
+                  <option value="경남">경남</option>
+                  <option value="강원">강원</option>
+                  <option value="광주">광주</option>
+                  <option value="대구">대구</option>
+                  <option value="경북">경북</option>
+                  <option value="대전">대전</option>
+                  <option value="부산">부산</option>
+                  <option value="전북">전북</option>
+                  <option value="제주">제주</option>
+                  <option value="전남">전남</option>
+                  <option value="세종">세종</option>
+                  <option value="충청">충청</option>
+                  <option value="전라">전라</option>
+                </Select>
+              </SelectDiv>
+            </FormGroupItemSelect>
             <FormGroupItem>
               <Label>최근 5년내 미해지 신용개설 총 건수</Label>
               <Input

@@ -18,7 +18,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => (props.darkMode ? "#333" : "#fff")};
+  background-color: ${({ theme }) => theme.commponent};
 `;
 
 const ChartDiv = styled.div`
@@ -32,14 +32,14 @@ const ChartDiv = styled.div`
 // 샘플 데이터
 const sampleAgeGroups = [
   { label: "10대", grade: 5 },
-  { label: "20대", grade: 6 },
-  { label: "30대", grade: 7 },
-  { label: "40대", grade: 8 },
-  { label: "50대", grade: 8 },
-  { label: "60대", grade: 9 },
-  { label: "70대", grade: 9 },
-  { label: "80대", grade: 8 },
-  { label: "90대", grade: 7 },
+  { label: "20대", grade: 2 },
+  { label: "30대", grade: 3 },
+  { label: "40대", grade: 4 },
+  { label: "50대", grade: 3 },
+  { label: "60대", grade: 2 },
+  { label: "70대", grade: 2 },
+  { label: "80대", grade: 2 },
+  { label: "90대", grade: 5 },
 ];
 
 const CreditGradeBarChart = ({
@@ -104,7 +104,7 @@ const CreditGradeBarChart = ({
         },
       },
       y: {
-        beginAtZero: true,
+        min: 1,
         max: 10,
         ticks: {
           stepSize: 1,
