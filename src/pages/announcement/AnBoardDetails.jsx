@@ -154,9 +154,9 @@ const TitleDown = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  font-size: 20px;
+  font-size: 16px;
   @media screen and (max-width: 1200px) {
-    font-size: 17px;
+    font-size: 12px;
   }
 `;
 
@@ -217,6 +217,17 @@ const WriteContentsInput = styled.textarea`
   transition: color 0.5s ease;
   @media screen and (max-width: 768px) {
     font-size: 15px;
+  }
+`;
+
+const ModifiedTag = styled.span`
+  font-size: 16px; // 원래 제목 폰트보다 작은 크기로 설정
+  color: ${({ theme }) => theme.color};
+  margin-left: 5px; // 제목과의 간격 설정
+  white-space: nowrap;
+  @media screen and (max-width: 1200px) {
+    font-size: 12px;
+    margin-right: 5px; // 제목과의 간격 설정
   }
 `;
 
@@ -281,9 +292,16 @@ const AnBoardDetails = () => {
 
   const handleSaveClick = async () => {
     try {
+      let updatedTitle = title;
+
+      // 제목에 "(수정됨)"이 없으면 추가
+      if (!updatedTitle.includes("(수정)")) {
+        updatedTitle += " (수정)";
+      }
+
       const updatedNotice = {
         ...notice,
-        title,
+        title: updatedTitle,
         contents,
       };
       await AnnouncementAxios.updateAnnouncement(notice.id, updatedNotice);
@@ -363,7 +381,12 @@ const AnBoardDetails = () => {
         ) : (
           <>
             <TitleBox>
-              <TitleUp>제목 : {notice?.title || "제목 없음"}</TitleUp>
+              <TitleUp>
+                제목 : {notice?.title.replace(" (수정)", "")}
+                {notice?.title.includes("(수정)") && (
+                  <ModifiedTag>(수정)</ModifiedTag>
+                )}
+              </TitleUp>
               <TitleDown>
                 작성일 : {notice?.createdDate || "날짜 없음"}
               </TitleDown>

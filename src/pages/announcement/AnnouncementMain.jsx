@@ -191,11 +191,23 @@ const MoreBtnAndArrowDiv = styled.div`
     width: 20%;
   }
 `;
+
 const MoreBtnEmptyDiv = styled.div`
   width: 60%;
   height: 100%;
   /* background-color: chartreuse; */
 `;
+
+const ModifiedTag = styled.span`
+  font-size: 13px;
+  color: ${({ theme }) => theme.color};
+  margin-left: 5px;
+  white-space: nowrap;
+  @media screen and (max-width: 1200px) {
+    font-size: 10px;
+  }
+`;
+
 const AnnouncementMain = () => {
   // 너무 길 경우 ...으로 생략하는 함수
   const truncateContents = (text) => {
@@ -258,7 +270,12 @@ const AnnouncementMain = () => {
           >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
-              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemTitle>
+                {notice.title.replace(" (수정)", "")}
+                {notice.title.includes("(수정)") && (
+                  <ModifiedTag>(수정)</ModifiedTag>
+                )}
+              </ItemTitle>
               <ItemContent>{truncateContents(notice.contents)}</ItemContent>
             </ListItem>
           </ListItemDiv>
@@ -280,7 +297,12 @@ const AnnouncementMain = () => {
           >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
-              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemTitle>
+                {notice.title.replace(" (수정)", "")}
+                {notice.title.includes("(수정)") && (
+                  <ModifiedTag>(수정)</ModifiedTag>
+                )}
+              </ItemTitle>
               <ItemContent>{truncateContents(notice.contents)}</ItemContent>
             </ListItem>
           </ListItemDiv>
@@ -302,7 +324,12 @@ const AnnouncementMain = () => {
           >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
-              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemTitle>
+                {notice.title.replace(" (수정)", "")}
+                {notice.title.includes("(수정)") && (
+                  <ModifiedTag>(수정)</ModifiedTag>
+                )}
+              </ItemTitle>
               <ItemContent>{truncateContents(notice.contents)}</ItemContent>
             </ListItem>
           </ListItemDiv>

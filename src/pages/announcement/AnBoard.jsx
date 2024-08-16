@@ -229,6 +229,15 @@ const PageStyle = styled.div`
   }
 `;
 
+const ModifiedTag = styled.span`
+  font-size: 16px; // 제목보다 작은 크기로 설정
+  color: ${({ theme }) => theme.color};
+  margin-left: 5px; // 제목과의 간격 설정
+  @media screen and (max-width: 1200px) {
+    font-size: 12px;
+  }
+`;
+
 const AnBoard = () => {
   const { email, adminEmails = [] } = useContext(UserEmailContext);
   const { classTitle } = useParams();
@@ -328,7 +337,12 @@ const AnBoard = () => {
                         key={notice.id}
                         onClick={() => handleRowClick(notice)}
                       >
-                        <td>{notice.title}</td>
+                        <td>
+                          {notice.title.replace(" (수정)", "")}
+                          {notice.title.includes("(수정)") && (
+                            <ModifiedTag>(수정)</ModifiedTag>
+                          )}
+                        </td>
                         <td className="date">{notice.createdDate}</td>
                       </tr>
                     ))}
