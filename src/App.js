@@ -31,7 +31,7 @@ import AnBoardDetails from "./pages/announcement/AnBoardDetails";
 import AnBoardWrite from "./pages/announcement/AnBoardWrite";
 import DataVisualization from "./pages/evaluation/DataVisualization";
 import { ChatProvider } from "./contexts/ChatContext";
-
+import CreditDataInputForm from "./pages/evaluation/CreditDataInputForm";
 // 라이트 및 다크 테마 설정
 const lightTheme = {
   background: "#ffffff",
@@ -53,7 +53,7 @@ const lightTheme = {
 
 const darkTheme = {
   background: "#242424",
-  color: "#9D9D9D",
+  color: "#fff",
   commponent: "#1D1D1D",
   overlay: "rgba(0, 0, 0, 0.5)",
   sideBar: "#121212",
@@ -114,6 +114,11 @@ const App = () => {
                 />
                 <Route path="/news/:id" element={<NewsDetail />} />
                 <Route path="/evaluation" element={<Evaluation />} />
+                <Route
+                  path="/credit-data-input"
+                  element={<CreditDataInputForm />}
+                />
+
                 <Route
                   path="/data-visualization"
                   element={<DataVisualization />}

@@ -12,17 +12,20 @@ const InputDiv = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  overflow-x: hidden;
 `;
 const ButtonDiv = styled.div`
   width: 100%;
   height: 30%;
   display: flex;
+  /* background-color: aliceblue; */
   flex-direction: column;
   justify-content: first baseline;
   align-items: center;
 `;
 const FindButtonDiv = styled.div`
-  width: 20%;
+  width: 50%;
+  /* background-color: darkcyan; */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -33,7 +36,7 @@ const FindButton = styled.div`
   height: 50%;
   background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
-  font-size: 25px;
+  font-size: clamp(22px, 2vw, 30px);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-style: italic;
   color: ${({ isActive }) => (isActive ? "#fff" : "#5a3092")};
@@ -184,22 +187,29 @@ const GoToLoginPage = styled.div`
   width: 80%;
   height: 100%;
   margin-right: 20px;
+  justify-content: center;
+  display: flex;
+  align-items: end;
+  flex-direction: column;
   & > .remember {
-    width: 100%;
+    width: 80%;
     height: 40%;
     display: flex;
     justify-content: end;
     align-items: end;
+    text-align: end;
     font-size: 20px;
   }
   & > .backToLogin {
-    width: 100%;
+    width: 80%;
+    min-width: 120px;
     height: 60%;
+    padding-top: 10px;
     display: flex;
     justify-content: end;
     align-items: first baseline;
     font-weight: 600;
-    font-size: 35px;
+    font-size: clamp(20px, 3vw, 35px);
     cursor: pointer;
     &:hover {
       color: #367ee9;
@@ -210,6 +220,7 @@ const GoToLoginPage = styled.div`
 const NavigateDiv = styled.div`
   width: 100%;
   height: 80%;
+  /* background-color: aqua; */
   display: flex;
 `;
 const FindEmail = () => {

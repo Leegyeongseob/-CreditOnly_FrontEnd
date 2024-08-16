@@ -14,7 +14,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
-
+import DoughnutChartComponent from "../../chart/DoughnutChartComponent";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -250,11 +250,6 @@ const CreditView = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-image: ${({ imageurl }) => `url(${imageurl})`};
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 260px;
@@ -498,7 +493,9 @@ const Mypage = () => {
         </UserInfo>
       </TopSide>
       <BottomSide>
-        <CreditView imageurl={Logo}>신용점수</CreditView>
+        <CreditView>
+          <DoughnutChartComponent />
+        </CreditView>
         <ChatView>
           <ViewTitle>
             문의내역

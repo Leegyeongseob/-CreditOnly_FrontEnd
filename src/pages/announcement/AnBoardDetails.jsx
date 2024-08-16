@@ -19,19 +19,10 @@ const Board = styled.div`
   }
 `;
 
-const HelpBoard = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
 const BtnDiv = styled.div`
-  width: 97%;
+  width: 92%;
   height: 5%;
-  padding: 0 10% 0 3%;
+  padding: 0 2% 0 2%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -42,7 +33,7 @@ const BtnDiv = styled.div`
 `;
 
 const EditBtn = styled.div`
-  width: 15%;
+  width: 200px;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -78,27 +69,95 @@ const Btn = styled.div`
   }
 `;
 
-const Title = styled.h1`
-  width: 100%;
+const TitleDiv = styled.div`
+  width: 92%;
   height: 10%;
-  padding-left: 5%;
+  margin-top: 1%;
+  padding-top: 1%;
+  padding-left: 3%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 32px;
-  font-weight: bolder;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+
   @media screen and (max-width: 768px) {
-    margin-top: 5%;
+    margin-top: 10%;
+  }
+`;
+const Title = styled.h1`
+  width: 285px;
+  height: 90%;
+  padding-left: 1%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30px;
+  font-weight: bolder;
+  border-radius: 10px;
+  @media screen and (max-width: 768px) {
+    padding-left: 8%;
+    font-size: 25px;
   }
 `;
 
 const Contents = styled.div`
-  width: 100%;
-  height: 80%;
+  width: 92%;
+  height: 74%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+`;
+
+const TitleBox = styled.div`
+  width: 95%;
+  height: 15%;
+  margin-top: 1%;
+  padding-left: 2%;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 88%;
+    padding-left: 5%;
+  }
+`;
+
+const TitleUp = styled.div`
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 24px;
+  @media screen and (max-width: 1200px) {
+    font-size: 19px;
+  }
+`;
+
+const TitleDown = styled.div`
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 16px;
+  @media screen and (max-width: 1200px) {
+    font-size: 12px;
+  }
 `;
 
 const HelpBoardText = styled.div`
@@ -108,52 +167,84 @@ const HelpBoardText = styled.div`
   padding: 3%;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
+  @media screen and (max-width: 768px) {
+    padding: 8%;
+  }
 `;
-
-const TitleBox = styled.div`
-  width: 90%;
-  height: 10%;
+const HelpBoard = styled.div`
+  width: 95%;
+  height: 80%;
+  margin-bottom: 2%;
+  margin-top: 2%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const TitleLeft = styled.div`
-  width: 100%;
-  height: 70%;
-  display: flex;
   justify-content: flex-start;
-  align-items: center;
-  font-size: 24px;
-  @media screen and (max-width: 1100px) {
-    font-size: 19px;
+  align-items: flex-start;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-radius: 10px;
+  @media screen and (max-width: 768px) {
+    width: 88%;
   }
 `;
 
-const TitleRight = styled.div`
+const WriteTitleInput = styled.input`
   width: 100%;
-  height: 30%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 28px;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
+`;
+
+const WriteContentsInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
   font-size: 20px;
-  @media screen and (max-width: 1100px) {
-    font-size: 17px;
+  resize: none;
+  overflow-y: auto;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
+`;
+
+const ModifiedTag = styled.span`
+  font-size: 16px; // 원래 제목 폰트보다 작은 크기로 설정
+  color: ${({ theme }) => theme.color};
+  margin-left: 5px; // 제목과의 간격 설정
+  white-space: nowrap;
+  @media screen and (max-width: 1200px) {
+    font-size: 12px;
+    margin-right: 5px; // 제목과의 간격 설정
   }
 `;
 
 const AnBoardDetails = () => {
   const { email, adminEmails = [] } = useContext(UserEmailContext);
-  const { classTitle } = useParams();
+  const { classTitle, noticeId } = useParams();
   const location = useLocation();
-  const { notice } = location.state || {}; // 전달된 notice 객체를 가져옴
-  const [clickTitle, setClickTitle] = useState("");
   const navigate = useNavigate();
-  const isAdmin = adminEmails.includes(email);
+
+  const [notice, setNotice] = useState(location.state?.notice || null);
+  const [clickTitle, setClickTitle] = useState("");
+  const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
+  const [title, setTitle] = useState(notice?.title || "");
+  const [contents, setContents] = useState(notice?.contents || "");
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const isAdmin = adminEmails.includes(email);
 
   useEffect(() => {
     switch (classTitle) {
@@ -171,31 +262,53 @@ const AnBoardDetails = () => {
     }
   }, [classTitle]);
 
-  const codeModalOkBtnHandler = () => {
-    closeNextModal();
-  };
-  const closeNextModal = () => {
-    setModalOpen(false);
-    navigate(`/announcement/${classTitle}`);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-    navigate(`/announcement/${classTitle}`);
-  };
+  useEffect(() => {
+    if (!notice || notice.id !== noticeId) {
+      const fetchNotice = async () => {
+        try {
+          const response = await AnnouncementAxios.getAnnouncement(noticeId);
+          setNotice(response.data);
+          setTitle(response.data.title); // 제목 상태 설정
+          setContents(response.data.contents); // 내용 상태 설정
+        } catch (error) {
+          console.error("Failed to fetch notice", error);
+        }
+      };
+      fetchNotice();
+    }
+  }, [notice, noticeId]);
 
   const handleBackClick = () => {
     navigate(`/announcement/${classTitle}`);
   };
 
-  const handleEditClick = async () => {
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
+  };
+
+  const handleSaveClick = async () => {
     try {
+      let updatedTitle = title;
+
+      // 제목에 "(수정됨)"이 없으면 추가
+      if (!updatedTitle.includes("(수정)")) {
+        updatedTitle += " (수정)";
+      }
+
       const updatedNotice = {
         ...notice,
-        title: "수정된 제목", // 예시로 수정된 제목
-        contents: "수정된 내용", // 예시로 수정된 내용
+        title: updatedTitle,
+        contents,
       };
       await AnnouncementAxios.updateAnnouncement(notice.id, updatedNotice);
-      navigate(`/announcement/${classTitle}/${notice.id}`);
+      setNotice(updatedNotice);
+      setModalOpen(true);
+      setModalContent("게시글 수정이 완료되었습니다.");
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating announcement:", error);
     }
@@ -211,36 +324,80 @@ const AnBoardDetails = () => {
     }
   };
 
+  const codeModalOkBtnHandler = () => {
+    closeNextModal();
+  };
+
+  const closeNextModal = () => {
+    setModalOpen(false);
+    navigate(`/announcement/${classTitle}`);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    navigate(`/announcement/${classTitle}`);
+  };
+
   return (
     <Board>
       <BtnDiv>
         <Btn onClick={handleBackClick}>뒤로</Btn>
-        <EditBtn>
-          {isAdmin && (
-            <>
-              <Btn onClick={() => handleEditClick()}>수정</Btn>
-              <Btn onClick={() => handleDelClick()}>삭제</Btn>
-            </>
-          )}
-        </EditBtn>
+        {isAdmin && !isEditing && (
+          <EditBtn>
+            <Btn onClick={handleEditClick}>수정</Btn>
+            <Btn onClick={handleDelClick}>삭제</Btn>
+          </EditBtn>
+        )}
+        {isAdmin && isEditing && (
+          <EditBtn>
+            <Btn onClick={handleSaveClick}>저장</Btn>
+            <Btn onClick={handleCancelClick}>취소</Btn>
+          </EditBtn>
+        )}
       </BtnDiv>
-      <Title>{clickTitle}</Title>
+      <TitleDiv>
+        <Title>{clickTitle}</Title>
+      </TitleDiv>
       <Contents>
-        <TitleBox>
-          <TitleLeft>제목 : {notice?.title || "제목 없음"}</TitleLeft>
-          <TitleRight>작성일: {notice?.createdDate || "날짜 없음"}</TitleRight>
-        </TitleBox>
-        <HelpBoard>
-          <HelpBoardText>
-            {notice ? (
-              <div>
-                <p>{notice.contents}</p>
-              </div>
-            ) : (
-              <p>공지사항을 찾을 수 없습니다.</p>
-            )}
-          </HelpBoardText>
-        </HelpBoard>
+        {isEditing ? (
+          <>
+            <TitleBox>
+              <WriteTitleInput
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </TitleBox>
+            <HelpBoard>
+              <HelpBoardText>
+                <WriteContentsInput
+                  type="text"
+                  value={contents}
+                  onChange={(e) => setContents(e.target.value)}
+                />
+              </HelpBoardText>
+            </HelpBoard>
+          </>
+        ) : (
+          <>
+            <TitleBox>
+              <TitleUp>
+                제목 : {notice?.title.replace(" (수정)", "")}
+                {notice?.title.includes("(수정)") && (
+                  <ModifiedTag>(수정)</ModifiedTag>
+                )}
+              </TitleUp>
+              <TitleDown>
+                작성일 : {notice?.createdDate || "날짜 없음"}
+              </TitleDown>
+            </TitleBox>
+            <HelpBoard>
+              <HelpBoardText>
+                <p>{notice?.contents || "내용 없음"}</p>
+              </HelpBoardText>
+            </HelpBoard>
+          </>
+        )}
       </Contents>
       <Modal
         open={modalOpen}

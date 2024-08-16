@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import Logo from "../../img//background/CreditOnlyLogo.png";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
+import CreditScoreChart from "../../chart/CreditScoreChart";
+import CreditScoreBarChart from "../../chart/CreditScoreBarChart ";
+import { useEffect } from "react";
+import CreditScore from "../../img/evaluation/CreditScore.jpg";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -89,9 +91,9 @@ const CreditView = styled.div`
   transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: contain;
   background-repeat: no-repeat;
@@ -127,20 +129,69 @@ const MyEvaluation = styled.div`
     font-size: 16px;
   }
 `;
-
+const CreditText = styled.div`
+  width: 100%;
+  height: 1vw;
+  font-size: 1vw;
+  font-weight: 600;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ChartDiv = styled.div`
+  width: 80%;
+  height: 80%;
+`;
+const CreditLongView = styled.div`
+  width: 99.6%;
+  height: 93%;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: ${({ url }) => `url(${url})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  @media screen and (max-width: 768px) {
+    justify-content: flex-start;
+    width: 99.6%;
+    height: 93%;
+  }
+`;
 const Evaluation = () => {
   const navigate = useNavigate();
+  const darkMode = localStorage.getItem("isDarkMode");
+  useEffect(() => {}, [darkMode]);
   return (
     <Container>
       <BtnDiv>
-        <CrediEvaluation>
+        <CrediEvaluation
+          onClick={() => {
+            navigate("/credit-data-input");
+          }}
+        >
           <MyEvaluation>나의 신용 평가하기</MyEvaluation>
           <EvaluationBtn> &gt;&gt;</EvaluationBtn>
         </CrediEvaluation>
       </BtnDiv>
       <ViewDiv>
-        <CreditView imageurl={Logo}>나의 신용등급</CreditView>
-        <CreditView imageurl={Logo}>나와 비슷한 연령대의 시각화</CreditView>
+        <CreditView>
+          <ChartDiv>
+            <CreditScoreChart />
+          </ChartDiv>
+          <CreditText>이 결과는 사실과 다를 수 있습니다.</CreditText>
+        </CreditView>
+        <CreditView>
+          <ChartDiv>
+            <CreditScoreBarChart />
+          </ChartDiv>
+        </CreditView>
       </ViewDiv>
       <BtnDiv>
         <CrediEvaluation
@@ -156,10 +207,7 @@ const Evaluation = () => {
         </CrediEvaluation>
       </BtnDiv>
       <ViewDiv>
-        <CreditView imageurl={Logo}>
-          나와 같은 직업의 신용 점수시각화
-        </CreditView>
-        <CreditView imageurl={Logo}>대출금별 신용 점수시각화</CreditView>
+        <CreditLongView url={CreditScore} />
       </ViewDiv>
     </Container>
   );

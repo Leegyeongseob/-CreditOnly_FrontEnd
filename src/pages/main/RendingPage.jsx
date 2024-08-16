@@ -9,7 +9,6 @@ const Contain = styled.div`
 const Header = styled.div`
   width: 100%;
   height: 13%;
-
   display: flex;
 `;
 const Body = styled.div`
@@ -34,12 +33,16 @@ const ListDiv = styled.div`
   width: 40%;
   height: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
 `;
 const ListPage = styled.div`
-  width: 25%;
+  width: 50%;
+  max-width: 200px;
   height: 100%;
-  color: ${({ advertisement }) => (advertisement ? "#2DAC6F" : "#000")};
+  /* background-color: aqua; */
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,7 +68,7 @@ const TextDiv = styled.div`
     justify-content: center;
     align-items: center;
     & > p {
-      font-size: 60px;
+      font-size: clamp(30px, 5vw, 60px);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.5; /* Adjusts spacing between lines */
     }
@@ -140,8 +143,6 @@ const RendingPage = () => {
         </LogoDiv>
         <ListDiv>
           <ListPage onClick={AboutUs}>About us</ListPage>
-          <ListPage>Product</ListPage>
-          <ListPage>Contant</ListPage>
           <ListPage advertisement={true} onClick={AdInquiry}>
             광고 문의
           </ListPage>
@@ -151,7 +152,6 @@ const RendingPage = () => {
         <BodyDiv>
           <TextDiv>
             <div className="firstText">
-              {" "}
               <p>
                 당신의 신용,
                 <br />
@@ -159,7 +159,6 @@ const RendingPage = () => {
               </p>
             </div>
             <div className="secondText">
-              {" "}
               <p>
                 신용을 투명하게 관리하고 평가하세요.
                 <br />

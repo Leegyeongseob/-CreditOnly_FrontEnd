@@ -35,6 +35,10 @@ const Title = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
   @media screen and (max-width: 1200px) {
     padding-left: 5%;
     margin-top: 2%;
@@ -60,6 +64,9 @@ const ListItem = styled.div`
   transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 15px;
   cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
   @media screen and (max-width: 1200px) {
     width: 95%;
     height: 85%;
@@ -184,11 +191,23 @@ const MoreBtnAndArrowDiv = styled.div`
     width: 20%;
   }
 `;
+
 const MoreBtnEmptyDiv = styled.div`
   width: 60%;
   height: 100%;
   /* background-color: chartreuse; */
 `;
+
+const ModifiedTag = styled.span`
+  font-size: 13px;
+  color: ${({ theme }) => theme.color};
+  margin-left: 5px;
+  white-space: nowrap;
+  @media screen and (max-width: 1200px) {
+    font-size: 10px;
+  }
+`;
+
 const AnnouncementMain = () => {
   // 너무 길 경우 ...으로 생략하는 함수
   const truncateContents = (text) => {
@@ -243,7 +262,7 @@ const AnnouncementMain = () => {
   return (
     <Contain>
       <Aside>
-        <Title>새 소식</Title>
+        <Title onClick={() => handleRowClick("news")}>새 소식</Title>
         {newsNotices.map((notice) => (
           <ListItemDiv
             key={notice.id}
@@ -251,7 +270,12 @@ const AnnouncementMain = () => {
           >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
-              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemTitle>
+                {notice.title.replace(" (수정)", "")}
+                {notice.title.includes("(수정)") && (
+                  <ModifiedTag>(수정)</ModifiedTag>
+                )}
+              </ItemTitle>
               <ItemContent>{truncateContents(notice.contents)}</ItemContent>
             </ListItem>
           </ListItemDiv>
@@ -265,12 +289,20 @@ const AnnouncementMain = () => {
         </MoreBtnDiv>
       </Aside>
       <Aside>
-        <Title>이벤트</Title>
+        <Title onClick={() => handleRowClick("event")}>이벤트</Title>
         {eventNotices.map((notice) => (
-          <ListItemDiv key={notice.id}>
+          <ListItemDiv
+            key={notice.id}
+            onClick={() => handleDetailsClick("event", notice)}
+          >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
-              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemTitle>
+                {notice.title.replace(" (수정)", "")}
+                {notice.title.includes("(수정)") && (
+                  <ModifiedTag>(수정)</ModifiedTag>
+                )}
+              </ItemTitle>
               <ItemContent>{truncateContents(notice.contents)}</ItemContent>
             </ListItem>
           </ListItemDiv>
@@ -284,12 +316,20 @@ const AnnouncementMain = () => {
         </MoreBtnDiv>
       </Aside>
       <Aside>
-        <Title>보도 자료</Title>
+        <Title onClick={() => handleRowClick("press")}>보도 자료</Title>
         {pressNotices.map((notice) => (
-          <ListItemDiv key={notice.id}>
+          <ListItemDiv
+            key={notice.id}
+            onClick={() => handleDetailsClick("press", notice)}
+          >
             <ListItem>
               <ItemDate>{notice.createdDate}</ItemDate>
-              <ItemTitle>{notice.title}</ItemTitle>
+              <ItemTitle>
+                {notice.title.replace(" (수정)", "")}
+                {notice.title.includes("(수정)") && (
+                  <ModifiedTag>(수정)</ModifiedTag>
+                )}
+              </ItemTitle>
               <ItemContent>{truncateContents(notice.contents)}</ItemContent>
             </ListItem>
           </ListItemDiv>

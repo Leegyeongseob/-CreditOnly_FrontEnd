@@ -11,6 +11,8 @@ import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import MainAxios from "../../axiosapi/MainAxios";
+import Alarm from "../../img/commonImg/알림.png";
+import AlarmDot from "../../img/commonImg/알림Dot.png";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -339,6 +341,15 @@ const AlarmSet = styled.div`
   }
 `;
 
+const IconAlarm = styled.div`
+  width: 25px;
+  height: 25px;
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
 const Header = ({
   toggleSideBar,
   isHeader,
@@ -346,6 +357,8 @@ const Header = ({
   isDarkMode,
   toggleAlarmBar,
   hasUnreadNotifications,
+  toggleUserToggle, // 추가
+  isUserToggleVisible, // 추가
 }) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
@@ -363,7 +376,7 @@ const Header = ({
         const response = await SettingAxios.getUserInfo(email);
         setUser(response.data);
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        console.error("Error fetching user info:", error + setIsOpen);
       }
     };
 
@@ -485,16 +498,20 @@ const Header = ({
             <UserName>{user.name}</UserName>
           </UserDiv>
           <UserToggle
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            isOpen={isUserToggleVisible}
+            setIsOpen={toggleUserToggle}
             email={user.email}
           />
           <Dont />
           <AlarmSet onClick={toggleAlarmBar}>
             {hasUnreadNotifications ? (
-              <VscBellDot size={25} color="#717694" />
+              // <VscBellDot size={25} color="#ffd400" />
+
+              <IconAlarm imageurl={AlarmDot} />
             ) : (
-              <VscBell size={25} color="#717694" />
+              // <VscBell size={25} color="#717694" />
+
+              <IconAlarm imageurl={Alarm} />
             )}
           </AlarmSet>
         </UserBox>

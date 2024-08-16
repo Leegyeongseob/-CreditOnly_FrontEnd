@@ -36,5 +36,10 @@ const AnnouncementAxios = {
   deleteAnnouncement: async (id) => {
     return await AxiosInstance.delete(`/announcement/delete/${id}`);
   },
+
+  //공지사항 수정
+  updateAnnouncement: async (id, data) => {
+    return await AxiosInstance.put(`/announcement/update/${id}`, data);
+  },
 };
 export default AnnouncementAxios;

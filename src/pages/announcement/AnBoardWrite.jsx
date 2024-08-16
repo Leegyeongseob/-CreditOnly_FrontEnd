@@ -29,9 +29,9 @@ const HelpBoard = styled.div`
 `;
 
 const BtnDiv = styled.div`
-  width: 97%;
+  width: 92%;
   height: 5%;
-  padding: 0 10% 0 3%;
+  padding: 0 2% 0 2%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -40,7 +40,6 @@ const BtnDiv = styled.div`
     padding: 0 5% 0 3%;
   }
 `;
-
 const Btn = styled.div`
   width: 90px;
   height: 35px;
@@ -69,17 +68,37 @@ const Btn = styled.div`
   }
 `;
 
-const Title = styled.h1`
-  width: 100%;
+const TitleDiv = styled.div`
+  width: 92%;
   height: 10%;
-  padding-left: 5%;
+  margin-top: 1%;
+  padding-top: 1%;
+  padding-left: 3%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 32px;
-  font-weight: bolder;
+  background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+
   @media screen and (max-width: 768px) {
-    margin-top: 5%;
+    margin-top: 10%;
+  }
+`;
+const Title = styled.h1`
+  width: 285px;
+  height: 90%;
+  padding-left: 1%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30px;
+  font-weight: bolder;
+  border-radius: 10px;
+  @media screen and (max-width: 768px) {
+    padding-left: 8%;
+    font-size: 25px;
   }
 `;
 
@@ -89,27 +108,38 @@ const TitleFont = styled.div`
 `;
 
 const Contents = styled.div`
-  width: 100%;
-  height: 80%;
+  width: 92%;
+  height: 74%;
+  margin-bottom: 1%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  @media screen and (max-width: 768px) {
+    padding-left: 3%;
+    height: 60%;
+    margin-bottom: 5%;
+  }
 `;
 
 const HelpBoardText = styled.div`
   width: 96%;
   height: 90%;
   font-size: 22px;
-  padding: 3%;
+  padding: 2%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 `;
 
 const TitleBox = styled.div`
-  width: 90%;
-  height: 10%;
+  width: 92%;
+  height: 15%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -118,12 +148,12 @@ const TitleBox = styled.div`
 
 const TitleLeft = styled.div`
   width: 100%;
-  height: 70%;
+  height: 65%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   font-size: 24px;
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1200px) {
     font-size: 19px;
   }
 `;
@@ -135,6 +165,8 @@ const WriteTitleInput = styled.input`
   outline: none;
   background-color: transparent;
   font-size: 28px;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
   @media screen and (max-width: 768px) {
     font-size: 20px;
   }
@@ -149,9 +181,24 @@ const WriteContentsInput = styled.textarea`
   font-size: 20px;
   resize: none;
   overflow-y: auto;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
   @media screen and (max-width: 768px) {
     font-size: 15px;
   }
+`;
+
+const CheckboxContainer = styled.div`
+  width: 92%;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const CheckboxLabel = styled.label`
+  margin-left: 10px;
+  font-size: 18px;
 `;
 
 const AnBoardWrite = () => {
@@ -162,6 +209,7 @@ const AnBoardWrite = () => {
   const [contents, setContents] = useState("");
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [sendNotification, setSendNotification] = useState(false); // 알림 전송 여부
   const navigate = useNavigate();
   const { setHasUnreadNotifications } = useOutletContext();
 
@@ -203,13 +251,14 @@ const AnBoardWrite = () => {
       classTitle,
       title,
       contents,
+      sendNotification,
     };
 
     try {
       await AnnouncementAxios.postBoard(formData);
       setModalOpen(true);
       setModalContent("게시글 등록 성공 !");
-      setHasUnreadNotifications(true);
+      setHasUnreadNotifications(sendNotification);
     } catch (error) {
       console.log(error);
       setModalOpen(true);
@@ -222,11 +271,21 @@ const AnBoardWrite = () => {
       <BtnDiv>
         <Btn onClick={() => handleBackClick()}>뒤로</Btn>
       </BtnDiv>
-      <Title>
-        {clickTitle}
-        <TitleFont>- 게시글 작성</TitleFont>
-      </Title>
+      <TitleDiv>
+        <Title>
+          {clickTitle}
+          <TitleFont>- 게시글 작성</TitleFont>
+        </Title>
+      </TitleDiv>
       <Contents>
+        <CheckboxContainer>
+          <input
+            type="checkbox"
+            checked={sendNotification}
+            onChange={(e) => setSendNotification(e.target.checked)}
+          />
+          <CheckboxLabel>모든 유저에게 알림 전송</CheckboxLabel>
+        </CheckboxContainer>
         <TitleBox>
           <TitleLeft>
             <WriteTitleInput
@@ -247,11 +306,10 @@ const AnBoardWrite = () => {
             />
           </HelpBoardText>
         </HelpBoard>
-        <BtnDiv>
-          <Btn onClick={addBoard}>등록</Btn>
-        </BtnDiv>
       </Contents>
-
+      <BtnDiv>
+        <Btn onClick={addBoard}>등록</Btn>
+      </BtnDiv>
       <Modal
         open={modalOpen}
         header={clickTitle + " - 게시글 작성"}

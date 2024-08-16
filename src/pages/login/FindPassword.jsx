@@ -15,26 +15,28 @@ const InputDiv = styled.div`
   align-items: center;
 `;
 const ButtonDiv = styled.div`
-  width: 100%;
+  width: 110%;
   height: 30%;
+  /* background-color: aqua; */
   display: flex;
   flex-direction: column;
   justify-content: first baseline;
   align-items: center;
 `;
 const FindButtonDiv = styled.div`
-  width: 20%;
+  width: 50%;
   height: 100%;
+  /* background-color: aliceblue; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: 200px;
+  width: 100%;
   height: 50%;
   background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
-  font-size: 25px;
+  font-size: clamp(22px, 2vw, 30px);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-style: italic;
   color: ${({ isActive }) => (isActive ? "#fff" : "#5a3092")};
@@ -163,6 +165,7 @@ const FindByPwdWarp = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 `;
 const FindPwdText = styled.div`
   width: 100%;
@@ -205,23 +208,32 @@ const FindByPwd = styled.div`
 const GoToLoginPage = styled.div`
   width: 80%;
   height: 100%;
-  margin-right: 20px;
+  margin-right: 30px;
+  justify-content: center;
+  /* background-color: aliceblue; */
+  display: flex;
+  align-items: end;
+  flex-direction: column;
   & > .remember {
-    width: 100%;
-    height: 40%;
+    width: 80%;
+    height: 50%;
+
     display: flex;
     justify-content: end;
     align-items: end;
+    text-align: end;
     font-size: 20px;
   }
   & > .backToLogin {
-    width: 100%;
-    height: 60%;
+    width: 80%;
+    min-width: 120px;
+    height: 50%;
+
     display: flex;
     justify-content: end;
     align-items: first baseline;
     font-weight: 600;
-    font-size: 35px;
+    font-size: clamp(20px, 3vw, 35px);
     cursor: pointer;
     &:hover {
       color: #367ee9;
@@ -240,7 +252,9 @@ const Empty = styled.div`
 `;
 const EmailAthouized = styled.div`
   width: 12%;
-  height: 70%;
+  min-width: 50px;
+  max-width: 100px;
+  height: 55%;
   border-radius: 10px;
   border: none;
   background-color: ${({ isActive }) => (isActive ? "#367EE9" : "#fff")};
