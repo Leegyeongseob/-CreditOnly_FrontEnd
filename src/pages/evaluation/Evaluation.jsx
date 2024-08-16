@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import Logo from "../../img//background/CreditOnlyLogo.png";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import CreditScoreChart from "../../chart/CreditScoreChart";
 import CreditScoreBarChart from "../../chart/CreditScoreBarChart ";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import CreditScore from "../../img/evaluation/CreditScore.jpg";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -143,6 +143,27 @@ const ChartDiv = styled.div`
   width: 80%;
   height: 80%;
 `;
+const CreditLongView = styled.div`
+  width: 99.6%;
+  height: 93%;
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: ${({ url }) => `url(${url})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  @media screen and (max-width: 768px) {
+    justify-content: flex-start;
+    width: 99.6%;
+    height: 93%;
+  }
+`;
 const Evaluation = () => {
   const navigate = useNavigate();
   const darkMode = localStorage.getItem("isDarkMode");
@@ -186,10 +207,7 @@ const Evaluation = () => {
         </CrediEvaluation>
       </BtnDiv>
       <ViewDiv>
-        <CreditView imageurl={Logo}>
-          나와 같은 직업의 신용 점수시각화
-        </CreditView>
-        <CreditView imageurl={Logo}>대출금별 신용 점수시각화</CreditView>
+        <CreditLongView url={CreditScore} />
       </ViewDiv>
     </Container>
   );

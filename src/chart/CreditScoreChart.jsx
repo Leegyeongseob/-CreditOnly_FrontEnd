@@ -119,7 +119,7 @@ const CreditScoreChart = ({ score = 7 }) => {
       ctx.textAlign = "center";
 
       const titleText = "신용등급";
-      const scoreText = `${actualValue.toFixed(1)}점`;
+      const scoreText = `${actualValue}등급`;
 
       const titleTextX = width / 2;
       const titleTextY = height / 2 + fontSize * 10;

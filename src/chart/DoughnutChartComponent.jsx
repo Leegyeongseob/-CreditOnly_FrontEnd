@@ -87,7 +87,7 @@ const DoughnutChartComponent = ({ data }) => {
 
       // 텍스트 설정
       const titleText = "신용등급";
-      const scoreText = `${actualValue.toFixed(1)}점`;
+      const scoreText = `${actualValue}등급`;
 
       // 텍스트 위치 조정
       const titleTextX = width / 2;

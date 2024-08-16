@@ -66,6 +66,8 @@ const Select = styled.select`
 `;
 
 const Input = styled.input`
+  background-color: ${({ theme }) => theme.commponent};
+  color: ${({ theme }) => theme.color};
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #d1d5db;
@@ -81,7 +83,7 @@ const GridContainer = styled.div`
 const SubmitButton = styled.button`
   width: 100%;
   padding: 0.5rem;
-  background-color: #3b82f6;
+  background-color: #e4e7f5;
   color: white;
   border: none;
   border-radius: 0.375rem;
@@ -89,13 +91,13 @@ const SubmitButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #2563eb;
+    background-color: #734cfd;
   }
 `;
 const ItemDetailBtn = styled.button`
   width: 100px;
   height: 35px;
-  background-color: #4a90e2;
+  background-color: #e4e7f5;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -105,7 +107,7 @@ const ItemDetailBtn = styled.button`
   margin-left: 10px;
 
   &:hover {
-    background-color: #357abd;
+    background-color: #734cfd;
   }
 `;
 
@@ -177,15 +179,50 @@ const CreditDataInputForm = () => {
     totalUnpaidLoans: "",
   });
   const [showDetails, setShowDetails] = useState(false);
-
+  // 신용 평가하기 이벤트 핸들러
+  const CreditEventOnClickHandler = () => {};
   const handleInputChange = (category, field, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [category]:
-        typeof prevData[category] === "object"
-          ? { ...prevData[category], [field]: value }
-          : value,
-    }));
+    setFormData((prevData) => {
+      if (category === "creditCardInstitutions") {
+        const newCreditCardInstitutions = {
+          ...prevData.creditCardInstitutions,
+        };
+        if (field === "year3") {
+          newCreditCardInstitutions.year2 = value;
+          newCreditCardInstitutions.year1 = value;
+        } else if (field === "year2") {
+          newCreditCardInstitutions.year1 = value;
+        }
+        newCreditCardInstitutions[field] = value;
+        return {
+          ...prevData,
+          creditCardInstitutions: newCreditCardInstitutions,
+        };
+      } else if (category === "unpaidLoans") {
+        const newUnpaidLoans = { ...prevData.unpaidLoans };
+        if (field === "under5M3Months") {
+          newUnpaidLoans.under5M6Months = value;
+          newUnpaidLoans.under5M1Year = value;
+        } else if (field === "under5M6Months") {
+          newUnpaidLoans.under5M1Year = value;
+        } else if (field === "under10M3Months") {
+          newUnpaidLoans.under10M6Months = value;
+          newUnpaidLoans.under10M1Year = value;
+        } else if (field === "under10M6Months") {
+          newUnpaidLoans.under10M1Year = value;
+        }
+        newUnpaidLoans[field] = value;
+        return { ...prevData, unpaidLoans: newUnpaidLoans };
+      }
+
+      return {
+        ...prevData,
+        [category]:
+          typeof prevData[category] === "object"
+            ? { ...prevData[category], [field]: value }
+            : value,
+      };
+    });
   };
 
   const handleSubmit = (e) => {
@@ -277,6 +314,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="1년내"
+                value={formData.creditCardInstitutions.year1}
                 onChange={(e) =>
                   handleInputChange(
                     "creditCardInstitutions",
@@ -289,6 +327,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="2년내"
+                value={formData.creditCardInstitutions.year2}
                 onChange={(e) =>
                   handleInputChange(
                     "creditCardInstitutions",
@@ -301,6 +340,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="3년내"
+                value={formData.creditCardInstitutions.year3}
                 onChange={(e) =>
                   handleInputChange(
                     "creditCardInstitutions",
@@ -319,6 +359,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="3개월내 500만원 미만"
+                value={formData.unpaidLoans.under5M3Months}
                 onChange={(e) =>
                   handleInputChange(
                     "unpaidLoans",
@@ -331,6 +372,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="3개월내 1000만원 미만"
+                value={formData.unpaidLoans.under10M3Months}
                 onChange={(e) =>
                   handleInputChange(
                     "unpaidLoans",
@@ -343,6 +385,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="6개월내 500만원 미만"
+                value={formData.unpaidLoans.under5M6Months}
                 onChange={(e) =>
                   handleInputChange(
                     "unpaidLoans",
@@ -355,6 +398,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="6개월내 1000만원 미만"
+                value={formData.unpaidLoans.under10M6Months}
                 onChange={(e) =>
                   handleInputChange(
                     "unpaidLoans",
@@ -367,6 +411,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="1년내 500만원 미만"
+                value={formData.unpaidLoans.under5M1Year}
                 onChange={(e) =>
                   handleInputChange(
                     "unpaidLoans",
@@ -379,6 +424,7 @@ const CreditDataInputForm = () => {
                 type="number"
                 min="0"
                 placeholder="1년내 1000만원 미만"
+                value={formData.unpaidLoans.under10M1Year}
                 onChange={(e) =>
                   handleInputChange(
                     "unpaidLoans",
@@ -479,7 +525,9 @@ const CreditDataInputForm = () => {
             </GridContainer>
           </FormGroup>
 
-          <SubmitButton type="submit">신용 평가하기</SubmitButton>
+          <SubmitButton type="submit" onClick={CreditEventOnClickHandler}>
+            신용 평가하기
+          </SubmitButton>
         </Form>
       </FormContent>
 
