@@ -288,6 +288,8 @@ const AnBoardDetails = () => {
       };
       await AnnouncementAxios.updateAnnouncement(notice.id, updatedNotice);
       setNotice(updatedNotice);
+      setModalOpen(true);
+      setModalContent("게시글 수정이 완료되었습니다.");
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating announcement:", error);
