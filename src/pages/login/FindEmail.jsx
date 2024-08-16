@@ -18,14 +18,14 @@ const ButtonDiv = styled.div`
   width: 100%;
   height: 30%;
   display: flex;
-  background-color: aliceblue;
+  /* background-color: aliceblue; */
   flex-direction: column;
   justify-content: first baseline;
   align-items: center;
 `;
 const FindButtonDiv = styled.div`
   width: 50%;
-  background-color: darkcyan;
+  /* background-color: darkcyan; */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -36,7 +36,7 @@ const FindButton = styled.div`
   height: 50%;
   background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
-  font-size: 25px;
+  font-size: clamp(22px, 2vw, 30px);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-style: italic;
   color: ${({ isActive }) => (isActive ? "#fff" : "#5a3092")};

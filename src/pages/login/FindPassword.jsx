@@ -15,26 +15,28 @@ const InputDiv = styled.div`
   align-items: center;
 `;
 const ButtonDiv = styled.div`
-  width: 100%;
+  width: 110%;
   height: 30%;
+  /* background-color: aqua; */
   display: flex;
   flex-direction: column;
   justify-content: first baseline;
   align-items: center;
 `;
 const FindButtonDiv = styled.div`
-  width: 20%;
+  width: 50%;
   height: 100%;
+  /* background-color: aliceblue; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: 200px;
+  width: 100%;
   height: 50%;
   background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
-  font-size: 25px;
+  font-size: clamp(22px, 2vw, 30px);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-style: italic;
   color: ${({ isActive }) => (isActive ? "#fff" : "#5a3092")};
