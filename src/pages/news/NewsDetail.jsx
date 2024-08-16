@@ -6,8 +6,9 @@ import InformationAxios from "../../axiosapi/InformationAxios"; // API 호출을
 import Comments from "./Comment/Comment";
 
 const Container = styled.div`
-  width: 80%;
+  width: 70%;
   margin: 1% auto;
+  margin-right: 2%;
   padding: 2%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
@@ -15,9 +16,10 @@ const Container = styled.div`
 `;
 
 const BackButtonContainer = styled.div`
-  width: 100%;
-  height: 7%;
-  text-align: right; // Aligns child elements to the right
+    width: 10%;
+    height: 7%;
+    position: absolute;
+    z-index: 10;
 `;
 
 const BackButton = styled.button`
@@ -75,6 +77,9 @@ const Content = styled.div`
   color: #333;
   line-height: 1.6;
 `;
+const Wrap = styled.div`
+  display: flex;
+`;
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -110,23 +115,26 @@ const NewsDetail = () => {
   if (!item) return <p>뉴스 항목을 찾을 수 없습니다.</p>;
 
   return (
-    <Container>
-      <BackButtonContainer>
-        <BackButton onClick={() => navigate(-1)}>뒤로 가기</BackButton>
-      </BackButtonContainer>
-      <DetailWrap>
-        <Header>
-          <Title>{item.title}</Title>
-          <Author>{formatDate(item.publishedDate)}</Author>
-        </Header>
+    <Wrap>
+      <Container>
+        <BackButtonContainer>
+          <BackButton onClick={() => navigate(-1)}>뒤로 가기</BackButton>
+        </BackButtonContainer>
 
-        <NewsImg alt={item.title} src={item.imageUrl} />
+        <DetailWrap>
+          <Header>
+            <Title>{item.title}</Title>
+            <Author>{formatDate(item.publishedDate)}</Author>
+          </Header>
 
-        <Content>{item.content}</Content>
-      </DetailWrap>
+          <NewsImg alt={item.title} src={item.imageUrl} />
 
-      <Comments informationId={id} />
-    </Container>
+          <Content>{item.content}</Content>
+        </DetailWrap>
+
+      </Container>
+        <Comments informationId={id} />
+    </Wrap>
   );
 };
 

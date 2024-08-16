@@ -5,6 +5,12 @@ import CommentItem from "./CommentItem";
 const List = styled.ul`
   list-style-type: none;
   padding: 0;
+  height: 80%;
+  overflow-y: auto; /* Enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  gap: 1%;
+  margin-top: 3%;
 `;
 
 const CommentList = ({ comments = [], onEdit, onDelete, onLike, onDislike, onReply }) => {

@@ -6,7 +6,9 @@ import CommentLikeAxios from "../../../axiosapi/CommentLikeAxios";
 
 // 스타일링 컴포넌트
 const CommentsContainer = styled.div`
+  width: 23%;
   margin-top: 20px;
+  margin-right: 3%;
   border-top: 1px solid #ddd;
   padding-top: 20px;
 `;
@@ -177,7 +179,6 @@ const Comments = ({ informationId }) => {
               const response = await CommentAxios.createComment(newComment);
               setComments((prevComments) => [...prevComments, response]);
               e.target.elements.commentText.value = ""; // Clear the text area
-              alert("댓글이 제출되었습니다.");
             } catch (error) {
               console.error("댓글 제출 중 오류 발생:", error);
               alert("댓글 제출 중 오류가 발생했습니다.");

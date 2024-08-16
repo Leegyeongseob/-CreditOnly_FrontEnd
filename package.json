@@ -29,6 +29,7 @@
     "react-js-pagination": "^3.0.3",
     "react-kakao-login": "^2.1.1",
     "react-kakao-maps": "^0.0.13",
+    "react-loader-spinner": "^6.1.6",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.24.0",
     "react-scripts": "5.0.1",

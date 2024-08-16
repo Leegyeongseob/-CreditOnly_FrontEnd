@@ -50,7 +50,7 @@ const Button = styled.button`
   background: transparent;
   border: none;
   color: #007bff;
-  font-size: 16px;
+  font-size: 12px;
   cursor: pointer;
   margin-left: 10px;
   display: flex;
@@ -64,6 +64,7 @@ const Button = styled.button`
   svg {
     margin-right: 5px;
   }
+ 
 `;
 
 const CommentItem = ({ comment, onEdit, onDelete }) => {
@@ -148,7 +149,7 @@ const CommentItem = ({ comment, onEdit, onDelete }) => {
             <FaEdit /> {isEditing ? "저장" : "수정"}
           </Button>
           <Button onClick={() => onDelete(comment.id)}>
-            <FaTrashAlt /> 삭제
+            <FaTrashAlt />
           </Button>
         </ButtonGroup>
       </CommentContent>
