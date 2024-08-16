@@ -139,6 +139,10 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
   background: rgba(0, 0, 0, 0.1); /* 투명한 검정색 오버레이 */
   z-index: 10; /* 오버레이가 위에 표시되도록 설정 */
   border-radius: 10px;
@@ -181,20 +185,7 @@ const Adbanner = React.memo(({ isEditing }) => (
   </AdbannerWrapper>
 ));
 
-const BottomSide = styled.div`
-  width: 92%;
-  height: 48%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    width: 180%;
-  }
-`;
-
-const CreditView = styled.div`
+const CreditViewWrap = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 10px;
@@ -208,17 +199,54 @@ const CreditView = styled.div`
   }
 `;
 
-const CreditViewWrap = React.memo(({ isEditing }) => (
-  <CreditView imageurl={Logo}>
-    {isEditing && <Overlay imageurl={Logo} />}
-    신용점수 올리는 팁
-  </CreditView>
+const BottomSide = styled.div`
+  width: 92%;
+  height: 48%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  z-index: 11;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    width: 180%;
+  }
+`;
+
+const CreditInfoWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  padding: 2%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 230px;
+  }
+`;
+
+const CreditInfo = React.memo(({ isEditing }) => (
+  <CreditInfoWrap>
+    {isEditing ? (
+      <Overlay imageurl={Logo}>신용 등급</Overlay>
+    ) : (
+      <PieChartComponent />
+    )}
+  </CreditInfoWrap>
 ));
 
-const CreditViewWrap2 = React.memo(({ isEditing }) => (
-  <CreditView imageurl={Logo}>
-    {isEditing && <Overlay imageurl={Logo} />}시각화
-  </CreditView>
+const CreditView = React.memo(({ isEditing }) => (
+  <CreditViewWrap>
+    {isEditing ? <Overlay imageurl={Logo}>신용 정보</Overlay> : <>신용정보</>}
+  </CreditViewWrap>
+));
+
+const CreditView2 = React.memo(({ isEditing }) => (
+  <CreditViewWrap>
+    {isEditing ? <Overlay imageurl={Logo}>시각화</Overlay> : <>시각화</>}
+  </CreditViewWrap>
 ));
 
 const EdiBtnDiv = styled.div`
@@ -302,7 +330,7 @@ const DragContainer = React.memo(styled.div`
   cursor: ${({ isEditing }) => (isEditing ? "grab" : "default")};
   background-color: ${({ theme }) => theme.commponent};
   box-shadow: 1px 1px 4px ${({ theme }) => theme.shadow};
-  transition: background-color 0.5s ease, box-shadow 0.5s ease, all 0.5s ease;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
   position: relative;
   @media screen and (max-width: 768px) {
     margin-top: 1.5%;
@@ -355,7 +383,7 @@ const createComponents = (id, isEditing) => {
         id,
         component: (
           <CenteredContainer>
-            <PieChartComponent />
+            <CreditInfo isEditing={isEditing} />
           </CenteredContainer>
         ),
         width: "48.8%",
@@ -366,7 +394,7 @@ const createComponents = (id, isEditing) => {
         id,
         component: (
           <CenteredContainer>
-            <CreditViewWrap imageurl={Logo} isEditing={isEditing} />
+            <CreditView isEditing={isEditing} />
           </CenteredContainer>
         ),
         width: "48.8%",
@@ -377,7 +405,7 @@ const createComponents = (id, isEditing) => {
         id,
         component: (
           <CenteredContainer>
-            <CreditViewWrap2 imageurl={Logo} isEditing={isEditing} />
+            <CreditView2 isEditing={isEditing} />
           </CenteredContainer>
         ),
         width: "48.8%",
