@@ -376,7 +376,7 @@ const Header = ({
         const response = await SettingAxios.getUserInfo(email);
         setUser(response.data);
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        console.error("Error fetching user info:", error + setIsOpen);
       }
     };
 

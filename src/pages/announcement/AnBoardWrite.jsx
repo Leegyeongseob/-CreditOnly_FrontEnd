@@ -188,6 +188,19 @@ const WriteContentsInput = styled.textarea`
   }
 `;
 
+const CheckboxContainer = styled.div`
+  width: 92%;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const CheckboxLabel = styled.label`
+  margin-left: 10px;
+  font-size: 18px;
+`;
+
 const AnBoardWrite = () => {
   const { email } = useContext(UserEmailContext);
   const [clickTitle, setClickTitle] = useState("");
@@ -196,6 +209,7 @@ const AnBoardWrite = () => {
   const [contents, setContents] = useState("");
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [sendNotification, setSendNotification] = useState(false); // 알림 전송 여부
   const navigate = useNavigate();
   const { setHasUnreadNotifications } = useOutletContext();
 
@@ -237,13 +251,14 @@ const AnBoardWrite = () => {
       classTitle,
       title,
       contents,
+      sendNotification,
     };
 
     try {
       await AnnouncementAxios.postBoard(formData);
       setModalOpen(true);
       setModalContent("게시글 등록 성공 !");
-      setHasUnreadNotifications(true);
+      setHasUnreadNotifications(sendNotification);
     } catch (error) {
       console.log(error);
       setModalOpen(true);
@@ -263,6 +278,14 @@ const AnBoardWrite = () => {
         </Title>
       </TitleDiv>
       <Contents>
+        <CheckboxContainer>
+          <input
+            type="checkbox"
+            checked={sendNotification}
+            onChange={(e) => setSendNotification(e.target.checked)}
+          />
+          <CheckboxLabel>모든 유저에게 알림 전송</CheckboxLabel>
+        </CheckboxContainer>
         <TitleBox>
           <TitleLeft>
             <WriteTitleInput
@@ -284,7 +307,6 @@ const AnBoardWrite = () => {
           </HelpBoardText>
         </HelpBoard>
       </Contents>
-
       <BtnDiv>
         <Btn onClick={addBoard}>등록</Btn>
       </BtnDiv>
