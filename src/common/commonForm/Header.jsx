@@ -479,6 +479,9 @@ const Header = ({
                         `/${item.page}/${item.classTitle}/${item.contents}`
                       );
                       setSearchComplete(false);
+                    } else if (item.category) {
+                      navigate(`/news/${item.id}`);
+                      setSearchComplete(false);
                     } else {
                       navigate(`/${item.page}`);
                       setSearchComplete(false);
