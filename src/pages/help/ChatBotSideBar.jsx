@@ -4,7 +4,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { GoPerson } from "react-icons/go";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
-
+import { useChatContext } from "../../contexts/ChatContext";
 import { FaPlus } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -125,19 +125,17 @@ const SetDetail = styled.div`
 
 const ChatBotSideBar = () => {
   const navigate = useNavigate();
+  const { conversations, startNewConversation, deleteConversation } =
+    useChatContext();
 
-  const goSetting = () => {
-    navigate("/setting");
-  };
-  const goBack = () => {
-    navigate(-1);
-  };
+  const goSetting = () => navigate("/setting");
+  const goBack = () => navigate(-1);
   const logOutBtnHandler = () => {
-    localStorage.setItem("accessToken", "");
-    localStorage.setItem("isDarkMode", false);
-    localStorage.setItem("refreshToken", "");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     navigate("/");
   };
+
   return (
     <Sidebar>
       <Menu>
@@ -145,21 +143,36 @@ const ChatBotSideBar = () => {
           <FaArrowLeft onClick={goBack} size={20} />
         </Back>
         <NewChatBox>
-          <NewChatBtn>
+          <NewChatBtn onClick={startNewConversation}>
             새 채팅
             <FaPlus size={14} />
           </NewChatBtn>
         </NewChatBox>
+        <ConversationList>
+          {conversations.map((conv) => (
+            <ConversationItem
+              key={conv.id}
+              onClick={() => {
+                /* 대화 선택 로직 */
+              }}
+            >
+              대화 {conv.id}
+              <DeleteButton onClick={() => deleteConversation(conv.id)}>
+                <FaRegTrashCan />
+              </DeleteButton>
+            </ConversationItem>
+          ))}
+        </ConversationList>
         <SettingBox>
-          <SetDetailTop>
-            <FaRegTrashCan />
-            기록삭제
-          </SetDetailTop>
           <SetDetail onClick={goSetting}>
             <GoPerson />
             계정관리
           </SetDetail>
-          <SetDetail>
+          <SetDetail
+            onClick={() => {
+              /* FAQ 페이지로 이동 */
+            }}
+          >
             <FaExternalLinkAlt />
             FAQ
           </SetDetail>
@@ -172,4 +185,29 @@ const ChatBotSideBar = () => {
     </Sidebar>
   );
 };
+
+const ConversationList = styled.div`
+  width: 100%;
+  overflow-y: auto;
+  max-height: 50%;
+`;
+
+const ConversationItem = styled.div`
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+`;
+
+const DeleteButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: red;
+`;
+
 export default ChatBotSideBar;

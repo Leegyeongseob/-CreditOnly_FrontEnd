@@ -30,6 +30,8 @@ import AnBoard from "./pages/announcement/AnBoard";
 import AnBoardDetails from "./pages/announcement/AnBoardDetails";
 import AnBoardWrite from "./pages/announcement/AnBoardWrite";
 import DataVisualization from "./pages/evaluation/DataVisualization";
+import { ChatProvider } from "./contexts/ChatContext";
+
 // 라이트 및 다크 테마 설정
 const lightTheme = {
   background: "#ffffff",
@@ -116,7 +118,6 @@ const App = () => {
                   path="/data-visualization"
                   element={<DataVisualization />}
                 />
-
                 <Route path="/announcement" element={<Announcement />} />
                 <Route
                   path="/announcement/:classTitle/write"
@@ -133,12 +134,15 @@ const App = () => {
               <Route
                 path="/chat"
                 element={
-                  <ChatBot
-                    toggleDarkMode={toggleDarkMode}
-                    isDarkMode={isDarkMode}
-                  />
+                  <ChatProvider>
+                    <ChatBot
+                      toggleDarkMode={toggleDarkMode}
+                      isDarkMode={isDarkMode}
+                    />
+                  </ChatProvider>
                 }
               />
+
               <Route element={<FindByForm withdrawal={false} />}>
                 <Route path="/findbyemail" element={<FindEmail />} />
                 <Route path="/findbypwd" element={<FindPassword />} />

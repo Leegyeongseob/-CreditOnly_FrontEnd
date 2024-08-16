@@ -1,17 +1,19 @@
 import axiosInstance from "./AxiosInstance";
+import { performSimilaritySearch, handleError } from "./apiUtils";
 
 const FinancialDataAxios = {
-  // 금융 기업의 데이터를 인덱싱하는 함수
-  indexFinancialData: async (params) => {
+  getFinancialData: async (fncoNm, query) => {
     try {
+      await performSimilaritySearch(query);
       const response = await axiosInstance.get(
-        `/api/elastic/financial_company`,
-        { params }
+        "/api/elastic/economic/financial_data",
+        {
+          params: { fncoNm, query },
+        }
       );
       return response.data;
     } catch (error) {
-      console.error("Error indexing financial data:", error);
-      throw error;
+      handleError(error, "fetching financial data");
     }
   },
 };

@@ -7,6 +7,7 @@ import ChatCard from "./ChatCard";
 import EcosAxios from "../../axiosapi/EcosAxios"; // ECOS API 호출을 위한 Axios 인스턴스
 import DartAxios from "../../axiosapi/DartAxios"; // DART API 호출을 위한 Axios 인스턴스
 import FinancialDataAxios from "../../axiosapi/FinancialDataAxios"; // 금융 데이터 API 호출을 위한 Axios 인스턴스
+import { useChatContext } from "../../contexts/ChatContext";
 
 const Screen = styled.div`
   background-color: ${({ theme }) => theme.background};
@@ -76,54 +77,77 @@ const SendWrap = styled.div`
   font-weight: 100;
 `;
 
-const ChatBot = ({ toggleDarkMode, isDarkMode }) => {
+const ChatBot = () => {
+  const { chatHistory, addMessage, isDarkMode, toggleDarkMode } =
+    useChatContext();
   const [message, setMessage] = useState("");
   const [isSideBarVisible, setIsSideBarVisible] = useState(true);
   const [isHeader, setIsHeader] = useState(false);
   const [activeTopic, setActiveTopic] = useState(null);
-  const [chatHistory, setChatHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
 
-  const send = () => {
-    // 메시지를 전송하고 대화 기록에 추가하는 로직
+  const send = async () => {
     if (message.trim()) {
-      setChatHistory([...chatHistory, { sender: "user", text: message }]);
-      setMessage(""); // 입력 필드를 비웁니다.
+      addMessage({ sender: "user", text: message });
+      setMessage("");
+      setIsLoading(true);
+
+      try {
+        let response;
+        switch (activeTopic) {
+          case "소비자 동향 지수":
+            response = await EcosAxios.getEcosData(message, message);
+            break;
+          case "기업 개황":
+            response = await DartAxios.getDartData(message, message);
+            break;
+          case "금융 회사 조회":
+            // 메시지를 파싱하여 fncoNm과 query로 분리
+            const [fncoNm, query] = message
+              .split(",")
+              .map((item) => item.trim());
+            response = await FinancialDataAxios.getFinancialData(
+              fncoNm || message,
+              query || message
+            );
+            break;
+          default:
+            throw new Error("Unknown topic");
+        }
+
+        // 응답 데이터 처리
+        let formattedResponse;
+        if (typeof response.data === "object") {
+          formattedResponse = JSON.stringify(response.data, null, 2);
+        } else {
+          formattedResponse = response.data;
+        }
+
+        addMessage({
+          sender: "bot",
+          text: formattedResponse,
+        });
+      } catch (error) {
+        console.error("API 호출 중 오류 발생:", error);
+        addMessage({
+          sender: "bot",
+          text:
+            "죄송합니다. 오류가 발생했습니다: " +
+            (error.response?.data?.message || error.message),
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
-  const handleCardClick = async (topic) => {
-    setActiveTopic(topic); // 주제 설정
-
-    // 선택된 주제에 따라 API 호출
-    try {
-      let response;
-      switch (topic) {
-        case "소비자 동향 지수":
-          response = await EcosAxios.getEcosData();
-          break;
-        case "기업 개황":
-          response = await DartAxios.getDartData();
-          break;
-        case "금융 회사 조회":
-          response = await FinancialDataAxios.indexFinancialData();
-          break;
-        default:
-          console.error("Unknown topic:", topic);
-          return;
-      }
-
-      // API 호출 후 데이터를 대화 기록에 추가
-      setChatHistory([
-        ...chatHistory,
-        { sender: "bot", text: JSON.stringify(response, null, 2) },
-      ]);
-    } catch (error) {
-      console.error("API 호출 중 오류가 발생했습니다:", error);
-    }
+  const handleCardClick = (topic) => {
+    setActiveTopic(topic);
+    addMessage({ sender: "bot", text: `${topic}에 대해 물어보세요.` });
   };
 
   const toggleSideBar = () => {
@@ -149,64 +173,73 @@ const ChatBot = ({ toggleDarkMode, isDarkMode }) => {
   }, []);
 
   return (
-    <>
-      <Header
-        toggleSideBar={toggleSideBar}
-        isHeader={isHeader}
-        toggleDarkMode={toggleDarkMode}
-        isDarkMode={isDarkMode}
-      />
-      <Screen>
-        {isSideBarVisible && <ChatBotSideBar toggleSideBar={toggleSideBar} />}
-        <MessageBox>
-          {!activeTopic ? (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <ChatCard
-                text="소비자 동향 지수"
-                onClick={() => handleCardClick("소비자 동향 지수")}
-              />
-              <ChatCard
-                text="기업 개황"
-                onClick={() => handleCardClick("기업 개황")}
-              />
-              <ChatCard
-                text="금융 회사 조회"
-                onClick={() => handleCardClick("금융 회사 조회")}
-              />
-            </div>
-          ) : (
-            <>
-              <MessagePlace>
-                {chatHistory.map((msg, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      textAlign: msg.sender === "user" ? "right" : "left",
-                    }}
-                  >
-                    <p>{msg.text}</p>
-                  </div>
-                ))}
-              </MessagePlace>
-              <MessageSendBox>
-                <MessageSendWrap>
-                  <MessageSend
-                    type="text"
-                    value={message}
-                    onChange={handleChange}
-                    placeholder="메세지를 입력해주세요"
-                  />
-                  <SendWrap>
-                    <VscSend onClick={send} />
-                  </SendWrap>
-                </MessageSendWrap>
-              </MessageSendBox>
-            </>
-          )}
-        </MessageBox>
-      </Screen>
-    </>
+    <Screen isDarkMode={isDarkMode}>
+      {isSideBarVisible && <ChatBotSideBar toggleSideBar={toggleSideBar} />}
+      <MessageBox>
+        {!activeTopic ? (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <ChatCard
+              text="소비자 동향 지수"
+              onClick={() => handleCardClick("소비자 동향 지수")}
+            />
+            <ChatCard
+              text="기업 개황"
+              onClick={() => handleCardClick("기업 개황")}
+            />
+            <ChatCard
+              text="금융 회사 조회"
+              onClick={() => handleCardClick("금융 회사 조회")}
+            />
+          </div>
+        ) : (
+          <>
+            <MessagePlace>
+              {chatHistory.map((msg, index) => (
+                <MessageBubble key={index} sender={msg.sender}>
+                  {msg.text}
+                </MessageBubble>
+              ))}
+              {isLoading && (
+                <LoadingIndicator>응답을 생성 중입니다...</LoadingIndicator>
+              )}
+            </MessagePlace>
+            <MessageSendBox>
+              <MessageSendWrap>
+                <MessageSend
+                  type="text"
+                  value={message}
+                  onChange={handleChange}
+                  onKeyPress={(e) => e.key === "Enter" && send()}
+                  placeholder="메세지를 입력해주세요"
+                />
+                <SendWrap onClick={send}>
+                  <VscSend />
+                </SendWrap>
+              </MessageSendWrap>
+            </MessageSendBox>
+          </>
+        )}
+      </MessageBox>
+    </Screen>
   );
 };
+
+const MessageBubble = styled.div`
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 10px;
+  background-color: ${(props) =>
+    props.sender === "user" ? "#007bff" : "#f1f0f0"};
+  color: ${(props) => (props.sender === "user" ? "white" : "black")};
+  align-self: ${(props) =>
+    props.sender === "user" ? "flex-end" : "flex-start"};
+`;
+
+const LoadingIndicator = styled.div`
+  text-align: center;
+  padding: 10px;
+  font-style: italic;
+`;
 
 export default ChatBot;
