@@ -6,9 +6,10 @@ import "swiper/css/pagination";
 import CreditScoreChart from "../../chart/CreditScoreChart";
 import CreditGradeBarChart from "../../chart/CreditGradeBarChart";
 import { useEffect, useContext } from "react";
-import CreditScore from "../../img/evaluation/CreditScore.jpg";
+import CreditScore from "../../img/evaluation/creditScore.png";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import IsNotCreditEvaluationForm from "./IsNotCreditEvaluationForm";
+import Loading from "./Loading";
 
 const Container = styled.div`
   width: 100%;
@@ -43,7 +44,6 @@ const ViewDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: row;
   @media screen and (max-width: 768px) {
     height: 38%;
     justify-content: center;
@@ -168,10 +168,17 @@ const CreditLongView = styled.div`
   }
 `;
 const Evaluation = () => {
-  const { isCreditEvaluation } = useContext(UserEmailContext);
+  const { isCreditEvaluation, isLoading, setIsLoading } =
+    useContext(UserEmailContext);
   const navigate = useNavigate();
-  const darkMode = localStorage.getItem("isDarkMode");
-  useEffect(() => {}, [darkMode]);
+  useEffect(() => {
+    // 로딩 상태를 5초 후에 false로 변경
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <Container>
       <BtnDiv>
@@ -185,14 +192,17 @@ const Evaluation = () => {
         </CrediEvaluation>
       </BtnDiv>
       <ViewDiv>
-        {isCreditEvaluation && (
-          <CreditView>
-            <ChartDiv>
-              <CreditScoreChart />
-            </ChartDiv>
-            <CreditText>이 결과는 사실과 다를 수 있습니다.</CreditText>
-          </CreditView>
-        )}
+        {isCreditEvaluation &&
+          (isLoading ? (
+            <Loading />
+          ) : (
+            <CreditView>
+              <ChartDiv>
+                <CreditScoreChart />
+              </ChartDiv>
+              <CreditText>이 결과는 사실과 다를 수 있습니다.</CreditText>
+            </CreditView>
+          ))}
         {!isCreditEvaluation && (
           <CreditView>
             <IsNotCreditEvaluationForm />

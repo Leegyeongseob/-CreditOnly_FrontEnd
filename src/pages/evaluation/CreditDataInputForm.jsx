@@ -161,7 +161,7 @@ const DetailItemTitle = styled.h4`
 `;
 const CreditDataInputForm = () => {
   const navigate = useNavigate();
-  const { setIsCreditEvaluation } = useContext(UserEmailContext);
+  const { setIsCreditEvaluation,setIsLoading } = useContext(UserEmailContext);
 
   const [formData, setFormData] = useState({
     jobType: "",
@@ -194,7 +194,9 @@ const CreditDataInputForm = () => {
   // 신용 평가하기 이벤트 핸들러
   const CreditEventOnClickHandler = () => {
     setIsCreditEvaluation(true);
+    setIsLoading(true);
     navigate("/evaluation");
+    
   };
   const handleInputChange = (category, field, value) => {
     setFormData((prevData) => {

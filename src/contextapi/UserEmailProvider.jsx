@@ -11,7 +11,7 @@ const UserEmailProvider = ({ children }) => {
   const [authority, setAuthority] = useState(""); // 권한을 관리할 상태 추가
   const [adminEmails, setAdminEmails] = useState([]); // 관리자 이메일 목록을 빈 배열로 초기화
   const [isCreditEvaluation, setIsCreditEvaluation] = useState(false); // 신용평가 상태변수
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
@@ -44,6 +44,8 @@ const UserEmailProvider = ({ children }) => {
         adminEmails,
         isCreditEvaluation,
         setIsCreditEvaluation,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

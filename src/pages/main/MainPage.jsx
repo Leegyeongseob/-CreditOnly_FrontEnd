@@ -23,6 +23,7 @@ import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import DoughnutChartComponent from "../../chart/DoughnutChartComponent";
 import IsNotCreditEvaluationForm from "../evaluation/IsNotCreditEvaluationForm";
 import CreditGradeBarChart from "../../chart/CreditGradeBarChart";
+import InformationAxios from "../../axiosapi/InformationAxios";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -193,8 +194,8 @@ const CreditViewWrap = styled.div`
   border-radius: 10px;
   padding: 2%;
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 230px;
@@ -214,7 +215,18 @@ const BottomSide = styled.div`
     width: 180%;
   }
 `;
+const TitleWrap = styled.div`
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1vw;
+`;
 
+const TitlePage = styled.div`
+  color: #5e5e5e;
+  font-size: 20px;
+`;
 const CreditInfoWrap = styled.div`
   width: 100%;
   height: 100%;
@@ -228,7 +240,50 @@ const CreditInfoWrap = styled.div`
     height: 230px;
   }
 `;
+const CardList = styled(Link)`
+  background-color: ${({ theme }) => theme.sideBar};
+  transition: background-color 0.5s ease;
+  height: 45%;
+  width: 43%;
+  display: flex;
+  flex-direction: column;
+  margin: 1%; /* Added margin for spacing */
+  border-radius: 10px; /* Added border-radius for consistency */
+  text-decoration: none;
+  color: inherit; /* Inherit color from parent */
+`;
 
+const Limg = styled.img`
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  border-radius: 10px; /* Ensure image has consistent border radius */
+`;
+
+const InformationText = styled.div`
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit; /* Inherit color from parent */
+  display: inline; /* Ensures link behaves as a block-level element */
+  &:hover {
+    color: blue;
+  }
+`;
+const CardListWrapper = styled.div`
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-between;
+`;
 const CreditInfo = React.memo(({ isEditing, isCreditEvaluation }) => (
   <CreditInfoWrap>
     {isEditing ? (
@@ -244,9 +299,23 @@ const CreditInfo = React.memo(({ isEditing, isCreditEvaluation }) => (
     )}
   </CreditInfoWrap>
 ));
-const CreditView = React.memo(({ isEditing }) => (
+
+const CreditView = React.memo(({ isEditing, informationItems }) => (
   <CreditViewWrap>
-    {isEditing ? <Overlay imageurl={Logo}>신용 정보</Overlay> : <>신용정보</>}
+    {isEditing ? (
+      <Overlay imageurl={Logo}>신용 정보</Overlay>
+    ) : (
+      <>
+        <CardListWrapper>
+          {informationItems.map((item) => (
+            <CardList key={item.id} to={`/news/${item.id}`}>
+              <Limg alt={item.title} src={item.imageUrl} />
+              <InformationText>{item.title}</InformationText>
+            </CardList>
+          ))}
+        </CardListWrapper>
+      </>
+    )}
   </CreditViewWrap>
 ));
 
@@ -369,7 +438,12 @@ const DragContainer = React.memo(styled.div`
 `);
 
 // 개별 컴포넌트 생성 함수
-const createComponents = (id, isEditing, isCreditEvaluation) => {
+const createComponents = (
+  id,
+  isEditing,
+  isCreditEvaluation,
+  informationItems
+) => {
   const CenteredContainer = styled.div`
     display: flex;
     justify-content: center; /* 가로 중앙 정렬 */
@@ -410,7 +484,10 @@ const createComponents = (id, isEditing, isCreditEvaluation) => {
         id,
         component: (
           <CenteredContainer>
-            <CreditView isEditing={isEditing} />
+            <CreditView
+              isEditing={isEditing}
+              informationItems={informationItems}
+            />
           </CenteredContainer>
         ),
         width: "48.8%",
@@ -433,6 +510,8 @@ const createComponents = (id, isEditing, isCreditEvaluation) => {
 };
 
 const MainPage = () => {
+  const [informationItems, setInformationItems] = useState([]);
+
   const initialComponentsOrder = useMemo(
     () => ["Adbanner", "CreditInfo", "CreditView1", "CreditView2"],
     []
@@ -463,6 +542,19 @@ const MainPage = () => {
   useEffect(() => {
     //프로필 이미지 가져오기
     getProfileImg(email);
+    const fetchData = async () => {
+      try {
+        const infoData = await InformationAxios.getInformationByCategory(
+          "신용조회 정보모음"
+        );
+        console.log(infoData);
+        setInformationItems(infoData.slice(0, 4));
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+      }
+    };
+
+    fetchData();
   }, []);
   // 이메일로 프로필 이미지 가져오기
   const getProfileImg = async (emailValue) => {
@@ -566,7 +658,12 @@ const MainPage = () => {
       </EdiBtnDiv>
       <TopSide>
         {componentOrder.slice(0, 2).map((id, index) => {
-          const item = createComponents(id, isEditing, isCreditEvaluation);
+          const item = createComponents(
+            id,
+            isEditing,
+            isCreditEvaluation,
+            informationItems
+          );
           return (
             <DragContainer
               key={item.id}
@@ -587,7 +684,12 @@ const MainPage = () => {
       </TopSide>
       <BottomSide>
         {componentOrder.slice(2).map((id, index) => {
-          const item = createComponents(id, isEditing, isCreditEvaluation);
+          const item = createComponents(
+            id,
+            isEditing,
+            isCreditEvaluation,
+            informationItems
+          );
           return (
             <DragContainer
               key={item.id}

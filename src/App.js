@@ -156,12 +156,6 @@ const App = () => {
               <Route element={<FindByForm withdrawal={true} />}>
                 <Route path="/withdrawal" element={<Withdrawal />} />
               </Route>
-              {/* <Route element={<OpenBook />}>
-            <Route path="/board-guestbook" element={<GuestBoardGuestbook />} />
-            <Route path="/board-details/:id" element={<BoardDetails />} />
-            <Route path="/board-write" element={<BoardWrite />} />
-            <Route path="/board-update" element={<BoardUpdate />} />
-          </Route> */}
               <Route path="/aboutus" element={<AboutUs></AboutUs>} />
               <Route path="/adinquiry" element={<AdInquiry></AdInquiry>} />
             </Routes>

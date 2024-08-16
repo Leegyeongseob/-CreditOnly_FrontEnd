@@ -24,16 +24,15 @@ const TopBar = styled.div`
 const CategoryButton = styled.button`
   padding: 10px 20px;
   font-size: 16px;
-  /* background-color: ${(props) => (props.active ? "#0056b3" : "#007bff")}; */
   background-color: ${({ active, theme }) =>
-    active ? "#0056b3" : theme.goodBlue};
-  color: white;
+    active ? theme.commponent : theme.borderBottom};
+  color: ${({ theme }) => theme.color};
   border: none;
   border-radius: 4px;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    scale: calc(1.1);
   }
 `;
 
@@ -120,21 +119,21 @@ const Input = styled.input`
   transition: background-color 0.5s ease, color 0.5s ease;
 
   &:focus {
-    border-color: #007bff;
+    border-color: #000;
   }
 `;
 
 const Button = styled.button`
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: ${({ theme }) => theme.borderBottom};
+  color: ${({ theme }) => theme.color};
   border: none;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: ${({ theme }) => theme.overflow};
   }
 `;
 
@@ -145,18 +144,16 @@ const Pagination = styled.div`
 `;
 
 const PageButton = styled.button`
-  /* background-color: ${(props) => (props.active ? "#007bff" : "#fff")}; */
   background-color: ${({ active, theme }) =>
-    active ? theme.goodBlue : theme.commponent};
-  /* color: ${(props) => (props.active ? "#fff" : "#000")}; */
+    active ? theme.borderBottom : theme.overflow};
   color: ${({ active, theme }) => (active ? theme.color : theme.color)};
-  border: 1px solid #007bff;
+  border: 1px solid #000;
   padding: 5px 10px;
   margin: 0 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: ${({ theme }) => theme.overflow};
     color: white;
   }
 
@@ -191,7 +188,9 @@ const NewsList = () => {
           const fetchedItems = await InformationAxios.getAllInformation();
           setItems(fetchedItems);
         } else {
-          const fetchedItems = await InformationAxios.getInformationByCategory(selectedCategory);
+          const fetchedItems = await InformationAxios.getInformationByCategory(
+            selectedCategory
+          );
           setItems(fetchedItems);
         }
       } catch (error) {

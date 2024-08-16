@@ -19,6 +19,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.commponent};
+  transition: background-color 0.5s ease;
 `;
 
 const ChartDiv = styled.div`

@@ -39,7 +39,10 @@ const ChartDiv = styled.div`
 `;
 
 const ResidentStackedBarChart = ({
-  creditGrades = [10, 5, 5, 8, 2, 3, 7, 3, 6, 9, 1, 4, 1, 2, 1, 2, 3, 2, 7],
+  creditGrades = [
+    2.2, 3.2, 3.2, 2.1, 4.4, 3.3, 3.1, 2.6, 3.7, 1.9, 2.3, 3.5, 4.3, 3.8, 4.1,
+    3.7, 3.3, 2.8, 3.2,
+  ],
 }) => {
   const darkMode = localStorage.getItem("isDarkMode") === "true";
 
@@ -65,18 +68,39 @@ const ResidentStackedBarChart = ({
     "전라",
   ];
 
+  // 다채로운 색상 배열
+  const colors = [
+    "#FF6633",
+    "#FFB399",
+    "#FF33FF",
+    "#FFFF99",
+    "#00B3E6",
+    "#E6B333",
+    "#3366E6",
+    "#999966",
+    "#99FF99",
+    "#B34D4D",
+    "#80B300",
+    "#809900",
+    "#E6B3B3",
+    "#6680B3",
+    "#66991A",
+    "#FF99E6",
+    "#CCFF1A",
+    "#FF1A66",
+    "#E6331A",
+  ];
+
   // 스택형 막대 그래프의 데이터셋 생성
-  const datasets = Array.from({ length: 10 }, (_, i) => ({
-    label: `${i + 1}등급`,
-    data: creditGrades.map((grade) => (grade === i + 1 ? grade : 0)),
-    backgroundColor: `rgba(${(i * 25) % 255}, ${(i * 50) % 255}, ${
-      (i * 75) % 255
-    }, 0.6)`,
-    borderColor: `rgba(${(i * 25) % 255}, ${(i * 50) % 255}, ${
-      (i * 75) % 255
-    }, 1)`,
-    borderWidth: 1,
-  }));
+  const datasets = [
+    {
+      label: "신용등급",
+      data: creditGrades,
+      backgroundColor: colors.map((color) => `${color}99`), // 60% 불투명도
+      borderColor: colors,
+      borderWidth: 1,
+    },
+  ];
 
   // 차트 데이터
   const chartData = {
@@ -88,29 +112,19 @@ const ResidentStackedBarChart = ({
   const options = {
     plugins: {
       legend: {
-        display: true,
-        position: "right",
-        labels: {
-          boxWidth: 12,
-          padding: 10,
-          font: {
-            size: 14,
-          },
-          color: darkMode ? "white" : "black",
-        },
+        display: false,
       },
       tooltip: {
         callbacks: {
           label: function (tooltipItem) {
-            const { dataset, dataIndex } = tooltipItem;
-            return `${dataset.label}: ${dataset.data[dataIndex]}`;
+            const value = tooltipItem.raw;
+            return `신용등급: ${value.toFixed(1)}`;
           },
         },
       },
     },
     scales: {
       x: {
-        stacked: true,
         title: {
           display: true,
           text: "거주지",
@@ -124,15 +138,19 @@ const ResidentStackedBarChart = ({
         },
       },
       y: {
-        stacked: true,
         beginAtZero: true,
+        max: 10,
         title: {
           display: true,
-          text: "신용등급 수",
+          text: "신용등급",
           color: darkMode ? "white" : "black",
         },
         ticks: {
           color: darkMode ? "white" : "black",
+          stepSize: 1,
+          callback: function (value) {
+            return value.toFixed(1);
+          },
         },
         grid: {
           color: darkMode ? "gray" : "rgba(0, 0, 0, 0.1)",

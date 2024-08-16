@@ -4,7 +4,6 @@ import CommentList from "./CommentList";
 import CommentAxios from "../../../axiosapi/CommentAxios";
 import CommentLikeAxios from "../../../axiosapi/CommentLikeAxios";
 
-
 // 스타일링 컴포넌트
 const CommentsContainer = styled.div`
   margin-top: 20px;
@@ -30,14 +29,14 @@ const TextArea = styled.textarea`
 const SubmitButton = styled.button`
   width: 100px;
   padding: 10px;
-  background-color: #007bff;
-  color: white;
+  background-color: ${({ theme }) => theme.borderBottom};
+  color: ${({ theme }) => theme.color};
   border: none;
   border-radius: 4px;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #91a0b1;
   }
 `;
 
@@ -52,7 +51,9 @@ const Comments = ({ informationId }) => {
     const fetchComments = async () => {
       try {
         setLoading(true);
-        const response = await CommentAxios.getCommentsByInformationId(informationId);
+        const response = await CommentAxios.getCommentsByInformationId(
+          informationId
+        );
         setComments(response || []);
       } catch (error) {
         console.error("댓글 불러오기 실패", error);

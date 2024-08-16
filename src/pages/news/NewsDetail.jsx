@@ -21,17 +21,17 @@ const BackButtonContainer = styled.div`
 `;
 
 const BackButton = styled.button`
-  width: 9%;
-  height: 100%;
+  padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: ${({ active, theme }) =>
+    active ? theme.commponent : theme.borderBottom};
+  color: ${({ theme }) => theme.color};
   border: none;
   border-radius: 4px;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    scale: calc(1.1);
   }
 `;
 
@@ -77,7 +77,7 @@ const Content = styled.div`
 `;
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   const date = new Date(dateString);
   return date.toLocaleDateString(undefined, options);
 };
