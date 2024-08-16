@@ -42,6 +42,7 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false); // 알림 상태 관리
   const isAnnouncement = location.pathname === "/announcement";
+  const [isUserToggleVisible, setIsUserToggleVisible] = useState(false);
 
   // 알림을 가져오고 상태를 업데이트하는 함수
   useEffect(() => {
@@ -67,8 +68,17 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
   // 알림바의 가시성을 토글하는 함수
   const toggleAlarmBar = () => {
     setIsAlarmVisible(!isAlarmVisible);
+    if (isUserToggleVisible) {
+      setIsUserToggleVisible(false);
+    }
   };
 
+  const toggleUserToggle = () => {
+    setIsUserToggleVisible(!isUserToggleVisible);
+    if (isAlarmVisible) {
+      setIsAlarmVisible(false);
+    }
+  };
   // 화면 크기 변화에 따라 사이드바를 숨기거나 보이게 설정하는 함수
   const handleResize = () => {
     if (window.innerWidth < 1201) {
@@ -93,9 +103,9 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
   }, []);
 
   // location이 변경될 때 알림바를 닫음
-  useEffect(() => {
-    setIsAlarmVisible(false);
-  }, [location]);
+  // useEffect(() => {
+  //   setIsAlarmVisible(false);
+  // }, [location]);
 
   return (
     <>
@@ -106,6 +116,8 @@ const MainForm = ({ toggleDarkMode, isDarkMode }) => {
         toggleDarkMode={toggleDarkMode}
         isDarkMode={isDarkMode}
         hasUnreadNotifications={hasUnreadNotifications} // 알림 상태 전달
+        toggleUserToggle={toggleUserToggle} // 추가
+        isUserToggleVisible={isUserToggleVisible} // 추가
       />
       <Screen isAnnouncement={isAnnouncement}>
         {isSideBarVisible && <SideBar toggleSideBar={toggleSideBar} />}

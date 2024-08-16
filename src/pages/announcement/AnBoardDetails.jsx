@@ -190,21 +190,52 @@ const HelpBoard = styled.div`
   }
 `;
 
+const WriteTitleInput = styled.input`
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 28px;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
+`;
+
+const WriteContentsInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 20px;
+  resize: none;
+  overflow-y: auto;
+  color: ${({ theme }) => theme.color};
+  transition: color 0.5s ease;
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
+`;
+
 const AnBoardDetails = () => {
   const { email, adminEmails = [] } = useContext(UserEmailContext);
-  const { classTitle, noticeId } = useParams(); // noticeId 추가
+  const { classTitle, noticeId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // location.state로 전달된 notice를 우선 가져오고, 없으면 null로 초기화
   const [notice, setNotice] = useState(location.state?.notice || null);
   const [clickTitle, setClickTitle] = useState("");
+  const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
+  const [title, setTitle] = useState(notice?.title || "");
+  const [contents, setContents] = useState(notice?.contents || "");
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const isAdmin = adminEmails.includes(email);
 
   useEffect(() => {
-    // classTitle에 따라 타이틀 설정
     switch (classTitle) {
       case "news":
         setClickTitle("새 소식");
@@ -221,34 +252,43 @@ const AnBoardDetails = () => {
   }, [classTitle]);
 
   useEffect(() => {
-    // notice 데이터가 없으면 서버에서 다시 불러옴
-    const fetchNotice = async () => {
-      if (!notice || notice.id !== noticeId) {
+    if (!notice || notice.id !== noticeId) {
+      const fetchNotice = async () => {
         try {
           const response = await AnnouncementAxios.getAnnouncement(noticeId);
           setNotice(response.data);
+          setTitle(response.data.title); // 제목 상태 설정
+          setContents(response.data.contents); // 내용 상태 설정
         } catch (error) {
           console.error("Failed to fetch notice", error);
         }
-      }
-    };
-
-    fetchNotice();
+      };
+      fetchNotice();
+    }
   }, [notice, noticeId]);
 
   const handleBackClick = () => {
     navigate(`/announcement/${classTitle}`);
   };
 
-  const handleEditClick = async () => {
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
+  };
+
+  const handleSaveClick = async () => {
     try {
       const updatedNotice = {
         ...notice,
-        title: "수정된 제목", // 예시로 수정된 제목
-        contents: "수정된 내용", // 예시로 수정된 내용
+        title,
+        contents,
       };
       await AnnouncementAxios.updateAnnouncement(notice.id, updatedNotice);
-      setNotice(updatedNotice); // notice 상태 업데이트
+      setNotice(updatedNotice);
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating announcement:", error);
     }
@@ -282,10 +322,16 @@ const AnBoardDetails = () => {
     <Board>
       <BtnDiv>
         <Btn onClick={handleBackClick}>뒤로</Btn>
-        {isAdmin && (
+        {isAdmin && !isEditing && (
           <EditBtn>
             <Btn onClick={handleEditClick}>수정</Btn>
             <Btn onClick={handleDelClick}>삭제</Btn>
+          </EditBtn>
+        )}
+        {isAdmin && isEditing && (
+          <EditBtn>
+            <Btn onClick={handleSaveClick}>저장</Btn>
+            <Btn onClick={handleCancelClick}>취소</Btn>
           </EditBtn>
         )}
       </BtnDiv>
@@ -293,21 +339,40 @@ const AnBoardDetails = () => {
         <Title>{clickTitle}</Title>
       </TitleDiv>
       <Contents>
-        <TitleBox>
-          <TitleUp>제목 : {notice?.title || "제목 없음"}</TitleUp>
-          <TitleDown>작성일 : {notice?.createdDate || "날짜 없음"}</TitleDown>
-        </TitleBox>
-        <HelpBoard>
-          <HelpBoardText>
-            {notice ? (
-              <div>
-                <p>{notice.contents}</p>
-              </div>
-            ) : (
-              <p>공지사항을 찾을 수 없습니다.</p>
-            )}
-          </HelpBoardText>
-        </HelpBoard>
+        {isEditing ? (
+          <>
+            <TitleBox>
+              <WriteTitleInput
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </TitleBox>
+            <HelpBoard>
+              <HelpBoardText>
+                <WriteContentsInput
+                  type="text"
+                  value={contents}
+                  onChange={(e) => setContents(e.target.value)}
+                />
+              </HelpBoardText>
+            </HelpBoard>
+          </>
+        ) : (
+          <>
+            <TitleBox>
+              <TitleUp>제목 : {notice?.title || "제목 없음"}</TitleUp>
+              <TitleDown>
+                작성일 : {notice?.createdDate || "날짜 없음"}
+              </TitleDown>
+            </TitleBox>
+            <HelpBoard>
+              <HelpBoardText>
+                <p>{notice?.contents || "내용 없음"}</p>
+              </HelpBoardText>
+            </HelpBoard>
+          </>
+        )}
       </Contents>
       <Modal
         open={modalOpen}

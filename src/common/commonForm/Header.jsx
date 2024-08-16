@@ -357,6 +357,8 @@ const Header = ({
   isDarkMode,
   toggleAlarmBar,
   hasUnreadNotifications,
+  toggleUserToggle, // 추가
+  isUserToggleVisible, // 추가
 }) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
@@ -496,8 +498,8 @@ const Header = ({
             <UserName>{user.name}</UserName>
           </UserDiv>
           <UserToggle
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            isOpen={isUserToggleVisible}
+            setIsOpen={toggleUserToggle}
             email={user.email}
           />
           <Dont />
