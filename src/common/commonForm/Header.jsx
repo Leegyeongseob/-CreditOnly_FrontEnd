@@ -13,7 +13,7 @@ import MainAxios from "../../axiosapi/MainAxios";
 import Alarm from "../../img/commonImg/알림.png";
 import AlarmDot from "../../img/commonImg/알림Dot.png";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
-
+import defaultProfile from "../../img/mainImg/pro.png";
 const HeaderContainer = styled.div`
   width: 100%;
   height: 6vh;
@@ -186,7 +186,7 @@ const SearchOutput = styled.div`
   justify-content: space-evenly;
   align-items: center;
   z-index: 1;
-  background-color: ${({ theme }) => theme.overlay};
+  background-color: ${({ theme }) => theme.commponent};
   color: ${({ theme }) => theme.color};
   cursor: ${({ result }) => (result ? "pointer" : "default")};
   transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
@@ -362,7 +362,8 @@ const Header = ({
 }) => {
   const location = useLocation(); // 현재 경로를 가져옴
   const [isOpen, setIsOpen] = useState(false);
-  const { email, imgUrl, setImgUrl } = useContext(UserEmailContext);
+  const { email, imgUrl, setImgUrl, kakaoImgUrl } =
+    useContext(UserEmailContext);
   const [user, setUser] = useState([{ name: "", email: "" }]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState([]);
@@ -370,10 +371,11 @@ const Header = ({
   const [searchComplete, setSearchComplete] = useState(false);
   const navigate = useNavigate();
 
-  // 프로필 사진저장 비동기 함수
-  const ProfileImgAxios = async (emailValue, imgUrlData) => {
+  // 카카오 프로필 사진저장 비동기 함수
+  const kakaoProfileImgAxios = async (emailValue, imgUrlData) => {
     const res = await MemberAxiosApi.profileUrlSave(emailValue, imgUrlData);
     console.log("kakaoProfile:", res.data);
+    setImgUrl(imgUrlData);
   };
   useEffect(() => {
     //프로필 이미지 가져오기
@@ -382,10 +384,19 @@ const Header = ({
   // 이메일로 프로필 이미지 가져오기
   const getProfileImg = async (emailValue) => {
     const response = await MemberAxiosApi.searchProfileUrl(emailValue);
-    //프로필 이미지 저장
-    if (imgUrl !== null) {
-      ProfileImgAxios(email, imgUrl);
-    } else if (response.data) {
+    //이미지가 DB에 없을 때
+    if (response.data === "notExist") {
+      //카카오로 로그인 처음했을 경우
+      console.log("kakaoImgUrl : ", kakaoImgUrl);
+      if (kakaoImgUrl) {
+        kakaoProfileImgAxios(email, kakaoImgUrl);
+      }
+      // 일반 로그인인 경우
+      else {
+        setImgUrl(defaultProfile);
+      }
+      // 이미지가 DB에 있을 때
+    } else {
       setImgUrl(response.data);
     }
   };
@@ -474,13 +485,13 @@ const Header = ({
                   result={true}
                   key={item.id}
                   onClick={() => {
-                    if (item.classTitle) {
+                    if (item.page === "information") {
                       navigate(
                         `/${item.page}/${item.classTitle}/${item.contents}`
                       );
                       setSearchComplete(false);
-                    } else if (item.category) {
-                      navigate(`/news/${item.id}`);
+                    } else if (item.page === "announcement") {
+                      navigate(`/${item.page}/news`);
                       setSearchComplete(false);
                     } else {
                       navigate(`/${item.page}`);
@@ -514,9 +525,7 @@ const Header = ({
         <UserBox>
           <UserDiv>
             <UserProfile>
-              <UserImg
-                imageurl={imgUrl && imgUrl !== "notExist" ? imgUrl : exProfile}
-              />
+              <UserImg imageurl={imgUrl} />
             </UserProfile>
             <UserName>{user.name}</UserName>
           </UserDiv>

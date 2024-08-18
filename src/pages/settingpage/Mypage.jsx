@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import UserImgs from "../../img/commonImg/프로필예시.jpeg";
 import { Link } from "react-router-dom";
-import Logo from "../../img//background/CreditOnlyLogo.png";
 import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
+import { useChatContext } from "../../contexts/ChatContext";
 import ImportHelp from "./ImportHelp";
 import { profileStorage } from "../../firebase/ProfileImgUpload";
 import {
@@ -13,9 +13,16 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
+import { FaTrashAlt } from "react-icons/fa";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import DoughnutChartComponent from "../../chart/DoughnutChartComponent";
 import IsNotCreditEvaluationForm from "../evaluation/IsNotCreditEvaluationForm";
+import {
+  ConversationList,
+  ConversationItem,
+  DeleteButton,
+} from "../help/ChatBotSideBarStyles"; // 스타일 파일을 가져옴
+import defaltProfile from "../../img/mainImg/pro.png";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -385,9 +392,13 @@ const ViewContents = styled.div`
 const Mypage = () => {
   const { email, imgUrl, setImgUrl, isCreditEvaluation } =
     useContext(UserEmailContext);
+  const { conversations, deleteConversation, setCurrentConversation } =
+    useChatContext();
+
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [joinDate, setJoinDate] = useState("");
+  const [imgData, setImgData] = useState("");
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
@@ -419,9 +430,9 @@ const Mypage = () => {
       console.log("File uploaded successfully!");
 
       // 이전 이미지가 있는 경우 삭제
-      if (imgUrl && imgUrl !== "") {
+      if (imgData && imgData !== "") {
         try {
-          const oldFileRef = ref(profileStorage, imgUrl);
+          const oldFileRef = ref(profileStorage, imgData);
           await deleteObject(oldFileRef);
           console.log("Previous file deleted successfully!");
         } catch (error) {
@@ -433,6 +444,7 @@ const Mypage = () => {
       // 이미지 다운로드 및 저장
       const url = await getDownloadURL(storageRef);
       if (url) {
+        setImgData(url);
         setImgUrl(url);
         const res = await MemberAxiosApi.profileUrlSave(userEmail, url);
         if (res.data === true) console.log("DB에 저장되었습니다.");
@@ -445,18 +457,21 @@ const Mypage = () => {
   // 사용자의 이미지 DB에서 불러오기
   const userProfileAxios = async (emailData) => {
     const res = await MemberAxiosApi.searchProfileUrl(emailData);
-    if (res.data) {
+    if (res.data !== "notExist") {
+      setImgData(res.data);
       setImgUrl(res.data);
     }
+  };
+  const handleConversationClick = (conv) => {
+    setCurrentConversation(conv);
+    // 필요하다면 여기에 추가적인 로직을 넣을 수 있습니다.
   };
   return (
     <Container>
       <TopSide>
         <UserProfile>
           <UserImgBox>
-            <UserImg
-              imageurl={imgUrl && imgUrl !== "notExist" ? imgUrl : UserImgs}
-            >
+            <UserImg imageurl={imgUrl}>
               <ProfileCover>
                 <Label htmlFor="fileInput">Choose File</Label>
                 <Input
@@ -508,7 +523,32 @@ const Mypage = () => {
             <ImportHelp />
           </ViewContents>
         </ChatView>
-        <ChatView imageurl={Logo}>챗봇</ChatView>
+        <ChatView>
+          <ViewTitle>
+            챗봇내역
+            <ViewLink to="/chat">이동</ViewLink>
+          </ViewTitle>
+          <ViewContents>
+            <ConversationList>
+              {conversations.map((conv) => (
+                <ConversationItem
+                  key={conv.id}
+                  onClick={() => handleConversationClick(conv)}
+                >
+                  대화 {new Date(conv.id).toLocaleString()}
+                  <DeleteButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteConversation(conv.id);
+                    }}
+                  >
+                    <FaTrashAlt />
+                  </DeleteButton>
+                </ConversationItem>
+              ))}
+            </ConversationList>
+          </ViewContents>
+        </ChatView>
       </BottomSide>
       <LowSide>
         <UserDelBox>

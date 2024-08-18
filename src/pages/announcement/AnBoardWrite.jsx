@@ -87,8 +87,9 @@ const TitleDiv = styled.div`
   }
 `;
 const Title = styled.h1`
-  width: 285px;
+  width: 96%;
   height: 90%;
+  background-color: #f1f2f7;
   padding-left: 1%;
   display: flex;
   justify-content: flex-start;
@@ -104,6 +105,8 @@ const Title = styled.h1`
 
 const TitleFont = styled.div`
   font-size: 22px;
+  display: flex;
+  align-items: center;
   padding: 1% 0% 0 1%;
 `;
 
@@ -138,8 +141,10 @@ const HelpBoardText = styled.div`
 `;
 
 const TitleBox = styled.div`
-  width: 92%;
-  height: 15%;
+  width: 93%;
+  height: 13%;
+  background-color: #f1f2f7;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -161,6 +166,7 @@ const TitleLeft = styled.div`
 const WriteTitleInput = styled.input`
   width: 100%;
   height: 100%;
+  margin-left: 10px;
   border: none;
   outline: none;
   background-color: transparent;
@@ -177,8 +183,10 @@ const WriteContentsInput = styled.textarea`
   height: 100%;
   border: none;
   outline: none;
-  background-color: transparent;
+  border-radius: 10px;
+  background-color: #f1f2f7;
   font-size: 20px;
+  padding: 10px;
   resize: none;
   overflow-y: auto;
   color: ${({ theme }) => theme.color};
@@ -195,7 +203,40 @@ const CheckboxContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+const Checkbox = styled.input`
+  margin-right: 10px;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #4a90e2;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 
+  &:checked {
+    background-color: #4a90e2;
+    position: relative;
+  }
+
+  &:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+  }
+
+  &:hover {
+    border-color: #2a70c2;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+  }
+`;
 const CheckboxLabel = styled.label`
   margin-left: 10px;
   font-size: 18px;
@@ -279,7 +320,8 @@ const AnBoardWrite = () => {
       </TitleDiv>
       <Contents>
         <CheckboxContainer>
-          <input
+          <Checkbox
+            className="alarm"
             type="checkbox"
             checked={sendNotification}
             onChange={(e) => setSendNotification(e.target.checked)}

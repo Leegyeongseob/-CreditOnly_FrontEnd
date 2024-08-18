@@ -80,7 +80,7 @@ const InputDetailDiv = styled.div`
   }
   & > .InputEmail,
   .InputCode {
-    width: 76%;
+    width: 72%;
     height: 70%;
     border-radius: 0.521vw;
     border: 1px solid #000;
@@ -251,10 +251,10 @@ const Empty = styled.div`
   height: 2vh;
 `;
 const EmailAthouized = styled.div`
-  width: 12%;
+  width: 15%;
   min-width: 50px;
   max-width: 100px;
-  height: 55%;
+  height: 65%;
   border-radius: 10px;
   border: none;
   background-color: ${({ isActive }) => (isActive ? "#367EE9" : "#fff")};
@@ -478,7 +478,7 @@ const FindPassword = () => {
             <InputDetailDiv>
               <input
                 className="InputCode"
-                value={saveCertificationCode}
+                // value={saveCertificationCode}
                 placeholder="Email Code"
                 onChange={(e) => {
                   setSaveCertificationCode(e.target.value);
@@ -509,6 +509,7 @@ const FindPassword = () => {
               />
               <Text> - </Text>
               <RegisterationInput2
+                type="password"
                 placeholder="Security Number"
                 value={rrnSecondPart}
                 onChange={handleRrnSecondPartChange}

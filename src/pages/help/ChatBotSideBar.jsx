@@ -76,7 +76,11 @@ const ChatBotSideBar = ({ onNewChat }) => {
             <GoPerson />
             계정관리
           </SetDetail>
-          <SetDetail>
+          <SetDetail
+            onClick={() => {
+              navigate("/help");
+            }}
+          >
             <FaExternalLinkAlt />
             FAQ
           </SetDetail>

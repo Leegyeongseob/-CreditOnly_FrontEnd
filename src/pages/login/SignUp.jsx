@@ -76,10 +76,10 @@ const Empty = styled.div`
   height: 2vh;
 `;
 const EmailAthouized = styled.div`
-  width: 12%;
+  width: 15%;
   min-width: 50px;
   max-width: 100px;
-  height: 55%;
+  height: 65%;
   border-radius: 10px;
   border: none;
   background-color: ${({ isActive }) => (isActive ? "#367EE9" : "#fff")};
@@ -253,7 +253,6 @@ const TermsContent = styled.div`
   width: 100%;
   height: 20%;
   max-height: 200px;
-  margin-top: 30px;
   /* background-color: aqua; */
   /* border: 1px solid black; */
 `;
@@ -263,7 +262,6 @@ const TermsActions = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   & > .termAgree {
     height: auto;
     display: flex;
@@ -273,13 +271,46 @@ const TermsActions = styled.div`
 
 const TermsCheckbox = styled.input`
   margin-right: 10px;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #4a90e2;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:checked {
+    background-color: #4a90e2;
+    position: relative;
+  }
+
+  &:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+  }
+
+  &:hover {
+    border-color: #2a70c2;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+  }
 `;
 
 const TermsLabel = styled.label`
   display: block;
   width: 150px;
-  height: auto;
   font-size: 15px; /* Adjust size as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const TermsButton = styled.button`
@@ -353,6 +384,15 @@ const LoginWrapping = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const SubTitle = styled.div`
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  justify-content: first baseline;
+  align-items: center;
+`;
 // 모든 요소를 포함하는 App 컴포넌트
 const SignUp = () => {
   // 키보드 입력
@@ -401,12 +441,12 @@ const SignUp = () => {
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
   //ContextApi로 email관리하기
-  const { setEmail, setImgUrl } = useContext(UserEmailContext);
+  const { setEmail, setKakaoImgUrl } = useContext(UserEmailContext);
 
   const navigate = useNavigate();
   //카카오 로그인 props
   const location = useLocation();
-  const { kakaoProp, kakaoEmail, kakaopwd, kakaoName, kakaoImgUrl } =
+  const { kakaoProp, kakaoEmail, kakaopwd, kakaoName, kakaoUrl } =
     location.state || {};
   const closeModal = () => {
     setModalOpen(false);
@@ -572,8 +612,8 @@ const SignUp = () => {
         isAllChecked
       ) {
         kakaoLogin(kakaoEmail, kakaopwd);
-        setImgUrl(kakaoImgUrl);
-        console.log("signUp kakaoImgUrl :", kakaoImgUrl);
+        setKakaoImgUrl(kakaoUrl);
+        console.log("signUp kakaoImgUrl :", kakaoUrl);
         navigate("/mainpage");
       }
     } catch (error) {
@@ -716,7 +756,7 @@ const SignUp = () => {
                   <InputDetailDiv>
                     <input
                       className="InputCode"
-                      value={saveCertificationCode}
+                      // value={saveCertificationCode}
                       placeholder="Email Code"
                       onChange={(e) => {
                         setSaveCertificationCode(e.target.value);
@@ -808,8 +848,8 @@ const SignUp = () => {
                   <TermsForm>
                     <TermsTitle>계정 사용에 관한 약관</TermsTitle>
                     <TermsScrollableContent>
+                      <SubTitle>신용만 프로젝트 개인정보 처리 방침서</SubTitle>
                       <TermsContent>
-                        신용만 프로젝트 개인정보 처리 방침서 <br />
                         1. 개인정보 처리 방침 목차 개인정보의 수집 항목 및 수집
                         방법 개인정보의 이용 목적 개인정보의 보관 기간
                         개인정보의 제3자 제공 정보주체의 권리 및 행사 방법
@@ -874,8 +914,10 @@ const SignUp = () => {
                           <TermsLabel>약관에 동의합니다.</TermsLabel>
                         </div>
                       </TermsActions>
+                      <SubTitle>
+                        신용만 프로젝트 데이터 보호 및 보안 정책 정책
+                      </SubTitle>
                       <TermsContent>
-                        신용만 프로젝트 데이터 보호 및 보안 정책 정책 <br />
                         1. 목적 2. 데이터 수집 3. 데이터 이용 4. 데이터 저장 및
                         보호 5. 데이터 접근 관리 6. 데이터 제3자 제공 7. 데이터
                         보안 사고 대응 8. 정보주체의 권리 9. 정책의 변경 10.
@@ -925,9 +967,8 @@ const SignUp = () => {
                           <TermsLabel>약관에 동의합니다.</TermsLabel>
                         </div>
                       </TermsActions>
+                      <SubTitle>신용만 프로젝트의 법적 고지 사항</SubTitle>
                       <TermsContent>
-                        신용만 프로젝트의 법적 고지 사항 //
-                        <br />
                         3. 법적 고지 사항 1. 일반 사항 2. 책임의 제한 3. 보증의
                         부인 4. 외부 링크에 대한 책임 5. 법적 고지 사항의 변경
                         6. 준거법 및 관할 7. 연락처 8. 일반 사항 본 법적 고지
@@ -975,10 +1016,10 @@ const SignUp = () => {
                           <TermsLabel>약관에 동의합니다.</TermsLabel>
                         </div>
                       </TermsActions>
+                      <SubTitle>신용만 프로젝트의 이용약관</SubTitle>
                       <TermsContent>
-                        신용만 프로젝트의 이용약관
-                        <br /> 목차 목적 정의 약관의 명시와 개정 서비스의 제공
-                        및 변경 서비스 이용계약의 성립 회원의 의무 회사의 의무
+                        목차 목적 정의 약관의 명시와 개정 서비스의 제공 및 변경
+                        서비스 이용계약의 성립 회원의 의무 회사의 의무
                         개인정보보호 게시물의 관리 서비스 이용의 제한 계약해제,
                         해지 등 손해배상 분쟁해결 준거법 및 관할법원 1. 목적 이
                         약관은 회사명이 제공하는 신용정보 데이터 분석 기반,

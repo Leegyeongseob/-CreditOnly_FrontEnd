@@ -12,6 +12,7 @@ const UserEmailProvider = ({ children }) => {
   const [adminEmails, setAdminEmails] = useState([]); // 관리자 이메일 목록을 빈 배열로 초기화
   const [isCreditEvaluation, setIsCreditEvaluation] = useState(false); // 신용평가 상태변수
   const [isLoading, setIsLoading] = useState(false);
+  const [kakaoImgUrl,setKakaoImgUrl] = useState("");
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
@@ -46,6 +47,8 @@ const UserEmailProvider = ({ children }) => {
         setIsCreditEvaluation,
         isLoading,
         setIsLoading,
+        kakaoImgUrl,
+        setKakaoImgUrl
       }}
     >
       {children}

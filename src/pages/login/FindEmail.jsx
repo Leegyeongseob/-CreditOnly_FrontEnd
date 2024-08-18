@@ -18,14 +18,12 @@ const ButtonDiv = styled.div`
   width: 100%;
   height: 30%;
   display: flex;
-  /* background-color: aliceblue; */
   flex-direction: column;
   justify-content: first baseline;
   align-items: center;
 `;
 const FindButtonDiv = styled.div`
   width: 50%;
-  /* background-color: darkcyan; */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -220,7 +218,6 @@ const GoToLoginPage = styled.div`
 const NavigateDiv = styled.div`
   width: 100%;
   height: 80%;
-  /* background-color: aqua; */
   display: flex;
 `;
 const FindEmail = () => {
@@ -370,6 +367,7 @@ const FindEmail = () => {
               />
               <Text> - </Text>
               <RegisterationInput2
+                type="password"
                 placeholder="Security Number"
                 value={rrnSecondPart}
                 onChange={handleRrnSecondPartChange}

@@ -40,14 +40,14 @@ const ChartDiv = styled.div`
 
 // 샘플 데이터 (1등급이 가장 높음)
 const sampleJobGroups = [
-  { label: "급여소득자", grade: 3 },
-  { label: "개인사업자", grade: 4 },
-  { label: "연금소득자", grade: 2 },
-  { label: "주부", grade: 5 },
-  { label: "전문직", grade: 1 },
-  { label: "프리랜서", grade: 4 },
-  { label: "무직", grade: 7 },
-  { label: "기타", grade: 5 },
+  { label: "급여소득자", grade: 2.5 },
+  { label: "개인사업자", grade: 3.5 },
+  { label: "연금소득자", grade: 2.2 },
+  { label: "주부", grade: 3.3 },
+  { label: "전문직", grade: 3.1 },
+  { label: "프리랜서", grade: 3.8 },
+  { label: "무직", grade: 5 },
+  { label: "기타", grade: 4.6 },
 ];
 
 const CreditGradeRadarChart = ({

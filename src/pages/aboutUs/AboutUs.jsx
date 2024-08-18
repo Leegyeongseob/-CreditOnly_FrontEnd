@@ -101,13 +101,11 @@ const IntroFDWrap = styled.div`
   display: flex;
   overflow-x: hidden;
   align-items: center;
-  /* border: 0.1px solid black; */
 `;
 const IntroDetail = styled.div`
   width: 60%;
   height: 40%;
   color: black;
-  /* background-color: aqua; */
   justify-content: center;
   display: flex;
   align-items: center;
@@ -118,7 +116,6 @@ const IntroDetail = styled.div`
 const DetailTilte = styled.div`
   width: 100%;
   height: 30%;
-  /* background-color: palevioletred; */
   font-size: 30px;
   display: flex;
   justify-content: start;
@@ -131,7 +128,6 @@ const DetailTilte = styled.div`
 const DetailDetail = styled.div`
   width: 100%;
   height: 50%;
-  /* background-color: darkolivegreen; */
   display: flex;
   justify-content: start;
   align-items: start;
@@ -149,7 +145,6 @@ const Face135 = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   align-items: center;
-  /* background-color: aliceblue; */
   display: flex;
   background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
 `;
@@ -157,7 +152,6 @@ const Face246 = styled.div`
   width: 40%;
   height: 100%;
   display: flex;
-  /* background-color: aliceblue; */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -177,7 +171,13 @@ const AboutUs = () => {
       <HACBtnWrap>
         <HACBtn onClick={GoHome}>HOME</HACBtn>
         <HACBtn onClick={GoAboutUs}>ABOUT US</HACBtn>
-        <HACBtn>CONTACT</HACBtn>
+        <HACBtn
+          onClick={() => {
+            navigate("/adinquiry");
+          }}
+        >
+          CONTACT
+        </HACBtn>
       </HACBtnWrap>
       <AUImage>
         <ImageTextBox>

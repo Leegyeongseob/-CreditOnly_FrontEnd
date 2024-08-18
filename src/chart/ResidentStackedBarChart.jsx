@@ -134,7 +134,7 @@ const ResidentStackedBarChart = ({
           color: darkMode ? "white" : "black",
         },
         grid: {
-          color: darkMode ? "gray" : "rgba(0, 0, 0, 0.1)",
+          color: darkMode ? "darkgray" : "rgba(0, 0, 0, 0.1)",
         },
       },
       y: {
@@ -153,7 +153,7 @@ const ResidentStackedBarChart = ({
           },
         },
         grid: {
-          color: darkMode ? "gray" : "rgba(0, 0, 0, 0.1)",
+          color: darkMode ? "darkgray" : "rgba(0, 0, 0, 0.1)",
         },
       },
     },

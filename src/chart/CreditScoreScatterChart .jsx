@@ -170,7 +170,7 @@ const CreditScoreScatterChart = ({
           : "rgba(255, 99, 132, 0.6)",
       },
       {
-        label: "최근1년내 신용카드개설기관수",
+        label: "최근1년내 신용카드 개설 기관수",
         data: data.map((item) => ({
           x: item.cardInstitutes1Year,
           y: item.creditScore,
@@ -180,7 +180,7 @@ const CreditScoreScatterChart = ({
           : "rgba(54, 162, 235, 0.6)",
       },
       {
-        label: "최근2년내 신용카드개설기관수",
+        label: "최근2년내 신용카드 개설 기관수",
         data: data.map((item) => ({
           x: item.cardInstitutes2Years,
           y: item.creditScore,
@@ -190,7 +190,7 @@ const CreditScoreScatterChart = ({
           : "rgba(75, 192, 192, 0.6)",
       },
       {
-        label: "최근3년내 신용카드개설기관수",
+        label: "최근3년내 신용카드 개설 기관수",
         data: data.map((item) => ({
           x: item.cardInstitutes3Years,
           y: item.creditScore,

@@ -77,16 +77,14 @@ const ItemDate = styled.div`
   width: 100%;
   height: 15%;
   font-size: 14px;
-  padding-left: 5%;
+  padding-right: 5%;
   padding-top: 1.8%;
   align-items: center;
   display: flex;
+  justify-content: flex-end;
   @media screen and (max-width: 1200px) {
     height: 25%;
     padding-top: 1%;
-    padding-left: 0;
-    padding-right: 5%;
-    justify-content: flex-end;
   }
 `;
 

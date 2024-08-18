@@ -62,7 +62,7 @@ const Btn = styled.div`
 
 const TitleDiv = styled.div`
   width: 92%;
-  height: 10%;
+  height: 15%;
   margin-top: 1%;
   padding-top: 1%;
   padding-left: 2.5%;
@@ -102,7 +102,7 @@ const Contents = styled.div`
   width: 92%;
   height: 75%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   background-color: ${({ theme }) => theme.commponent};
@@ -136,7 +136,6 @@ const Tdfont = styled.div`
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    flex-direction: column;
     width: 100%;
     @media screen and (max-width: 768px) {
       width: 100%;
@@ -168,14 +167,13 @@ const Tdfont = styled.div`
 
   th.date,
   td.date {
-    width: 100%;
+    width: 230px;
+    height: 100%;
     font-size: 14px;
-    padding: 8px 8px 8px 25px;
     border-bottom: 1px solid #dadada;
-    text-align: center;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     @media screen and (max-width: 768px) {
       font-size: 10px;
     }
@@ -187,8 +185,8 @@ const Tdfont = styled.div`
 
 const PageStyle = styled.div`
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   padding-left: 5%;
   width: 100%;
   height: 10%;

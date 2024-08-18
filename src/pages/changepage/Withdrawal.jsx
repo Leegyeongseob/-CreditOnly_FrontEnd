@@ -78,11 +78,11 @@ const Empty = styled.div`
   height: 2vh;
 `;
 const EmailAthouized = styled.div`
-  width: 12%;
+  width: 15%;
   height: 70%;
   border-radius: 10px;
   border: none;
-  background-color: ${({ isActive }) => (isActive ? "#367EE9" : "#fff")};
+  background-color: ${({ isActive }) => (isActive ? "#8afc9d" : "#fff")};
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -391,7 +391,7 @@ const Withdrawal = () => {
           <InputDetailDiv>
             <input
               className="InputCode"
-              value={saveCertificationCode}
+              // value={saveCertificationCode}
               placeholder="Email Code"
               onChange={(e) => {
                 setSaveCertificationCode(e.target.value);

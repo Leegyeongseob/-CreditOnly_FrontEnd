@@ -7,6 +7,7 @@ import DartAxios from "../../axiosapi/DartAxios";
 import FinancialDataAxios from "../../axiosapi/FinancialDataAxios";
 import { useChatContext } from "../../contexts/ChatContext";
 import {
+  Contain,
   Screen,
   MessageBox,
   MessagePlace,
@@ -134,7 +135,7 @@ const ChatBot = () => {
   }, [currentConversation]);
 
   return (
-    <div>
+    <Contain>
       <Header
         toggleSideBar={toggleSideBar}
         isHeader={isHeader}
@@ -194,7 +195,7 @@ const ChatBot = () => {
           )}
         </MessageBox>
       </Screen>
-    </div>
+    </Contain>
   );
 };
 

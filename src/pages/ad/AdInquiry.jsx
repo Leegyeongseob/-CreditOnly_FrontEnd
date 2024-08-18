@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import back1 from "../../img/ad/image.png";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Basic = styled.div`
@@ -67,8 +66,9 @@ const IntroBigD = styled.div`
   color: black;
   width: 80%;
   height: 28%;
-  font-size: min(4vw, 40px);
+  font-size: min(3vw, 30px);
   font-weight: bold;
+  line-height: 50px;
   word-wrap: break-word; /* 단어가 길 경우 줄바꿈 */
   word-break: break-all; /* 긴 단어가 있을 경우 줄바꿈 */
   white-space: normal; /* 텍스트 줄바꿈 허용 */
@@ -152,21 +152,7 @@ const SubIntro = styled.div`
   display: flex;
 `;
 const AdInquiry = () => {
-  const [emailText, setEmailText] = useState("");
   const navigate = useNavigate();
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      handleSubmit(); // 엔터 키와 버튼 클릭 모두 같은 함수 호출
-    }
-  };
-  const handleSubmit = () => {
-    console.log(emailText); // 입력된 값을 처리합니다.
-    setEmailText(""); // 입력창을 초기화합니다.
-  };
-  const handleChange = (e) => {
-    setEmailText(e.target.value);
-  };
   const handleCopyClipBoard = (text) => {
     try {
       navigator.clipboard.writeText(text);
@@ -202,7 +188,7 @@ const AdInquiry = () => {
           <IntroDetail>
             <IntroBigD>
               신뢰와 정확성으로 고객의 금융 미래를 밝히는 광고, 우리와 함께
-              시작하세요
+              시작하세요.
             </IntroBigD>
             <DoorCloth
               onClick={() => handleCopyClipBoard("CreaditOnly@gmail.com")}

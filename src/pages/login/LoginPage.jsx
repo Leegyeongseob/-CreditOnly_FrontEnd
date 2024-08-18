@@ -312,7 +312,7 @@ const LoginPage = () => {
   // 모달 변경
   const [isModalImg, setIsModalImg] = useState(false);
   // useContext로 email관리하기
-  const { setEmail, setImgUrl } = useContext(UserEmailContext);
+  const { setEmail,setKakaoImgUrl} = useContext(UserEmailContext);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -387,7 +387,7 @@ const LoginPage = () => {
     setModalContent("서비스를 지원하지 않습니다. 카카오 서비스만 지원합니다.");
   };
   // 카카오 로그인 관련
-  const kakaoKey = "c9e9cea7eb437083937aae8d490b9853"; // 카카오 개발자 사이트에서 복사한 JavaScript 키
+  const kakaoKey = "9882d2e72736aeb020df6d7f6057a331"; // 카카오 개발자 사이트에서 복사한 JavaScript 키
 
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
@@ -428,7 +428,7 @@ const LoginPage = () => {
         Common.setAccessToken(res.data.accessToken);
         Common.setRefreshToken(res.data.refreshToken);
         setEmail(propsToPass.kakaoEmail);
-        setImgUrl(propsToPass.kakaoImgUrl);
+        setKakaoImgUrl(propsToPass.kakaoUrl);
         //이메일로 커플이름 찾는 비동기 함수
         const coupleNameSearchAxios = async (email) => {
           console.log(email);

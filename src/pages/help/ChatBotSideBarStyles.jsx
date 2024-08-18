@@ -59,7 +59,7 @@ export const Back = styled.div`
 
 export const NewChatBtn = styled.div`
   width: 90%;
-  height: 5%;
+  height: 30px;
   cursor: pointer;
   background-color: #121212;
   color: #fafafa;
@@ -75,7 +75,7 @@ export const NewChatBtn = styled.div`
 
 export const SettingBox = styled.div`
   width: 100%;
-  height: 30%;
+  height: 180px;
   user-select: none;
   justify-content: flex-start;
   align-items: center;
@@ -114,6 +114,9 @@ export const SetDetail = styled.div`
   &:active {
     color: #b3b3b3;
   }
+  &:hover{
+    color:rgba(108, 108, 255, 0.653);
+  }
 `;
 
 export const ConversationList = styled.div`
@@ -126,6 +129,7 @@ export const ConversationItem = styled.div`
   padding: 10px;
   cursor: pointer;
   display: flex;
+  font-family: Arial, Helvetica, sans-serif;
   justify-content: space-between;
   align-items: center;
   &:hover {

@@ -5,12 +5,13 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import CreditScoreChart from "../../chart/CreditScoreChart";
 import CreditGradeBarChart from "../../chart/CreditGradeBarChart";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import CreditScore from "../../img/evaluation/creditScore.png";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import IsNotCreditEvaluationForm from "./IsNotCreditEvaluationForm";
 import Loading from "./Loading";
-
+import Modal from "../../common/utils/ImageModal";
+import NotCreditInput from "../../img/evaluation/not-creditInput.gif";
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -171,6 +172,28 @@ const Evaluation = () => {
   const { isCreditEvaluation, isLoading, setIsLoading } =
     useContext(UserEmailContext);
   const navigate = useNavigate();
+  // 모달 해더
+  const [headerContents, SetHeaderContents] = useState("");
+  // 모달 내용
+  const [modalContent, setModalContent] = useState("");
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
+  //코드 모달 확인
+  const codeModalOkBtnHandler = () => {
+    closeModal();
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const visualizationOnclickHandler = () => {
+    if (isCreditEvaluation) {
+      navigate("/data-visualization");
+    } else {
+      setModalOpen(true);
+      SetHeaderContents("신용평가필요");
+      setModalContent("신용평가를 해야합니다.");
+    }
+  };
   useEffect(() => {
     // 로딩 상태를 5초 후에 false로 변경
     const timer = setTimeout(() => {
@@ -181,6 +204,15 @@ const Evaluation = () => {
   }, []);
   return (
     <Container>
+      <Modal
+        open={modalOpen}
+        header={headerContents}
+        type={true}
+        confirm={codeModalOkBtnHandler}
+        img={NotCreditInput}
+      >
+        {modalContent}
+      </Modal>
       <BtnDiv>
         <CrediEvaluation
           onClick={() => {
@@ -215,11 +247,7 @@ const Evaluation = () => {
         </CreditView>
       </ViewDiv>
       <BtnDiv>
-        <CrediEvaluation
-          onClick={() => {
-            navigate("/data-visualization");
-          }}
-        >
+        <CrediEvaluation onClick={visualizationOnclickHandler}>
           <TextEvaluation positionfirst={true}>
             다양한 시각화를 추가로 확인하고 싶으시면
           </TextEvaluation>

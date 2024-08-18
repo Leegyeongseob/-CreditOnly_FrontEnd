@@ -127,7 +127,6 @@ const TitleBox = styled.div`
   transition: background-color 0.5s ease, color 0.5s ease;
   border-radius: 10px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   @media screen and (max-width: 768px) {
@@ -149,11 +148,11 @@ const TitleUp = styled.div`
 `;
 
 const TitleDown = styled.div`
-  width: 100%;
+  width: 270px;
   height: 40%;
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   font-size: 16px;
   @media screen and (max-width: 1200px) {
     font-size: 12px;

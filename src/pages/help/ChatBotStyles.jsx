@@ -1,11 +1,14 @@
 import styled from "styled-components";
-
+export const Contain = styled.div`
+  width: auto;
+  height: auto;
+`;
 export const Screen = styled.div`
   background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.color};
   transition: background-color 0.5s ease, color 0.5s ease;
   width: 100vw;
-  height: 94vh;
+  height: 93vh;
   display: flex;
   z-index: 11;
 `;

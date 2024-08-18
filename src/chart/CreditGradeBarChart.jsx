@@ -32,20 +32,20 @@ const ChartDiv = styled.div`
 
 // 샘플 데이터
 const sampleAgeGroups = [
-  { label: "10대", grade: 5 },
+  { label: "10대", grade: 4 },
   { label: "20대", grade: 2 },
   { label: "30대", grade: 3 },
   { label: "40대", grade: 4 },
   { label: "50대", grade: 3 },
-  { label: "60대", grade: 2 },
+  { label: "60대", grade: 3 },
   { label: "70대", grade: 2 },
-  { label: "80대", grade: 2 },
-  { label: "90대", grade: 5 },
+  { label: "80대", grade: 4 },
+  { label: "90대", grade: 3 },
 ];
 
 const CreditGradeBarChart = ({
   ageGroups = sampleAgeGroups,
-  userAgeGroup = "20대",
+  userAgeGroup = "30대",
 }) => {
   const darkMode = localStorage.getItem("isDarkMode") === "true";
 

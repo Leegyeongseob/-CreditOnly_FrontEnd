@@ -532,16 +532,9 @@ const MainPage = () => {
 
   //카카오 로그인시 프로필 자동 변경
   // contextApi에서 저장중인 email 불러오기
-  const { email, imgUrl, isCreditEvaluation } = useContext(UserEmailContext);
+  const { isCreditEvaluation } = useContext(UserEmailContext);
   console.log("isCreditEvaluation : ", isCreditEvaluation);
-  //카카오 프로필 사진저장 비동기 함수
-  const kakaoProfileImgAxios = async (emailvalue, kakaoProfile) => {
-    const res = await MemberAxiosApi.profileUrlSave(emailvalue, kakaoProfile);
-    console.log("kakaoProfile:", res.data);
-  };
   useEffect(() => {
-    //프로필 이미지 가져오기
-    getProfileImg(email);
     const fetchData = async () => {
       try {
         const infoData = await InformationAxios.getInformationByCategory(
@@ -556,14 +549,6 @@ const MainPage = () => {
 
     fetchData();
   }, []);
-  // 이메일로 프로필 이미지 가져오기
-  const getProfileImg = async (emailValue) => {
-    const response = await MemberAxiosApi.searchProfileUrl(emailValue);
-    //카카오 로그인인 경우에만 카카오 프로필 이미지 저장
-    if (response.data === "notExist" && imgUrl) {
-      kakaoProfileImgAxios(email, imgUrl);
-    }
-  };
   // 컴포넌트 순서가 변경될 때마다 로컬 스토리지에 저장
   useEffect(() => {
     if (!isEditing) {

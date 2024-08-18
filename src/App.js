@@ -37,7 +37,7 @@ const lightTheme = {
   background: "#ffffff",
   color: "#000000",
   commponent: "#f9f9fd",
-  // overlay: "rgba(255, 255, 255, 0.5)",
+  overlay: "rgba(255, 255, 255, 0.5)",
   sideBar: "#f1f2f7",
   sideCheck: "#d8dcf3",
   borderBottom: "#C8CBD9",
@@ -105,7 +105,14 @@ const App = () => {
                 }
               >
                 <Route path="/mainpage" element={<MainPage />} />
-                <Route path="/setting" element={<Mypage />} />
+                <Route
+                  path="/setting"
+                  element={
+                    <ChatProvider>
+                      <Mypage />
+                    </ChatProvider>
+                  }
+                />
                 <Route path="/help" element={<HelpPage />} />
                 <Route path="/information" element={<CreditNews />} />
                 <Route
