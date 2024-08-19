@@ -33,6 +33,12 @@ const Contents = styled.div`
   display: flex;
   width: 85%;
   height: 100%;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
+  @media screen and (max-width: 430px) {
+    width: 95%;
+  }
 `;
 
 const MainForm = ({ toggleDarkMode, isDarkMode }) => {

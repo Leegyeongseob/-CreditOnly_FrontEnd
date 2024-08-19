@@ -22,6 +22,12 @@ const MenuContainer = styled.nav`
   right: 8.5%;
   width: 240px;
   height: ${({ isOpen }) => (isOpen ? "250px" : "60px")};
+  @media screen and (max-width: 425px) {
+    right: 7%;
+  }
+  @media screen and (max-width: 375px) {
+    right: 6%;
+  }
 `;
 
 const MenuButton = styled(motion.button)`
@@ -35,6 +41,9 @@ const MenuButton = styled(motion.button)`
   height: 50px;
   margin-top: 1.5%;
   background-color: transparent;
+  @media screen and (max-width: 430px) {
+    justify-content: flex-end;
+  }
 `;
 
 const ArrowIcon = styled.div`

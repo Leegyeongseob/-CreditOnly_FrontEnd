@@ -19,11 +19,11 @@ import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
-import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import DoughnutChartComponent from "../../chart/DoughnutChartComponent";
 import IsNotCreditEvaluationForm from "../evaluation/IsNotCreditEvaluationForm";
 import CreditGradeBarChart from "../../chart/CreditGradeBarChart";
 import InformationAxios from "../../axiosapi/InformationAxios";
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -215,18 +215,18 @@ const BottomSide = styled.div`
     width: 180%;
   }
 `;
-const TitleWrap = styled.div`
-  width: 100%;
-  height: 10%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1vw;
-`;
+// const TitleWrap = styled.div`
+//   width: 100%;
+//   height: 10%;
+//   display: flex;
+//   justify-content: space-between;
+//   padding: 0 1vw;
+// `;
 
-const TitlePage = styled.div`
-  color: #5e5e5e;
-  font-size: 20px;
-`;
+// const TitlePage = styled.div`
+//   color: #5e5e5e;
+//   font-size: 20px;
+// `;
 const CreditInfoWrap = styled.div`
   width: 100%;
   height: 100%;
@@ -268,14 +268,14 @@ const InformationText = styled.div`
   align-items: center;
   font-weight: 600;
 `;
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit; /* Inherit color from parent */
-  display: inline; /* Ensures link behaves as a block-level element */
-  &:hover {
-    color: blue;
-  }
-`;
+// const StyledLink = styled(Link)`
+//   text-decoration: none;
+//   color: inherit; /* Inherit color from parent */
+//   display: inline; /* Ensures link behaves as a block-level element */
+//   &:hover {
+//     color: blue;
+//   }
+// `;
 const CardListWrapper = styled.div`
   height: 80%;
   display: flex;

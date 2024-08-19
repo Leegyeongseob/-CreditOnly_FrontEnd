@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Logo from "../../img/background/CreditOnlyLogo.png";
 import logosearch from "../../img/loginImg/findglass.png";
-import exProfile from "../../img/commonImg/프로필예시.jpeg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
 import { IoMenuOutline } from "react-icons/io5";
@@ -143,6 +142,9 @@ const SearchInputDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 430px) {
+    font-size: 8px;
+  }
 `;
 const SearchInput = styled.input.attrs({ type: "text" })`
   display: flex;
@@ -159,6 +161,10 @@ const SearchInput = styled.input.attrs({ type: "text" })`
   &:focus {
     border: 1px solid darkgray;
   }
+  @media screen and (max-width: 430px) {
+    font-size: 8px;
+    justify-content: flex-start;
+  }
 `;
 const SearchOutputDiv = styled.div`
   width: 40vw;
@@ -174,6 +180,7 @@ const SearchOutputDiv = styled.div`
   border-radius: 5px;
   z-index: 100; // 입력창 위에 표시되도록
 `;
+
 const SearchOutput = styled.div`
   width: 100%;
   height: 100%;
@@ -208,6 +215,7 @@ const SearchOutput = styled.div`
     `}
   }
 `;
+
 const Searchlogo = styled.img`
   width: 15px;
   height: 15px;
@@ -216,6 +224,11 @@ const Searchlogo = styled.img`
   margin-left: 80%;
   &:hover {
     transform: scale(1.05);
+  }
+  @media screen and (max-width: 430px) {
+    width: 10px;
+    height: 10px;
+    margin-left: 70%;
   }
 `;
 
@@ -226,6 +239,10 @@ const IconWrapper = styled.div`
   position: relative;
   width: 40px;
   height: 40px;
+  @media screen and (max-width: 330px) {
+    width: 35px;
+    height: 35px;
+  }
 `;
 
 const ToggleIcon = styled.div`
@@ -254,6 +271,13 @@ const Toggle = styled.div`
   &:hover {
     opacity: 0.7;
   }
+  @media screen and (max-width: 430px) {
+    width: 40px;
+    height: 25px;
+  }
+  @media screen and (max-width: 330px) {
+    width: 30px;
+  }
 `;
 
 const ToggleBox = styled.div`
@@ -266,6 +290,14 @@ const ToggleBox = styled.div`
   z-index: 1;
   @media screen and (max-width: 1200px) {
     width: 8%;
+  }
+  @media screen and (max-width: 430px) {
+    min-width: 45px;
+    justify-content: flex-start;
+  }
+  @media screen and (max-width: 330px) {
+    min-width: 35px;
+    justify-content: flex-start;
   }
 `;
 
@@ -294,6 +326,9 @@ const UserProfile = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 430px) {
+    min-width: 30px;
+  }
 `;
 
 const UserImg = styled.div`
@@ -304,6 +339,10 @@ const UserImg = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  @media screen and (max-width: 430px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const UserName = styled.div`

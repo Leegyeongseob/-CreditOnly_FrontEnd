@@ -31,11 +31,15 @@ const TopSide = styled.div`
   @media screen and (max-width: 1200px) {
     width: 95%;
     height: 45%;
+    justify-content: center;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 360px;
     margin-top: 10%;
+  }
+  @media screen and (max-width: 430px) {
+    margin-top: 15%;
   }
 `;
 
@@ -50,6 +54,9 @@ const HelpList = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  @media screen and (max-width: 430px) {
+    height: 80%;
+  }
 `;
 
 const ListTitleBox = styled.div`
@@ -214,10 +221,12 @@ const BottomSide = styled.div`
   @media screen and (max-width: 1200px) {
     width: 95%;
     height: 45%;
+    justify-content: center;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 369px;
+    align-items: flex-start;
   }
 `;
 
@@ -232,6 +241,9 @@ const HelpSend = styled.form`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 430px) {
+    height: 80%;
+  }
 `;
 
 const HelpTitleBox = styled.div`

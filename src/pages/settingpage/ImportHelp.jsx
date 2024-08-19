@@ -26,6 +26,9 @@ const StyledSwiper = styled(Swiper)`
   .swiper-button-next:after,
   .swiper-button-prev:after {
     font-size: 1.2rem;
+    @media screen and (max-width: 430px) {
+      font-size: 0.8rem;
+    }
   }
 `;
 

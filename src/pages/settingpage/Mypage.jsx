@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import UserImgs from "../../img/commonImg/프로필예시.jpeg";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
@@ -22,7 +21,7 @@ import {
   ConversationItem,
   DeleteButton,
 } from "../help/ChatBotSideBarStyles"; // 스타일 파일을 가져옴
-import defaltProfile from "../../img/mainImg/pro.png";
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -186,6 +185,9 @@ const InfoTitle = styled.div`
   @media screen and (max-width: 768px) {
     font-size: 15px;
   }
+  @media screen and (max-width: 430px) {
+    font-size: 13px;
+  }
 `;
 
 const InfoContents = styled.div`
@@ -196,7 +198,10 @@ const InfoContents = styled.div`
   justify-content: end;
   align-items: center;
   @media screen and (max-width: 768px) {
-    font-size: 15px;
+    font-size: 13px;
+  }
+  @media screen and (max-width: 430px) {
+    font-size: 11px;
   }
 `;
 
@@ -230,6 +235,11 @@ const PwBtn = styled(Link)`
   @media screen and (max-width: 768px) {
     width: 90px;
     font-size: 11px;
+  }
+  @media screen and (max-width: 430px) {
+    width: 70px;
+    height: 25px;
+    font-size: 9px;
   }
 `;
 
