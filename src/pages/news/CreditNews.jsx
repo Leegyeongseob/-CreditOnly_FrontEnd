@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { FaPlus } from "react-icons/fa6";
 import InformationAxios from "../../axiosapi/InformationAxios";
 
-
 import Banner from "../banner/Banner";
 
 const Container = styled.div`
@@ -164,6 +163,7 @@ const InformationText = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 600;
+  font-size: clamp(10px, 1.3vw, 20px);
 `;
 
 const ListWrapper = styled.div`
@@ -191,9 +191,14 @@ const ListGroup = styled(Link)`
 
 const Simg = styled.img`
   border-radius: 50%;
-  height: 100px;
+  width: 20%; /* 부모 요소의 너비의 20%로 설정 */
+  aspect-ratio: 1 / 1; /* 1:1 비율로 가로와 세로를 동일하게 설정 */
   object-fit: cover;
-  width: 100px;
+
+  @media screen and (max-width: 768px) {
+    width: 15%;
+   
+  }
 `;
 
 const ListDetailWrap = styled.div`
@@ -206,7 +211,7 @@ const ListDetailWrap = styled.div`
 
 const TextWrapper = styled.div`
   width: 100%;
-  font-size: 20px;
+  font-size: clamp(13px, 2vw, 20px);
   font-weight: 600;
 `;
 
@@ -214,8 +219,9 @@ const DetailWrap = styled.div`
   width: 100%;
   letter-spacing: 0.5px;
   line-height: 23px;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 // StyledLink to override default Link styles
@@ -246,7 +252,7 @@ const CreditInformation = () => {
         const cardData = await InformationAxios.getInformationByCategory(
           "신용카드와 신용정보"
         );
-        console.log(infoData,appData,cardData);
+        console.log(infoData, appData, cardData);
         setInformationItems(infoData.slice(0, 4));
         setAppItems(appData.slice(0, 2));
         setCardItems(cardData.slice(0, 2));
@@ -259,12 +265,10 @@ const CreditInformation = () => {
 
     fetchData();
   }, []);
-  
 
   if (loading) {
     return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
-
 
   return (
     <Container>

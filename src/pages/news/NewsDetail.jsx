@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { TbArrowBack } from "react-icons/tb";
 import InformationAxios from "../../axiosapi/InformationAxios"; // API 호출을 위한 모듈
 
 import Comments from "./Comment/Comment";
@@ -15,15 +16,16 @@ const Container = styled.div`
   border-radius: 4px;
 `;
 
+const TopSection = styled.div`
+  display: flex;
+`;
+
 const BackButtonContainer = styled.div`
-    width: 10%;
-    height: 7%;
-    position: absolute;
-    z-index: 10;
+  margin-right: 5px;
 `;
 
 const BackButton = styled.button`
-  padding: 10px 20px;
+  padding: 10px;
   font-size: 16px;
   background-color: ${({ active, theme }) =>
     active ? theme.commponent : theme.borderBottom};
@@ -43,7 +45,7 @@ const DetailWrap = styled.div`
   overflow-y: auto; /* Enable vertical scrolling */
   display: flex;
   flex-direction: column;
-  gap: 6%;
+  gap: 10px;
   margin-top: 3%;
 `;
 
@@ -52,19 +54,26 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 2% 0;
+  margin: 2% auto;
   text-align: center;
+  
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   color: #333;
   margin-bottom: 2%;
+  @media screen and (max-width:768px) {
+    font-size: clamp(15px, 3vw, 24px);
+  }
 `;
 
-const Author = styled.p`
+const CreationDate = styled.p`
   font-size: 18px;
   color: #666;
+  @media screen and (max-width:768px) {
+    font-size: clamp(11px, 3vw, 18px);
+  }
 `;
 
 const NewsImg = styled.img`
@@ -117,23 +126,25 @@ const NewsDetail = () => {
   return (
     <Wrap>
       <Container>
-        <BackButtonContainer>
-          <BackButton onClick={() => navigate(-1)}>뒤로 가기</BackButton>
-        </BackButtonContainer>
+        <TopSection>
+          <BackButtonContainer>
+            <BackButton onClick={() => navigate(-1)}>
+              <TbArrowBack />
+            </BackButton>
+          </BackButtonContainer>
 
-        <DetailWrap>
           <Header>
             <Title>{item.title}</Title>
-            <Author>{formatDate(item.publishedDate)}</Author>
+            <CreationDate>{formatDate(item.publishedDate)}</CreationDate>
           </Header>
-
+        </TopSection>
+        <DetailWrap>
           <NewsImg alt={item.title} src={item.imageUrl} />
 
           <Content>{item.content}</Content>
         </DetailWrap>
-
       </Container>
-        <Comments informationId={id} />
+      <Comments informationId={id} />
     </Wrap>
   );
 };

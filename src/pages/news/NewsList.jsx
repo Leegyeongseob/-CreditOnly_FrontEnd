@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { FaSearch } from 'react-icons/fa';
 import InformationAxios from "../../axiosapi/InformationAxios";
 
 const Container = styled.div`
   width: 99%;
-  height: 100%;
+  height: 94vh;
 `;
 
 const TopBar = styled.div`
@@ -22,7 +23,7 @@ const TopBar = styled.div`
 `;
 
 const CategoryButton = styled.button`
-  padding: 10px 20px;
+  padding: 2%;
   font-size: 16px;
   background-color: ${({ active, theme }) =>
     active ? theme.commponent : theme.borderBottom};
@@ -33,6 +34,10 @@ const CategoryButton = styled.button`
 
   &:hover {
     scale: calc(1.1);
+  }
+
+  @media screen and (max-width: 760px) {
+    font-size: clamp(10px, 2vw, 20px);
   }
 `;
 
@@ -55,7 +60,6 @@ const ListGroup = styled.div`
   align-items: center;
   display: flex;
   align-items: center;
-  /* border-bottom: 1px solid #b81b1b; */
   border-bottom: ${(props) => (props.isLast ? "none" : "1px solid #242222b5")};
 `;
 
@@ -64,6 +68,12 @@ const Simg = styled.img`
   height: 100px;
   object-fit: cover;
   width: 100px;
+
+  @media screen and (max-width: 768px) {
+    width: 17%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
 `;
 
 const ListDetailWrap = styled.div`
@@ -78,26 +88,36 @@ const TextWrapper = styled.h3`
   width: 100%;
   font-size: 20px;
   font-weight: 600;
+
+  @media screen and (max-width: 760px) {
+    font-size: clamp(15px, 2.6vw, 20px);
+  }
 `;
 
 const DetailWrap = styled.p`
-  width: 100%;
-  height: 54%;
-  letter-spacing: 0.5px;
-  line-height: 23px;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 표시할 라인 수 */
   overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5; /* 줄 간격 (적절히 조정) */
+  max-height: 3em; /* 라인 수에 맞춰 최대 높이 설정 (line-height × 2) */
+
+  @media screen and (max-width: 760px) {
+    font-size: clamp(10px, 2vw, 20px);
+  }
 `;
 
 const SearchContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px;
+  margin: 20px 0;
 `;
 
 const Select = styled.select`
-  padding: 10px;
+  padding: 1%;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px 0 0 4px;
@@ -105,10 +125,14 @@ const Select = styled.select`
   background-color: ${({ theme }) => theme.sideBar};
   color: ${({ theme }) => theme.color};
   transition: background-color 0.5s ease, color 0.5s ease;
+
+  @media screen and (max-width: 760px) {
+    font-size: clamp(13px, 2vw, 20px);
+  }
 `;
 
 const Input = styled.input`
-  padding: 10px;
+  padding: 1%;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 0;
@@ -121,10 +145,18 @@ const Input = styled.input`
   &:focus {
     border-color: #000;
   }
+  @media screen and (max-width: 760px) {
+    width: 48%;
+    font-size: clamp(13px, 2vw, 20px);
+  }
+`;
+
+const Search = styled(FaSearch)`
+  
 `;
 
 const Button = styled.button`
-  padding: 10px 20px;
+  padding: 1%;
   font-size: 16px;
   background-color: ${({ theme }) => theme.borderBottom};
   color: ${({ theme }) => theme.color};
@@ -134,6 +166,10 @@ const Button = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.overflow};
+  }
+
+  @media screen and (max-width: 760px) {
+    font-size: clamp(13px, 2vw, 20px);
   }
 `;
 
@@ -148,7 +184,7 @@ const PageButton = styled.button`
     active ? theme.borderBottom : theme.overflow};
   color: ${({ active, theme }) => (active ? theme.color : theme.color)};
   border: 1px solid #000;
-  padding: 5px 10px;
+  padding: 6px;
   margin: 0 5px;
   cursor: pointer;
 
@@ -161,6 +197,10 @@ const PageButton = styled.button`
     background-color: #ccc;
     color: #666;
     cursor: not-allowed;
+  }
+
+  @media screen and (max-width: 760px) {
+    padding: 1%;
   }
 `;
 
@@ -312,20 +352,20 @@ const NewsList = () => {
           onKeyDown={handleKeyDown}
           placeholder="검색어를 입력하세요..."
         />
-        <Button onClick={handleSearch}>검색</Button>
+        <Button onClick={handleSearch}><Search/></Button>
       </SearchContainer>
       <Pagination>
         <PageButton
           onClick={() => setCurrentPage(1)}
           disabled={currentPage === 1}
         >
-          맨 처음
+          &lt;&lt;
         </PageButton>
         <PageButton
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          이전
+          &lt;
         </PageButton>
         {pageNumbers.map((num) => (
           <PageButton
@@ -340,13 +380,13 @@ const NewsList = () => {
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
-          다음
+          &gt;
         </PageButton>
         <PageButton
           onClick={() => setCurrentPage(totalPages)}
           disabled={currentPage === totalPages}
         >
-          맨 끝
+           &gt;&gt;
         </PageButton>
       </Pagination>
     </Container>

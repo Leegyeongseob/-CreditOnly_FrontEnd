@@ -6,11 +6,14 @@ import CommentLikeAxios from "../../../axiosapi/CommentLikeAxios";
 
 // 스타일링 컴포넌트
 const CommentsContainer = styled.div`
-  width: 23%;
+  width: 260px;
   margin-top: 20px;
   margin-right: 3%;
   border-top: 1px solid #ddd;
   padding-top: 20px;
+  @media screen and (max-width: 760px) {
+    width: 23%;
+  }
 `;
 
 const Form = styled.form`
