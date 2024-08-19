@@ -13,9 +13,8 @@ const CreditView = styled.div`
   align-items: center;
   font-size: 20px;
   @media screen and (max-width: 768px) {
-    width: 99.6%;
-    height: 280px;
-    margin-top: 4%;
+    width: 100%;
+    height: 250px;
   }
 `;
 

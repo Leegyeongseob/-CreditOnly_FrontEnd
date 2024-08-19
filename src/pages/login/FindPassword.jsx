@@ -80,7 +80,7 @@ const InputDetailDiv = styled.div`
   }
   & > .InputEmail,
   .InputCode {
-    width: 72%;
+    width: 76%;
     height: 70%;
     border-radius: 0.521vw;
     border: 1px solid #000;

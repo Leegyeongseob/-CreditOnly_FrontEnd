@@ -237,7 +237,7 @@ const CreditInfoWrap = styled.div`
   align-items: center;
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 230px;
+    height: 250px;
   }
 `;
 const CardList = styled(Link)`
@@ -287,7 +287,9 @@ const CardListWrapper = styled.div`
 const CreditInfo = React.memo(({ isEditing, isCreditEvaluation }) => (
   <CreditInfoWrap>
     {isEditing ? (
-      <Overlay imageurl={Logo}>신용 등급</Overlay>
+      <>
+        <Overlay imageurl={Logo}>신용 등급</Overlay>
+      </>
     ) : (
       <>
         {isCreditEvaluation ? (
@@ -303,7 +305,17 @@ const CreditInfo = React.memo(({ isEditing, isCreditEvaluation }) => (
 const CreditView = React.memo(({ isEditing, informationItems }) => (
   <CreditViewWrap>
     {isEditing ? (
-      <Overlay imageurl={Logo}>신용 정보</Overlay>
+      <>
+        <Overlay imageurl={Logo}>신용 정보</Overlay>{" "}
+        <CardListWrapper>
+          {informationItems.map((item) => (
+            <CardList key={item.id} to={`/news/${item.id}`}>
+              <Limg alt={item.title} src={item.imageUrl} />
+              <InformationText>{item.title}</InformationText>
+            </CardList>
+          ))}
+        </CardListWrapper>
+      </>
     ) : (
       <>
         <CardListWrapper>
@@ -322,7 +334,10 @@ const CreditView = React.memo(({ isEditing, informationItems }) => (
 const CreditView2 = React.memo(({ isEditing }) => (
   <CreditViewWrap>
     {isEditing ? (
-      <Overlay imageurl={Logo}>시각화</Overlay>
+      <>
+        <CreditGradeBarChart />
+        <Overlay imageurl={Logo}>시각화</Overlay>
+      </>
     ) : (
       <>
         <CreditGradeBarChart />
