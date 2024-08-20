@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsMoonStars, BsSunFill } from "react-icons/bs";
 import { IoMenuOutline } from "react-icons/io5";
 import UserToggle from "./UserToggle";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import MainAxios from "../../axiosapi/MainAxios";
@@ -13,6 +13,7 @@ import Alarm from "../../img/commonImg/알림.png";
 import AlarmDot from "../../img/commonImg/알림Dot.png";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import defaultProfile from "../../img/mainImg/pro.png";
+
 const HeaderContainer = styled.div`
   width: 100%;
   height: 6vh;
@@ -406,39 +407,47 @@ const Header = ({
   const [user, setUser] = useState([{ name: "", email: "" }]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState([]);
-  // 검색 상태 변수
   const [searchComplete, setSearchComplete] = useState(false);
   const navigate = useNavigate();
 
-  // 카카오 프로필 사진저장 비동기 함수
-  const kakaoProfileImgAxios = async (emailValue, imgUrlData) => {
-    const res = await MemberAxiosApi.profileUrlSave(emailValue, imgUrlData);
-    console.log("kakaoProfile:", res.data);
-    setImgUrl(imgUrlData);
-  };
-  useEffect(() => {
-    //프로필 이미지 가져오기
-    getProfileImg(email);
-  }, []);
+  // 카카오 프로필 사진 저장 비동기 함수
+  const kakaoProfileImgAxios = useCallback(
+    async (emailValue, imgUrlData) => {
+      const res = await MemberAxiosApi.profileUrlSave(emailValue, imgUrlData);
+      console.log("kakaoProfile:", res.data);
+      setImgUrl(imgUrlData);
+    },
+    [setImgUrl]
+  );
+
   // 이메일로 프로필 이미지 가져오기
-  const getProfileImg = async (emailValue) => {
-    const response = await MemberAxiosApi.searchProfileUrl(emailValue);
-    //이미지가 DB에 없을 때
-    if (response.data === "notExist") {
-      //카카오로 로그인 처음했을 경우
-      console.log("kakaoImgUrl : ", kakaoImgUrl);
-      if (kakaoImgUrl) {
-        kakaoProfileImgAxios(email, kakaoImgUrl);
-      }
-      // 일반 로그인인 경우
-      else {
-        setImgUrl(defaultProfile);
+  const getProfileImg = useCallback(
+    async (emailValue) => {
+      const response = await MemberAxiosApi.searchProfileUrl(emailValue);
+      // 이미지가 DB에 없을 때
+      if (response.data === "notExist") {
+        console.log("kakaoImgUrl : ", kakaoImgUrl);
+        if (kakaoImgUrl) {
+          kakaoProfileImgAxios(email, kakaoImgUrl);
+        }
+        // 일반 로그인인 경우
+        else {
+          setImgUrl(defaultProfile);
+        }
       }
       // 이미지가 DB에 있을 때
-    } else {
-      setImgUrl(response.data);
-    }
-  };
+      else {
+        setImgUrl(response.data);
+      }
+    },
+    [kakaoImgUrl, email, kakaoProfileImgAxios, setImgUrl]
+  );
+
+  useEffect(() => {
+    // 프로필 이미지 가져오기
+    getProfileImg(email);
+  }, [getProfileImg, email]);
+
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
@@ -461,13 +470,15 @@ const Header = ({
       return "theme.sideBar";
     }
   };
+
   // 엔터로 검색
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
-  // 검색버튼 이벤트 핸들러
+
+  // 검색 버튼 이벤트 핸들러
   const handleSearch = () => {
     setSearchComplete(true);
     fetchData();
@@ -482,9 +493,9 @@ const Header = ({
       setSearchData(searchList.data);
     } catch (error) {
       console.error("Error fetching search data:", error);
-      // 사용자에게 오류를 알려주는 방법을 추가할 수 있음
     }
   };
+
   return (
     <HeaderContainer isOpen={isOpen}>
       <LeftBox
