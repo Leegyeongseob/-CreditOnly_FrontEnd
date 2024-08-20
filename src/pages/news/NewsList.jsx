@@ -23,13 +23,17 @@ const TopBar = styled.div`
 `;
 
 const CategoryButton = styled.button`
-  padding: 2%;
+  width: 18%;
+  height: 100%;
   font-size: 16px;
   background-color: ${({ active, theme }) =>
     active ? theme.commponent : theme.borderBottom};
   color: ${({ theme }) => theme.color};
   border: none;
   border-radius: 4px;
+  white-space: pre-wrap; /* 띄어쓰기에서만 줄바꿈 */
+    word-break: keep-all;  /* 긴 단어를 포함하더라도 띄어쓰기가 없는 경우 줄바꿈 안 함 */
+
   cursor: pointer;
 
   &:hover {
@@ -38,6 +42,7 @@ const CategoryButton = styled.button`
 
   @media screen and (max-width: 760px) {
     font-size: clamp(10px, 2vw, 20px);
+    
   }
 `;
 
@@ -104,7 +109,7 @@ const DetailWrap = styled.p`
   max-height: 3em; /* 라인 수에 맞춰 최대 높이 설정 (line-height × 2) */
 
   @media screen and (max-width: 760px) {
-    font-size: clamp(10px, 2vw, 20px);
+    font-size: clamp(11px, 2vw, 20px);
   }
 `;
 

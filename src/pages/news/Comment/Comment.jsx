@@ -11,8 +11,18 @@ const CommentsContainer = styled.div`
   margin-right: 3%;
   border-top: 1px solid #ddd;
   padding-top: 20px;
+
   @media screen and (max-width: 760px) {
-    width: 23%;
+    width: 93%;
+    position: absolute;
+    margin: 1% auto;
+    margin-right: 2%;
+    padding: 2%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    opacity: ${({ showComments }) => (showComments ? 1 : 0)};
+    pointer-events: ${({ showComments }) => (showComments ? "auto" : "none")};
   }
 `;
 
@@ -20,6 +30,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  
 `;
 
 const TextArea = styled.textarea`
@@ -29,6 +40,7 @@ const TextArea = styled.textarea`
   margin-bottom: 10px;
   resize: none;
   height: 80px;
+  background-color: ${({ theme }) => theme.sideBar};
 `;
 
 const SubmitButton = styled.button`
@@ -46,7 +58,7 @@ const SubmitButton = styled.button`
 `;
 
 // Comments 컴포넌트
-const Comments = ({ informationId }) => {
+const Comments = ({ informationId, showComments }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -167,7 +179,7 @@ const Comments = ({ informationId }) => {
   }
 
   return (
-    <CommentsContainer>
+    <CommentsContainer showComments={showComments}>
       <Form
         onSubmit={async (e) => {
           e.preventDefault();

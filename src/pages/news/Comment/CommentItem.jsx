@@ -12,7 +12,8 @@ const Item = styled.li`
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background: white;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
 `;
 
 const CommentContent = styled.div`
@@ -31,13 +32,13 @@ const CommentImg = styled.img`
 const CommentText = styled.p`
   font-size: 14px;
   margin: 0;
-  color: #333;
+  
 `;
 
 const CommentAuthor = styled.p`
   font-weight: bold;
   margin-bottom: 1%;
-  color: #555;
+  
 `;
 
 const ButtonGroup = styled.div`

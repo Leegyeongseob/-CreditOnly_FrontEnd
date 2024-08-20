@@ -121,6 +121,7 @@ const TitleWrap = styled.div`
 const TitlePage = styled.div`
   color: #5e5e5e;
   font-size: 20px;
+  font-family: "Poppins-Bold", Helvetica;
 `;
 
 const IcBaselinePlus = styled(FaPlus)`
@@ -224,11 +225,11 @@ const DetailWrap = styled.div`
   white-space: nowrap;
 `;
 
-// StyledLink to override default Link styles
+
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: inherit; /* Inherit color from parent */
-  display: inline; /* Ensures link behaves as a block-level element */
+  color: inherit; 
+  display: inline; 
   &:hover {
     color: blue;
   }
