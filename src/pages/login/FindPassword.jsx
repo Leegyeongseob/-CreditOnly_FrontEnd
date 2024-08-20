@@ -14,6 +14,19 @@ const InputDiv = styled.div`
   justify-content: space-evenly;
   align-items: center;
 `;
+const NavigateDiv = styled.div`
+  width: 100%;
+  height: 80%;
+  display: flex;
+  @media screen and (max-width: 500px) {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+`;
 const ButtonDiv = styled.div`
   width: 110%;
   height: 30%;
@@ -33,6 +46,7 @@ const FindButtonDiv = styled.div`
 `;
 const FindButton = styled.div`
   width: 100%;
+  min-width: 110px;
   height: 50%;
   background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
@@ -44,6 +58,9 @@ const FindButton = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 600;
+  @media screen and (max-width: 500px) {
+    font-size: 20px;
+  }
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
     background-color: ${({ isActive }) =>
@@ -151,7 +168,6 @@ const RegisterationInput2 = styled.input`
     font-style: italic;
   }
 `;
-
 const Message = styled.div`
   width: 100%;
   font-size: 15px;
@@ -175,6 +191,12 @@ const FindPwdText = styled.div`
   font-weight: bold;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
+  @media screen and (max-width: 500px) {
+    font-size: 40px;
+    display: flex;
+    /* background-color: black; */
+    margin-right: 10%;
+  }
 `;
 const FindPwdTextDetail = styled.div`
   width: 100%;
@@ -202,7 +224,7 @@ const FindByPwd = styled.div`
   cursor: pointer;
   &:hover {
     color: #367ee9;
-    font-size: 21px;
+    font-size: 20px;
   }
 `;
 const GoToLoginPage = styled.div`
@@ -217,35 +239,34 @@ const GoToLoginPage = styled.div`
   & > .remember {
     width: 80%;
     height: 50%;
-
     display: flex;
     justify-content: end;
     align-items: end;
     text-align: end;
     font-size: 20px;
+    @media screen and (max-width: 500px) {
+      font-size: 17px;
+    }
   }
   & > .backToLogin {
     width: 80%;
     min-width: 120px;
     height: 50%;
-
     display: flex;
     justify-content: end;
     align-items: first baseline;
     font-weight: 600;
     font-size: clamp(20px, 3vw, 35px);
     cursor: pointer;
+    @media screen and (max-width: 500px) {
+      font-size: 17px;
+    }
     &:hover {
       color: #367ee9;
-      font-size: 36px;
     }
   }
 `;
-const NavigateDiv = styled.div`
-  width: 100%;
-  height: 80%;
-  display: flex;
-`;
+
 const Empty = styled.div`
   width: 2%;
   height: 2vh;

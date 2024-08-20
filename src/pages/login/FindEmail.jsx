@@ -178,7 +178,7 @@ const FindByPwd = styled.div`
   cursor: pointer;
   &:hover {
     color: #367ee9;
-    font-size: 21px;
+    font-size: 20px;
   }
 `;
 const GoToLoginPage = styled.div`
@@ -211,7 +211,7 @@ const GoToLoginPage = styled.div`
     cursor: pointer;
     &:hover {
       color: #367ee9;
-      font-size: 36px;
+      font-size: clamp(20px, 3vw, 35px);
     }
   }
 `;
