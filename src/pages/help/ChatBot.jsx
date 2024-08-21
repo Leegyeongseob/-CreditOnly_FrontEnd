@@ -1,10 +1,9 @@
+//ChatBot.jsx
 import React, { useEffect, useState } from "react";
 import Header from "../../common/commonForm/Header";
 import ChatBotSideBar from "./ChatBotSideBar";
 import ChatCard from "./ChatCard";
-import EcosAxios from "../../axiosapi/EcosAxios";
-import DartAxios from "../../axiosapi/DartAxios";
-import FinancialDataAxios from "../../axiosapi/FinancialDataAxios";
+import { performSimilaritySearch } from "../../axiosapi/performSimilaritySearch";
 import { useChatContext } from "../../contexts/ChatContext";
 import {
   Contain,
@@ -24,6 +23,7 @@ const ChatBot = () => {
   const {
     chatHistory,
     addMessage,
+    clearChatHistory,
     isDarkMode,
     toggleDarkMode,
     currentConversation,
@@ -37,28 +37,22 @@ const ChatBot = () => {
   const [activeTopic, setActiveTopic] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // activeTopic 상태 변화 감지 및 로깅
   useEffect(() => {
     console.log(`Active topic changed to: ${activeTopic}`);
   }, [activeTopic]);
 
-  // 메시지 입력 핸들러
   const handleChange = (e) => {
-    console.log("User input message:", e.target.value);
     setMessage(e.target.value);
   };
 
-  // 카드 클릭 핸들러 - 주제 선택 후 UI 업데이트
   const handleCardClick = (topic) => {
-    console.log(`Card clicked: ${topic}`);
     setActiveTopic(topic);
     addMessage({ sender: "bot", text: `${topic}에 대해 물어보세요.` });
-    console.log("Updated chat history after card click:", chatHistory);
 
-    const newConversation = startNewConversation(); // 새로운 대화 시작
+    const newConversation = startNewConversation();
     if (newConversation) {
-      newConversation.topic = topic; // topic 설정
-      setCurrentConversation(newConversation); // currentConversation 업데이트
+      newConversation.topic = topic;
+      setCurrentConversation(newConversation);
     } else {
       console.error(
         "Failed to start new conversation: newConversation is undefined"
@@ -66,7 +60,6 @@ const ChatBot = () => {
     }
   };
 
-  // 메시지 전송 핸들러
   const send = async () => {
     if (message.trim()) {
       console.log("Sending message:", message);
@@ -75,37 +68,38 @@ const ChatBot = () => {
       setIsLoading(true);
 
       try {
-        let response;
-        console.log("Active topic when sending message:", activeTopic);
-        switch (activeTopic) {
-          case "소비자 동향 지수":
-            response = await EcosAxios.getEcosData(message, message);
-            console.log("ECOS API Response:", response);
-            break;
-          case "기업 개황":
-            response = await DartAxios.getDartData(message, message);
-            console.log("DART API Response:", response);
-            break;
-          case "금융 회사 조회":
-            const [fncoNm, query] = message
-              .split(",")
-              .map((item) => item.trim());
-            response = await FinancialDataAxios.getFinancialData(
-              fncoNm || message,
-              query || message
-            );
-            console.log("Financial Data API Response:", response);
-            break;
-          default:
-            throw new Error("Unknown topic");
+        const response = await performSimilaritySearch(message);
+        console.log("API Response:", response);
+
+        if (response.length === 0) {
+          console.warn("Empty response received. Check the query and server.");
         }
 
-        let formattedResponse;
-        if (typeof response === "object") {
-          formattedResponse = JSON.stringify(response, null, 2);
-        } else {
-          formattedResponse = response;
-        }
+        // 주제별 응답을 처리
+        const formattedResponse = response
+          .map((item) => {
+            if (item.index === "financial_data") {
+              return `
+                금융회사명: ${item.source.fncoNm || "N/A"}
+                대표자: ${item.source.fncoRprNm || "N/A"}
+                주소: ${item.source.fncoAdr || "N/A"}
+                설립일: ${item.source.fncoEstbDt || "N/A"}
+              `;
+            } else if (item.index === "ecos_statistic_word") {
+              return `
+                키워드: ${item.source.WORD || "N/A"}
+                내용: ${item.source.CONTENT || "N/A"}
+              `;
+            } else if (item.index === "dart_company_info") {
+              return `
+                기업명: ${item.source.corp_name || "N/A"}
+                대표자: ${item.source.ceo_nm || "N/A"}
+              `;
+            } else {
+              return `Unknown index: ${item.index}`;
+            }
+          })
+          .join("\n\n");
 
         addMessage({
           sender: "bot",
@@ -129,16 +123,12 @@ const ChatBot = () => {
     }
   };
 
-  // 사이드바 토글
   const toggleSideBar = () => {
-    console.log("Toggling sidebar visibility");
     setIsSideBarVisible(!isSideBarVisible);
     setIsHeader(!isHeader);
   };
 
-  // 화면 크기 변경에 따른 사이드바 상태 조정
   const handleResize = () => {
-    console.log("Window resized, checking width");
     if (window.innerWidth < 1201) {
       setIsSideBarVisible(false);
       setIsHeader(false);
@@ -155,38 +145,16 @@ const ChatBot = () => {
     };
   }, []);
 
-  // 새로운 채팅 시작 핸들러
   const handleNewChat = () => {
-    console.log("Starting new conversation");
-    const newConversation = startNewConversation();
-    if (newConversation) {
-      newConversation.topic = null;
-      setActiveTopic(null);
-      setCurrentConversation(newConversation);
-    } else {
-      console.error(
-        "Failed to start new conversation: newConversation is undefined"
-      );
-    }
+    clearChatHistory();
+    setActiveTopic(null);
   };
 
-  // currentConversation이 변경될 때 activeTopic 설정
   useEffect(() => {
-    console.log(`Current conversation updated:`, currentConversation);
     if (currentConversation && currentConversation.topic) {
-      console.log(
-        "Setting activeTopic based on currentConversation:",
-        currentConversation.topic
-      );
       setActiveTopic(currentConversation.topic);
     }
   }, [currentConversation]);
-
-  // 다른 곳에서 activeTopic을 undefined로 설정하는 코드가 있는지 확인합니다.
-  // 모든 activeTopic 상태 변경에 대해 로그를 추가하여 추적합니다.
-  useEffect(() => {
-    console.log(`Active topic changed to: ${activeTopic}`);
-  }, [activeTopic]);
 
   return (
     <Contain>
@@ -204,11 +172,6 @@ const ChatBot = () => {
           />
         )}
         <MessageBox>
-          {console.log(
-            "Rendering MessageBox, Current Conversation:",
-            currentConversation
-          )}
-          {console.log("Rendering MessageBox, Active Topic:", activeTopic)}
           {!currentConversation || !activeTopic ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <ChatCard
@@ -228,9 +191,11 @@ const ChatBot = () => {
             <>
               <MessagePlace>
                 {chatHistory.map((msg, index) => (
-                  <MessageBubble key={index} sender={msg.sender}>
-                    {msg.text}
-                  </MessageBubble>
+                  <MessageBubble
+                    key={index}
+                    sender={msg.sender}
+                    dangerouslySetInnerHTML={{ __html: msg.text }}
+                  />
                 ))}
                 {isLoading && (
                   <LoadingIndicator>응답을 생성 중입니다...</LoadingIndicator>

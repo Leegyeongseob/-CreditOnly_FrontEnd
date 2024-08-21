@@ -1,7 +1,9 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 
+// ChatContext를 생성
 const ChatContext = createContext();
 
+// ChatProvider를 정의하고, context 값을 제공
 export const ChatProvider = ({ children }) => {
   const [chatHistory, setChatHistory] = useState([]);
   const [conversations, setConversations] = useState([]);
@@ -92,6 +94,15 @@ export const ChatProvider = ({ children }) => {
     });
   };
 
+  const clearChatHistory = () => {
+    setChatHistory([]);
+    if (currentConversation) {
+      const updatedConversation = { ...currentConversation, messages: [] };
+      setCurrentConversation(updatedConversation);
+      saveConversation(updatedConversation);
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(deleteOldConversations, 24 * 60 * 60 * 1000);
     return () => clearInterval(interval);
@@ -110,6 +121,7 @@ export const ChatProvider = ({ children }) => {
         currentConversation,
         setCurrentConversation,
         saveConversation,
+        clearChatHistory, // 추가된 함수
       }}
     >
       {children}
@@ -117,6 +129,7 @@ export const ChatProvider = ({ children }) => {
   );
 };
 
+// useChatContext 훅을 정의하고 export
 export const useChatContext = () => {
   const context = useContext(ChatContext);
   if (context === undefined) {
