@@ -14,6 +14,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  min-width:300px;
   @media screen and (max-width: 768px) {
     margin-top: 5%;
     margin-bottom: 5%;
@@ -119,7 +120,7 @@ const TitleWrap = styled.div`
 `;
 
 const TitlePage = styled.div`
-  color: #5e5e5e;
+  color: ${({ theme }) => theme.color};
   font-size: 20px;
   font-family: "Poppins-Bold", Helvetica;
 `;

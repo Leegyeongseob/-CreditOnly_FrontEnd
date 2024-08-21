@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from "react-icons/fa";
 import InformationAxios from "../../axiosapi/InformationAxios";
+import NewsForm from "./NewsForm";
 
 const Container = styled.div`
   width: 99%;
   height: 94vh;
+  min-width:300px;
 `;
 
 const TopBar = styled.div`
@@ -24,6 +27,7 @@ const TopBar = styled.div`
 
 const CategoryButton = styled.button`
   width: 18%;
+  /* min-width: 56px; */
   height: 100%;
   font-size: 16px;
   background-color: ${({ active, theme }) =>
@@ -32,7 +36,7 @@ const CategoryButton = styled.button`
   border: none;
   border-radius: 4px;
   white-space: pre-wrap; /* 띄어쓰기에서만 줄바꿈 */
-    word-break: keep-all;  /* 긴 단어를 포함하더라도 띄어쓰기가 없는 경우 줄바꿈 안 함 */
+  word-break: keep-all; /* 긴 단어를 포함하더라도 띄어쓰기가 없는 경우 줄바꿈 안 함 */
 
   cursor: pointer;
 
@@ -42,7 +46,6 @@ const CategoryButton = styled.button`
 
   @media screen and (max-width: 760px) {
     font-size: clamp(10px, 2vw, 20px);
-    
   }
 `;
 
@@ -156,9 +159,7 @@ const Input = styled.input`
   }
 `;
 
-const Search = styled(FaSearch)`
-  
-`;
+const Search = styled(FaSearch)``;
 
 const Button = styled.button`
   padding: 1%;
@@ -209,6 +210,33 @@ const PageButton = styled.button`
   }
 `;
 
+const AddNewsButton = styled.button`
+  width: 90px;
+  height: 35px;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Roboto-Regular", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.color};
+  background-color: ${({ theme }) => theme.sideBar};
+  transition: background-color 0.5s ease, color 0.5s ease;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #666;;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 30px;
+    font-size: 12px;
+  }
+`;
+
 const categories = [
   "전체",
   "신용조회 정보모음",
@@ -216,7 +244,7 @@ const categories = [
   "신용카드와 신용정보",
 ];
 
-const NewsList = () => {
+const NewsList = ({ onSave, onCancel }) => {
   const { category } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOption, setSearchOption] = useState("all");
@@ -225,6 +253,49 @@ const NewsList = () => {
   const [selectedCategory, setSelectedCategory] = useState(category || "전체");
   const [items, setItems] = useState([]);
   const itemsPerPage = 5;
+
+  const { email, adminEmails = [] } = useContext(UserEmailContext);
+  const isAdmin = adminEmails.includes(email);
+  const [isCreating, setIsCreating] = useState(false);
+  const [item, setItem] = useState({
+    title: "",
+    imageUrl: "",
+    content: "",
+    category: "",
+  });
+
+  const handleInputSave = (field, value) => {
+    setItem((prevItem) => ({
+      ...prevItem,
+      [field]: value,
+    }));
+  };
+
+  const handleSave = async () => {
+    try {
+      console.log("Saving item:", item);
+      const savedItem = await InformationAxios.createInformation(item);
+      console.log("Item saved successfully:", savedItem);
+      setIsCreating(false);
+      if (onSave) onSave(savedItem);
+    } catch (error) {
+      console.error("정보 저장 실패:", error);
+    }
+  };
+  const handleAddNewsClick = () => {
+    setItem({
+      title: "",
+      imageUrl: "",
+      content: "",
+      category: "",
+    });
+    setIsCreating(true);
+  };
+
+  const handleCancel = () => {
+    setIsCreating(false); // 취소 시 폼 숨기기
+    if (onCancel) onCancel();
+  };
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -323,77 +394,99 @@ const NewsList = () => {
           </CategoryButton>
         ))}
       </TopBar>
-      <ListWrap>
-        {currentItems.length > 0 ? (
-          currentItems.map((item, index) => (
-            <Link
-              key={item.id}
-              to={`/news/${item.id}`}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <ListGroup isLast={index === currentItems.length - 1}>
-                <Simg alt={item.title} src={item.imageUrl} />
-                <ListDetailWrap>
-                  <TextWrapper>{item.title}</TextWrapper>
-                  <DetailWrap>{item.content}</DetailWrap>
-                </ListDetailWrap>
-              </ListGroup>
-            </Link>
-          ))
-        ) : (
-          <p>검색 결과가 없습니다.</p>
-        )}
-      </ListWrap>
-      <SearchContainer>
-        <Select value={searchOption} onChange={handleOptionChange}>
-          <option value="all">제목+내용</option>
-          <option value="title">제목</option>
-          <option value="content">내용</option>
-        </Select>
-        <Input
-          type="text"
-          value={searchTerm}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="검색어를 입력하세요..."
+      {isCreating ? (
+        <NewsForm
+          item={item}
+          onInputChange={handleInputSave}
+          onSave={handleSave}
+          onCancel={handleCancel}
+          isEditing={false} // 작성 모드에서는 isEditing을 false로 설정
         />
-        <Button onClick={handleSearch}><Search/></Button>
-      </SearchContainer>
-      <Pagination>
-        <PageButton
-          onClick={() => setCurrentPage(1)}
-          disabled={currentPage === 1}
-        >
-          &lt;&lt;
-        </PageButton>
-        <PageButton
-          onClick={() => setCurrentPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          &lt;
-        </PageButton>
-        {pageNumbers.map((num) => (
-          <PageButton
-            key={num}
-            active={currentPage === num}
-            onClick={() => setCurrentPage(num)}
-          >
-            {num}
-          </PageButton>
-        ))}
-        <PageButton
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          &gt;
-        </PageButton>
-        <PageButton
-          onClick={() => setCurrentPage(totalPages)}
-          disabled={currentPage === totalPages}
-        >
-           &gt;&gt;
-        </PageButton>
-      </Pagination>
+      ) : (
+        <>
+          
+          <ListWrap>
+            {currentItems.length > 0 ? (
+              currentItems.map((item, index) => (
+                <Link
+                  key={item.id}
+                  to={`/news/${item.id}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <ListGroup isLast={index === currentItems.length - 1}>
+                    <Simg alt={item.title} src={item.imageUrl} />
+                    <ListDetailWrap>
+                      <TextWrapper>{item.title}</TextWrapper>
+                      <DetailWrap>{item.content}</DetailWrap>
+                    </ListDetailWrap>
+                  </ListGroup>
+                </Link>
+              ))
+            ) : (
+              <p>검색 결과가 없습니다.</p>
+            )}
+          </ListWrap>
+          <SearchContainer>
+            <Select value={searchOption} onChange={handleOptionChange}>
+              <option value="all">제목+내용</option>
+              <option value="title">제목</option>
+              <option value="content">내용</option>
+            </Select>
+            <Input
+              type="text"
+              value={searchTerm}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              placeholder="검색어를 입력하세요..."
+            />
+            <Button onClick={handleSearch}>
+              <Search />
+            </Button>
+          
+          </SearchContainer>
+          {isAdmin && (
+          <AddNewsButton onClick={handleAddNewsClick}>
+            작성
+          </AddNewsButton>
+          )}
+          <Pagination>
+            <PageButton
+              onClick={() => setCurrentPage(1)}
+              disabled={currentPage === 1}
+            >
+              &lt;&lt;
+            </PageButton>
+            <PageButton
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </PageButton>
+            {pageNumbers.map((num) => (
+              <PageButton
+                key={num}
+                active={currentPage === num}
+                onClick={() => setCurrentPage(num)}
+              >
+                {num}
+              </PageButton>
+            ))}
+            <PageButton
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              &gt;
+            </PageButton>
+            <PageButton
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages}
+            >
+              &gt;&gt;
+            </PageButton>
+          </Pagination>
+          
+        </>
+      )}
     </Container>
   );
 };

@@ -18,6 +18,10 @@ const LoginDiv = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0};
+  }
 `;
 const InputContainer = styled.div`
   width: 60%;
@@ -25,6 +29,10 @@ const InputContainer = styled.div`
   font-size: 30px;
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const InputDiv = styled.input`
@@ -39,7 +47,6 @@ const InputDiv = styled.input`
   outline: none;
   &::placeholder {
     text-align: center;
-    font-size: clamp(15px, 2.5vw, 30px);
     color: gray;
     font-weight: normal;
     font-style: italic;
@@ -54,12 +61,18 @@ const Message = styled.div`
 `;
 
 const FindDiv = styled.div`
-  width: 100%;
+  width: 82%;
   height: 10%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   align-items: center;
   font-style: italic;
+  gap: 20px;
+
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0};
+
+  }
 `;
 
 const Signin = styled.div`
@@ -77,6 +90,9 @@ const Signin = styled.div`
     font-weight: 600;
     font-size: 21px;
   }
+
+  @media screen and (max-width: 500px) {
+  }
 `;
 const SigninDiv = styled.div`
   width: 100%;
@@ -85,18 +101,28 @@ const SigninDiv = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0};
+  }
 `;
 const ForgotBtn = styled.div`
-  width: 30%;
+  width: 34%;
+  min-width: 80px;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
+  font-size: 18px;
   color: #367ee9;
   cursor: pointer;
   &:hover {
     font-weight: 600;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 50%;
+    height: 80%;
   }
 `;
 const ButtonDiv = styled.div`
@@ -105,6 +131,10 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0};
+  }
 `;
 
 const LoginButton = styled.div`
@@ -126,6 +156,9 @@ const LoginButton = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
   }
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const SimpleLogin = styled.div`
@@ -141,10 +174,16 @@ const SimpleLogin = styled.div`
     justify-content: space-evenly;
     align-items: center;
   }
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0};
+    flex-direction: column;
+    height: 18%;
+    gap: 20px;
+  }
 `;
 
 const CircleSide = styled.div`
-  width: 12%;
+  width: 37px;
   aspect-ratio: 1 / 1;
   border: none;
   border-radius: 50%;
@@ -152,6 +191,8 @@ const CircleSide = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 500px) {
+  }
 `;
 const GoogleIcon = styled(FcGoogle)`
   width: 100%;
@@ -189,6 +230,10 @@ const OverlapGroupWrapper = styled.div`
   display: flex;
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
+
+  @media screen and (max-width: 500px) {
+    /* background-color: #ffffff; */
+  }
 `;
 
 // 오버랩 그룹
@@ -197,6 +242,11 @@ const OverlapGroup = styled.div`
   width: 100%; /* 화면 너비에 맞게 조정 */
   max-width: 4000px; /* 최대 너비 설정 */
   display: flex;
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 // 사각형
 const Rectangle = styled.div`
@@ -210,6 +260,12 @@ const Rectangle = styled.div`
   flex-direction: column; /* 세로 방향으로 정렬 */
   align-items: center; /* 가로 방향으로 중앙 정렬 */
   justify-content: center; /* 세로 방향으로 중앙 정렬 */
+
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0};
+    width: 100%;
+    border-radius: 38px 38px 0 0;
+  }
 `;
 const LoginTitle = styled.div`
   width: 100%;
@@ -221,9 +277,15 @@ const LoginTitle = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: baseline;
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0};
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const LoginWrap = styled.div`
   width: 70%;
+  min-width: 230px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -245,6 +307,9 @@ const SimpleLoginBtn = styled.div`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
+
+  @media screen and (max-width: 500px) {
+  }
 `;
 const SimpleLoginBtnText = styled.div`
   width: 65%;
@@ -254,6 +319,8 @@ const SimpleLoginBtnText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 500px) {
+  }
 `;
 const TextOr = styled.div`
   width: 100%;
@@ -265,6 +332,10 @@ const TextOr = styled.div`
   font-weight: 600;
   font-style: italic;
   color: gray;
+
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0};
+  }
 `;
 const SignUpText = styled.div`
   width: 55%;
@@ -274,13 +345,22 @@ const SignUpText = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    font-size: 16px;
+    justify-content: center;
+  }
 `;
 const LogoImgDiv = styled.div`
   width: 50%;
+  min-width: 140px;
   height: 20%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  @media screen and (max-width: 500px) {
+    order: ${({ order }) => order || 0}; /* 기본값 0 */
+  }
 `;
 const LogoImg = styled.div`
   width: 250px;
@@ -312,7 +392,7 @@ const LoginPage = () => {
   // 모달 변경
   const [isModalImg, setIsModalImg] = useState(false);
   // useContext로 email관리하기
-  const { setEmail,setKakaoImgUrl} = useContext(UserEmailContext);
+  const { setEmail, setKakaoImgUrl } = useContext(UserEmailContext);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -473,11 +553,11 @@ const LoginPage = () => {
       )}
       <OverlapGroupWrapper>
         <OverlapGroup>
-          <Rectangle>
+          <Rectangle order={2}>
             <LoginWrap>
-              <LoginTitle>Log in</LoginTitle>
-              <SimpleLogin>
-                <div>
+              <LoginTitle order={1}>Log in</LoginTitle>
+              <SimpleLogin order={5}>
+                <>
                   <SimpleLoginBtn onClick={() => modalClickHandler()}>
                     <CircleSide>
                       <GoogleIcon />
@@ -497,12 +577,12 @@ const LoginPage = () => {
                         )}
                       />
                     </CircleSide>
-                    <SimpleLoginBtnText>sign up with Kakao</SimpleLoginBtnText>
+                    <SimpleLoginBtnText>sign up with Kakao </SimpleLoginBtnText>
                   </SimpleLoginBtn>
-                </div>
+                </>
               </SimpleLogin>
-              <TextOr>- OR -</TextOr>
-              <LoginDiv>
+              <TextOr order={4}>- OR -</TextOr>
+              <LoginDiv order={2}>
                 <>
                   <InputContainer>
                     <InputDiv
@@ -526,8 +606,8 @@ const LoginPage = () => {
                   />
                 </InputContainer>
               </LoginDiv>
-              <FindDiv>
-                <ForgotBtn />
+              <FindDiv order={3}>
+                {/* <ForgotBtn /> */}
                 <ForgotBtn
                   onClick={() => {
                     navigate("/findbyemail");
@@ -543,12 +623,12 @@ const LoginPage = () => {
                   Password?
                 </ForgotBtn>
               </FindDiv>
-              <ButtonDiv>
+              <ButtonDiv order={6}>
                 <LoginButton isActive={isId && isPwd} onClick={loginBtnHandler}>
                   Log in
                 </LoginButton>
               </ButtonDiv>
-              <SigninDiv>
+              <SigninDiv order={7}>
                 <SignUpText>Are you first here?</SignUpText>
                 <Signin
                   onClick={() => {
@@ -560,7 +640,7 @@ const LoginPage = () => {
               </SigninDiv>
             </LoginWrap>
           </Rectangle>
-          <LogoImgDiv>
+          <LogoImgDiv order={1}>
             <LogoImg />
           </LogoImgDiv>
         </OverlapGroup>
