@@ -12,11 +12,16 @@ const LoginPage = styled.div`
 `;
 const SinLogo = styled.div`
   background-image: url(${logo});
+  /* background-color: #92d0e9; */
   background-size: contain; /* 또는 cover로 설정 */
   width: 80%;
   height: 80%;
   background-repeat: no-repeat;
   cursor: pointer; /* 마우스 오버 시 손가락 모양 커서 */
+  @media screen and (max-width: 425px) {
+    width: 150px;
+    height: 150px;
+  }
 `;
 const TextBox = styled.div`
   width: 42.6%;
@@ -27,6 +32,7 @@ const TextBox = styled.div`
   text-align: center;
   justify-content: start;
 `;
+
 const PwText = styled.div`
   color: gray;
   font-size: 30px;
@@ -49,6 +55,22 @@ const Detail = styled.div`
   flex-direction: column;
   font-weight: lighter;
   line-height: 1.5;
+`;
+const PwDetail = styled.div`
+  color: gray;
+  font-size: 25px;
+  width: 80%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  text-align: start;
+  flex-direction: column;
+  font-weight: lighter;
+  line-height: 1.5;
+  @media screen and (max-width: 472px) {
+    font-size: 20px;
+  }
 `;
 const ExitText = styled.div`
   color: gray;
@@ -88,6 +110,7 @@ const Rectangle = styled.div`
 const LogoDiv = styled.div`
   width: 100%;
   height: 30%;
+  /* background-color: #5dcaca; */
   display: flex;
   justify-content: first baseline;
   margin-left: 3%;
@@ -116,18 +139,18 @@ const FindByForm = ({ withdrawal }) => {
       location.pathname === "/resetpwd" ? ( // 경로에 따라 조건부 렌더링
         <TextBox>
           <PwText>비밀번호 찾기</PwText>
-          <Detail>
+          <PwDetail>
             1. 비밀번호는 최소 8자 이상, 대문자, 소문자, 숫자, 특수문자를
             포함해야 합니다.
-          </Detail>
-          <Detail>
+          </PwDetail>
+          <PwDetail>
             2. 새 비밀번호를 한 번 더 입력하여 확인해 주세요. '비밀번호 변경'
             버튼을 클릭하면 재설정이 완료됩니다.
-          </Detail>
-          <Detail>
+          </PwDetail>
+          <PwDetail>
             주의: 안전한 비밀번호를 사용하시고, 다른 사이트와 동일한 비밀번호를
             사용하지 마세요.
-          </Detail>
+          </PwDetail>
         </TextBox>
       ) : location.pathname === "/findbyemail" ? ( // 다른 경로에 따라 다른 콘텐츠 표시
         <TextBox>

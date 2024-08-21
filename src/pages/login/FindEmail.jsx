@@ -15,7 +15,7 @@ const InputDiv = styled.div`
   overflow-x: hidden;
 `;
 const ButtonDiv = styled.div`
-  width: 100%;
+  width: 110%;
   height: 30%;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,8 @@ const FindButtonDiv = styled.div`
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: 200px;
+  width: 100%;
+  min-width: 110px;
   height: 50%;
   background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
@@ -42,6 +43,9 @@ const FindButton = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 600;
+  @media screen and (max-width: 500px) {
+    font-size: 20px;
+  }
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
     background-color: ${({ isActive }) =>
@@ -151,6 +155,10 @@ const FindEmailText = styled.div`
   font-weight: bold;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
+  @media screen and (max-width: 500px) {
+    font-size: 45px;
+    display: flex;
+  }
 `;
 const FindEmailTextDetail = styled.div`
   width: 100%;
@@ -197,6 +205,12 @@ const GoToLoginPage = styled.div`
     align-items: end;
     text-align: end;
     font-size: 20px;
+    @media screen and (max-width: 500px) {
+      font-size: 16px;
+    }
+    @media screen and (max-width: 352px) {
+      font-size: 16px;
+    }
   }
   & > .backToLogin {
     width: 80%;
@@ -219,6 +233,14 @@ const NavigateDiv = styled.div`
   width: 100%;
   height: 80%;
   display: flex;
+  @media screen and (max-width: 500px) {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 const FindEmail = () => {
   const navigate = useNavigate();

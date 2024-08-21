@@ -247,6 +247,9 @@ const GoToLoginPage = styled.div`
     @media screen and (max-width: 500px) {
       font-size: 17px;
     }
+    @media screen and (max-width: 352px) {
+      font-size: 15px;
+    }
   }
   & > .backToLogin {
     width: 80%;
@@ -261,6 +264,7 @@ const GoToLoginPage = styled.div`
     @media screen and (max-width: 500px) {
       font-size: 17px;
     }
+
     &:hover {
       color: #367ee9;
     }
