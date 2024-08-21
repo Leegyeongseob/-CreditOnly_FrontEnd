@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import SettingAxios from "../../axiosapi/SettingAxios";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import { useChatContext } from "../../contexts/ChatContext";
@@ -409,8 +409,19 @@ const Mypage = () => {
   const [birthDate, setBirthDate] = useState("");
   const [joinDate, setJoinDate] = useState("");
   const [imgData, setImgData] = useState("");
+
+  const userProfileAxios = useCallback(
+    async (emailData) => {
+      const res = await MemberAxiosApi.searchProfileUrl(emailData);
+      if (res.data !== "notExist") {
+        setImgData(res.data);
+        setImgUrl(res.data);
+      }
+    },
+    [setImgUrl]
+  );
+
   useEffect(() => {
-    // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
       try {
         const response = await SettingAxios.getUserInfo(email);
@@ -422,16 +433,18 @@ const Mypage = () => {
         console.error("Error fetching user info:", error);
       }
     };
+
     fetchUserInfo();
-    // 사용자 프로필 정보를 가져오는함수
     userProfileAxios(email);
-  }, [email]);
+  }, [email, userProfileAxios]);
+
   //파일 업로드 이벤트 함수
   const AddImgBtnOnChangeHandler = (e) => {
     const selectedFile = e.target.files[0];
     // 선택된 파일을 즉시 업로드 후 DB에 다시 저장
     handleFileUpload(email, selectedFile);
   };
+
   const handleFileUpload = async (userEmail, saveFileData) => {
     const storageRef = ref(profileStorage, saveFileData.name);
     try {
@@ -464,14 +477,7 @@ const Mypage = () => {
       console.error("File upload failed:", error);
     }
   };
-  // 사용자의 이미지 DB에서 불러오기
-  const userProfileAxios = async (emailData) => {
-    const res = await MemberAxiosApi.searchProfileUrl(emailData);
-    if (res.data !== "notExist") {
-      setImgData(res.data);
-      setImgUrl(res.data);
-    }
-  };
+
   const handleConversationClick = (conv) => {
     setCurrentConversation(conv);
     // 필요하다면 여기에 추가적인 로직을 넣을 수 있습니다.
