@@ -9,6 +9,11 @@ const LoginPage = styled.div`
   display: flex;
   overflow-x: hidden;
   flex-direction: column;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const SinLogo = styled.div`
   background-image: url(${logo});
@@ -18,9 +23,28 @@ const SinLogo = styled.div`
   height: 80%;
   background-repeat: no-repeat;
   cursor: pointer; /* 마우스 오버 시 손가락 모양 커서 */
-  @media screen and (max-width: 425px) {
-    width: 150px;
-    height: 150px;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+  }
+`;
+const LogoDiv = styled.div`
+  width: 100%;
+  height: 30%;
+  /* background-color: #5dcaca; */
+  display: flex;
+  /* justify-content: first baseline; */
+  justify-content: flex-start;
+  margin-left: 3%;
+  align-items: center;
+  @media screen and (max-width: 500px) {
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
+    margin-top: 20px;
   }
 `;
 const TextBox = styled.div`
@@ -121,17 +145,12 @@ const Rectangle = styled.div`
   @media screen and (max-width: 500px) {
     left: auto;
     width: 100%;
+    top: calc(25%);
+    height: 75%;
+    border-radius: 38px 38px 0 0;
   }
 `;
-const LogoDiv = styled.div`
-  width: 100%;
-  height: 30%;
-  /* background-color: #5dcaca; */
-  display: flex;
-  justify-content: first baseline;
-  margin-left: 3%;
-  align-items: center;
-`;
+
 const FindByForm = ({ withdrawal }) => {
   const navigate = useNavigate();
   const location = useLocation();
