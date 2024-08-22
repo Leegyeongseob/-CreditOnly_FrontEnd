@@ -42,6 +42,9 @@ const PwText = styled.div`
   justify-content: center;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 const Detail = styled.div`
   color: gray;
@@ -55,6 +58,9 @@ const Detail = styled.div`
   flex-direction: column;
   font-weight: lighter;
   line-height: 1.5;
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 const PwDetail = styled.div`
   color: gray;
@@ -68,8 +74,8 @@ const PwDetail = styled.div`
   flex-direction: column;
   font-weight: lighter;
   line-height: 1.5;
-  @media screen and (max-width: 472px) {
-    font-size: 20px;
+  @media screen and (max-width: 500px) {
+    display: none;
   }
 `;
 const ExitText = styled.div`
@@ -81,6 +87,9 @@ const ExitText = styled.div`
   justify-content: center;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 
 const IdText = styled.div`
@@ -92,6 +101,9 @@ const IdText = styled.div`
   justify-content: center;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 
 const Rectangle = styled.div`
