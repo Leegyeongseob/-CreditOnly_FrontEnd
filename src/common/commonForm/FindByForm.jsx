@@ -106,6 +106,10 @@ const Rectangle = styled.div`
   align-items: center;
   justify-content: center;
   display: flex;
+  @media screen and (max-width: 500px) {
+    left: auto;
+    width: 100%;
+  }
 `;
 const LogoDiv = styled.div`
   width: 100%;
