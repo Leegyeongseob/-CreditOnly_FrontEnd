@@ -35,6 +35,10 @@ const ButtonDiv = styled.div`
   flex-direction: column;
   justify-content: first baseline;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    height: 33%;
+  }
 `;
 const FindButtonDiv = styled.div`
   width: 50%;
@@ -48,6 +52,7 @@ const FindButton = styled.div`
   width: 100%;
   min-width: 110px;
   height: 50%;
+  min-height: 64px;
   background-color: ${({ isActive }) => (isActive ? "#1A8350" : "#fff")};
   border-radius: 12px;
   font-size: clamp(22px, 2vw, 30px);
@@ -76,7 +81,7 @@ const InputDetailDiv = styled.div`
   justify-content: center;
   align-items: center;
   & > .InputClass {
-    width: 90%;
+    width: 100%;
     height: 70%;
     border-radius: 0.521vw;
     border: 1px solid #000;
@@ -88,7 +93,7 @@ const InputDetailDiv = styled.div`
     font-weight: 600;
     &::placeholder {
       text-align: center;
-      font-size: 2.5vh;
+      font-size: clamp(11px, 3vw, 20px);
       color: #5a3092;
       opacity: 0.5;
       font-weight: normal;
@@ -97,7 +102,7 @@ const InputDetailDiv = styled.div`
   }
   & > .InputEmail,
   .InputCode {
-    width: 76%;
+    width: 83%;
     height: 70%;
     border-radius: 0.521vw;
     border: 1px solid #000;
@@ -109,7 +114,7 @@ const InputDetailDiv = styled.div`
     font-weight: 600;
     &::placeholder {
       text-align: center;
-      font-size: 2.5vh;
+      font-size: clamp(11px, 3vw, 20px);
       color: #5a3092;
       opacity: 0.5;
       font-weight: normal;
@@ -119,7 +124,7 @@ const InputDetailDiv = styled.div`
 `;
 
 const RegisterationInput1 = styled.input`
-  width: 40%;
+  width: 44%;
   height: 70%;
   border-radius: 0.521vw;
   border: 1px solid #000;
@@ -131,7 +136,7 @@ const RegisterationInput1 = styled.input`
   font-weight: 600;
   &::placeholder {
     text-align: center;
-    font-size: 2.5vh;
+    font-size: clamp(11px, 3vw, 20px);
     color: #5a3092;
     opacity: 0.5;
     font-weight: normal;
@@ -149,7 +154,7 @@ const Text = styled.div`
   align-items: center;
 `;
 const RegisterationInput2 = styled.input`
-  width: 47%;
+  width: 53%;
   height: 70%;
   border-radius: 0.521vw;
   border: 1px solid #000;
@@ -161,7 +166,7 @@ const RegisterationInput2 = styled.input`
   font-weight: 600;
   &::placeholder {
     text-align: center;
-    font-size: 2.5vh;
+    font-size: clamp(8px, 2.5vw, 20px);
     color: #5a3092;
     opacity: 0.5;
     font-weight: normal;
@@ -207,11 +212,16 @@ const FindPwdTextDetail = styled.div`
 `;
 const FindPwdWarp = styled.div`
   width: 80%;
+  min-width: 200px;
   height: 65%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    height: 90%;
+  }
 `;
 const FindByPwd = styled.div`
   width: 100%;

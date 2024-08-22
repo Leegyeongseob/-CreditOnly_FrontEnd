@@ -138,6 +138,7 @@ const Rectangle = styled.div`
   left: calc(42.6%);
   position: absolute;
   width: 57.4%;
+  min-width: 300px;
   height: 100%;
   align-items: center;
   justify-content: center;
