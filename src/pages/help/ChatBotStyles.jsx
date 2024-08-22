@@ -1,8 +1,46 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const dots = keyframes`
+  0%, 20% {
+    color: rgba(0,0,0,0);
+    text-shadow:
+      .25em 0 0 rgba(0,0,0,0),
+      .5em 0 0 rgba(0,0,0,0);
+  }
+  40% {
+    color: black;
+    text-shadow:
+      .25em 0 0 rgba(0,0,0,0),
+      .5em 0 0 rgba(0,0,0,0);
+  }
+  60% {
+    text-shadow:
+      .25em 0 0 black,
+      .5em 0 0 rgba(0,0,0,0);
+  }
+  80%, 100% {
+    text-shadow:
+      .25em 0 0 black,
+      .5em 0 0 black;
+  }
+`;
+
 export const Contain = styled.div`
   width: auto;
   height: auto;
 `;
+
 export const Screen = styled.div`
   background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.color};
@@ -19,8 +57,8 @@ export const MessageBox = styled.div`
   justify-content: start;
   align-items: center;
   display: flex;
-  justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 `;
 
@@ -76,18 +114,40 @@ export const SendWrap = styled.div`
 
 export const MessageBubble = styled.div`
   max-width: 70%;
-  padding: 10px;
+  padding: 12px 18px;
+  margin: 10px 0;
   border-radius: 20px;
-  margin: 10px;
-  background-color: ${(props) =>
-    props.sender === "user" ? "#007bff" : "#f1f0f0"};
+  background: ${(props) =>
+    props.sender === "user"
+      ? "linear-gradient(135deg, #007bff, #0056b3)"
+      : "#f1f0f0"};
   color: ${(props) => (props.sender === "user" ? "white" : "black")};
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   align-self: ${(props) =>
     props.sender === "user" ? "flex-end" : "flex-start"};
+  font-size: 16px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  opacity: 0;
+  animation: ${fadeIn} 0.5s ease forwards;
+
+  &:before {
+    content: ${(props) => (props.sender === "user" ? "'You'" : "'ChatGPT'")};
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
 `;
 
 export const LoadingIndicator = styled.div`
   text-align: center;
   padding: 10px;
   font-style: italic;
+  color: #888;
+  &:after {
+    content: "...";
+    animation: ${dots} 1.5s steps(5, end) infinite;
+  }
 `;
