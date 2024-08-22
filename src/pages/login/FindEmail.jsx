@@ -10,9 +10,12 @@ const InputDiv = styled.div`
   height: 60%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   overflow-x: hidden;
+  @media screen and (max-width: 500px) {
+    height: 100%;
+  }
 `;
 const ButtonDiv = styled.div`
   width: 110%;
@@ -28,6 +31,9 @@ const FindButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 500px) {
+    margin-top: 20px;
+  }
 `;
 const FindButton = styled.div`
   width: 100%;
@@ -44,7 +50,8 @@ const FindButton = styled.div`
   align-items: center;
   font-weight: 600;
   @media screen and (max-width: 500px) {
-    font-size: 20px;
+    height: 70px;
+    font-size: 25px;
   }
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
@@ -130,6 +137,9 @@ const RegisterationInput2 = styled.input`
     opacity: 0.5;
     font-weight: normal;
     font-style: italic;
+    @media screen and (max-width: 500px) {
+      font-size: 20px;
+    }
   }
 `;
 
@@ -152,12 +162,17 @@ const FindEmailText = styled.div`
   height: 40%;
   font-size: 55px;
   color: #fff;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
   font-weight: bold;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
   @media screen and (max-width: 500px) {
-    font-size: 45px;
+    font-size: 50px;
     display: flex;
+
+    justify-content: center;
   }
 `;
 const FindEmailTextDetail = styled.div`
@@ -166,6 +181,11 @@ const FindEmailTextDetail = styled.div`
   color: #fff;
   font-size: 22px;
   font-weight: 600;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 const FindEmailWarp = styled.div`
   width: 80%;
@@ -206,15 +226,12 @@ const GoToLoginPage = styled.div`
     text-align: end;
     font-size: 20px;
     @media screen and (max-width: 500px) {
-      font-size: 16px;
-    }
-    @media screen and (max-width: 352px) {
-      font-size: 16px;
+      display: none;
     }
   }
   & > .backToLogin {
     width: 80%;
-    min-width: 120px;
+
     height: 60%;
     padding-top: 10px;
     display: flex;
@@ -222,6 +239,8 @@ const GoToLoginPage = styled.div`
     align-items: first baseline;
     font-weight: 600;
     font-size: clamp(20px, 3vw, 35px);
+    @media screen and (max-width: 500px) {
+    }
     cursor: pointer;
     &:hover {
       color: #367ee9;
@@ -368,10 +387,7 @@ const FindEmail = () => {
       </Modal>
       <FindEmailWarp>
         <InputDiv>
-          <FindEmailText>
-            Forgot
-            <br /> Email?
-          </FindEmailText>
+          <FindEmailText>Forgot Email?</FindEmailText>
           <FindEmailTextDetail>Don't warry. we can help.</FindEmailTextDetail>
           <InputDetailDiv>
             <input
