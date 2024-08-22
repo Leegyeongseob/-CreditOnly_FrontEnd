@@ -169,9 +169,9 @@ const FindEmailText = styled.div`
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
   @media screen and (max-width: 500px) {
-    font-size: 50px;
+    font-size: 45px;
     display: flex;
-
+    text-align: center;
     justify-content: center;
   }
 `;
