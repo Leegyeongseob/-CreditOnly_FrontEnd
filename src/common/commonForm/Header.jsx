@@ -495,7 +495,14 @@ const Header = ({
       console.error("Error fetching search data:", error);
     }
   };
-
+  // 내용을 15단어로 제한하고 말줄임표를 추가하는 함수
+  const truncateContent = (content) => {
+    const words = content.split(" ");
+    if (words.length > 15) {
+      return words.slice(0, 15).join(" ") + "...";
+    }
+    return content;
+  };
   return (
     <HeaderContainer isOpen={isOpen}>
       <LeftBox
@@ -536,9 +543,7 @@ const Header = ({
                   key={item.id}
                   onClick={() => {
                     if (item.page === "information") {
-                      navigate(
-                        `/${item.page}/${item.classTitle}/${item.contents}`
-                      );
+                      navigate(`/news/${item.id}`);
                       setSearchComplete(false);
                     } else if (item.page === "announcement") {
                       navigate(`/${item.page}/news`);
@@ -550,7 +555,9 @@ const Header = ({
                   }}
                 >
                   <div className="title">{item.title}</div>
-                  <div className="contents">{item.contents}</div>
+                  <div className="contents">
+                    {truncateContent(item.contents)}
+                  </div>
                 </SearchOutput>
               ))
             ) : (
