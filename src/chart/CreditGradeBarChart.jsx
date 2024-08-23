@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import {
@@ -43,27 +43,57 @@ const sampleAgeGroups = [
   { label: "60대", grade: 3 },
   { label: "70대", grade: 2 },
   { label: "80대", grade: 4 },
-  { label: "90대", grade: 3 },
+  { label: "90대 이후", grade: 3 },
 ];
 
-const CreditGradeBarChart = ({
-  ageGroups = sampleAgeGroups,
-  userAgeGroup = "30대",
-}) => {
+const CreditGradeBarChart = ({ ageGroups = sampleAgeGroups }) => {
   const darkMode = localStorage.getItem("isDarkMode") === "true";
   const { email } = useContext(UserEmailContext);
-  // //주민등록번호 가져오는 비동기 함수
-  // const juminAxios = async () => {
-  //   try {
-  //     const jumin = await MemberAxiosApi.getJumin(email);
-  //     console.log(jumin.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   juminAxios();
-  // });
+  const [userAgeGroup, setUserAgeGroup] = useState("");
+  //주민등록 번호를 가져와서 계산하는 axios함수
+  const juminAxios = async () => {
+    const response = await MemberAxiosApi.getJumin(email);
+    const jumin = response.data.toString();
+    try {
+      if (!jumin || jumin.length < 6) {
+        console.error("Invalid jumin:", jumin);
+        return "";
+      }
+
+      const birthYear = parseInt(jumin.substring(0, 2));
+      const birthMonth = parseInt(jumin.substring(2, 4));
+      const birthDay = parseInt(jumin.substring(4, 6));
+
+      const today = new Date();
+      const currentYear = today.getFullYear();
+      const currentMonth = today.getMonth() + 1;
+      const currentDay = today.getDate();
+
+      const fullBirthYear =
+        birthYear <= 23 ? 2000 + birthYear : 1900 + birthYear;
+      let age = currentYear - fullBirthYear;
+
+      if (
+        currentMonth < birthMonth ||
+        (currentMonth === birthMonth && currentDay < birthDay)
+      ) {
+        age--;
+      }
+
+      const ageGroupValue = Math.floor(age / 10) * 10;
+      const calculatedAgeGroup =
+        ageGroupValue >= 90 ? "90대 이후" : `${ageGroupValue}대`;
+
+      console.log("Calculated Age Group:", calculatedAgeGroup);
+
+      setUserAgeGroup(calculatedAgeGroup);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    juminAxios();
+  }, []);
   const labels = ageGroups.map((group) => group.label);
   const grades = ageGroups.map((group) => group.grade);
 
@@ -132,7 +162,6 @@ const CreditGradeBarChart = ({
       },
     },
   };
-
   return (
     <Container darkMode={darkMode}>
       <ChartDiv>
