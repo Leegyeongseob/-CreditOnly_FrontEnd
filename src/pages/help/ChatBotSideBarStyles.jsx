@@ -18,7 +18,7 @@ export const Sidebar = styled.div`
       isOpen ? "translateX(0)" : "translateX(-100%)"};
     z-index: 1000;
     width: 250px;
-    height: 100vh; // 전체 높이로 설정
+    height: 100vh;
   }
 `;
 

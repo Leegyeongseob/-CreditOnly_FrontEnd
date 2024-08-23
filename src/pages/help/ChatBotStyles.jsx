@@ -63,11 +63,11 @@ export const Screen = styled.div`
 export const MessageBox = styled.div`
   flex: 1;
   display: flex;
-  justify-content: center; // 부모 요소의 자식을 가운데 정렬
-  align-items: center; // 부모 요소의 자식을 수직 가운데 정렬
+  justify-content: center;
+  align-items: center;
   padding: 20px;
   overflow-y: auto;
-  height: calc(100vh - 6vh); // 상단 네비게이션 바 제외한 전체 화면 높이 사용
+  height: calc(100vh - 6vh);
 
   @media screen and (max-width: 768px) {
     width: 100%;

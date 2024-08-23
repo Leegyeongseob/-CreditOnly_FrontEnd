@@ -10,7 +10,7 @@ import {
   MessageSend,
   SendWrap,
   MessageBubble,
-  LoadingIndicator,
+  LoadingIndicator, // 햄버거 메뉴 스타일 컴포넌트
 } from "./ChatBotStyles";
 import { CardContainer } from "./ChatCardStyles";
 import ChatBotSideBar from "./ChatBotSideBar";
@@ -34,17 +34,24 @@ const ChatBot = () => {
   const [activeTopic, setActiveTopic] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
-  const [isUserToggleVisible, setIsUserToggleVisible] = useState(false);
 
   useEffect(() => {
     const darkModeValue = localStorage.getItem("isDarkMode");
     setIsDarkMode(darkModeValue === "true");
-  }, []);
 
-  useEffect(() => {
-    console.log(`Active topic changed to: ${activeTopic}`);
-  }, [activeTopic]);
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsSideBarVisible(false);
+      } else {
+        setIsSideBarVisible(true);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleChange = (e) => {
     setMessage(e.target.value);
@@ -58,27 +65,17 @@ const ChatBot = () => {
     if (newConversation) {
       newConversation.topic = topic;
       setCurrentConversation(newConversation);
-    } else {
-      console.error(
-        "Failed to start new conversation: newConversation is undefined"
-      );
     }
   };
 
   const send = async () => {
     if (message.trim()) {
-      console.log("Sending message:", message);
       addMessage({ sender: "user", text: message });
       setMessage("");
       setIsLoading(true);
 
       try {
         const response = await performSimilaritySearch(message);
-        console.log("API Response:", response);
-
-        if (response.length === 0) {
-          console.warn("Empty response received. Check the query and server.");
-        }
 
         const formattedResponse = response
           .map((item) => {
@@ -110,12 +107,9 @@ const ChatBot = () => {
           text: formattedResponse,
         });
       } catch (error) {
-        console.error("API 호출 중 오류 발생:", error);
         addMessage({
           sender: "bot",
-          text:
-            "죄송합니다. 오류가 발생했습니다: " +
-            (error.response?.data?.message || error.message),
+          text: "죄송합니다. 오류가 발생했습니다.",
         });
       } finally {
         setIsLoading(false);
@@ -127,43 +121,20 @@ const ChatBot = () => {
     setIsSideBarVisible(!isSideBarVisible);
   };
 
-  const toggleDarkMode = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    localStorage.setItem("isDarkMode", newMode);
-  };
-
-  const toggleAlarmBar = () => {
-    // 알람바 토글 로직 구현
-  };
-
-  const toggleUserToggle = () => {
-    setIsUserToggleVisible(!isUserToggleVisible);
-  };
-
-  const handleNewChat = () => {
-    clearChatHistory();
-    setActiveTopic(null);
-  };
-
   return (
     <>
       <Header
         toggleSideBar={toggleSideBar}
-        isHeader={true}
-        toggleDarkMode={toggleDarkMode}
+        isHeader={false}
+        toggleDarkMode={() => setIsDarkMode(!isDarkMode)}
         isDarkMode={isDarkMode}
-        toggleAlarmBar={toggleAlarmBar}
-        hasUnreadNotifications={hasUnreadNotifications}
-        toggleUserToggle={toggleUserToggle}
-        isUserToggleVisible={isUserToggleVisible}
       />
       <Contain>
         <Screen isDarkMode={isDarkMode}>
           {isSideBarVisible && (
             <ChatBotSideBar
               toggleSideBar={toggleSideBar}
-              onNewChat={handleNewChat}
+              onNewChat={clearChatHistory}
               isOpen={isSideBarVisible}
               isDarkMode={isDarkMode}
             />

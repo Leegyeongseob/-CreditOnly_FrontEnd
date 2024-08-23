@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaTrashAlt,
@@ -20,46 +19,40 @@ import {
   ConversationList,
   ConversationItem,
   DeleteButton,
-  ToggleButton,
   Overlay,
-} from "./ChatBotSideBarStyles"; // 스타일 파일을 가져옴
+} from "./ChatBotSideBarStyles";
 
-const ChatBotSideBar = ({ onNewChat }) => {
+const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
   const navigate = useNavigate();
   const { conversations, deleteConversation, setCurrentConversation } =
     useChatContext();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const goSetting = () => {
-    setIsSidebarOpen(false);
+    toggleSideBar();
     navigate("/setting");
   };
+
   const goBack = () => {
-    setIsSidebarOpen(false);
+    toggleSideBar();
     navigate(-1);
   };
+
   const logOutBtnHandler = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    setIsSidebarOpen(false);
+    toggleSideBar();
     navigate("/");
   };
 
   const handleConversationClick = (conv) => {
     setCurrentConversation(conv);
-    setIsSidebarOpen(false);
-    // 필요하다면 여기에 추가적인 로직을 넣을 수 있습니다.
-  };
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    toggleSideBar();
   };
 
   return (
     <>
-      <ToggleButton onClick={toggleSidebar}>메뉴</ToggleButton>
-      <Overlay isOpen={isSidebarOpen} onClick={toggleSidebar} />
-      <Sidebar isOpen={isSidebarOpen}>
+      <Overlay isOpen={isOpen} onClick={toggleSideBar} />
+      <Sidebar isOpen={isOpen}>
         <Menu>
           <Back>
             <FaArrowLeft onClick={goBack} size={20} />
