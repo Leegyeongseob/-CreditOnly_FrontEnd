@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import {
@@ -9,6 +9,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import MemberAxiosApi from "../axiosapi/MemberAxiosApi";
+import { useContext } from "react";
+import { UserEmailContext } from "../contextapi/UserEmailProvider";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -48,7 +51,19 @@ const CreditGradeBarChart = ({
   userAgeGroup = "30대",
 }) => {
   const darkMode = localStorage.getItem("isDarkMode") === "true";
-
+  const { email } = useContext(UserEmailContext);
+  // //주민등록번호 가져오는 비동기 함수
+  // const juminAxios = async () => {
+  //   try {
+  //     const jumin = await MemberAxiosApi.getJumin(email);
+  //     console.log(jumin.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   juminAxios();
+  // });
   const labels = ageGroups.map((group) => group.label);
   const grades = ageGroups.map((group) => group.grade);
 
