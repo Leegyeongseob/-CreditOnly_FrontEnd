@@ -18,7 +18,7 @@ const NavigateDiv = styled.div`
   width: 100%;
   height: 80%;
   display: flex;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 610px) {
     width: 100%;
     height: 80%;
     display: flex;
@@ -36,7 +36,7 @@ const ButtonDiv = styled.div`
   justify-content: first baseline;
   align-items: center;
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 610px) {
     height: 33%;
   }
 `;
@@ -63,7 +63,7 @@ const FindButton = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 600;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 610px) {
     font-size: 20px;
   }
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
@@ -196,7 +196,7 @@ const FindPwdText = styled.div`
   font-weight: bold;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 610px) {
     font-size: 40px;
     display: flex;
     /* background-color: black; */
@@ -219,7 +219,7 @@ const FindPwdWarp = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 610px) {
     height: 90%;
   }
 `;
@@ -254,7 +254,7 @@ const GoToLoginPage = styled.div`
     align-items: end;
     text-align: end;
     font-size: 20px;
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 610px) {
       font-size: 17px;
     }
     @media screen and (max-width: 352px) {
@@ -271,7 +271,7 @@ const GoToLoginPage = styled.div`
     font-weight: 600;
     font-size: clamp(20px, 3vw, 35px);
     cursor: pointer;
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 610px) {
       font-size: 17px;
     }
 

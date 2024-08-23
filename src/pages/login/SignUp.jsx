@@ -490,6 +490,7 @@ const Rectangle = styled.div`
   }
   @media screen and (max-width: 500px) {
     width: 100%;
+    min-width: 300px;
     border-radius: 38px 38px 0 0;
   }
 `;
