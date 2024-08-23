@@ -32,14 +32,6 @@ const Container = styled.div`
   transform: background-color 0.5s ease;
 `;
 
-const ChartDiv = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const ErrorText = styled.div`
   width: 100%;
   height: 100%;
@@ -197,9 +189,7 @@ const CreditGradeRadarChart = ({ userJob = "급여소득자" }) => {
 
   return (
     <Container darkMode={darkMode}>
-      <ChartDiv>
-        <Radar data={chartData} options={options} />
-      </ChartDiv>
+      <Radar data={chartData} options={options} />
     </Container>
   );
 };

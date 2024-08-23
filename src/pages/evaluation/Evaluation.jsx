@@ -85,6 +85,9 @@ const CrediEvaluation = styled.div`
   @media screen and (max-width: 768px) {
     height: 100%;
   }
+  @media screen and (max-width: 457px) {
+    justify-content: flex-end;
+  }
 `;
 
 const CreditView = styled.div`
@@ -120,6 +123,9 @@ const TextEvaluation = styled.div`
   @media screen and (max-width: 768px) {
     font-size: 14px;
   }
+  @media screen and (max-width: 457px) {
+    display: ${({ positionfirst }) => (positionfirst ? "none" : "flex-end")};
+  }
 `;
 const MyEvaluation = styled.div`
   width: 200px;
@@ -130,6 +136,7 @@ const MyEvaluation = styled.div`
   align-items: center;
   padding: 10px;
   @media screen and (max-width: 768px) {
+    width: 150px;
     font-size: 16px;
   }
 `;

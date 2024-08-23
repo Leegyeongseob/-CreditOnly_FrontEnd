@@ -79,10 +79,6 @@ const CreditScoreScatterChart = () => {
     });
     return Object.values(aggregated);
   };
-  const sampleData = (rawData, sampleSize) => {
-    const shuffled = rawData.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, sampleSize);
-  };
 
   const chartData = {
     datasets: [

@@ -25,14 +25,6 @@ const Container = styled.div`
   transition: background-color 0.5s ease;
 `;
 
-const ChartDiv = styled.div`
-  width: 80%;
-  height: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 // 샘플 데이터
 const sampleAgeGroups = [
   { label: "10대", grade: 4 },
@@ -164,9 +156,7 @@ const CreditGradeBarChart = ({ ageGroups = sampleAgeGroups }) => {
   };
   return (
     <Container darkMode={darkMode}>
-      <ChartDiv>
         <Bar data={chartData} options={options} />
-      </ChartDiv>
     </Container>
   );
 };
