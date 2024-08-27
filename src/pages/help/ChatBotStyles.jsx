@@ -63,8 +63,8 @@ export const Screen = styled.div`
 export const MessageBox = styled.div`
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 20px;
   overflow-y: auto;
   height: calc(100vh - 6vh);

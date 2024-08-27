@@ -38,10 +38,13 @@ const ErrorText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5vw;
+  font-size: 1.5rem;
   font-weight: 500;
-  color: ${({ theme }) => theme.color};
+  color: #ff6b6b;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  @media screen and (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 
 const CreditGradeRadarChart = ({ userJob = "급여소득자" }) => {
