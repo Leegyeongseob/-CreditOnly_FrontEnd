@@ -25,8 +25,9 @@ const ChatBot = () => {
     addMessage,
     clearChatHistory,
     currentConversation,
-    setCurrentConversation, // setCurrentConversation 가져오기
+    setCurrentConversation,
     startNewConversation,
+    conversations,
   } = useChatContext();
 
   const [message, setMessage] = useState("");
@@ -53,6 +54,11 @@ const ChatBot = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    console.log("현재 대화:", currentConversation);
+    console.log("채팅 기록:", chatHistory);
+  }, [currentConversation, chatHistory]);
+
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
@@ -64,7 +70,7 @@ const ChatBot = () => {
     const newConversation = startNewConversation();
     if (newConversation) {
       newConversation.topic = topic;
-      setCurrentConversation(newConversation); // 여기에서 사용
+      setCurrentConversation(newConversation);
     }
   };
 
@@ -123,7 +129,8 @@ const ChatBot = () => {
 
   const handleNewChat = () => {
     clearChatHistory();
-    setActiveTopic(null);
+    setActiveTopic(null); // 새 채팅 시작 시 카드 선택 화면이 다시 나타나도록 설정
+    setCurrentConversation(null); // 기존 대화 초기화
   };
 
   return (
@@ -145,6 +152,7 @@ const ChatBot = () => {
             />
           )}
           <MessageBox>
+            {/* currentConversation이 없거나 activeTopic이 없을 때 카드 선택 화면 표시 */}
             {!currentConversation || !activeTopic ? (
               <CardContainer>
                 <ChatCard
@@ -166,7 +174,7 @@ const ChatBot = () => {
             ) : (
               <>
                 <MessagePlace>
-                  {chatHistory.map((message, index) => (
+                  {currentConversation.messages.map((message, index) => (
                     <MessageBubble
                       key={index}
                       isDarkMode={isDarkMode}

@@ -1,11 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FaTrashAlt,
-  FaExternalLinkAlt,
-  FaArrowLeft,
-  FaPlus,
-} from "react-icons/fa";
+import { FaTrashAlt, FaArrowLeft, FaPlus } from "react-icons/fa";
 import { GoPerson } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
 import { useChatContext } from "../../contexts/ChatContext";
@@ -25,40 +20,21 @@ import {
 
 const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
   const navigate = useNavigate();
-  const {
-    conversations,
-    deleteConversation,
-    setCurrentConversation, // setCurrentConversation 가져오기
-  } = useChatContext();
-
-  const goSetting = () => {
-    if (window.innerWidth <= 768) {
-      toggleSideBar();
-    }
-    navigate("/setting");
-  };
-
-  const goBack = () => {
-    if (window.innerWidth <= 768) {
-      toggleSideBar();
-    }
-    navigate(-1);
-  };
-
-  const logOutBtnHandler = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    if (window.innerWidth <= 768) {
-      toggleSideBar();
-    }
-    navigate("/");
-  };
+  const { conversations, deleteConversation, setCurrentConversation } =
+    useChatContext();
 
   const handleConversationClick = (conv) => {
-    setCurrentConversation(conv); // 클릭한 대화를 현재 대화로 설정
+    setCurrentConversation(conv); // 대화 선택 시 currentConversation 업데이트
     if (window.innerWidth <= 768) {
       toggleSideBar();
     }
+  };
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return `대화 ${date.getFullYear()}.${
+      date.getMonth() + 1
+    }.${date.getDate()}. 오후 ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   };
 
   return (
@@ -66,7 +42,7 @@ const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
       <Overlay isOpen={isOpen} onClick={toggleSideBar} />
       <Sidebar isOpen={isOpen}>
         <Back>
-          <FaArrowLeft onClick={goBack} size={20} />
+          <FaArrowLeft onClick={() => navigate(-1)} size={20} />
         </Back>
         <Menu>
           <NewChatBox>
@@ -79,9 +55,9 @@ const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
             {conversations.map((conv) => (
               <ConversationItem
                 key={conv.id}
-                onClick={() => handleConversationClick(conv)} // 대화 항목 클릭 시 호출
+                onClick={() => handleConversationClick(conv)} // 대화 클릭 핸들러
               >
-                대화 {new Date(conv.id).toLocaleString()}
+                {formatDate(conv.id)}
                 <DeleteButton
                   onClick={(e) => {
                     e.stopPropagation();
@@ -94,19 +70,18 @@ const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
             ))}
           </ConversationList>
           <SettingBox>
-            <SetDetail onClick={goSetting}>
+            <SetDetail onClick={() => navigate("/setting")}>
               <GoPerson />
               계정관리
             </SetDetail>
+            <SetDetail onClick={() => navigate("/help")}>FAQ</SetDetail>
             <SetDetail
               onClick={() => {
-                navigate("/help");
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                navigate("/");
               }}
             >
-              <FaExternalLinkAlt />
-              FAQ
-            </SetDetail>
-            <SetDetail onClick={logOutBtnHandler}>
               <MdLogout />
               로그아웃
             </SetDetail>
@@ -116,5 +91,3 @@ const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
     </>
   );
 };
-
-export default ChatBotSideBar;
