@@ -13,12 +13,31 @@ export const ChatProvider = ({ children }) => {
   const [currentConversation, setCurrentConversation] = useState(null);
 
   useEffect(() => {
-    // 로컬 스토리지에서 대화 불러오기
     const savedConversations = JSON.parse(
       localStorage.getItem("conversations") || "[]"
     );
     setConversations(savedConversations);
+
+    // 마지막으로 선택된 대화를 로드
+    const lastConversation = JSON.parse(
+      localStorage.getItem("lastConversation")
+    );
+    if (lastConversation) {
+      setCurrentConversation(lastConversation);
+      setChatHistory(lastConversation.messages || []);
+    }
   }, []);
+
+  useEffect(() => {
+    // currentConversation이 변경될 때마다 chatHistory를 업데이트
+    if (currentConversation) {
+      setChatHistory(currentConversation.messages || []);
+      localStorage.setItem(
+        "lastConversation",
+        JSON.stringify(currentConversation)
+      );
+    }
+  }, [currentConversation]);
 
   const toggleDarkMode = () => {
     const newMode = !isDarkMode;
@@ -27,18 +46,18 @@ export const ChatProvider = ({ children }) => {
   };
 
   const addMessage = (message) => {
-    setChatHistory((prevHistory) => {
-      const newHistory = [...prevHistory, message];
-      if (currentConversation) {
-        const updatedConversation = {
-          ...currentConversation,
-          messages: [...currentConversation.messages, message],
-        };
-        setCurrentConversation(updatedConversation);
-        saveConversation(updatedConversation);
-      }
-      return newHistory;
-    });
+    if (!currentConversation) return;
+
+    const updatedHistory = [...chatHistory, message];
+    setChatHistory(updatedHistory);
+
+    const updatedConversation = {
+      ...currentConversation,
+      messages: updatedHistory,
+    };
+
+    setCurrentConversation(updatedConversation);
+    saveConversation(updatedConversation);
   };
 
   const startNewConversation = () => {
@@ -47,6 +66,7 @@ export const ChatProvider = ({ children }) => {
     setCurrentConversation(newConversation);
     setChatHistory([]);
     saveConversation(newConversation);
+    return newConversation; // 반환 추가
   };
 
   const deleteConversation = (id) => {
@@ -58,9 +78,11 @@ export const ChatProvider = ({ children }) => {
       );
       return updatedConversations;
     });
+
     if (currentConversation && currentConversation.id === id) {
       setCurrentConversation(null);
       setChatHistory([]);
+      localStorage.removeItem("lastConversation");
     }
   };
 
@@ -121,7 +143,7 @@ export const ChatProvider = ({ children }) => {
         currentConversation,
         setCurrentConversation,
         saveConversation,
-        clearChatHistory, // 추가된 함수
+        clearChatHistory,
       }}
     >
       {children}

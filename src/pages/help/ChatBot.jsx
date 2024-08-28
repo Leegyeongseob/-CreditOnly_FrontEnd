@@ -10,7 +10,7 @@ import {
   MessageSend,
   SendWrap,
   MessageBubble,
-  LoadingIndicator, // 햄버거 메뉴 스타일 컴포넌트
+  LoadingIndicator,
 } from "./ChatBotStyles";
 import { CardContainer } from "./ChatCardStyles";
 import ChatBotSideBar from "./ChatBotSideBar";
@@ -25,7 +25,7 @@ const ChatBot = () => {
     addMessage,
     clearChatHistory,
     currentConversation,
-    setCurrentConversation,
+    setCurrentConversation, // setCurrentConversation 가져오기
     startNewConversation,
   } = useChatContext();
 
@@ -64,7 +64,7 @@ const ChatBot = () => {
     const newConversation = startNewConversation();
     if (newConversation) {
       newConversation.topic = topic;
-      setCurrentConversation(newConversation);
+      setCurrentConversation(newConversation); // 여기에서 사용
     }
   };
 
@@ -121,6 +121,11 @@ const ChatBot = () => {
     setIsSideBarVisible(!isSideBarVisible);
   };
 
+  const handleNewChat = () => {
+    clearChatHistory();
+    setActiveTopic(null);
+  };
+
   return (
     <>
       <Header
@@ -134,7 +139,7 @@ const ChatBot = () => {
           {isSideBarVisible && (
             <ChatBotSideBar
               toggleSideBar={toggleSideBar}
-              onNewChat={clearChatHistory}
+              onNewChat={handleNewChat}
               isOpen={isSideBarVisible}
               isDarkMode={isDarkMode}
             />
@@ -161,19 +166,16 @@ const ChatBot = () => {
             ) : (
               <>
                 <MessagePlace>
-                  {chatHistory.map((msg, index) => (
+                  {chatHistory.map((message, index) => (
                     <MessageBubble
                       key={index}
-                      sender={msg.sender}
                       isDarkMode={isDarkMode}
-                      dangerouslySetInnerHTML={{ __html: msg.text }}
-                    />
+                      sender={message.sender}
+                    >
+                      {message.text}
+                    </MessageBubble>
                   ))}
-                  {isLoading && (
-                    <LoadingIndicator isDarkMode={isDarkMode}>
-                      응답을 생성 중입니다...
-                    </LoadingIndicator>
-                  )}
+                  {isLoading && <LoadingIndicator />}
                 </MessagePlace>
                 <MessageSendBox>
                   <MessageSendWrap isDarkMode={isDarkMode}>

@@ -188,7 +188,6 @@ export const MessageBubble = styled.div`
     font-size: 14px;
   }
 `;
-
 export const LoadingIndicator = styled.div`
   text-align: center;
   padding: 10px;

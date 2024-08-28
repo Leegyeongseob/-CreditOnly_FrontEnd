@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaTrashAlt,
@@ -24,39 +25,50 @@ import {
 
 const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
   const navigate = useNavigate();
-  const { conversations, deleteConversation, setCurrentConversation } =
-    useChatContext();
+  const {
+    conversations,
+    deleteConversation,
+    setCurrentConversation, // setCurrentConversation 가져오기
+  } = useChatContext();
 
   const goSetting = () => {
-    toggleSideBar();
+    if (window.innerWidth <= 768) {
+      toggleSideBar();
+    }
     navigate("/setting");
   };
 
   const goBack = () => {
-    toggleSideBar();
+    if (window.innerWidth <= 768) {
+      toggleSideBar();
+    }
     navigate(-1);
   };
 
   const logOutBtnHandler = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    toggleSideBar();
+    if (window.innerWidth <= 768) {
+      toggleSideBar();
+    }
     navigate("/");
   };
 
   const handleConversationClick = (conv) => {
-    setCurrentConversation(conv);
-    toggleSideBar();
+    setCurrentConversation(conv); // 클릭한 대화를 현재 대화로 설정
+    if (window.innerWidth <= 768) {
+      toggleSideBar();
+    }
   };
 
   return (
     <>
       <Overlay isOpen={isOpen} onClick={toggleSideBar} />
       <Sidebar isOpen={isOpen}>
+        <Back>
+          <FaArrowLeft onClick={goBack} size={20} />
+        </Back>
         <Menu>
-          <Back>
-            <FaArrowLeft onClick={goBack} size={20} />
-          </Back>
           <NewChatBox>
             <NewChatBtn onClick={onNewChat}>
               새 채팅
@@ -67,7 +79,7 @@ const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
             {conversations.map((conv) => (
               <ConversationItem
                 key={conv.id}
-                onClick={() => handleConversationClick(conv)}
+                onClick={() => handleConversationClick(conv)} // 대화 항목 클릭 시 호출
               >
                 대화 {new Date(conv.id).toLocaleString()}
                 <DeleteButton

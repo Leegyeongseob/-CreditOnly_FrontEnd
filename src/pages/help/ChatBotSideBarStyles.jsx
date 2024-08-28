@@ -1,14 +1,32 @@
 import styled from "styled-components";
 
+export const Back = styled.div`
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1001;
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+`;
+
 export const Sidebar = styled.div`
   width: 250px;
-  height: 100%;
+  height: 100vh;
   display: flex;
-  background-color: ${({ theme }) => theme.sideBar};
-  transition: background-color 0.5s ease, transform 0.3s ease;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.sideBar};
   padding: 20px;
+  box-sizing: border-box;
   overflow-y: auto;
+  transition: transform 0.3s ease, background-color 0.5s ease;
 
   @media screen and (max-width: 768px) {
     position: fixed;
@@ -17,8 +35,7 @@ export const Sidebar = styled.div`
     transform: ${({ isOpen }) =>
       isOpen ? "translateX(0)" : "translateX(-100%)"};
     z-index: 1000;
-    width: 250px;
-    height: 100vh;
+    padding-top: 60px; // 상단 패딩 추가하여 콘텐츠가 잘리지 않도록 설정
   }
 `;
 
@@ -31,16 +48,7 @@ export const Menu = styled.div`
   align-items: flex-start;
 `;
 
-export const Back = styled.div`
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-`;
+// 나머지 styled-components 정의는 이전과 동일하게 유지됩니다...
 
 export const NewChatBox = styled.div`
   width: 100%;
