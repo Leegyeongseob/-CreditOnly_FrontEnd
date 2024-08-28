@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -8,9 +8,9 @@ import CreditGradeBarChart from "../../chart/CreditGradeBarChart";
 import { useEffect, useContext, useState } from "react";
 import CreditScore from "../../img/evaluation/creditScore.png";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
-import IsNotCreditEvaluationForm from "./IsNotCreditEvaluationForm";
-import Loading from "./Loading";
-import Modal from "../../common/utils/ImageModal";
+import IsNotCreditEvaluationForm from "../../pages/evaluation/IsNotCreditEvaluationForm";
+import Loading from "../../pages/evaluation/Loading";
+import Modal from "../../pages/help/HelpModal";
 import NotCreditInput from "../../img/evaluation/not-creditInput.gif";
 const Container = styled.div`
   width: 100%;

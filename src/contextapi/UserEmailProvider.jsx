@@ -12,7 +12,10 @@ const UserEmailProvider = ({ children }) => {
   const [adminEmails, setAdminEmails] = useState([]); // 관리자 이메일 목록을 빈 배열로 초기화
   const [isCreditEvaluation, setIsCreditEvaluation] = useState(false); // 신용평가 상태변수
   const [isLoading, setIsLoading] = useState(false);
-  const [kakaoImgUrl,setKakaoImgUrl] = useState("");
+  const [kakaoImgUrl, setKakaoImgUrl] = useState("");
+  const [creditData, setCreditData] = useState(null);
+  const [jobData, setJobData] = useState();
+  const [residence, setResidence] = useState();
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
     const fetchUserInfo = async () => {
@@ -48,7 +51,13 @@ const UserEmailProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         kakaoImgUrl,
-        setKakaoImgUrl
+        setKakaoImgUrl,
+        creditData,
+        setCreditData,
+        jobData,
+        setJobData,
+        residence,
+        setResidence,
       }}
     >
       {children}
