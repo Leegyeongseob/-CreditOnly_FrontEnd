@@ -44,10 +44,13 @@ const ErrorText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5vw;
+  font-size: 1.5rem;
+  color: #ff6b6b;
   font-weight: 500;
-  color: ${({ theme }) => theme.color};
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  @media screen and (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 const ResidentStackedBarChart = () => {
   const darkMode = localStorage.getItem("isDarkMode") === "true";

@@ -7,12 +7,14 @@ import InformationAxios from "../../axiosapi/InformationAxios"; // API 호출을
 import { LiaToggleOffSolid, LiaToggleOnSolid } from "react-icons/lia";
 import Comments from "./Comment/Comment";
 import NewsForm from "./NewsForm";
+import useImageErrorHandler from "./useImage";
+import Loading from "../evaluation/Loading";
 
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width:300px;
+  min-width: 300px;
 `;
 
 const CommentsToggle = styled.div`
@@ -152,7 +154,7 @@ const EditBtn = styled.div`
   align-items: center;
 
   opacity: ${({ showComments }) => (showComments ? 0 : 1)};
-    pointer-events: ${({ showComments }) => (showComments ? "none" : "auto")};
+  pointer-events: ${({ showComments }) => (showComments ? "none" : "auto")};
 `;
 
 const Btn = styled.div`
@@ -194,6 +196,7 @@ const NewsDetail = () => {
   const isAdmin = adminEmails.includes(email);
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
   const [editedItem, setEditedItem] = useState(null); // 수정된 데이터를 저장할 상태
+  const handleImageError = useImageErrorHandler();
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -212,8 +215,7 @@ const NewsDetail = () => {
     fetchItem();
   }, [id]);
 
-
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
   if (!item) return <p>뉴스 항목을 찾을 수 없습니다.</p>;
 
@@ -238,7 +240,10 @@ const NewsDetail = () => {
 
   const handleSaveClick = async () => {
     try {
-      const updatedData = await InformationAxios.updateInformation(id, editedItem);
+      const updatedData = await InformationAxios.updateInformation(
+        id,
+        editedItem
+      );
       setItem(updatedData);
       setIsEditing(false);
     } catch (error) {
@@ -246,11 +251,11 @@ const NewsDetail = () => {
       setError("정보 수정에 실패했습니다.");
     }
   };
-  
+
   const handleInputChange = (field, value) => {
     setEditedItem((prev) => ({ ...prev, [field]: value }));
   };
-  
+
   return (
     <Wrap>
       <BackButtonContainer>
@@ -275,27 +280,34 @@ const NewsDetail = () => {
       </BackButtonContainer>
       <MainBox>
         <Container showComments={showComments}>
-        {isEditing ? (
-            <NewsForm item={editedItem} onInputChange={handleInputChange} isEditing />
+          {isEditing ? (
+            <NewsForm
+              item={editedItem}
+              onInputChange={handleInputChange}
+              isEditing
+            />
           ) : (
             <>
-          <TopSection>
-            <Header>
-              <Title>{item.title}</Title>
-              <CreationDate>{formatDate(item.publishedDate)}</CreationDate>
-            </Header>
-          </TopSection>
-          <DetailWrap>
-            <NewsImg alt={item.title} src={item.imageUrl} />
+              <TopSection>
+                <Header>
+                  <Title>{item.title}</Title>
+                  <CreationDate>{formatDate(item.publishedDate)}</CreationDate>
+                </Header>
+              </TopSection>
+              <DetailWrap>
+                <NewsImg
+                  alt={item.title}
+                  src={item.imageUrl}
+                  onError={(e) => handleImageError(e, item.id)}
+                />
 
-            <Content>{item.content}</Content>
-          </DetailWrap>
-          </>
-           )}
+                <Content>{item.content}</Content>
+              </DetailWrap>
+            </>
+          )}
         </Container>
         <Comments informationId={id} showComments={showComments} />
       </MainBox>
-     
     </Wrap>
   );
 };

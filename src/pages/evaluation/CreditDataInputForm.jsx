@@ -2,10 +2,11 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { UserEmailContext } from "../../contextapi/UserEmailProvider";
 import { useNavigate } from "react-router-dom";
+import DataVisualization from "../../axiosapi/DataVisualization";
 const FormContainer = styled.div`
   width: 100%;
   margin: 0 auto;
-  background-color: white;
+  background-color: ${({ theme }) => theme.background};
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 `;
@@ -42,10 +43,10 @@ const FormContent = styled.div`
 const Alert = styled.div`
   padding: 1rem;
   margin-bottom: 1rem;
-  background-color: #e1effe;
-  border: 1px solid #bfdbfe;
+  background-color: ${({ theme }) => theme.commponent};
+  border: 1px solid ${({ theme }) => theme.border};
   border-radius: 0.375rem;
-  color: #1e40af;
+  color: ${({ theme }) => theme.color};
 `;
 
 const Form = styled.form`
@@ -62,7 +63,7 @@ const FormGroup = styled.div`
 const Label = styled.label`
   font-size: 0.875rem;
   font-weight: 500;
-  color: #374151;
+  color: ${({ theme }) => theme.color};
   margin-bottom: 0.25rem;
 `;
 
@@ -71,7 +72,8 @@ const Select = styled.select`
   padding: 0.5rem;
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
-  background-color: white;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.color};
 `;
 
 const Input = styled.input`
@@ -92,22 +94,24 @@ const GridContainer = styled.div`
 const SubmitButton = styled.button`
   width: 100%;
   padding: 0.5rem;
-  background-color: #e4e7f5;
-  color: white;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.drag};
   border: none;
+  font-size: 0.8rem;
+
   border-radius: 0.375rem;
   font-weight: 500;
   cursor: pointer;
 
   &:hover {
-    background-color: #734cfd;
+    background-color: #bca9ff9b;
   }
 `;
 const ItemDetailBtn = styled.button`
-  width: 100px;
+  width: 130px;
   height: 35px;
-  background-color: #e4e7f5;
-  color: white;
+  background-color: ${({ theme }) => theme.sideBar};
+  color: ${({ theme }) => theme.drag};
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
@@ -116,7 +120,7 @@ const ItemDetailBtn = styled.button`
   margin-left: 10px;
 
   &:hover {
-    background-color: #734cfd;
+    background-color: #bca9ff9b;
   }
 `;
 
@@ -125,7 +129,7 @@ const ItemsDetail = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: ${({ theme }) => theme.background};
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -141,6 +145,7 @@ const CloseButton = styled.button`
   right: 10px;
   background: none;
   border: none;
+  color: ${({ theme }) => theme.color};
   font-size: 1.5rem;
   cursor: pointer;
 `;
@@ -161,42 +166,47 @@ const DetailItemTitle = styled.h4`
 `;
 const CreditDataInputForm = () => {
   const navigate = useNavigate();
-  const { setIsCreditEvaluation,setIsLoading } = useContext(UserEmailContext);
+  const { setIsCreditEvaluation, setIsLoading } = useContext(UserEmailContext);
 
   const [formData, setFormData] = useState({
-    jobType: "",
-    recentCreditAccounts: "",
+    jobType: "9",
+    recentCreditAccounts: "0",
     creditCardInstitutions: {
-      year1: "",
-      year2: "",
-      year3: "",
+      year1: "0",
+      year2: "0",
+      year3: "0",
     },
     unpaidLoans: {
-      under5M3Months: "",
-      under10M3Months: "",
-      under5M6Months: "",
-      under10M6Months: "",
-      under5M1Year: "",
-      under10M1Year: "",
+      under5M3Months: "0",
+      under10M3Months: "0",
+      under5M6Months: "0",
+      under10M6Months: "0",
+      under5M1Year: "0",
+      under10M1Year: "0",
     },
     loanExperience: {
-      subrogation: "",
-      writeOff: "",
-      sale: "",
-      debtRestructuring: "",
-      bankruptcy: "",
-      accelerationClause: "",
-      transferTermination: "",
+      subrogation: "0",
+      writeOff: "0",
+      sale: "0",
+      debtRestructuring: "0",
+      bankruptcy: "0",
+      accelerationClause: "0",
+      transferTermination: "0",
     },
-    totalUnpaidLoans: "",
+    totalUnpaidLoans: "0",
   });
   const [showDetails, setShowDetails] = useState(false);
   // 신용 평가하기 이벤트 핸들러
   const CreditEventOnClickHandler = () => {
     setIsCreditEvaluation(true);
     setIsLoading(true);
+    // 파이썬으로 데이터 전송
+    console.log("formData", formData);
+    postCreditDataAxios(formData);
     navigate("/evaluation");
-    
+  };
+  const postCreditDataAxios = async (data) => {
+    const response = await DataVisualization.postCreditInput(data);
   };
   const handleInputChange = (category, field, value) => {
     setFormData((prevData) => {

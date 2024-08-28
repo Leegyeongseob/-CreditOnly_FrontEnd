@@ -23,8 +23,18 @@ const ChartContainer = styled.div`
 `;
 
 const ErrorText = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1.5rem;
+  font-weight: 500;
   color: #ff6b6b;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  @media screen and (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 
 const CreditScoreScatterChart = () => {
