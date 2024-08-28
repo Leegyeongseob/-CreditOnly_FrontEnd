@@ -84,6 +84,7 @@ export const ConversationList = styled.div`
   width: 100%;
   overflow-y: auto;
   margin-bottom: 20px;
+  display: ${(props) => (props.isCardSelected ? "block" : "none")};
 `;
 
 export const ConversationItem = styled.div`

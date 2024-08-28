@@ -11,10 +11,9 @@ import {
   SendWrap,
   MessageBubble,
   LoadingIndicator,
-} from "./ChatBotStyles";
-import { CardContainer } from "./ChatCardStyles";
-import ChatBotSideBar from "./ChatBotSideBar";
-import ChatCard from "./ChatCard";
+} from "./ChatBotStyles"; // 변경된 파일 이름 적용
+import { CardWrapper, CardContainer, CardText } from "./ChatCardStyles";
+import ChatBotSideBar from "./ChatBotSideBar"; // 변경된 파일 이름 적용
 import { VscSend } from "react-icons/vsc";
 import { performSimilaritySearch } from "../../axiosapi/performSimilaritySearch";
 import { useChatContext } from "../../contexts/ChatContext";
@@ -35,6 +34,7 @@ const ChatBot = () => {
   const [activeTopic, setActiveTopic] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isCardSelected, setIsCardSelected] = useState(false); // 카드 선택 상태 추가
 
   useEffect(() => {
     const darkModeValue = localStorage.getItem("isDarkMode");
@@ -65,6 +65,7 @@ const ChatBot = () => {
 
   const handleCardClick = (topic) => {
     setActiveTopic(topic);
+    setIsCardSelected(true); // 카드 선택 시 상태 업데이트
     addMessage({ sender: "bot", text: `${topic}에 대해 물어보세요.` });
 
     const newConversation = startNewConversation();
@@ -130,6 +131,7 @@ const ChatBot = () => {
   const handleNewChat = () => {
     clearChatHistory();
     setActiveTopic(null); // 새 채팅 시작 시 카드 선택 화면이 다시 나타나도록 설정
+    setIsCardSelected(false); // 카드 선택 상태 초기화
     setCurrentConversation(null); // 기존 대화 초기화
   };
 
@@ -148,41 +150,41 @@ const ChatBot = () => {
               toggleSideBar={toggleSideBar}
               onNewChat={handleNewChat}
               isOpen={isSideBarVisible}
+              isCardSelected={isCardSelected} // 카드 선택 상태 전달
               isDarkMode={isDarkMode}
             />
           )}
           <MessageBox>
             {/* currentConversation이 없거나 activeTopic이 없을 때 카드 선택 화면 표시 */}
-            {!currentConversation || !activeTopic ? (
-              <CardContainer>
-                <ChatCard
-                  text="소비자 동향 지수"
+            {!isCardSelected ? (
+              <CardWrapper>
+                <CardContainer
                   onClick={() => handleCardClick("소비자 동향 지수")}
-                  isDarkMode={isDarkMode}
-                />
-                <ChatCard
-                  text="기업 개황"
-                  onClick={() => handleCardClick("기업 개황")}
-                  isDarkMode={isDarkMode}
-                />
-                <ChatCard
-                  text="금융 회사 조회"
+                >
+                  <CardText>소비자 동향 지수</CardText>
+                </CardContainer>
+                <CardContainer onClick={() => handleCardClick("기업 개황")}>
+                  <CardText>기업 개황</CardText>
+                </CardContainer>
+                <CardContainer
                   onClick={() => handleCardClick("금융 회사 조회")}
-                  isDarkMode={isDarkMode}
-                />
-              </CardContainer>
+                >
+                  <CardText>금융 회사 조회</CardText>
+                </CardContainer>
+              </CardWrapper>
             ) : (
               <>
                 <MessagePlace>
-                  {currentConversation.messages.map((message, index) => (
-                    <MessageBubble
-                      key={index}
-                      isDarkMode={isDarkMode}
-                      sender={message.sender}
-                    >
-                      {message.text}
-                    </MessageBubble>
-                  ))}
+                  {currentConversation &&
+                    currentConversation.messages.map((message, index) => (
+                      <MessageBubble
+                        key={index}
+                        isDarkMode={isDarkMode}
+                        sender={message.sender}
+                      >
+                        {message.text}
+                      </MessageBubble>
+                    ))}
                   {isLoading && <LoadingIndicator />}
                 </MessagePlace>
                 <MessageSendBox>

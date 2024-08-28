@@ -18,13 +18,19 @@ import {
   Overlay,
 } from "./ChatBotSideBarStyles";
 
-const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
+const ChatBotSideBar = ({
+  isOpen,
+  toggleSideBar,
+  onNewChat,
+  isCardSelected,
+  isDarkMode,
+}) => {
   const navigate = useNavigate();
   const { conversations, deleteConversation, setCurrentConversation } =
     useChatContext();
 
   const handleConversationClick = (conv) => {
-    setCurrentConversation(conv); // 대화 선택 시 currentConversation 업데이트
+    setCurrentConversation(conv);
     if (window.innerWidth <= 768) {
       toggleSideBar();
     }
@@ -34,15 +40,15 @@ const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
     const date = new Date(timestamp);
     return `대화 ${date.getFullYear()}.${
       date.getMonth() + 1
-    }.${date.getDate()}. 오후 ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    }.${date.getDate()}. 오후 ${date.getHours()}:${date.getMinutes()}`;
   };
 
   return (
     <>
       <Overlay isOpen={isOpen} onClick={toggleSideBar} />
       <Sidebar isOpen={isOpen}>
-        <Back>
-          <FaArrowLeft onClick={() => navigate(-1)} size={20} />
+        <Back onClick={() => navigate(-1)}>
+          <FaArrowLeft size={20} />
         </Back>
         <Menu>
           <NewChatBox>
@@ -51,11 +57,11 @@ const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
               <FaPlus size={14} />
             </NewChatBtn>
           </NewChatBox>
-          <ConversationList>
+          <ConversationList isCardSelected={isCardSelected}>
             {conversations.map((conv) => (
               <ConversationItem
                 key={conv.id}
-                onClick={() => handleConversationClick(conv)} // 대화 클릭 핸들러
+                onClick={() => handleConversationClick(conv)}
               >
                 {formatDate(conv.id)}
                 <DeleteButton
@@ -91,3 +97,5 @@ const ChatBotSideBar = ({ onNewChat, toggleSideBar, isOpen, isDarkMode }) => {
     </>
   );
 };
+
+export default ChatBotSideBar;
