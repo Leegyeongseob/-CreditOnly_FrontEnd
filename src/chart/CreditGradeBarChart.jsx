@@ -41,6 +41,7 @@ const sampleAgeGroups = [
 const CreditGradeBarChart = ({ ageGroups = sampleAgeGroups }) => {
   const darkMode = localStorage.getItem("isDarkMode") === "true";
   const { email } = useContext(UserEmailContext);
+  console.log("email체크:",email);
   const [userAgeGroup, setUserAgeGroup] = useState("");
   //주민등록 번호를 가져와서 계산하는 axios함수
   const juminAxios = async () => {

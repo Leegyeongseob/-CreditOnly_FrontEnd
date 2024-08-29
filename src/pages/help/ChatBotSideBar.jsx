@@ -46,7 +46,7 @@ const ChatBotSideBar = ({
   return (
     <>
       <Overlay isOpen={isOpen} onClick={toggleSideBar} />
-      <Sidebar isOpen={isOpen}>
+      <Sidebar isOpen={isOpen} isDarkMode={isDarkMode}>
         <Back onClick={() => navigate(-1)}>
           <FaArrowLeft size={20} />
         </Back>
@@ -60,6 +60,7 @@ const ChatBotSideBar = ({
           <ConversationList isCardSelected={isCardSelected}>
             {conversations.map((conv) => (
               <ConversationItem
+                isDarkMode={isDarkMode}
                 key={conv.id}
                 onClick={() => handleConversationClick(conv)}
               >
@@ -76,12 +77,21 @@ const ChatBotSideBar = ({
             ))}
           </ConversationList>
           <SettingBox>
-            <SetDetail onClick={() => navigate("/setting")}>
+            <SetDetail
+              isDarkMode={isDarkMode}
+              onClick={() => navigate("/setting")}
+            >
               <GoPerson />
               계정관리
             </SetDetail>
-            <SetDetail onClick={() => navigate("/help")}>FAQ</SetDetail>
             <SetDetail
+              isDarkMode={isDarkMode}
+              onClick={() => navigate("/help")}
+            >
+              FAQ
+            </SetDetail>
+            <SetDetail
+              isDarkMode={isDarkMode}
               onClick={() => {
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");

@@ -23,7 +23,7 @@ export const CardWrapper = styled.div`
   margin: 0 auto; /* 가로 중앙 정렬 */
   padding: 50px 0; /* 상하 여백을 줘서 화면 중앙에 위치 */
   box-sizing: border-box;
-  min-height: 100vh; /* 화면의 세로 중앙에 위치하도록 */
+  min-height: 100%; /* 화면의 세로 중앙에 위치하도록 */
 
   @media screen and (max-width: 768px) {
     max-width: 90%; /* 작은 화면에서 너비를 조정 */
@@ -40,7 +40,8 @@ export const CardContainer = styled.div`
   width: 100%; /* 카드가 부모 요소의 너비를 가득 채우도록 설정 */
   max-width: 400px; /* 웹에서 카드의 최대 너비 제한 */
   height: 180px;
-  background: rgba(255, 255, 255, 0.2);
+  background-color: ${({ isDarkMode }) =>
+    isDarkMode ? "#6470bea1" : "rgba(255, 255, 255, 0.2)"};
   border-radius: 15px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -57,7 +58,10 @@ export const CardContainer = styled.div`
   &:hover {
     transform: scale(1.05) rotate(1deg); /* 카드가 커지면서 살짝 회전 */
     box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.25); /* 배경색 약간 변경 */
+    background-color: ${({ isDarkMode }) =>
+      isDarkMode
+        ? "#8299ffbc"
+        : "rgba(255, 255, 255, 0.2)"}; /* 배경색 약간 변경 */
   }
 
   @media screen and (max-width: 768px) {
@@ -72,7 +76,7 @@ export const CardContainer = styled.div`
 `;
 
 export const CardText = styled.div`
-  color: #000;
+  color: ${({ isDarkMode }) => (isDarkMode ? "#fff" : "#000")};
   font-size: 18px;
   font-weight: 600;
   text-align: center;

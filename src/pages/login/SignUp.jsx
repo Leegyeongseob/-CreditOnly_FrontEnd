@@ -761,6 +761,7 @@ const SignUp = () => {
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
         setEmail(kakoEmailvalue);
+        console.log("email체크:",kakoEmailvalue);
       } else {
         setModalOpen(true);
         SetHeaderContents("로그인 에러");

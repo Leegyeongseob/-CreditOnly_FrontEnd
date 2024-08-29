@@ -19,10 +19,10 @@ export const Back = styled.div`
 
 export const Sidebar = styled.div`
   width: 250px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.sideBar};
+  background-color: ${({ isDarkMode }) => (isDarkMode ? "#121212" : "#f1f2f7")};
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
@@ -82,9 +82,10 @@ export const NewChatBtn = styled.div`
 
 export const ConversationList = styled.div`
   width: 100%;
+  height: 50%;
   overflow-y: auto;
   margin-bottom: 20px;
-  display: ${(props) => (props.isCardSelected ? "block" : "none")};
+  visibility: ${(props) => (props.isCardSelected ? "visible" : "hidden")};
 `;
 
 export const ConversationItem = styled.div`
@@ -95,7 +96,7 @@ export const ConversationItem = styled.div`
   align-items: center;
   border-radius: 10px;
   margin-bottom: 5px;
-
+  background-color: ${({ isDarkMode }) => (isDarkMode ? "#3b3a4f" : "#d8dcf3")};
   &:hover {
     background-color: rgba(90, 106, 207, 0.1);
   }
@@ -115,9 +116,11 @@ export const DeleteButton = styled.button`
 
 export const SettingBox = styled.div`
   width: 100%;
+  height: 30%;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  justify-content: space-evenly;
+  align-items: center;
 `;
 
 export const SetDetail = styled.div`
@@ -127,7 +130,9 @@ export const SetDetail = styled.div`
   display: flex;
   align-items: center;
   border-radius: 10px;
-
+  color: ${({ isDarkMode }) => (isDarkMode ? "#fff" : "#000000")};
+  border: 1px solid
+    ${({ isDarkMode }) => (isDarkMode ? "#333b6c" : "transparent")};
   &:hover {
     background-color: rgba(90, 106, 207, 0.1);
   }
